@@ -85,10 +85,11 @@ public class RushGameplay : MonoBehaviour
 
     IEnumerator WaitForNewFoodbag()
     {
+        gamePaused = true;
+        realtimeFoodbagCooldown = foodbagCooldown;
         Debug.Log("2 sec pause");
         yield return new WaitForSeconds(2);
 
-        realtimeFoodbagCooldown = foodbagCooldown;
         
     }
 }

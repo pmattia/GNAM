@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.Animations;
 using UnityEngine;
 
 public class Food : GrabbableEvents
@@ -11,6 +12,10 @@ public class Food : GrabbableEvents
     public List<Eatable> eatableParts;
     public event Action<Mouth> onEated;
     public event Action<Mouth> onBited;
+
+    public virtual void Awake()
+    {
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -44,4 +49,6 @@ public class Food : GrabbableEvents
     {
 
     }
+
+
 }
