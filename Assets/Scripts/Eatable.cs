@@ -1,9 +1,15 @@
-﻿using System.Collections;
+﻿using Assets.Scripts;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Eatable : MonoBehaviour
 {
+    public event Action<Mouth> onEated;
+
+    public float eatTime = 3f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -16,14 +22,15 @@ public class Eatable : MonoBehaviour
         
     }
 
-    void OnCollisionEnter(Collision collision)
+    public void Eat(Mouth mouth)
     {
-        Debug.Log("collision " + collision.gameObject.name);
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log("trigger " + other.gameObject.name);
-        if(other.gameObject.name == "CenterEyeAnchor")
+        if (!mouth.isEating)
+        {
+            if (onEated != null)
+            {
+                onEated(mouth);
+            }
             Destroy(gameObject);
+        }
     }
 }
