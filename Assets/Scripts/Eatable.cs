@@ -3,34 +3,32 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Eatable : MonoBehaviour
 {
-    public event Action<Mouth> onEated;
-
+    public event Action<EaterDto> onEated;
+    public List<MouthModifierObject> mouthModifiers = new List<MouthModifierObject>();
+    public List<HandsModifierObject> handsModifiers = new List<HandsModifierObject>();
     public float eatTime = 3f;
 
-    // Start is called before the first frame update
-    void Start()
+    public void Eat(EaterDto eater)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void Eat(Mouth mouth)
-    {
-        if (!mouth.isEating)
+        if (onEated != null)
         {
-            if (onEated != null)
-            {
-                onEated(mouth);
-            }
-            Destroy(gameObject);
+            onEated(eater);
         }
+
+        Destroy(gameObject);
+    }
+
+    public List<MouthModifierObject> GetMouthModifiers()
+    {
+        return mouthModifiers;
+    }
+
+    public List<HandsModifierObject> GetHandsModifiers()
+    {
+        return handsModifiers;
     }
 }

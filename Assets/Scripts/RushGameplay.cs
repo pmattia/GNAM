@@ -17,7 +17,6 @@ public class RushGameplay : MonoBehaviour
     public TextMeshPro timer;
 
     public Eatable starter;
-    public Eatable restarter;
     public bool gamePaused = true;
 
     // Start is called before the first frame update
@@ -32,7 +31,6 @@ public class RushGameplay : MonoBehaviour
         }
 
         starter.onEated += (mouth) => StartRush(); 
-        restarter.onEated += (mouth) => SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     // Update is called once per frame

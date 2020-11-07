@@ -9,8 +9,8 @@ using UnityEngine;
 public class Food : GrabbableEvents
 {
     public List<Eatable> eatableParts;
-    public event Action<Mouth> onEated;
-    public event Action<Mouth> onBited;
+    public event Action<EaterDto> onEated;
+    public event Action<EaterDto> onBited;
 
     public virtual void Awake()
     {
@@ -21,16 +21,16 @@ public class Food : GrabbableEvents
     {
         foreach (var eatable in eatableParts)
         {
-            eatable.onEated += (mouth) => PartEated(mouth, eatable);
+            eatable.onEated += (eater) => PartEated(eater, eatable);
         }
     }
 
-    private void PartEated(Mouth mouth, Eatable eated)
+    private void PartEated(EaterDto eater, Eatable eated)
     {
         Destroy(eated.gameObject);
         if (onBited != null)
         {
-            onBited(mouth);
+            onBited(eater);
         }
         eatableParts.Remove(eated);
 
@@ -39,7 +39,7 @@ public class Food : GrabbableEvents
         {
             if (onEated != null)
             {
-                onEated(mouth);
+                onEated(eater);
             }
             Destroy(gameObject);
         }

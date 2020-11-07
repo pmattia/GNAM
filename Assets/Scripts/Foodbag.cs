@@ -14,7 +14,7 @@ public class Foodbag : MonoBehaviour
     {
         foreach (var food in foods)
         {
-            food.onEated += (mouth) => Eated(mouth, food);
+            food.onEated += (eater) => Eated(eater, food);
         }
     }
 
@@ -24,7 +24,7 @@ public class Foodbag : MonoBehaviour
         
     }
 
-    private void Eated(Mouth mouth, Food eated)
+    private void Eated(EaterDto eater, Food eated)
     {
         Destroy(eated.gameObject);
         foods.Remove(eated);
