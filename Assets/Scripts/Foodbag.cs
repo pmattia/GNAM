@@ -12,7 +12,7 @@ public class Foodbag : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        foreach (var food in foods)
+        foreach (var food in foods.Where(f => f != null))
         {
             food.onEated += (eater) => Eated(eater, food);
         }
@@ -28,11 +28,9 @@ public class Foodbag : MonoBehaviour
     {
         Destroy(eated.gameObject);
         foods.Remove(eated);
-        Debug.Log($"foods: {foods.Count()}");
         if (foods.Count() == 0)
         {
             onClear();
-            Debug.Log("TUTTO MANGIATO");
         }
     }
 

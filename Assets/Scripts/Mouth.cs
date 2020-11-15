@@ -50,6 +50,8 @@ namespace Assets.Scripts
                 var eatable = other.GetComponent<Eatable>();
                 if (eatable != null)
                 {
+                    Debug.Log(eatable.GetMouthModifiers().Count);
+                    Debug.Log(eatable.GetHandsModifiers().Count);
                     mouthModifiers.AddRange(eatable.GetMouthModifiers());
                     handsModifiers.AddRange(eatable.GetHandsModifiers());
 
@@ -62,7 +64,6 @@ namespace Assets.Scripts
         }
         IEnumerator WaitToSwallow(Eatable eatable)
         {
-            Debug.Log("not iteractive");
             isEating = true;
 
             audioSource.clip = crunchingAudio;
@@ -72,10 +73,12 @@ namespace Assets.Scripts
 
             audioSource.Stop();
 
-            Debug.Log("iteractive");
             isEating = false;
 
-            foreach(var modifier in mouthModifiers)
+            Debug.Log(eatable.GetMouthModifiers().Count);
+            Debug.Log(eatable.GetHandsModifiers().Count);
+
+            foreach (var modifier in mouthModifiers)
             {
                 modifier.Activate(this);
             }

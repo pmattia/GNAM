@@ -22,11 +22,9 @@ public class HandsDetachModifierObject : HandsModifierObject
 
     IEnumerator WaitToReattach(HandModelSelector hands)
     {
-        Debug.Log("start");
+        
         yield return new WaitForSeconds(duration);
-        Debug.Log("end");
-
-        Debug.Log(prevParentL);
+      
         hands.LeftHandGFXHolder.SetParent(prevParentL);
         hands.LeftHandGFXHolder.localPosition = Vector3.zero;
         hands.LeftHandGFXHolder.localRotation = Quaternion.identity;

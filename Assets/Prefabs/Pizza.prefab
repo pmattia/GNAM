@@ -109,15 +109,15 @@ MonoBehaviour:
   GrabPhysics: 0
   GrabMechanic: 0
   GrabSpeed: 7.5
-  RemoteGrabbable: 0
-  RemoteGrabDistance: 2
+  RemoteGrabbable: 1
+  RemoteGrabDistance: 0.2
   ThrowForceMultiplier: 1.5
   ThrowForceMultiplierAngular: 2
   BreakDistance: 1
   HideHandGraphics: 0
   ParentToHands: 1
   ParentHandModel: 0
-  SnapHandModel: 1
+  SnapHandModel: 0
   CanBeDropped: 1
   CanBeSnappedToSnapZone: 1
   ForceDisableKinematicOnDrop: 0
@@ -373,6 +373,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa13b59692476bc439841b0f831619a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mouthModifiers: []
+  handsModifiers: []
   eatTime: 0.5
 --- !u!1 &8055430956224904261
 GameObject:
@@ -534,6 +536,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa13b59692476bc439841b0f831619a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mouthModifiers: []
+  handsModifiers: []
   eatTime: 0.5
 --- !u!64 &8055430956438883261
 MeshCollider:

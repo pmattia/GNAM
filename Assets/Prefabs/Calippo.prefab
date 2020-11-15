@@ -217,6 +217,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa13b59692476bc439841b0f831619a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mouthModifiers: []
+  handsModifiers: []
   eatTime: 1
 --- !u!64 &2650755326001193205
 MeshCollider:
@@ -303,6 +305,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa13b59692476bc439841b0f831619a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mouthModifiers: []
+  handsModifiers: []
   eatTime: 3
 --- !u!136 &3151698839441215741
 CapsuleCollider:
@@ -418,6 +422,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa13b59692476bc439841b0f831619a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mouthModifiers: []
+  handsModifiers: []
   eatTime: 3
 --- !u!1 &5078920110716327875
 GameObject:
@@ -512,6 +518,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa13b59692476bc439841b0f831619a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mouthModifiers: []
+  handsModifiers: []
   eatTime: 1
 --- !u!64 &5078920110716327901
 MeshCollider:
@@ -576,20 +584,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BeingHeld: 0
-  GrabButton: 2
-  Grabtype: 2
+  GrabButton: 0
+  Grabtype: 0
   GrabPhysics: 0
   GrabMechanic: 0
   GrabSpeed: 7.5
-  RemoteGrabbable: 0
-  RemoteGrabDistance: 2
+  RemoteGrabbable: 1
+  RemoteGrabDistance: 0.2
   ThrowForceMultiplier: 2
   ThrowForceMultiplierAngular: 1.5
   BreakDistance: 0
   HideHandGraphics: 0
   ParentToHands: 1
   ParentHandModel: 0
-  SnapHandModel: 1
+  SnapHandModel: 0
   CanBeDropped: 1
   CanBeSnappedToSnapZone: 1
   ForceDisableKinematicOnDrop: 0
