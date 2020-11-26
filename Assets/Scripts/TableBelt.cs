@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using TMPro;
 
 public class TableBelt : MonoBehaviour
 {
@@ -12,12 +13,22 @@ public class TableBelt : MonoBehaviour
     public float speed;
     public float nodePause = 4;
     public ModifierSpawner modifierSpawner;
+    public TextMeshPro billboard;
+    public Timer timer;
+    bool isPlaying = true;
+
+    void Start()
+    {
+        timer.onExpired += () => { isPlaying = false; };
+        timer.SetTimer(60);
+        timer.StartTimer();
+    }
 
     bool CanAddTray
     {
         get
         {  
-            return trays.All(t => t.GetComponent<PathNodesFollower>().GetCurrentNodeIndex() > (nodes.Length - maxTrayOnTable));
+            return isPlaying && trays.All(t => t.GetComponent<PathNodesFollower>().GetCurrentNodeIndex() > (nodes.Length - maxTrayOnTable));
         }
     }
 
@@ -31,8 +42,12 @@ public class TableBelt : MonoBehaviour
 
         var cloneFoodbag = clone.GetComponent<Foodbag>();
 
-        cloneFoodbag.onClear += () => { speed += speed * .1f; };
-        cloneFoodbag.onClear += () => { nodePause -= nodePause * .1f; };
+        cloneFoodbag.onClear += () => { 
+            speed += speed * .1f;
+            nodePause -= nodePause * .1f;
+            var points = int.Parse(billboard.text);
+            billboard.text = (points + 10).ToString();
+        };
         cloneFoodbag.onClear += modifierSpawner.SpawnNewBonus;
 
         return clone;

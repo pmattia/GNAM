@@ -12,6 +12,7 @@ namespace Assets.Scripts
     {
         [HideInInspector]
         public bool isEating = false;
+        public bool isEnabled = true;
 
         public AudioSource audioSource;
         public AudioClip crunchingAudio;
@@ -19,8 +20,8 @@ namespace Assets.Scripts
         public HandModelSelector handModelSelecter;
 
         public List<Action<EaterDto>> modifierActions = new List<Action<EaterDto>>();
-        List<MouthModifierObject> mouthModifiers = new List<MouthModifierObject>();
-        List<HandsModifierObject> handsModifiers = new List<HandsModifierObject>();
+        List<VomitModifierBuilder> mouthModifiers = new List<VomitModifierBuilder>();
+        List<HandsSwapperBuilder> handsModifiers = new List<HandsSwapperBuilder>();
 
         //public event Action<Eatable> onBite;
         public event Action onSwallow;
@@ -45,7 +46,7 @@ namespace Assets.Scripts
         {
             Debug.Log("trigger " + other.gameObject.name);
 
-            if (!isEating)
+            if (!isEating && isEnabled)
             {
                 var eatable = other.GetComponent<Eatable>();
                 if (eatable != null)
@@ -100,6 +101,28 @@ namespace Assets.Scripts
         public void PlaySound(AudioClip clip)
         {
             audioSource.PlayOneShot(clip);
+        }
+
+        public void EnableMouth()
+        {
+            isEnabled = true;
+        }
+
+        public void DisableMouth()
+        {
+            isEnabled = false;
+        }
+
+        public void DisableMouthForSeconds(float time)
+        {
+            isEnabled = false;
+            StartCoroutine(WaitForEnable(time));
+        }
+
+        IEnumerator WaitForEnable(float time)
+        {
+            yield return new WaitForSeconds(time);
+            isEnabled = true;
         }
     }
 }

@@ -8,8 +8,8 @@ using UnityEngine.Events;
 public class Eatable : MonoBehaviour
 {
     public event Action<EaterDto> onEated;
-    public List<MouthModifierObject> mouthModifiers = new List<MouthModifierObject>();
-    public List<HandsModifierObject> handsModifiers = new List<HandsModifierObject>();
+    public List<VomitModifierBuilder> mouthModifiers = new List<VomitModifierBuilder>();
+    public List<HandsSwapperBuilder> handsModifiers = new List<HandsSwapperBuilder>();
     public float eatTime = 3f;
 
     public void Eat(EaterDto eater)
@@ -22,12 +22,12 @@ public class Eatable : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public List<MouthModifierObject> GetMouthModifiers()
+    public List<VomitModifierBuilder> GetMouthModifiers()
     {
         return mouthModifiers;
     }
 
-    public List<HandsModifierObject> GetHandsModifiers()
+    public List<HandsSwapperBuilder> GetHandsModifiers()
     {
         return handsModifiers;
     }
