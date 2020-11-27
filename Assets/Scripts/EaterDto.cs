@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts;
+using Assets.Scripts.ScriptableObjects;
 using BNG;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,11 +7,11 @@ using UnityEngine;
 
 public class EaterDto
 {
-    public Mouth Mouth { get; private set; }
-    public HandModelSelector HandsSelector { get; private set; }
-    public EaterDto(Mouth mouth, HandModelSelector handSelector)
+    public IMouthController Mouth { get; private set; }
+    public IHandsController Hands { get; private set; }
+    public EaterDto(IMouthController mouth, IHandsController handSelector)
     {
         Mouth = mouth;
-        HandsSelector = handSelector;
+        Hands = handSelector;
     }
 }

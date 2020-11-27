@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts;
+using Assets.Scripts.ScriptableObjects;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,8 +9,7 @@ using UnityEngine.Events;
 public class Eatable : MonoBehaviour
 {
     public event Action<EaterDto> onEated;
-    public List<VomitModifierBuilder> mouthModifiers = new List<VomitModifierBuilder>();
-    public List<HandsSwapperBuilder> handsModifiers = new List<HandsSwapperBuilder>();
+    public List<GnamModifier> modifiers = new List<GnamModifier>();
     public float eatTime = 3f;
 
     public void Eat(EaterDto eater)
@@ -22,13 +22,8 @@ public class Eatable : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public List<VomitModifierBuilder> GetMouthModifiers()
+    public List<GnamModifier> GetModifiers()
     {
-        return mouthModifiers;
-    }
-
-    public List<HandsSwapperBuilder> GetHandsModifiers()
-    {
-        return handsModifiers;
+        return modifiers;
     }
 }

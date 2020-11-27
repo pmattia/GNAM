@@ -1,4 +1,5 @@
-﻿using BNG;
+﻿using Assets.Scripts.ScriptableObjects;
+using BNG;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,20 +9,20 @@ using UnityEngine.Timeline;
 namespace Assets.Scripts
 {
     [RequireComponent(typeof(AudioSource))]
-    public class Mouth : MonoBehaviour
+    public class Mouth : MonoBehaviour, IMouthController
     {
-        [HideInInspector]
-        public bool isEating = false;
         public bool isEnabled = true;
+
+        bool isEating = false;
+        bool isTurbo = false;
 
         public AudioSource audioSource;
         public AudioClip crunchingAudio;
         public AudioClip gnamAudio;
         public HandModelSelector handModelSelecter;
+        public IHandsController handsController;
 
-        public List<Action<EaterDto>> modifierActions = new List<Action<EaterDto>>();
-        List<VomitModifierBuilder> mouthModifiers = new List<VomitModifierBuilder>();
-        List<HandsSwapperBuilder> handsModifiers = new List<HandsSwapperBuilder>();
+        List<GnamModifier> modifiers = new List<GnamModifier>();
 
         //public event Action<Eatable> onBite;
         public event Action onSwallow;
@@ -30,31 +31,30 @@ namespace Assets.Scripts
         public EaterDto Eater { 
             get {
                 if (_eater != null) return _eater;
-
-                _eater = new EaterDto(this, handModelSelecter);
+                
+                _eater = new EaterDto(this, handsController);
                 return _eater;
-            } 
+            }
         }
+        public GameObject GameObject { get { return gameObject; } }
 
         void Awake()
         {
             audioSource = GetComponent<AudioSource>();
-
+            handsController = new VrifHandsControllerAdapter(handModelSelecter);
         }
+
 
         private void OnTriggerEnter(Collider other)
         {
             Debug.Log("trigger " + other.gameObject.name);
 
-            if (!isEating && isEnabled)
+            if ((isTurbo || !isEating) && isEnabled)
             {
                 var eatable = other.GetComponent<Eatable>();
                 if (eatable != null)
                 {
-                    Debug.Log(eatable.GetMouthModifiers().Count);
-                    Debug.Log(eatable.GetHandsModifiers().Count);
-                    mouthModifiers.AddRange(eatable.GetMouthModifiers());
-                    handsModifiers.AddRange(eatable.GetHandsModifiers());
+                    modifiers.AddRange(eatable.GetModifiers());
 
                     audioSource.PlayOneShot(gnamAudio);
                     StartCoroutine(WaitToSwallow(eatable));
@@ -76,26 +76,13 @@ namespace Assets.Scripts
 
             isEating = false;
 
-            Debug.Log(eatable.GetMouthModifiers().Count);
-            Debug.Log(eatable.GetHandsModifiers().Count);
-
-            foreach (var modifier in mouthModifiers)
+            var tModifiers = new List<GnamModifier>();
+            tModifiers.AddRange(modifiers);
+            foreach (var modifier in tModifiers)
             {
-                modifier.Activate(this);
+                modifier.Activate(Eater);
+                modifiers.Remove(modifier);
             }
-            mouthModifiers.Clear();
-
-            foreach (var modifier in handsModifiers)
-            {
-                modifier.Activate(handModelSelecter);
-            }
-            handsModifiers.Clear();
-
-            foreach(var modifier in modifierActions)
-            {
-                modifier(Eater);
-            }
-            modifierActions.Clear();
         }
 
         public void PlaySound(AudioClip clip)
@@ -111,6 +98,16 @@ namespace Assets.Scripts
         public void DisableMouth()
         {
             isEnabled = false;
+        }
+
+        public void EnableTurbo()
+        {
+            isTurbo = true;
+        }
+
+        public void DisableTurbo()
+        {
+            isTurbo = false;
         }
 
         public void DisableMouthForSeconds(float time)

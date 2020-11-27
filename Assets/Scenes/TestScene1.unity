@@ -2982,8 +2982,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa13b59692476bc439841b0f831619a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouthModifiers: []
-  handsModifiers: []
+  modifiers:
+  - {fileID: 11400000, guid: 7b362ea8fa0398d4b9a9c95c876fe583, type: 2}
+  - {fileID: 11400000, guid: dcb7da42847569a42aaaa7e1329092b6, type: 2}
   eatTime: 0.5
 --- !u!64 &349466022
 MeshCollider:
@@ -14049,8 +14050,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa13b59692476bc439841b0f831619a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouthModifiers: []
-  handsModifiers: []
+  modifiers: []
   eatTime: 0.5
 --- !u!114 &4631430727438219646
 MonoBehaviour:
