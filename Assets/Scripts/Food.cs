@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Food : GrabbableEvents
+public class Food : MonoBehaviour
 {
     public List<Eatable> eatableParts;
     public event Action<EaterDto> onEated;
@@ -44,10 +44,4 @@ public class Food : GrabbableEvents
             Destroy(gameObject);
         }
     }
-    public override void OnGrab(Grabber grabber)
-    {
-
-    }
-
-
 }

@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using BNG;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SqueezableFood : Food
+public class SqueezableFood : GrabbableEvents
 {
     public Animator foodAnimator;
     public Eatable eatableContainer;
@@ -15,7 +16,7 @@ public class SqueezableFood : Food
     private bool isBodyFree = false;
 
     // Start is called before the first frame update
-    public override void Awake()
+    public void Awake()
     {
         bodyStartPosition = squeezableFoodBody.localPosition;
         bodyTargetPosition = Vector3.zero;
@@ -25,8 +26,6 @@ public class SqueezableFood : Food
         {
             eatableContainer.onEated += (mouth) => DetachBody();
         }
-
-        base.Awake();
 
         //Solo quando l'utente preme il calippo può mangiare il ghiacciolo
         //SetChunksStatus(false);
