@@ -32,13 +32,6 @@ namespace BNG {
         public float StrafeSpeed = 1f;
         public float StrafeSprintSpeed = 1.25f;
 
-        [Header("Gravity : ")]
-        [Tooltip("Should world gravity be applied to the player?")]
-        public bool ApplyGravity = true;
-
-        [Tooltip("Multiply World Gravity by this amount")]
-        public float GravityModifier = 0.3f;
-
         [Header("Jump : ")]
         [Tooltip("Amount of 'force' to apply to the player during Jump")]
         public float JumpForce = 3f;
@@ -83,13 +76,12 @@ namespace BNG {
             }
         }
 
-        // Update is called once per frame
-         void Update() {
-            updateInputs();            
-            moveCharacter();
+        void Update() {
+            UpdateInputs();            
+            MoveCharacter();
         }
 
-        void updateInputs() {
+        public virtual void UpdateInputs() {
 
             // Start by resetting our previous frame's inputs
             movementX = 0;
@@ -145,15 +137,10 @@ namespace BNG {
             return lastAxisValue;
         }
 
-        void moveCharacter() {
+        public virtual void MoveCharacter() {
 
             if(movementDisabled) {
                 return;
-            }
-
-            // Apply gravity to Y
-            if (ApplyGravity && !playerController.IsGrounded() && !playerController.GrippingClimbable && playerController.GravityEnabled) {
-                movementY -= playerController.GravityAmount * GravityModifier;
             }
 
             Vector3 moveDirection = new Vector3(movementX, movementY, movementZ);
@@ -167,13 +154,14 @@ namespace BNG {
                     _verticalSpeed = JumpForce;
                 }
             }
-            _verticalSpeed -= playerController.GravityAmount * Time.deltaTime;
 
             moveDirection.y = _verticalSpeed;
 
             playerController.LastPlayerMoveTime = Time.time;
 
-            characterController.Move(moveDirection * Time.deltaTime);
+            if(moveDirection != Vector3.zero) {
+                characterController.Move(moveDirection * Time.deltaTime);
+            }
         }
 
         public virtual void GetKeyBoardInputs() {

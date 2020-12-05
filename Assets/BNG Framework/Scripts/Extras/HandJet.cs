@@ -15,12 +15,21 @@ namespace BNG {
         public ParticleSystem JetFX;
 
         CharacterController characterController;
-        BNGPlayerController bngController;
+        PlayerGravity playerGravity;
+
         AudioSource audioSource;
 
         void Start() {
-            characterController = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<CharacterController>();
-            bngController = GameObject.FindGameObjectWithTag("Player").GetComponent<BNGPlayerController>();
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+            if(player) {
+                characterController = player.GetComponentInChildren<CharacterController>();
+                playerGravity = player.GetComponentInChildren<PlayerGravity>();
+            }
+            else {
+                Debug.Log("No player object found.");
+            }
+
             audioSource = GetComponent<AudioSource>();
         }
 
@@ -42,7 +51,9 @@ namespace BNG {
         }
 
         public void ChangeGravity(bool gravityOn) {
-            bngController.ToggleGravity(gravityOn);
+            if(playerGravity) {
+                playerGravity.ToggleGravity(gravityOn);
+            }
         }
 
         public override void OnRelease() {
@@ -59,12 +70,13 @@ namespace BNG {
             // Gravity is always off while jetting
             ChangeGravity(false);
 
+            // Sound
             if (!audioSource.isPlaying) {
                 audioSource.pitch = Time.timeScale;
                 audioSource.Play();
             }
 
-            // Sound
+            // Particle FX
             if(JetFX != null && !JetFX.isPlaying) {
                 JetFX.Play();
             }

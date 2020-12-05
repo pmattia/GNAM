@@ -17,8 +17,6 @@ namespace BNG {
     public class BNGPlayerController : MonoBehaviour {
 
         [Header("Locomotion : ")]
-
-
         [SerializeField]
         LocomotionType selectedLocomotion = LocomotionType.Teleport;
         public LocomotionType SelectedLocomotion {
@@ -44,13 +42,9 @@ namespace BNG {
         [Tooltip("The CenterEyeAnchor is typically the Transform that contains your Main Camera")]
         public Transform CenterEyeAnchor;
 
-
-        [Header("Gravity : ")]
-        /// <summary>
-        /// Is Gravity Currently Enabled for this Character
-        /// </summary>
-        public bool GravityEnabled = true;
-        public float GravityAmount = 7.1f;
+        [Header("Moving Platform Support")]
+        [Tooltip("If true, the player will be parented to any object below it that has the 'MovingPlatform' component attached.")]
+        public bool CheckForMovingPlatforms = true;
 
         [Header("Ground checks : ")]
         [Tooltip("Raycast against these layers to check if player is grounded")]
@@ -128,7 +122,6 @@ namespace BNG {
         /// </summary>
         public bool GrippingClimbable = false;
 
-
         [HideInInspector]
         public float LastPlayerMoveTime;
 
@@ -142,6 +135,7 @@ namespace BNG {
         PlayerTeleport teleport;
         SmoothLocomotion smoothLocomotion;
         PlayerRotation playerRotation;
+        PlayerGravity playerGravity;
 
         // This the object that is currently beneath us
         RaycastHit groundHit;
@@ -150,19 +144,16 @@ namespace BNG {
         Quaternion lastPlayerRotation;
         float lastSnapTime;
 
-        private float _initialGravityModifier;
         private Vector3 _initialPosition;
         private Transform _initialCharacterParent;
 
         void Start() {
             characterController = GetComponentInChildren<CharacterController>();
-            mainCamera = Camera.main.transform;
+            mainCamera = GameObject.FindGameObjectWithTag("MainCamera").transform;
 
             if (characterController) {
                 _initialCharacterParent = characterController.transform.parent;
             }
-
-            _initialGravityModifier = GravityAmount;
 
             _initialPosition = characterController.transform.position;
             float initialY = _initialPosition.y;
@@ -178,6 +169,7 @@ namespace BNG {
             teleport = GetComponent<PlayerTeleport>();
             smoothLocomotion = GetComponentInChildren<SmoothLocomotion>();
             playerRotation = GetComponentInChildren<PlayerRotation>();
+            playerGravity = GetComponentInChildren<PlayerGravity>();
 
             climbers = new List<Grabber>();
 
@@ -204,9 +196,9 @@ namespace BNG {
         void Update() {
 
             // Sanity check for camera
-            if (mainCamera == null) {
+            if (mainCamera == null && Camera.main != null) {
                 mainCamera = Camera.main.transform;
-            }            
+            }
             
             // Update the Character Controller's Capsule Height to match our Camera position
             UpdateCharacterHeight();
@@ -234,13 +226,18 @@ namespace BNG {
                 }
             }
 
-            checkMovingPlatform();
-
-            checkClimbing();
+            if(CheckForMovingPlatforms) {
+                checkMovingPlatform();
+            }
 
             // Store player position so we can compare against it next frame
             lastPlayerPosition = characterController.transform.position;
             lastPlayerRotation = characterController.transform.rotation;
+        }
+
+
+        void LateUpdate() {
+            checkClimbing();
         }
 
         void FixedUpdate() {
@@ -399,14 +396,22 @@ namespace BNG {
             return false;
         }
 
+        bool wasGrippingClimbable;
+
+        
+
         void checkClimbing() {
             GrippingClimbable = grippingAtLeastOneClimbable();
 
-            if (GrippingClimbable) {
+            if(GrippingClimbable && !wasGrippingClimbable) {
+                onGrabbedClimbable();
+            }
 
-                if(smoothLocomotion) {
-                    smoothLocomotion.DisableMovement();
-                }
+            if (wasGrippingClimbable && !GrippingClimbable) {
+                onReleasedClimbable();
+            }
+
+            if (GrippingClimbable) {
 
                 moveDirection = Vector3.zero;
 
@@ -429,11 +434,6 @@ namespace BNG {
 
                 characterController.Move(moveDirection);
             }
-            else {
-                if (smoothLocomotion) {
-                    smoothLocomotion.EnableMovement();
-                }
-            }
 
             // Update any climber previous position
             for (int x = 0; x < climbers.Count; x++) {
@@ -447,6 +447,32 @@ namespace BNG {
                         climber.PreviousPosition = climber.transform.position;
                     }
                 }
+            }
+
+            wasGrippingClimbable = GrippingClimbable;
+        }
+
+        void onGrabbedClimbable() {
+            // Don't allow player movement while climbing
+            if (smoothLocomotion) {
+                smoothLocomotion.DisableMovement();
+            }
+
+            // No gravity on the player while climbing
+            if (playerGravity) {
+                playerGravity.ToggleGravity(false);
+            }
+        }
+
+        void onReleasedClimbable() {
+            // Reset back to our original values
+            if (smoothLocomotion) {
+                smoothLocomotion.EnableMovement();
+            }
+
+            // Gravity back to normal
+            if (playerGravity) {
+                playerGravity.ToggleGravity(true);
             }
         }
 
@@ -462,7 +488,7 @@ namespace BNG {
                 if (platform) {
                     onMovingPlatform = true;
 
-                    if (waypoint.PositionDifference != Vector3.zero) {
+                    if (waypoint != null && waypoint.PositionDifference != Vector3.zero) {
                         // This is another potential method of moving the character instead of parenting it
                         //characterController.Move(platform.PositionDifference);
                     }
@@ -479,6 +505,12 @@ namespace BNG {
         }
 
         public void ChangeLocomotionType(LocomotionType loc) {
+
+            // Make sure Smooth Locomotion is available
+            if (smoothLocomotion == null) {
+                smoothLocomotion = GetComponent<SmoothLocomotion>();
+            }
+
             selectedLocomotion = loc;
 
             if(teleport == null) {
@@ -525,19 +557,6 @@ namespace BNG {
 
             // DistanceFromGround is a bit more reliable as we can give a bit of leniency in what's considered grounded
             return DistanceFromGround <= 0.001f;
-        }
-
-        public void ToggleGravity(bool gravityOn) {
-
-            GravityEnabled = gravityOn;
-
-
-            if (gravityOn) {
-                GravityAmount = _initialGravityModifier;
-            }
-            else {
-                GravityAmount = 0;
-            }
         }
 
         public void AddClimber(Climbable climbable, Grabber grab) {

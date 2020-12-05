@@ -67,7 +67,7 @@ namespace BNG {
         void Update() {
             PointerEventData data = uiSystem.EventData;
 
-            if(data == null) {
+            if (data == null) {
                 return;
             }
 

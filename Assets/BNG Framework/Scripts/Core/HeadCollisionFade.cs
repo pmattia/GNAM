@@ -30,7 +30,9 @@ namespace BNG {
         public List<Collider> collisions;
 
         void Start() {
-            fader = Camera.main.transform.GetComponent<ScreenFader>();
+            if(Camera.main) {
+                fader = Camera.main.transform.GetComponent<ScreenFader>();
+            }
         }
 
         void LateUpdate() {

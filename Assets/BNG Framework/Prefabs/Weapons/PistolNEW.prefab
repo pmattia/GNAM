@@ -2620,11 +2620,13 @@ MonoBehaviour:
   LastGrabTime: 0
   LastDropTime: 0
   AddControllerVelocityOnDrop: 1
+  collisions: []
   ActiveGrabPoint: {fileID: 0}
   SecondaryLookOffset: {x: 0, y: 0, z: 0}
   SecondaryLookAtTransform: {fileID: 0}
   LocalOffsetTransform: {fileID: 0}
   GrabPoints: []
+  UseCustomInspector: 1
 --- !u!114 &3319413209130940247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3058,6 +3060,7 @@ GameObject:
   - component: {fileID: 260408577}
   - component: {fileID: 260408578}
   - component: {fileID: 260408579}
+  - component: {fileID: 141909561}
   m_Layer: 10
   m_Name: PistolNEW
   m_TagString: Untagged
@@ -3165,6 +3168,7 @@ MonoBehaviour:
   LastGrabTime: 0
   LastDropTime: 0
   AddControllerVelocityOnDrop: 1
+  collisions: []
   ActiveGrabPoint: {fileID: 0}
   SecondaryLookOffset: {x: 0, y: 0, z: 0}
   SecondaryLookAtTransform: {fileID: 0}
@@ -3172,6 +3176,7 @@ MonoBehaviour:
   GrabPoints:
   - {fileID: 6978229133330285036}
   - {fileID: 5102114836058992961}
+  UseCustomInspector: 1
 --- !u!82 &6024261396410624991
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3289,8 +3294,8 @@ MonoBehaviour:
   MaxInternalAmmo: 10
   AutoChamberRounds: 1
   MustChamberRounds: 1
-  FireProjectileInSlowMo: 1
   AlwaysFireProjectile: 0
+  FireProjectileInSlowMo: 1
   SlowMoRateOfFire: 0.3
   ShotForce: 20
   RecoilForce: {x: 0, y: 0, z: 0}
@@ -3313,13 +3318,14 @@ MonoBehaviour:
   GunShotSound: {fileID: 8300000, guid: 727ff3abbdb797f45b714a1795efc4e2, type: 3}
   EmptySound: {fileID: 8300000, guid: 3ceadf14726b0864fb39bb646c0f9ba0, type: 3}
   SlideDistance: -0.028
-  BulletInChamber: 0
-  EmptyBulletInChamber: 0
   ForceSlideBackOnLastShot: 1
+  slideSpeed: 1
   SecondHandGrabbable: {fileID: 0}
   SecondHandLookSpeed: 40
-  slideSpeed: 1
-  minSlideDistance: 0.001
+  EjectInput: 04000000
+  ReleaseSlideInput: 02000000
+  BulletInChamber: 0
+  EmptyBulletInChamber: 0
   onShootEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -3469,6 +3475,72 @@ MonoBehaviour:
   LastDamageForce: 0
   TakeCollisionDamage: 0
   CollisionDamage: 5
+--- !u!114 &141909561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6024261396410624980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad179a9e83dba5142adaaf7737678e8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onGrab:
+    m_PersistentCalls:
+      m_Calls: []
+  onRelease:
+    m_PersistentCalls:
+      m_Calls: []
+  onBecomesClosestGrabbable:
+    m_PersistentCalls:
+      m_Calls: []
+  onNoLongerClosestGrabbable:
+    m_PersistentCalls:
+      m_Calls: []
+  onBecomesClosestRemoteGrabbable:
+    m_PersistentCalls:
+      m_Calls: []
+  onNoLongerClosestRemoteGrabbable:
+    m_PersistentCalls:
+      m_Calls: []
+  onGrip:
+    m_PersistentCalls:
+      m_Calls: []
+  onTrigger:
+    m_PersistentCalls:
+      m_Calls: []
+  onTriggerDown:
+    m_PersistentCalls:
+      m_Calls: []
+  onTriggerUp:
+    m_PersistentCalls:
+      m_Calls: []
+  onButton1:
+    m_PersistentCalls:
+      m_Calls: []
+  onButton1Down:
+    m_PersistentCalls:
+      m_Calls: []
+  onButton1Up:
+    m_PersistentCalls:
+      m_Calls: []
+  onButton2:
+    m_PersistentCalls:
+      m_Calls: []
+  onButton2Down:
+    m_PersistentCalls:
+      m_Calls: []
+  onButton2Up:
+    m_PersistentCalls:
+      m_Calls: []
+  onSnapZoneEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  onSnapZoneExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &6638139941897956705
 GameObject:
   m_ObjectHideFlags: 0

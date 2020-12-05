@@ -16,7 +16,6 @@ namespace BNG {
         PingPongBall = 2,
         Controller = 3,
         Rock = 4,
-        Pizza = 5,
         
         // Hand Pose ID's can be in any order
         PistolGrip = 50

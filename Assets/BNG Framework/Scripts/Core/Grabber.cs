@@ -69,13 +69,6 @@ namespace BNG {
         Vector3 handsGraphicsPosition;
         Quaternion handsGraphicsRotation;
 
-        [Header("Velocity Tracking")]
-        [Tooltip("If true, the controller's velocity will be retrieved from OVRInput.GetLocalControllerVelocity. If false, velocity will be calculated based on the transform's position. HandSide must not be set to None if usingGetLocalControllerVelocity")]
-        public bool UseOVRControllerVelocity = false;
-
-        [Tooltip("If true, the controller's angular velocity will be retrieved from OVRInput.GetLocalControllerAngularVelocity. If false, angular velocity will be calculated based on the transform's rotation. HandSide must not be set to None if using GetLocalControllerVelocity")]
-        public bool UseOVRControllerAngularVelocity = false;
-
         [Header("Shown for Debug :")]
         /// <summary>
         /// The Grabbable we are currently holding. Null if not holding anything.
@@ -133,25 +126,11 @@ namespace BNG {
         [HideInInspector]
         public Vector3 PreviousPosition;
 
-        // Internal position stored to calculate velocity
-        Vector3 previousPosition;
-        // Current velocity that is updated in FixedUpdate
-        Vector3 velocity;
-
         /// <summary>
         /// Can be used to position hands independently from model
         /// </summary>
         [HideInInspector]
         public Transform DummyTransform; 
-
-        // Number of FixedUpdates to average velocities
-        float averageVelocityCount = 3;
-        List<Vector3> previousVelocities;
-        List<Vector3> previousAngularVelocities;
-
-        // Store our rotations used to calculate angular velocities
-        Quaternion previousRotation;
-        Vector3 angularVelocity;
 
         Rigidbody rb;
         InputBridge input;
@@ -161,12 +140,12 @@ namespace BNG {
         [HideInInspector]
         public bool FreshGrip = true;
 
-        // Used for tracking playspace rotation which may be needed to determine velocity of thrown objects
-        GameObject playSpace;
-
         [Header("Grabber Events")]
         public GrabbableEvent onGrabEvent;
         public GrabbableEvent onReleaseEvent;
+
+        // For tracking velocity
+        public VelocityTracker velocityTracker;
 
         void Start() {
             rb = GetComponent<Rigidbody>();
@@ -198,11 +177,6 @@ namespace BNG {
                 handsGraphicsGrabberOffsetRotation = transform.localEulerAngles;
             }
 
-            playSpace = GameObject.Find("TrackingSpace");
-            
-            previousVelocities = new List<Vector3>();
-            previousAngularVelocities = new List<Vector3>();
-
             // Make Collision Dynamic so we don't miss any collisions
             if (rb && rb.isKinematic) {
                 rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
@@ -211,6 +185,17 @@ namespace BNG {
             // Should we auto equip an item
             if(EquipGrabbableOnStart != null) {
                 GrabGrabbable(EquipGrabbableOnStart);
+            }
+
+            // Velocity Tracking
+            if(velocityTracker == null) {
+                velocityTracker = GetComponent<VelocityTracker>();
+            }
+
+            // Add Velocity Tracker if one was not provided
+            if (velocityTracker == null) {
+                velocityTracker = gameObject.AddComponent<VelocityTracker>();
+                velocityTracker.controllerHand = HandSide;
             }
         }
         
@@ -232,9 +217,6 @@ namespace BNG {
 
             // Fire off updates
             checkGrabbableEvents();
-
-            // Update velocity tracking
-            updateVelocities();
 
             // Check for input to grab or release item
             if ((inputCheckGrab() && !HoldingItem) || ForceGrab) {
@@ -340,44 +322,6 @@ namespace BNG {
             // Set this as previous closest
             previousClosest = grabsInTrigger.ClosestGrabbable;
             previousClosestRemote = grabsInTrigger.ClosestRemoteGrabbable;
-        }
-
-        // Used in out variables to calculate angleaxis
-        float angle;
-        Vector3 axis;
-
-        void updateVelocities() {
-
-            // Update velocity based on current and previous position
-            velocity = (transform.position - previousPosition) / Time.deltaTime;
-
-            // Add Linear Velocity
-            previousVelocities.Add(GetGrabberVelocity());
-
-            // Shrink list if necessary
-            if (previousVelocities.Count >= averageVelocityCount) {
-                previousVelocities.RemoveAt(0);
-            }
-
-            // Store previous position used in next update
-            previousPosition = transform.position;
-
-            // Update our current angular velocity
-            Quaternion deltaRotation = transform.rotation * Quaternion.Inverse(previousRotation);            
-            deltaRotation.ToAngleAxis(out angle, out axis);
-            angle *= Mathf.Deg2Rad;
-            angularVelocity = axis * angle * (1.0f / Time.deltaTime);
-
-            // Add Angular Velocity
-            previousAngularVelocities.Add(GetGrabberAngularVelocity());
-
-            // Shrink list if necessary
-            if (previousAngularVelocities.Count >= averageVelocityCount) {
-                previousAngularVelocities.RemoveAt(0);
-            }
-
-            // Store previous rotation used in next update
-            previousRotation = transform.rotation;
         }
 
         // See if we are inputting controls to grab an item
@@ -651,91 +595,12 @@ namespace BNG {
             }
         }       
 
-        public virtual Vector3 GetGrabberVelocity() {
-#if OCULUS_INTEGRATION
-            if(UseOVRControllerVelocity) {
-                // Left controller velocity
-                if (HandSide == ControllerHand.Left) {
-                    return OVRInput.GetLocalControllerVelocity(OVRInput.Controller.LTouch);
-                }
-                // Right controller velocity
-                else if (HandSide == ControllerHand.Right) {
-                    return OVRInput.GetLocalControllerVelocity(OVRInput.Controller.RTouch);
-                }
-            }
-#endif
-
-            // velocity is calculated in FixedUpdate based on previous and current position
-            return velocity;
-        }        
-
         public virtual Vector3 GetGrabberAveragedVelocity() {
-            if (UseOVRControllerVelocity && playSpace) {
-                return playSpace.transform.rotation * GetAveragedVector(previousVelocities);
-            }
-            else {
-                return GetAveragedVector(previousVelocities);
-            }
+            return velocityTracker.GetAveragedVelocity();
         }
 
         public virtual Vector3 GetGrabberAveragedAngularVelocity() {
-
-            if (UseOVRControllerAngularVelocity && playSpace) {
-
-                Vector3 angularVel = playSpace.transform.rotation * GetAveragedVector(previousAngularVelocities);
-
-                //  Angular Velocity is backwards for Oculus Quest with Oculus SDK and OVRVelocity. Not on SteamVR.
-                // https://developer.oculus.com/bugs/bug/1781303415399021/
-                if (InputBridge.Instance.InputSource != XRInputSource.SteamVR && Application.platform == RuntimePlatform.Android) {
-                    angularVel = -angularVel;
-                }
-
-                return angularVel;
-            }
-            else {
-                return GetAveragedVector(previousAngularVelocities);
-            }
-        }
-
-        Vector3 GetAveragedVector(List<Vector3> vectors) {
-
-            if (vectors != null) {
-
-                int count = vectors.Count;
-                float x = 0;
-                float y = 0; 
-                float z = 0;
-
-                for (int i = 0; i < count; i++) {
-                    Vector3 v = vectors[i];
-                    x += v.x;
-                    y += v.y;
-                    z += v.z;
-                }
-
-                return new Vector3(x / count, y / count, z / count);
-            }
-
-            return Vector3.zero;
-        }
-        
-        public virtual Vector3 GetGrabberAngularVelocity() {
-
-            if(UseOVRControllerAngularVelocity) {
-#if OCULUS_INTEGRATION
-                // Left controller angular velocity
-                if (HandSide == ControllerHand.Left) {
-                    return OVRInput.GetLocalControllerAngularVelocity(OVRInput.Controller.LTouch);
-                }
-                // Right controller angular velocity
-                else if (HandSide == ControllerHand.Right) {
-                    return OVRInput.GetLocalControllerAngularVelocity(OVRInput.Controller.RTouch);
-                }
-#endif
-            }
-
-            // Angular velocity is calculated in Update
-            return angularVelocity;
+            return velocityTracker.GetAveragedAngularVelocity();
         }
     }
 }

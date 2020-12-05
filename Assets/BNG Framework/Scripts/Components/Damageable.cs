@@ -30,6 +30,9 @@ namespace BNG {
         [Tooltip("Destroy this object on Death? False if need to respawn.")]
         public bool DestroyOnDeath = true;
 
+        [Tooltip("If this object is a Grabbable it can be dropped on Death")]
+        public bool DropOnDeath = true;
+
         /// <summary>
         /// How long to wait before destroying this objects
         /// </summary>
@@ -137,6 +140,13 @@ namespace BNG {
                 StartCoroutine(RespawnRoutine(RespawnTime));
             }
 
+            // Drop this if the player is holding it
+            Grabbable grab = GetComponent<Grabbable>();
+            if(DropOnDeath && grab != null && grab.BeingHeld) {
+                grab.DropItem(false, true);
+            }
+
+            // Remove an decals that may have been parented to this object
             if (RemoveBulletHolesOnDeath) {
                 BulletHole[] holes = GetComponentsInChildren<BulletHole>();
                 foreach (var hole in holes) {

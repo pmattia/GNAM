@@ -78,8 +78,11 @@ namespace BNG {
                 StopCoroutine(fadeRoutine);
             }
 
-            fadeRoutine = doFade(canvasGroup.alpha, 1);
-            StartCoroutine(fadeRoutine);
+            // Do the fade routine
+            if(canvasGroup != null) {
+                fadeRoutine = doFade(canvasGroup.alpha, 1);
+                StartCoroutine(fadeRoutine);
+            }
         }
 
         /// <summary>
@@ -97,6 +100,11 @@ namespace BNG {
         public virtual void SetFadeLevel(float fadeLevel) {
             if (fadeRoutine != null) {
                 StopCoroutine(fadeRoutine);
+            }
+
+            // No Canvas available to fade
+            if(canvasGroup == null) {
+                return;
             }
 
             fadeRoutine = doFade(canvasGroup.alpha, fadeLevel);

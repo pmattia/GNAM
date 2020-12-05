@@ -34,8 +34,8 @@ public class TableBelt : MonoBehaviour
 
     GameObject CloneRandomFoodbag()
     {
-        var foodbag = foodbagsRepository[Random.Range(0, foodbagsRepository.Length)];
-        //var foodbag = foodbagsRepository[6];
+        //var foodbag = foodbagsRepository[Random.Range(0, foodbagsRepository.Length)];
+        var foodbag = foodbagsRepository[4];
         var clone = Instantiate(foodbag.gameObject, nodes[0].transform.position, Quaternion.identity);
         var cloneFollower = AttachFollowPath(clone);
         cloneFollower.StartMoving();

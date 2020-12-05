@@ -12,7 +12,11 @@ namespace BNG {
         [Tooltip("HandController parent will be set to this on Start if specified")]
         public Transform HandAnchor;
 
+        [Tooltip("If true, this transform will be parented to HandAnchor and it's position / rotation set to 0,0,0.")]
         public bool ResetHandAnchorPosition = true;
+
+        [Tooltip("If true this object movement will be moved in Update to smooth out any jitter.")]
+        public bool SmoothMovement = true;
 
         public Animator HandAnimator;
 
@@ -44,16 +48,43 @@ namespace BNG {
         /// </summary>
         public float HandAnimationSpeed = 20f;
 
+        ControllerOffsetHelper offset;
         InputBridge input;
+        Rigidbody rigid;
+        Transform offsetTransform;
+
+        Vector3 offsetPosition {
+            get {
+                if(offset) {
+                    return offset.OffsetPosition;
+                }
+                return Vector3.zero;
+            }
+        }
+
+        Vector3 offsetRotation {
+            get {
+                if (offset) {
+                    return offset.OffsetRotation;
+                }
+                return Vector3.zero;
+            }
+        }
 
         void Start() {
 
-            if(HandAnchor) {
-                transform.parent = HandAnchor;
+            rigid = GetComponent<Rigidbody>();
+            offset = GetComponent<ControllerOffsetHelper>();
+            offsetTransform = new GameObject("OffsetHelper").transform;
+            offsetTransform.parent = transform;
 
-                if(ResetHandAnchorPosition) {
-                    transform.localPosition = Vector3.zero;
-                    transform.localRotation = Quaternion.identity;
+            if (HandAnchor) {
+                transform.parent = HandAnchor;
+                offsetTransform.parent = HandAnchor;
+
+                if (ResetHandAnchorPosition) {
+                    transform.localPosition = offsetPosition;
+                    transform.localEulerAngles = offsetRotation;
                 }
             }
             
@@ -62,9 +93,21 @@ namespace BNG {
             }
             
             input = InputBridge.Instance;
+
+            if(SmoothMovement && HandAnchor != null) {
+                // Only change interpolation settings if no Rigidbody is found on this gameobject
+                if(rigid == null) {
+                    rigid = gameObject.AddComponent<Rigidbody>();
+                    rigid.isKinematic = true;
+                    rigid.interpolation = RigidbodyInterpolation.Interpolate;
+                    rigid.useGravity = false;
+                }
+            }
         }
 
         void Update() {
+            // Smooth out controller movement
+            UpdateControllerPosition();
 
             // Grabber may have been deactivated
             if (grabber == null || !grabber.isActiveAndEnabled) {
@@ -84,6 +127,10 @@ namespace BNG {
                 if (input.SupportsIndexTouch && input.LeftTriggerNear == false && PointAmount != 0) {
                     PointAmount = 1f;
                 }
+                // Does not support touch, stick finger out as if pointing if no trigger found
+                else if(!input.SupportsIndexTouch && input.LeftTrigger == 0) {
+                    PointAmount = 1;
+                }
 
                 ThumbAmount = input.LeftThumbNear ? 0 : 1;
             }
@@ -96,6 +143,10 @@ namespace BNG {
                 if (input.SupportsIndexTouch && input.RightTriggerNear == false && PointAmount != 0) {
                     PointAmount = 1f;
                 }
+                // Does not support touch, stick finger out as if pointing if no trigger found
+                else if (!input.SupportsIndexTouch && input.RightTrigger == 0) {
+                    PointAmount = 1;
+                }
 
                 ThumbAmount = input.RightThumbNear ? 0 : 1;
             }            
@@ -107,6 +158,17 @@ namespace BNG {
 
             if (HandAnimator != null) {
                 updateAnimimationStates();
+            }
+        }
+
+        public virtual void UpdateControllerPosition() {
+            // Let the Rigidbody smooth out / Interpolate the position by moving the position / rotation in Update
+            if (SmoothMovement == true && HandAnchor != null && rigid != null && rigid.isKinematic) {
+                offsetTransform.localPosition = offsetPosition;
+                offsetTransform.localEulerAngles = offsetRotation;
+
+                transform.position = offsetTransform.position;
+                transform.rotation = offsetTransform.rotation;
             }
         }
 

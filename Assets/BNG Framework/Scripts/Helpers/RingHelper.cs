@@ -56,7 +56,8 @@ namespace BNG {
 
         // Start is called before the first frame update
         void Start() {
-            mainCam = Camera.main.transform;
+            mainCam = GameObject.FindGameObjectWithTag("MainCamera").transform;
+
             grabbable = transform.parent.GetComponent<Grabbable>();
             canvas = GetComponent<Canvas>();
             scaler = GetComponent<CanvasScaler>();
@@ -85,7 +86,7 @@ namespace BNG {
         void Update() {
 
             // Bail if Text Component was removed or doesn't exist
-            if (text == null) {
+            if (text == null || mainCam == null) {
                 return;
             }
 

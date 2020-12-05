@@ -178,22 +178,12 @@ namespace BNG {
         /// </summary>
         float minSlideDistance = 0.001f;
 
-        [Header("Two-Handed Options : ")]
-        /// <summary>
-        /// (Optional) Look at this grabbable if being held with secondary hand
-        /// </summary>
-        [Tooltip("(Optional) Look at this grabbable if being held with secondary hand")]
-        public Grabbable SecondHandGrabbable;
+        [Header("Inputs : ")]
+        [Tooltip("Controller Input used to eject clip")]
+        public List<GrabbedControllerBinding> EjectInput = new List<GrabbedControllerBinding>() { GrabbedControllerBinding.Button2Down };
 
-        /// <summary>
-        /// How fast to look at the other grabbable when being held with two hands. A lower number will make the weapon feel heavier, but make the aiming hand lag behind the real hand.
-        /// </summary>
-        [Tooltip("How fast to look at the other grabbable when being held with two hands. A lower number will make the weapon feel heavier, but make the aiming hand lag behind the real hand.")]
-        public float SecondHandLookSpeed = 40f;
-
-        Rigidbody secondHandRigid;
-
-        
+        [Tooltip("Controller Input used to release the charging mechanism.")]
+        public List<GrabbedControllerBinding> ReleaseSlideInput = new List<GrabbedControllerBinding>() { GrabbedControllerBinding.Button1Down };
 
         [Header("Shown for Debug : ")]
         /// <summary>
@@ -240,10 +230,6 @@ namespace BNG {
         void Start() {
             weaponRigid = GetComponent<Rigidbody>();
 
-            if(SecondHandGrabbable) {
-                secondHandRigid = SecondHandGrabbable.GetComponent<Rigidbody>();
-            }
-
             if (MuzzleFlashObject) {
                 MuzzleFlashObject.SetActive(false);
             }
@@ -264,8 +250,10 @@ namespace BNG {
                 TriggerTransform.localEulerAngles = new Vector3(triggerValue * 15, 0, 0);
             }
 
+            // Trigger up, reset values
             if (triggerValue <= 0.5) {
                 readyToShoot = true;
+                playedEmptySound = false;
             }
 
             // Fire gun if possible
@@ -276,36 +264,49 @@ namespace BNG {
                 readyToShoot = FiringMethod == FiringType.Automatic;
             }
 
+            // These are here for convenience. Could be called through GrabbableUnityEvents instead
+            checkSlideInput();
+            checkEjectInput();
+
             updateChamberedBullet();
 
             base.OnTrigger(triggerValue);
         }
 
-        // Snap slide back in to place Button 2 (A / X)
-        public override void OnButton1Down() {
-           
-            if(ws != null) {                
-                ws.UnlockBack();
+        void checkSlideInput() {
+            // Check for bound controller button to release the charging mechanism
+            for (int x = 0; x < ReleaseSlideInput.Count; x++) {
+                if (InputBridge.Instance.GetGrabbedControllerBinding(ReleaseSlideInput[x], thisGrabber.HandSide)) {
+                    UnlockSlide();
+                    break;
+                }
             }
-
-            base.OnButton1Down();
         }
 
-        // Eject clips when press Button 1 (B / Y)
-        public override void OnButton2Down() {
+        void checkEjectInput() {
+            // Check for bound controller button to eject magazine
+            for (int x = 0; x < EjectInput.Count; x++) {
+                if (InputBridge.Instance.GetGrabbedControllerBinding(EjectInput[x], thisGrabber.HandSide)) {
+                    EjectMagazine();
+                    break;
+                }
+            }
+        }
 
+        public virtual void UnlockSlide() {
+            if (ws != null) {
+                ws.UnlockBack();
+            }
+        }
+
+        public virtual void EjectMagazine() {
             MagazineSlide ms = GetComponentInChildren<MagazineSlide>();
             if (ms != null) {
                 ms.EjectMagazine();
             }
+        }
 
-            base.OnButton2Down();
-        }
-        public override void OnRelease() {
-            if(SecondHandGrabbable != null && SecondHandGrabbable.GrabPhysics != GrabPhysics.Kinematic && secondHandRigid != null && secondHandRigid.isKinematic) {
-                secondHandRigid.isKinematic = false;
-            }
-        }
+        bool playedEmptySound = false;
         
         public virtual void Shoot() {
 
@@ -317,7 +318,12 @@ namespace BNG {
 
             // Need to Chamber round into weapon
             if(!BulletInChamber && MustChamberRounds) {
-                VRUtils.Instance.PlaySpatialClipAt(EmptySound, transform.position, 1f, 0.5f);
+                // Only play empty sound once per trigger down
+                if(!playedEmptySound) {
+                    VRUtils.Instance.PlaySpatialClipAt(EmptySound, transform.position, 1f, 0.5f);
+                    playedEmptySound = true;
+                }
+                
                 return;
             }
 
@@ -410,11 +416,6 @@ namespace BNG {
         // Apply recoil by requesting sprinyness and apply a local force to the muzzle point
         public virtual void ApplyRecoil() {
             if (weaponRigid != null && RecoilForce != Vector3.zero) {
-
-                // Two Handed Weapon Recoil not currently supported due to how look is handled
-                if (SecondHandGrabbable != null && SecondHandGrabbable.BeingHeld) {
-                    return;
-                }
 
                 // Make weapon springy for X seconds
                 grab.RequestSpringTime(RecoilDuration);

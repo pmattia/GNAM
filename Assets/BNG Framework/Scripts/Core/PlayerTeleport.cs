@@ -45,35 +45,65 @@ namespace BNG {
             }
         }
 
+        [Tooltip("Transform indicating where Player should be placed on teleport.")]
         public Transform TeleportDestination;
+
+        [Tooltip("GameObject to move around when initiating a teleport.")]
         public GameObject TeleportMarker;
+
+        [Tooltip("Transform indicating direction Player will rotate to on teleport.")]
         public Transform DirectionIndicator;
 
         public float MaxRange = 20f;
-        public int SegmentCount = 100; // More segments means a smoother line, at the cost of performance
+
+        [Tooltip("More segments means a smoother line, at the cost of performance.")]
+        public int SegmentCount = 100;
+
+        [Tooltip("How much velocity to apply when calculating a parabola. Set to a very high number for a straight line.")]
         public float simulationVelocity = 500f;
+
+        [Tooltip("Scale of each segment used when calculating parabola")]
         public float segmentScale = 0.5f;
+
+        [Tooltip("Raycast layers to use when determining collision")]
         public LayerMask CollisionLayers;
+
+        [Tooltip("Raycast layers to use when determining if the collided object is a valid teleport. If it is not valid then the line will be red and unable to teleport.")]
         public LayerMask ValidLayers;
 
+        [Tooltip("Method used to initiate a teleport. If these don't fit your needs you can override the KeyDownForTeleport() and KeyUpFromTeleport() methods.")]
         public TeleportControls ControlType = TeleportControls.ThumbstickRotate;
+
+        [Tooltip("If true the user can rotate the teleport marker before initiating a teleport.")]
         public bool AllowTeleportRotation = true;
         private bool _reachThumbThreshold = false;
+
+        [Tooltip("Max Angle / Slope the teleport marker can be to be considered a valid teleport.")]
         public float MaxSlope = 60f;
-        
+
+        [Tooltip("Use ScreenFader on teleportation if true.")]
+        public bool FadeScreenOnTeleport = true;
+
+        [Tooltip("If FadeScreenOnTeleport = true, fade the screen at this speed.")]
+        public float TeleportFadeSpeed = 10f;
+
+        [Tooltip("Seconds to wait before initiating teleport. Useful if you want to fade the screen  before teleporting.")]
+        public float TeleportDelay = 0.2f;
+
+        [Tooltip("The LineRenderer to use when showing a teleport preview")]
         public LineRenderer TeleportLine;
 
         CharacterController controller;
         BNGPlayerController playerController;
         InputBridge input;
         Transform cameraRig;
+        ScreenFader fader;
 
         bool aimingTeleport = false;
         bool validTeleport = false;
         bool teleportationEnabled = true;
-        public bool ApplyGravity = true; // Apply gravity to the player
 
-        // How many frames teleport has been invaid for. 
+        // How many frames teleport has been invalid for. 
         private int _invalidFrames = 0;
 
         // Initial Starting width of Line Renderer
@@ -95,6 +125,7 @@ namespace BNG {
             playerController = GetComponent<BNGPlayerController>();
             controller = GetComponentInChildren<CharacterController>();
             cameraRig = playerController.CameraRig;
+            fader = cameraRig.GetComponentInChildren<ScreenFader>();
 
             // Make sure teleport line is a root object
             if (TeleportLine != null) {
@@ -161,23 +192,6 @@ namespace BNG {
             if (aimingTeleport) {
                 calculateParabola();
             }
-
-            if (teleportationEnabled) {
-                ApplyGravityToPlayer();
-            }
-        }
-
-        public virtual void ApplyGravityToPlayer() {
-
-            if(playerController == null) {
-                return;
-            }
-
-            // Apply gravity to Y
-            if (ApplyGravity && !playerController.IsGrounded() && !playerController.GrippingClimbable && playerController.GravityEnabled) {
-                playerController.LastPlayerMoveTime = Time.time;
-                controller.Move(new Vector3(0, playerController.GravityAmount * -1, 0) * Time.deltaTime);
-            }
         }
 
         public void EnableTeleportation() {
@@ -235,10 +249,7 @@ namespace BNG {
                     segments[i] = segments[i - 1] + segVelocity.normalized * hit.distance;
 
                     // correct ending velocity, since we didn't actually travel an entire segment
-                    segVelocity = segVelocity - Physics.gravity * (segmentScale - hit.distance) / segVelocity.magnitude;
-
-                    // flip the velocity to simulate a bounce
-                    segVelocity = Vector3.Reflect(segVelocity, hit.normal);
+                    segVelocity = segVelocity - Physics.gravity * (segmentScale - hit.distance) / segVelocity.magnitude;                   
 
                     _hitAngle = Vector3.Angle(transform.up, hit.normal);
 
@@ -306,7 +317,7 @@ namespace BNG {
         // Clear of obstacles
         bool teleportClear() {
 
-            // Controller may have been cleared - double check it in clea method
+            // Controller may have been cleared - double check it in clear method
             if(controller == null) {
                 controller = GetComponentInChildren<CharacterController>();
             }
@@ -368,7 +379,7 @@ namespace BNG {
                 //get marker forward in local space
                 Vector3 forward = TeleportMarker.transform.forward; // TeleportMarker.transform.InverseTransformDirection(TeleportMarker.transform.forward);
 
-                //find the angle diference betwen the controller pointing direction and marker current forward
+                //find the angle difference between the controller pointing direction and marker current forward
                 float angle = Vector2.SignedAngle(new Vector2(controllerDirection.x, controllerDirection.z), new Vector2(forward.x, forward.z));
 
                 //rotate marker in local space to match controller pointing direction
@@ -386,8 +397,8 @@ namespace BNG {
 
             if (validTeleport) {
 
-                // Call any Before Teleport Events
-                OnBeforeTeleport?.Invoke();
+                // Call any events, fade screen, etc.
+                BeforeTeleport();
 
                 Vector3 destination = TeleportDestination.position;
                 Quaternion rotation = TeleportMarker.transform.rotation;
@@ -412,10 +423,35 @@ namespace BNG {
             hideTeleport();
         }
 
+        public virtual void BeforeTeleport() {
+
+            if(FadeScreenOnTeleport && fader) {
+                fader.FadeSpeed = TeleportFadeSpeed;
+                fader.DoFadeIn();
+            }
+
+            // Call any Before Teleport Events
+            OnBeforeTeleport?.Invoke();
+        }
+
+        public virtual void AfterTeleport() {
+            
+            if (FadeScreenOnTeleport && fader) {
+                fader.DoFadeOut();
+            }
+
+            // Call any After Teleport Events
+            OnAfterTeleport?.Invoke();
+        }
+
         IEnumerator doTeleport(Vector3 playerDestination, Quaternion playerRotation, bool rotatePlayer) {
 
             if(!setVariables) {
                 setupVariables();
+            }
+
+            if(TeleportDelay > 0) {
+                yield return new WaitForSeconds(TeleportDelay);
             }
 
             controller.enabled = false;
@@ -438,8 +474,8 @@ namespace BNG {
                 controller.transform.eulerAngles = new Vector3(0, controller.transform.eulerAngles.y, 0);
             }
 
-            // Call any After Teleport Events
-            OnAfterTeleport?.Invoke();
+            // Call events, etc.
+            AfterTeleport();            
 
             yield return new WaitForEndOfFrame();
             
@@ -455,7 +491,7 @@ namespace BNG {
             StartCoroutine(doTeleport(destination.position, destination.rotation, true));
         }
 
-        // Are we pressing proper to key to initiate teleport?
+        // Are we pressing proper key to initiate teleport?
         public virtual bool KeyDownForTeleport() {
 
             // Make sure we can use teleport
@@ -474,7 +510,7 @@ namespace BNG {
                     return true;
                 }
             }
-            // Hold Thumbstick in to intiate
+            // Hold down Thumbstick to intiate
             else if (ControlType == TeleportControls.ThumbstickDown) {
                 if (input.LeftThumbstick && HandSide == ControllerHand.Left) {
                     return true;
@@ -502,7 +538,7 @@ namespace BNG {
 
                 return false;
             }
-            // Or no longer holding down button
+            // Or no longer holding down Thumbstick
             else if (ControlType == TeleportControls.ThumbstickDown) {
                 return !input.LeftThumbstick;
             }

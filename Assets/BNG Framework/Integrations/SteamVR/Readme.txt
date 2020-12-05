@@ -13,6 +13,11 @@ If you want to give SteamVR a go, this integration package can get you started. 
 
 5. On Player's InputBridge object, make sure "SteamVR" is selected as the input source.
 
+6. On the Player object, add the "SteamVR_ActivateActionSetOnLoad" and make sure the Action Set is set to the VRIF actions that were imported
+
+- If you aren't getting any inputs, make sure yours keys are all mapped by going to Window -> SteamVR Input -> "Open Binding UI" and verify all inputs have been mapped.
+
 Note : This essentially maps SteamVR Actions such as "Grip", "Trigger", etc. so that the InputBridge can convert it to be used as raw input. It's not how SteamVR's input system is intended to be used, but is currently the only way to get input from certain devices until Unity gets full OpenVR or OpenXR support.
 
 - Check out InputBridge.cs to see how Steam Actions are bound to inputs
+

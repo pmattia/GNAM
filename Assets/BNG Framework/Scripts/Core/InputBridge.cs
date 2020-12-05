@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿#define VRIF
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,7 +9,6 @@ using UnityEngine.XR;
 #if STEAM_VR_SDK
 using Valve.VR;
 #endif
-
 
 namespace BNG {
 
@@ -47,6 +47,22 @@ namespace BNG {
         StartButtonDown,
         BackButton,
         BackButtonDown
+    }
+
+    /// <summary>
+    /// Controller Options available to bind buttons to via Inspector. Input is relative to the controller holding it.
+    /// Ex : Button 1 = Button A if held in Right controller, Button X if held in Left.
+    /// </summary>
+    public enum GrabbedControllerBinding {
+        None,
+        Button1, // Button A, X
+        Button1Down,
+        Button2, // Button B, Y
+        Button2Down,
+        Trigger,
+        TriggerDown,
+        Grip,
+        GripDown
     }
 
     public enum InputAxis {
@@ -88,7 +104,8 @@ namespace BNG {
     public enum XRInputSource {
         XRInput,
         OVRInput,
-        SteamVR
+        SteamVR,
+        Pico
     }
 
     public enum SDKProvider {
@@ -131,7 +148,7 @@ namespace BNG {
         public float LeftGrip = 0;
 
         /// <summary>
-        /// Left Grip was pressed down this drame, but not last
+        /// Left Grip was pressed down this frame, but not last
         /// </summary>
         public bool LeftGripDown = false;
 
@@ -141,7 +158,7 @@ namespace BNG {
         public float RightGrip = 0;
 
         /// <summary>
-        /// Right Grip was pressed down this drame, but not last
+        /// Right Grip was pressed down this frame, but not last
         /// </summary>
         public bool RightGripDown = false;
 
@@ -169,7 +186,7 @@ namespace BNG {
 
         [Header("Thumbstick")]
         /// <summary>
-        /// Pressed down this drame, but not last
+        /// Pressed down this frame, but not last
         /// </summary>
         public bool LeftThumbstickDown = false;
 
@@ -179,7 +196,7 @@ namespace BNG {
         public bool LeftThumbstickUp = false;
 
         /// <summary>
-        /// Pressed down this drame, but not last
+        /// Pressed down this frame, but not last
         /// </summary>
         public bool RightThumbstickDown = false;
 
@@ -273,8 +290,6 @@ namespace BNG {
         // For example, pushing the trigger down 20% (0.2) of the way considered starting a trigger down event
         // This is used in XRInput
         private float _downThreshold = 0.2f;
-
-        bool XRInputSupported = false;
         bool SteamVRSupport = false;
 
         [Header("HMD / Hardware")]
@@ -294,7 +309,7 @@ namespace BNG {
         public bool IsValveIndexController { get; private set; }
 
         /// <summary>
-        /// Returns true if the controller has both a Touchpad and a Joystick. Currently on the Valve Index has both.
+        /// Returns true if the controller has both a Touchpad and a Joystick. Currently only the Valve Index has both.
         /// </summary>
         [Tooltip("Returns true if the controller has both a Touchpad and a Joystick. Currently on the Valve Index has both.")]
         public bool SupportsBothTouchPadAndJoystick;
@@ -318,6 +333,12 @@ namespace BNG {
         public delegate void InputAction();
         public static event InputAction OnInputsUpdated;
 
+        /// <summary>
+        /// Called once a controller has been successfully detected
+        /// </summary>
+        public delegate void ControllerFoundAction();
+        public static event InputAction OnControllerFound;
+
         private void Awake() {
             // Destroy any duplicate instances that may have been created
             if (_instance != null && _instance != this) {
@@ -340,20 +361,29 @@ namespace BNG {
             setDeviceProperties();
         }
 
-
         void Start() {
 
             SetTrackingOriginMode(TrackingOrigin);
 
-#if UNITY_2019_3_OR_NEWER
-            XRInputSupported = true;
-#endif
-
 #if STEAM_VR_SDK
             SteamVRSupport = true;
+
+            if(InputSource != XRInputSource.SteamVR) {
+                Debug.Log("SteamVR SDK detected. Switching Input Source from " + InputSource.ToString() + " to SteamVR.");
+                InputSource = XRInputSource.SteamVR;
+            }
+
+            // Set the default action set if not provided
+            SteamVR_ActivateActionSetOnLoad VRIFLoader = FindObjectOfType<SteamVR_ActivateActionSetOnLoad>();
+            if (VRIFLoader == null) {
+                Debug.Log("SteamVR_ActivateActionSetOnLoad component not found - adding VRIF custom actions default.");
+                VRIFLoader = gameObject.AddComponent<SteamVR_ActivateActionSetOnLoad>();
+                VRIFLoader.actionSet = SteamVR_Actions.VRIF;
+            }
+
             SteamVR.Initialize();
 #endif
-        }       
+        }
 
         void Update() {
             UpdateDeviceActive();
@@ -421,11 +451,10 @@ namespace BNG {
 
                 LeftThumbstick = OVRInput.Get(OVRInput.Button.PrimaryThumbstick, OVRInput.Controller.LTouch);
                 RightThumbstick = OVRInput.Get(OVRInput.Button.PrimaryThumbstick, OVRInput.Controller.RTouch);
-
 #endif
             }
             // Use XRInput
-            else {
+            else if(InputSource == XRInputSource.XRInput) {
 #if UNITY_2019_3_OR_NEWER
                 // Refresh XR devices
                 InputDevices.GetDevices(devices);
@@ -458,7 +487,7 @@ namespace BNG {
                 RightTouchPadAxis = ApplyDeadZones(getFeatureUsage(primaryRightController, thumbstickAxisSecondary), ThumbstickDeadzoneX, ThumbstickDeadzoneY);
                 RightThumbstickAxis = ApplyDeadZones(getFeatureUsage(primaryRightController, thumbstickAxis), ThumbstickDeadzoneX, ThumbstickDeadzoneY);
 
-                // Store copy of previous value so we can determin if we need to call OnDownEvent
+                // Store copy of previous value so we can determine if we need to call OnDownEvent
                 var prevVal = LeftGrip;
                 LeftGrip = correctValue(getFeatureUsage(primaryLeftController, CommonUsages.grip));
                 LeftGripDown = prevVal < _downThreshold && LeftGrip >= _downThreshold;
@@ -488,11 +517,8 @@ namespace BNG {
 #if USING_COMPATIBLE_OCULUS_XR_PLUGIN_VERSION
                 LeftThumbNear = getFeatureUsage(primaryLeftController, OculusUsages.indexTouch) > 0;
 #endif
-
                 RightTriggerNear = getFeatureUsage(primaryRightController, CommonUsages.indexTouch) > 0;
                 RightThumbNear = getFeatureUsage(primaryRightController, CommonUsages.thumbTouch) > 0;
-
-
 
                 prevBool = AButton;
                 AButton = getFeatureUsage(primaryRightController, CommonUsages.primaryButton);
@@ -522,6 +548,9 @@ namespace BNG {
                 BackButton = getFeatureUsage(primaryLeftController, CommonUsages.menuButton);
                 BackButtonDown = prevBool == false && BackButton == true;
 #endif
+            }
+            else if(InputSource == XRInputSource.Pico) {
+                UpdatePicoInput();
             }
 
             // Call events
@@ -559,6 +588,40 @@ namespace BNG {
             XButtonDown = SteamVR_Actions.vRIF_XButton.stateDown;
             YButton = SteamVR_Actions.vRIF_YButton.state;
             YButtonDown = SteamVR_Actions.vRIF_YButton.stateDown;
+#endif
+        }
+
+        public virtual void UpdatePicoInput() {
+#if PICO_SDK
+            int rightHand = 1;
+            int leftHand = 0;
+
+            LeftThumbstickAxis = ApplyDeadZones(Pvr_UnitySDKAPI.Controller.UPvr_GetAxis2D(leftHand), ThumbstickDeadzoneX, ThumbstickDeadzoneY);
+            RightThumbstickAxis = ApplyDeadZones(Pvr_UnitySDKAPI.Controller.UPvr_GetAxis2D(rightHand), ThumbstickDeadzoneX, ThumbstickDeadzoneY);
+            LeftThumbstick = Pvr_UnitySDKAPI.Controller.UPvr_GetKey(leftHand, Pvr_UnitySDKAPI.Pvr_KeyCode.TOUCHPAD);
+            LeftThumbstickDown = Pvr_UnitySDKAPI.Controller.UPvr_GetKeyDown(leftHand, Pvr_UnitySDKAPI.Pvr_KeyCode.TOUCHPAD);
+            RightThumbstick = Pvr_UnitySDKAPI.Controller.UPvr_GetKey(rightHand, Pvr_UnitySDKAPI.Pvr_KeyCode.TOUCHPAD);
+            RightThumbstickDown = Pvr_UnitySDKAPI.Controller.UPvr_GetKeyDown(rightHand, Pvr_UnitySDKAPI.Pvr_KeyCode.TOUCHPAD);
+
+            LeftThumbNear = Pvr_UnitySDKAPI.Controller.UPvr_IsTouching(leftHand);
+            RightThumbNear = Pvr_UnitySDKAPI.Controller.UPvr_IsTouching(rightHand);
+
+            LeftGrip = Pvr_UnitySDKAPI.Controller.UPvr_GetKey(leftHand, Pvr_UnitySDKAPI.Pvr_KeyCode.Left) ? 1f : 0;
+            LeftGripDown = Pvr_UnitySDKAPI.Controller.UPvr_GetKeyDown(leftHand, Pvr_UnitySDKAPI.Pvr_KeyCode.Left);
+
+            RightGrip = Pvr_UnitySDKAPI.Controller.UPvr_GetKey(rightHand, Pvr_UnitySDKAPI.Pvr_KeyCode.Right) ? 1f : 0;
+            RightGripDown = Pvr_UnitySDKAPI.Controller.UPvr_GetKeyDown(rightHand, Pvr_UnitySDKAPI.Pvr_KeyCode.Right);
+
+            LeftTrigger = Pvr_UnitySDKAPI.Controller.UPvr_GetControllerTriggerValue(leftHand) / 255f;
+            RightTrigger = Pvr_UnitySDKAPI.Controller.UPvr_GetControllerTriggerValue(rightHand) / 255f;
+            AButton = Pvr_UnitySDKAPI.Controller.UPvr_GetKey(rightHand, Pvr_UnitySDKAPI.Pvr_KeyCode.A);
+            AButtonDown = Pvr_UnitySDKAPI.Controller.UPvr_GetKeyDown(rightHand, Pvr_UnitySDKAPI.Pvr_KeyCode.A);
+            BButton = Pvr_UnitySDKAPI.Controller.UPvr_GetKey(rightHand, Pvr_UnitySDKAPI.Pvr_KeyCode.B);
+            BButtonDown = Pvr_UnitySDKAPI.Controller.UPvr_GetKeyDown(rightHand, Pvr_UnitySDKAPI.Pvr_KeyCode.B);
+            XButton = Pvr_UnitySDKAPI.Controller.UPvr_GetKey(leftHand, Pvr_UnitySDKAPI.Pvr_KeyCode.X);
+            XButtonDown = Pvr_UnitySDKAPI.Controller.UPvr_GetKeyDown(leftHand, Pvr_UnitySDKAPI.Pvr_KeyCode.X);
+            YButton = Pvr_UnitySDKAPI.Controller.UPvr_GetKey(leftHand, Pvr_UnitySDKAPI.Pvr_KeyCode.Y);
+            YButtonDown = Pvr_UnitySDKAPI.Controller.UPvr_GetKeyDown(leftHand, Pvr_UnitySDKAPI.Pvr_KeyCode.Y);
 #endif
         }
 
@@ -630,6 +693,31 @@ namespace BNG {
             return false;
         }
 
+        public bool GetGrabbedControllerBinding(GrabbedControllerBinding val, ControllerHand hand) {
+            if(hand == ControllerHand.Right) {
+                if (val == GrabbedControllerBinding.Button1 && AButton) { return true; }
+                if (val == GrabbedControllerBinding.Button1Down && AButtonDown) { return true; }
+                if (val == GrabbedControllerBinding.Button2 && BButton) { return true; }
+                if (val == GrabbedControllerBinding.Button2Down && BButtonDown) { return true; }
+                if (val == GrabbedControllerBinding.Grip && RightGrip > _downThreshold) { return true; }
+                if (val == GrabbedControllerBinding.GripDown && RightGripDown) { return true; }
+                if (val == GrabbedControllerBinding.Trigger && RightTrigger > _downThreshold) { return true; }
+                if (val == GrabbedControllerBinding.TriggerDown && RightTriggerDown) { return true; }
+            }
+            else if (hand == ControllerHand.Left) {
+                if (val == GrabbedControllerBinding.Button1 && XButton) { return true; }
+                if (val == GrabbedControllerBinding.Button1Down && XButtonDown) { return true; }
+                if (val == GrabbedControllerBinding.Button2 && YButton) { return true; }
+                if (val == GrabbedControllerBinding.Button2Down && YButtonDown) { return true; }
+                if (val == GrabbedControllerBinding.Grip && LeftGrip > _downThreshold) { return true; }
+                if (val == GrabbedControllerBinding.GripDown && LeftGripDown) { return true; }
+                if (val == GrabbedControllerBinding.Trigger && LeftTrigger > _downThreshold) { return true; }
+                if (val == GrabbedControllerBinding.TriggerDown && LeftTriggerDown) { return true; }
+            }
+
+            return false;
+        }
+
         public Vector2 GetInputAxisValue(InputAxis val) {
             if (val == InputAxis.LeftThumbStickAxis) { return LeftThumbstickAxis; }
             if (val == InputAxis.RightThumbStickAxis) { return RightThumbstickAxis; }
@@ -652,7 +740,7 @@ namespace BNG {
             return pos;
         }
 
-        // Called when an inpute device has changed (connect / disconnect, etc.)
+        // Called when an input device has changed (connect / disconnect, etc.)
         void onDeviceChanged(InputDevice inputDevice) {
             setDeviceProperties();
         }
@@ -678,6 +766,17 @@ namespace BNG {
 
             // Update Controller Type
             ConnectedControllerType = GetControllerType();
+
+            // Make sure our input source is set to SteamVR for Knuckles. 
+            if(ConnectedControllerType == ControllerType.Knuckles && InputSource != XRInputSource.SteamVR && SteamVRSupport) {
+                Debug.Log("Knuckle controllers found. Switching Input Source to SteamVR.");
+                InputSource = XRInputSource.SteamVR;
+            }
+
+            // Call any events
+            if(!string.IsNullOrEmpty(InputBridge.Instance.GetControllerName())) {
+                OnControllerFound?.Invoke();
+            }
         }
 
         /// <summary>
@@ -814,11 +913,23 @@ namespace BNG {
             return ControllerType.Unknown;
         }
 
+        public Vector3 GetControllerVelocity(ControllerHand hand) {
+            InputDevice inputDevice = hand == ControllerHand.Left ? GetLeftController() : GetRightController();
+            return getFeatureUsage(inputDevice, CommonUsages.deviceVelocity);
+        }
+
+        public Vector3 GetControllerAngularVelocity(ControllerHand hand) {
+            InputDevice inputDevice = hand == ControllerHand.Left ? GetLeftController() : GetRightController();
+            return getFeatureUsage(inputDevice, CommonUsages.deviceAngularVelocity);
+        }
+
         /// <summary>
         /// Get the name of the primary controller
         /// </summary>
         /// <returns>The name of the primary controller. Returns empty if no controller found</returns>
         public virtual string GetControllerName() {
+
+            // First try right controller
             var rightHandedControllers = new List<InputDevice>();
             var dc = InputDeviceCharacteristics.HeldInHand | InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller;
             InputDevices.GetDevicesWithCharacteristics(dc, rightHandedControllers);
@@ -827,6 +938,17 @@ namespace BNG {
             // Return name of the found controller
             if (primaryRightController != null && !System.String.IsNullOrEmpty(primaryRightController.name)) {
                 return primaryRightController.name;
+            }
+
+            // No right controller found, try the left
+            var leftHandedControllers = new List<InputDevice>();
+            dc = InputDeviceCharacteristics.HeldInHand | InputDeviceCharacteristics.Left | InputDeviceCharacteristics.Controller;
+            InputDevices.GetDevicesWithCharacteristics(dc, leftHandedControllers);
+            var primaryLeftController = leftHandedControllers.FirstOrDefault();
+
+            // Return name of the found controller
+            if (primaryLeftController != null && !System.String.IsNullOrEmpty(primaryLeftController.name)) {
+                return primaryLeftController.name;
             }
 
             return string.Empty;
@@ -865,6 +987,15 @@ namespace BNG {
 
         Vector2 getFeatureUsage(InputDevice device, InputFeatureUsage<Vector2> usage) {
             Vector2 val;
+            if (device.TryGetFeatureValue(usage, out val)) {
+                return val;
+            }
+
+            return val;
+        }
+
+        Vector3 getFeatureUsage(InputDevice device, InputFeatureUsage<Vector3> usage) {
+            Vector3 val;
             if (device.TryGetFeatureValue(usage, out val)) {
                 return val;
             }
@@ -912,8 +1043,22 @@ namespace BNG {
 
         // Start Vibration on controller
         public void VibrateController(float frequency, float amplitude, float duration, ControllerHand hand) {
-            if (InputSource == XRInputSource.XRInput) {
-                
+            
+            if (InputSource == XRInputSource.OVRInput) {
+                StartCoroutine(Vibrate(frequency, amplitude, duration, hand));
+            }
+            else if (InputSource == XRInputSource.SteamVR && SteamVRSupport) {
+#if STEAM_VR_SDK
+                if (hand == ControllerHand.Right) {
+                    SteamVR_Actions.vRIF_Haptic.Execute(0, duration, frequency, amplitude, SteamVR_Input_Sources.RightHand);
+                }
+                else {
+                    SteamVR_Actions.vRIF_Haptic.Execute(0, duration, frequency, amplitude, SteamVR_Input_Sources.LeftHand);
+                }                
+#endif
+            }
+            // Default / Fallback to XRInput
+            else {
                 if (hand == ControllerHand.Right) {
                     InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.Right, devices);
                 }
@@ -930,9 +1075,6 @@ namespace BNG {
                         }
                     }
                 }
-            }
-            else if (InputSource == XRInputSource.OVRInput) {
-                StartCoroutine(Vibrate(frequency, amplitude, duration, hand));
             }
         }
 

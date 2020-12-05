@@ -22,6 +22,9 @@ namespace BNG {
         [Tooltip("If true, the physical hand will be parented to the AttachPoint when no collisions are present. This keeps the hand 1:1 with the controller.")]
         public bool ParentToAttachPoint = true;
 
+        [Tooltip("If the hand exceeds this distance from it's origin it will snap back to the original position. Specified in meters.")]
+        public float SnapBackDistance = 1f;
+
         [Tooltip("This is the Grabber to use when this hand is active.")]
         public Grabber ThisGrabber;
 
@@ -95,6 +98,9 @@ namespace BNG {
 
             // Line indicating our object is far away
             drawDistanceLine();
+
+            // Check if hand has gotten too far away
+            checkBreakDistance();
 
             // Our root object is disabled
             if (!AttachTo.gameObject.activeSelf) {
@@ -214,6 +220,12 @@ namespace BNG {
                 }
             }
         }        
+
+        void checkBreakDistance() {
+            if (SnapBackDistance > 0 && Vector3.Distance(transform.position, AttachTo.position) > SnapBackDistance) {
+                transform.position = AttachTo.position;
+            }
+        }
 
         void updateHandGraphics() {
 

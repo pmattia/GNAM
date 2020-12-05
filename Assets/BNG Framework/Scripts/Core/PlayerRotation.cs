@@ -18,10 +18,10 @@ namespace BNG {
         [Tooltip("Used to determine whether to turn left / right. This can be an X Axis on the thumbstick, for example. -1 to snap left, 1 to snap right.")]
         public List<InputAxis> inputAxis = new List<InputAxis>() { InputAxis.RightThumbStickAxis };
 
-        [Tooltip("Snap rotation will rotate a fix amount of degrees on turn. Smooth will linearly rotate the player.")]
+        [Tooltip("Snap rotation will rotate a fixed amount of degrees on turn. Smooth will linearly rotate the player.")]
         public RotationMechanic RotationType = RotationMechanic.Snap;
 
-        [Tooltip("How m any degrees to rotate if RotationType is set to 'Snap'")]
+        [Tooltip("How many degrees to rotate if RotationType is set to 'Snap'")]
         public float SnapRotationAmount = 45f;
 
         [Tooltip("Thumbstick X axis must be >= this amount to be considered an input event")]

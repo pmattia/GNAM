@@ -77,8 +77,6 @@ MonoBehaviour:
   GrabCheckSeconds: 1
   EquipGrabbableOnStart: {fileID: 0}
   HandsGraphics: {fileID: 3181413271529996814}
-  UseOVRControllerVelocity: 0
-  UseOVRControllerAngularVelocity: 0
   HeldGrabbable: {fileID: 0}
   LastDropTime: 0
   ForceGrab: 0
@@ -92,6 +90,7 @@ MonoBehaviour:
   onReleaseEvent:
     m_PersistentCalls:
       m_Calls: []
+  velocityTracker: {fileID: 0}
 --- !u!54 &184099144179019055
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -574,9 +573,7 @@ MonoBehaviour:
   ControllerSide: 0
   AutoUpdateUITransforms: 1
   cursor: {fileID: 2255670627275077591, guid: cda3e347c37ecf24e89b8cd380c7f9f2, type: 3}
-  MaxDistance: 5
   LineDistanceModifier: 0.8
-  PointerLocalScale: 0.01
   lineRenderer: {fileID: 412880597057349010}
 --- !u!1 &1247141267538704520
 GameObject:
@@ -661,6 +658,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HandAnchor: {fileID: 5119220787211519073}
   ResetHandAnchorPosition: 1
+  SmoothMovement: 1
   HandAnimator: {fileID: 0}
   grabber: {fileID: 0}
   GripAmount: 0
@@ -682,6 +680,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ControllerHand: 0
   thisControllerModel: 
+  OffsetPosition: {x: 0, y: 0, z: 0}
+  OffsetRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &1247141268387302696
 GameObject:
   m_ObjectHideFlags: 0
@@ -900,6 +900,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HandAnchor: {fileID: 5118943030497372719}
   ResetHandAnchorPosition: 1
+  SmoothMovement: 1
   HandAnimator: {fileID: 0}
   grabber: {fileID: 0}
   GripAmount: 0
@@ -921,6 +922,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ControllerHand: 1
   thisControllerModel: 
+  OffsetPosition: {x: 0, y: 0, z: 0}
+  OffsetRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &1327757299403844243
 GameObject:
   m_ObjectHideFlags: 0
@@ -1255,8 +1258,6 @@ MonoBehaviour:
   GrabCheckSeconds: 1
   EquipGrabbableOnStart: {fileID: 0}
   HandsGraphics: {fileID: 1447509482774238497}
-  UseOVRControllerVelocity: 0
-  UseOVRControllerAngularVelocity: 0
   HeldGrabbable: {fileID: 0}
   LastDropTime: 0
   ForceGrab: 0
@@ -1270,6 +1271,7 @@ MonoBehaviour:
   onReleaseEvent:
     m_PersistentCalls:
       m_Calls: []
+  velocityTracker: {fileID: 0}
 --- !u!54 &1447509484480671963
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2752,7 +2754,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InputSource: 0
-  TrackingSpaceType: 1
+  TrackingOrigin: 2
   LeftGrip: 0
   LeftGripDown: 0
   RightGrip: 0
@@ -3867,9 +3869,7 @@ MonoBehaviour:
   ControllerSide: 1
   AutoUpdateUITransforms: 1
   cursor: {fileID: 2255670627275077591, guid: cda3e347c37ecf24e89b8cd380c7f9f2, type: 3}
-  MaxDistance: 5
   LineDistanceModifier: 0.8
-  PointerLocalScale: 0.01
   lineRenderer: {fileID: 3165472505434009774}
 --- !u!1 &7276301767836870475
 GameObject:
@@ -4367,6 +4367,7 @@ GameObject:
   - component: {fileID: 5883667856760302795}
   - component: {fileID: 6552592445350430801}
   - component: {fileID: 5883667856760302794}
+  - component: {fileID: 2981720430411257789}
   - component: {fileID: 1334413062160626248}
   - component: {fileID: 1416394701893124138}
   m_Layer: 9
@@ -4404,30 +4405,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectedLocomotion: 1
-  RotateCharacterWithCamera: 1
   MoveCharacterWithCamera: 1
+  RotateCharacterWithCamera: 1
   TrackingSpace: {fileID: 5117709272728089495}
   CameraRig: {fileID: 5117709272728151533}
   CenterEyeAnchor: {fileID: 5117709272728151529}
-  GrippingClimbable: 0
-  GravityEnabled: 1
-  GravityAmount: 7.1
+  CheckForMovingPlatforms: 1
   GroundedLayers:
     serializedVersion: 2
     m_Bits: 1281
   DistanceFromGround: 0
   MinimumCapsuleHeight: 0.4
   MaximumCapsuleHeight: 3
-  CharacterControllerYOffset: -0.025
-  MinElevation: -100
-  MaxElevation: 5000
   ClimbingCapsuleHeight: 0.5
   ClimbingCapsuleCenter: -0.25
   LastTeleportTime: 0
-  LastPlayerMoveTime: 0
+  CharacterControllerYOffset: -0.025
   CameraHeight: 0
   ElevateCameraIfNoHMDPresent: 0
   ElevateCameraHeight: 1.65
+  MinElevation: -100
+  MaxElevation: 5000
+  GrippingClimbable: 0
+  LastPlayerMoveTime: 0
 --- !u!143 &9166498488697346858
 CharacterController:
   m_ObjectHideFlags: 0
@@ -4480,10 +4480,8 @@ MonoBehaviour:
   SprintInput: 00000000
   StrafeSpeed: 1
   StrafeSprintSpeed: 1.25
-  ApplyGravity: 1
-  GravityModifier: 1
-  JumpInput: 00000000
   JumpForce: 3
+  JumpInput: 00000000
   AirControl: 1
   AirControlSpeed: 1
   AllowKeyboardInputs: 1
@@ -4520,8 +4518,10 @@ MonoBehaviour:
   ControlType: 0
   AllowTeleportRotation: 1
   MaxSlope: 70
+  FadeScreenOnTeleport: 1
+  TeleportFadeSpeed: 10
+  TeleportDelay: 0.2
   TeleportLine: {fileID: 1247141268419097902}
-  ApplyGravity: 1
 --- !u!114 &5883667856760302794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4542,6 +4542,20 @@ MonoBehaviour:
   SmoothTurnSpeed: 40
   SmoothTurnMinInput: 0.1
   AllowKeyboardInputs: 1
+--- !u!114 &2981720430411257789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9166498488684277474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 423761fea517b5a45bf554817601eb72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GravityEnabled: 1
+  Gravity: {x: 0, y: -7.81, z: 0}
 --- !u!114 &1334413062160626248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4729,15 +4743,15 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: bb512fe3350bcb8479ad97e466039877, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 95ce9f4c6f9d92a46b626a353c690dac, type: 3}
---- !u!4 &3671052058624948644 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 400012, guid: 95ce9f4c6f9d92a46b626a353c690dac,
-    type: 3}
-  m_PrefabInstance: {fileID: 3671052058624549672}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3671052058624948636 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400052, guid: 95ce9f4c6f9d92a46b626a353c690dac,
+    type: 3}
+  m_PrefabInstance: {fileID: 3671052058624549672}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &3671052058624948644 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400012, guid: 95ce9f4c6f9d92a46b626a353c690dac,
     type: 3}
   m_PrefabInstance: {fileID: 3671052058624549672}
   m_PrefabAsset: {fileID: 0}
@@ -4818,15 +4832,15 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: bb512fe3350bcb8479ad97e466039877, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 95ce9f4c6f9d92a46b626a353c690dac, type: 3}
---- !u!4 &8929318598879214776 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 400012, guid: 95ce9f4c6f9d92a46b626a353c690dac,
-    type: 3}
-  m_PrefabInstance: {fileID: 8929318598879340084}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8929318598879214720 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400052, guid: 95ce9f4c6f9d92a46b626a353c690dac,
+    type: 3}
+  m_PrefabInstance: {fileID: 8929318598879340084}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8929318598879214776 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400012, guid: 95ce9f4c6f9d92a46b626a353c690dac,
     type: 3}
   m_PrefabInstance: {fileID: 8929318598879340084}
   m_PrefabAsset: {fileID: 0}

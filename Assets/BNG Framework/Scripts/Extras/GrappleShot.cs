@@ -24,10 +24,10 @@ namespace BNG {
         bool grappling = false;
         // Were we grappling last frame
         bool wasGrappling = false;
-        bool gravityEnabled = true;
 
         CharacterController characterController;
         BNGPlayerController bngController;
+        PlayerGravity playerGravity;
         AudioSource audioSource;
 
         // How far away the grapple is in meters
@@ -47,8 +47,17 @@ namespace BNG {
 
         // Start is called before the first frame update
         void Start() {
-            characterController = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<CharacterController>();
-            bngController = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<BNGPlayerController>();
+
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player) {
+                characterController = player.GetComponentInChildren<CharacterController>();
+                bngController = player.GetComponentInChildren<BNGPlayerController>();
+                playerGravity = player.GetComponentInChildren<PlayerGravity>();
+            }
+            else {
+                Debug.Log("No player object found.");
+            }
+
             audioSource = GetComponent<AudioSource>();
         }      
 
@@ -309,8 +318,9 @@ namespace BNG {
         }
 
         void changeGravity(bool gravityOn) {
-            gravityEnabled = gravityOn;
-            bngController.ToggleGravity(gravityOn);
+            if(playerGravity) {
+                playerGravity.ToggleGravity(gravityOn);
+            }
         }
     }
 }

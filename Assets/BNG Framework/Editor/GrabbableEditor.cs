@@ -97,7 +97,7 @@ namespace BNG {
             grabbable = (Grabbable)target;
 
             // Don't use Custom Editor
-            if(UseCustomEditor == false || grabbable.UseCustomInspector == false) {
+            if (UseCustomEditor == false || grabbable.UseCustomInspector == false) {
                 base.OnInspectorGUI();
                 return;
             }

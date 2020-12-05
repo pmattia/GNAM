@@ -6,6 +6,7 @@ using UnityEngine;
 namespace BNG {
 
     [CustomEditor(typeof(GrabPoint))]
+    [CanEditMultipleObjects]
     public class GrabPointEditor : Editor {
 
         public GameObject LeftHandPreview;
@@ -73,6 +74,8 @@ namespace BNG {
                     LeftHandPreview = Instantiate(Resources.Load("LeftHandModelsEditorPreview", typeof(GameObject))) as GameObject;
                     LeftHandPreview.transform.name = "LeftHandModelsEditorPreview";
                     LeftHandPreview.transform.parent = grabPoint.transform;
+                    LeftHandPreview.transform.localPosition = Vector3.zero;
+                    LeftHandPreview.transform.localEulerAngles = Vector3.zero;
                     LeftHandPreview.gameObject.hideFlags = HideFlags.HideAndDontSave;
 
                     showingLeftHand = true;
@@ -98,6 +101,8 @@ namespace BNG {
                     RightHandPreview = Instantiate(Resources.Load("RightHandModelsEditorPreview", typeof(GameObject))) as GameObject;
                     RightHandPreview.transform.name = "RightHandModelsEditorPreview";
                     RightHandPreview.transform.parent = grabPoint.transform;
+                    RightHandPreview.transform.localPosition = Vector3.zero;
+                    RightHandPreview.transform.localEulerAngles = Vector3.zero;
                     RightHandPreview.gameObject.hideFlags = HideFlags.HideAndDontSave;
 
                     showingRightHand = true;

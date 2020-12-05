@@ -2213,10 +2213,14 @@ MonoBehaviour:
   ParentToHands: 0
   ParentHandModel: 1
   SnapHandModel: 1
+  CanBeDropped: 1
+  CanBeSnappedToSnapZone: 0
   ForceDisableKinematicOnDrop: 0
   CustomHandPose: 0
   SecondaryGrabBehavior: 0
   OtherGrabbableMustBeGrabbed: {fileID: 0}
+  SecondaryGrabbable: {fileID: 0}
+  SecondHandLookSpeed: 40
   CollisionSpring: 3000
   CollisionSlerp: 500
   CollisionLinearMotionX: 2
@@ -2226,19 +2230,19 @@ MonoBehaviour:
   CollisionAngularMotionY: 2
   CollisionAngularMotionZ: 2
   ApplyCorrectiveForce: 1
-  CanBeDropped: 1
-  CanBeSnappedToSnapZone: 0
+  MoveVelocityForce: 3000
+  MoveAngularVelocityForce: 90
   LastGrabTime: 0
   LastDropTime: 0
   AddControllerVelocityOnDrop: 1
+  collisions: []
   ActiveGrabPoint: {fileID: 0}
-  SecondaryGrabbable: {fileID: 0}
-  SecondHandLookSpeed: 40
   SecondaryLookOffset: {x: 0, y: 0, z: 0}
   SecondaryLookAtTransform: {fileID: 0}
   LocalOffsetTransform: {fileID: 0}
   GrabPoints:
   - {fileID: 0}
+  UseCustomInspector: 1
 --- !u!65 &3594841392680093951
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2435,7 +2439,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3594841392878154760}
   serializedVersion: 2
-  m_Mass: 5
+  m_Mass: 10
   m_Drag: 0.1
   m_AngularDrag: 0.05
   m_UseGravity: 1
@@ -2470,10 +2474,14 @@ MonoBehaviour:
   ParentToHands: 1
   ParentHandModel: 1
   SnapHandModel: 1
+  CanBeDropped: 1
+  CanBeSnappedToSnapZone: 1
   ForceDisableKinematicOnDrop: 0
   CustomHandPose: 50
   SecondaryGrabBehavior: 0
   OtherGrabbableMustBeGrabbed: {fileID: 0}
+  SecondaryGrabbable: {fileID: 3594841392680093891}
+  SecondHandLookSpeed: 40
   CollisionSpring: 3000
   CollisionSlerp: 300
   CollisionLinearMotionX: 1
@@ -2483,20 +2491,20 @@ MonoBehaviour:
   CollisionAngularMotionY: 2
   CollisionAngularMotionZ: 1
   ApplyCorrectiveForce: 1
-  CanBeDropped: 1
-  CanBeSnappedToSnapZone: 1
+  MoveVelocityForce: 3000
+  MoveAngularVelocityForce: 90
   LastGrabTime: 0
   LastDropTime: 0
   AddControllerVelocityOnDrop: 1
+  collisions: []
   ActiveGrabPoint: {fileID: 0}
-  SecondaryGrabbable: {fileID: 3594841392680093891}
-  SecondHandLookSpeed: 40
   SecondaryLookOffset: {x: 90, y: 0, z: 0}
   SecondaryLookAtTransform: {fileID: 0}
   LocalOffsetTransform: {fileID: 0}
   GrabPoints:
   - {fileID: 3594841392019261893}
   - {fileID: 4992691994897585653}
+  UseCustomInspector: 1
 --- !u!82 &3594841392878154753
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2614,6 +2622,7 @@ MonoBehaviour:
   MaxInternalAmmo: 32
   AutoChamberRounds: 1
   MustChamberRounds: 1
+  AlwaysFireProjectile: 0
   FireProjectileInSlowMo: 1
   SlowMoRateOfFire: 0.3
   ShotForce: 20
@@ -2637,11 +2646,14 @@ MonoBehaviour:
   GunShotSound: {fileID: 8300000, guid: 6b23ba5ed1da95140b52f6863122d72b, type: 3}
   EmptySound: {fileID: 8300000, guid: 3ceadf14726b0864fb39bb646c0f9ba0, type: 3}
   SlideDistance: -0.028
-  BulletInChamber: 0
-  EmptyBulletInChamber: 0
   ForceSlideBackOnLastShot: 1
+  slideSpeed: 1
   SecondHandGrabbable: {fileID: 3594841392680093891}
   SecondHandLookSpeed: 40
+  EjectInput: 04000000
+  ReleaseSlideInput: 02000000
+  BulletInChamber: 0
+  EmptyBulletInChamber: 0
   onShootEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -2660,9 +2672,6 @@ MonoBehaviour:
   onRaycastHitEvent:
     m_PersistentCalls:
       m_Calls: []
-  ResetGrabber: 0
-  slideSpeed: 1
-  minSlideDistance: 0.001
 --- !u!114 &3594841392878154759
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3085,10 +3094,14 @@ MonoBehaviour:
   ParentToHands: 0
   ParentHandModel: 1
   SnapHandModel: 1
+  CanBeDropped: 1
+  CanBeSnappedToSnapZone: 1
   ForceDisableKinematicOnDrop: 0
   CustomHandPose: 0
   SecondaryGrabBehavior: 0
   OtherGrabbableMustBeGrabbed: {fileID: 3594841392878154754}
+  SecondaryGrabbable: {fileID: 0}
+  SecondHandLookSpeed: 40
   CollisionSpring: 3000
   CollisionSlerp: 500
   CollisionLinearMotionX: 2
@@ -3098,18 +3111,18 @@ MonoBehaviour:
   CollisionAngularMotionY: 2
   CollisionAngularMotionZ: 2
   ApplyCorrectiveForce: 1
-  CanBeDropped: 1
-  CanBeSnappedToSnapZone: 1
+  MoveVelocityForce: 3000
+  MoveAngularVelocityForce: 90
   LastGrabTime: 0
   LastDropTime: 0
   AddControllerVelocityOnDrop: 1
+  collisions: []
   ActiveGrabPoint: {fileID: 0}
-  SecondaryGrabbable: {fileID: 0}
-  SecondHandLookSpeed: 40
   SecondaryLookOffset: {x: 0, y: 0, z: 0}
   SecondaryLookAtTransform: {fileID: 0}
   LocalOffsetTransform: {fileID: 0}
   GrabPoints: []
+  UseCustomInspector: 1
 --- !u!114 &3594841392909505733
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -40,6 +40,7 @@ namespace BNG {
         Transform rightControllerTranform;
        
         BNGPlayerController player;
+        SmoothLocomotion smoothLocomotion;
         bool didFirstActivate = false;
 
         Grabber grabberLeft;
@@ -62,10 +63,7 @@ namespace BNG {
             player.ElevateCameraIfNoHMDPresent = true;
             _originalPlayerYOffset = player.ElevateCameraHeight;
 
-            // Only useful in the editor
-            if (!Application.isEditor) {
-                Destroy(this);
-            }           
+            smoothLocomotion = player.GetComponentInChildren<SmoothLocomotion>();
         }        
 
         void onFirstActivate() {
@@ -147,11 +145,20 @@ namespace BNG {
         }
 
         public void CheckPlayerControls() {
+
+            // Player Up / Down
             if(Input.GetKey(PlayerUp)) {
                 player.ElevateCameraHeight = Mathf.Clamp(player.ElevateCameraHeight + Time.deltaTime, 0.2f, 5f);
             }
             else if (Input.GetKey(PlayerDown)) {
                 player.ElevateCameraHeight = Mathf.Clamp(player.ElevateCameraHeight - Time.deltaTime, 0.2f, 5f);
+            }
+
+            // Player Move Forward / Back, Snap Turn
+            if(smoothLocomotion != null && smoothLocomotion.enabled == false) {
+                // Manually allow player movement if the smooth locomotion component is disabled
+                smoothLocomotion.UpdateInputs();
+                smoothLocomotion.MoveCharacter();
             }
         }
 
