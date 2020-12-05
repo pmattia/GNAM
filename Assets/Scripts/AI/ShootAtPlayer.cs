@@ -36,6 +36,8 @@ namespace Assets.Scripts.AI
 
             
 
+
+
             // Same as above, but setting the worldUp parameter to Vector3.left in this example turns the camera on its side
             //transform.LookAt(target, Vector3.left);
 
