@@ -1,7 +1,8 @@
 Installation Instructions :
 
-  1. Extract the oculus integration package example that FinalIK provides, found in : "Plugins/RootMotion/FinalIK/_Integration/Oculus (Unity, Oculus Integration).unityPackage"
-  2. Now extract the FinalIK Integration package that this package (VR Interaction Framework) provides, found at : "BNG Framework/Integrations/FinalIK.unityPackage"
+  1. Import the FinalIK package into your project
+  2. Extract the FinalIK Integration package that this package (VR Interaction Framework) provides, found at : "BNG Framework/Integrations/FinalIK.unityPackage"
+  
   
 - After installation, you can run the demo scene that was just extracted into this directory (VRIK.unity). This scene contains a mirror and a few simple items so you can test out how IK works.
   
