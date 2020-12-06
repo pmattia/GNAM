@@ -19,20 +19,20 @@ namespace Assets.Scripts.AI
         public bool shootFoodFirst = true;
 
         private bool isReadyToShoot = true;
+        private bool isShooterEnabled = true;
         private List<Transform> targets = new List<Transform>();
         private Transform currentTarget;
 
         private void Start()
         {
             player = FindObjectOfType<Mouth>().transform;
-            eatables = FindObjectsOfType<Eatable>();
+            
 
             weapons = GetComponentsInChildren<RaycastWeapon>().Where(c => c.enabled == true).ToArray();
             if (!shootFoodFirst)
             { 
                 targets.Add(player); 
             }
-            targets.AddRange(eatables.Select(e => e.transform));
             SetNewTarget();
 
             InvokeRepeating("SetNewTarget", 2.0f, 2f);
@@ -40,19 +40,23 @@ namespace Assets.Scripts.AI
 
         void FixedUpdate()
         {
-            if (currentTarget != null)
-            {
-                TakeAim(currentTarget);
-            }
+            if (isShooterEnabled) { 
+                if (currentTarget != null)
+                {
+                    TakeAim(currentTarget);
+                }
 
-            if (isReadyToShoot)
-            {
-                StartCoroutine(ShootAndRefil());
+                if (isReadyToShoot)
+                {
+                    StartCoroutine(ShootAndRefil());
+                }
             }
         }
 
         void SetNewTarget()
         {
+            eatables = FindObjectsOfType<Eatable>();
+            targets.AddRange(eatables.Select(e => e.transform));
             targets = targets.Where(t => t != null).ToList();
             if (targets.Count() == 0 && shootFoodFirst)
             {
@@ -93,6 +97,14 @@ namespace Assets.Scripts.AI
             // the second argument, upwards, defaults to Vector3.up
             Quaternion toRotation = Quaternion.LookRotation(relativePos, Vector3.up);
             return Quaternion.Lerp(transform.rotation, toRotation, speed * Time.deltaTime);
+        }
+        public void EnableShooter()
+        {
+            isShooterEnabled = true;
+        }
+        public void DisableShooter()
+        {
+            isShooterEnabled = false;
         }
 
     }

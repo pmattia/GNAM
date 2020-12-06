@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using TMPro;
+using Assets.Scripts.AI;
 
 public class TableBelt : MonoBehaviour
 {
+    public List<ShootAtTargets> shooters;
     public List<GameObject> trays = new List<GameObject>();
     public Foodbag[] foodbagsRepository;
     public PathNode[] nodes;
