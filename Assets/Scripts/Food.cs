@@ -22,6 +22,7 @@ public class Food : MonoBehaviour
         foreach (var eatable in eatableParts)
         {
             eatable.onEated += (eater) => PartEated(eater, eatable);
+            eatable.onExploded += () => Destroy(gameObject);
         }
     }
 
@@ -41,6 +42,25 @@ public class Food : MonoBehaviour
             {
                 onEated(eater);
             }
+            Destroy(gameObject);
+        }
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log(collision);
+        CheckProjectile(collision.gameObject);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log(other);
+        CheckProjectile(other.gameObject);
+    }
+
+    private void CheckProjectile(GameObject projectile)
+    {
+        if (projectile.GetComponent<Projectile>() != null)
+        {
             Destroy(gameObject);
         }
     }
