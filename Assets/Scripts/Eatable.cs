@@ -32,17 +32,17 @@ public class Eatable : MonoBehaviour
         return modifiers;
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        Debug.Log(collision);
-        CheckProjectile(collision.gameObject);
-    }
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    Debug.Log(collision);
+    //    CheckProjectile(collision.gameObject);
+    //}
 
-    private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log(other);
-        CheckProjectile(other.gameObject);
-    }
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    Debug.Log(other);
+    //    CheckProjectile(other.gameObject);
+    //}
 
     private void CheckProjectile(GameObject projectile)
     {

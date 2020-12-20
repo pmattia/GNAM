@@ -441,6 +441,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &239072686 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4865913262836185445, guid: cbae33f26f4950541b90d221364678c8,
+    type: 3}
+  m_PrefabInstance: {fileID: 923410726}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f629ae7b385ebbc489b5eb0f82e81678, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &302651574
 GameObject:
   m_ObjectHideFlags: 0
@@ -607,18 +619,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5eb0428af318a024da839f9b6ea03946, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shooters: []
+  shooters:
+  - {fileID: 239072686}
+  - {fileID: 1260164396}
+  - {fileID: 910452635}
+  - {fileID: 1232528540}
   trays: []
   foodbagsRepository:
-  - {fileID: 3647016660128577073, guid: 4257a83adb82e7a4fa22ee1b9a02068f, type: 3}
-  - {fileID: 4640945231051941026, guid: f30e3ecd199766c4bb856c0c29b3d7a7, type: 3}
-  - {fileID: 2414996108566652068, guid: 8a3da664d28a7f3439258e5bfb3a3e26, type: 3}
-  - {fileID: 2713766468929748897, guid: a5d60d466c96b804c87f2b469b855afe, type: 3}
-  - {fileID: 2275663245708806935, guid: 7f1bbc9796bde8144841fee58a040eed, type: 3}
-  - {fileID: 7102403300666080156, guid: 84518d8b58a4a404cafa381a05eea97d, type: 3}
-  - {fileID: 4484759516239252977, guid: 13a7c1ddce7d8c646a03bc1fe6327b12, type: 3}
-  - {fileID: 3396732986127359795, guid: 7c7e15b14559e7b4486f4f79b0235b61, type: 3}
-  - {fileID: 2898306043522474075, guid: c36467d032ee2ba47980c7ac9181fdf5, type: 3}
+  - {fileID: 2275663245708806934, guid: 7f1bbc9796bde8144841fee58a040eed, type: 3}
+  - {fileID: 7102403300666080163, guid: 84518d8b58a4a404cafa381a05eea97d, type: 3}
   nodes:
   - {fileID: 363015835}
   - {fileID: 1760217957}
@@ -717,6 +726,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ShooterCat (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4865913262836185443, guid: cbae33f26f4950541b90d221364678c8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4865913262836185444, guid: cbae33f26f4950541b90d221364678c8,
         type: 3}
@@ -878,6 +892,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ShooterCat (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4865913262836185443, guid: cbae33f26f4950541b90d221364678c8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4865913262836185444, guid: cbae33f26f4950541b90d221364678c8,
         type: 3}
@@ -1137,6 +1156,18 @@ Transform:
   m_Father: {fileID: 1682991650}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &910452635 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4865913262836185445, guid: cbae33f26f4950541b90d221364678c8,
+    type: 3}
+  m_PrefabInstance: {fileID: 547443770}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f629ae7b385ebbc489b5eb0f82e81678, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &911014304
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1307,6 +1338,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ShooterCat
+      objectReference: {fileID: 0}
+    - target: {fileID: 4865913262836185443, guid: cbae33f26f4950541b90d221364678c8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4865913262836185444, guid: cbae33f26f4950541b90d221364678c8,
         type: 3}
@@ -2708,6 +2744,30 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!114 &1232528540 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4865913262836185445, guid: cbae33f26f4950541b90d221364678c8,
+    type: 3}
+  m_PrefabInstance: {fileID: 710887030}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f629ae7b385ebbc489b5eb0f82e81678, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1260164396 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4865913262836185445, guid: cbae33f26f4950541b90d221364678c8,
+    type: 3}
+  m_PrefabInstance: {fileID: 1515312807}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f629ae7b385ebbc489b5eb0f82e81678, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1352521491
 GameObject:
   m_ObjectHideFlags: 0
@@ -3100,6 +3160,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ShooterCat (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4865913262836185443, guid: cbae33f26f4950541b90d221364678c8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4865913262836185444, guid: cbae33f26f4950541b90d221364678c8,
         type: 3}
@@ -4279,11 +4344,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Foodbag5
       objectReference: {fileID: 0}
-    - target: {fileID: 2275663245708806934, guid: 7f1bbc9796bde8144841fee58a040eed,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f1bbc9796bde8144841fee58a040eed, type: 3}
 --- !u!1001 &2414996108750044626
@@ -4356,7 +4416,7 @@ PrefabInstance:
     - target: {fileID: 2414996108566652071, guid: 8a3da664d28a7f3439258e5bfb3a3e26,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a3da664d28a7f3439258e5bfb3a3e26, type: 3}
@@ -4375,7 +4435,7 @@ PrefabInstance:
     - target: {fileID: 2713766468929748896, guid: a5d60d466c96b804c87f2b469b855afe,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2713766468929748898, guid: a5d60d466c96b804c87f2b469b855afe,
         type: 3}
@@ -4504,7 +4564,7 @@ PrefabInstance:
     - target: {fileID: 2898306043522474074, guid: c36467d032ee2ba47980c7ac9181fdf5,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c36467d032ee2ba47980c7ac9181fdf5, type: 3}
@@ -4523,7 +4583,7 @@ PrefabInstance:
     - target: {fileID: 3396732986127359792, guid: 7c7e15b14559e7b4486f4f79b0235b61,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3396732986127359794, guid: 7c7e15b14559e7b4486f4f79b0235b61,
         type: 3}
@@ -4652,7 +4712,7 @@ PrefabInstance:
     - target: {fileID: 3647016660128577078, guid: 4257a83adb82e7a4fa22ee1b9a02068f,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4257a83adb82e7a4fa22ee1b9a02068f, type: 3}
@@ -4726,7 +4786,7 @@ PrefabInstance:
     - target: {fileID: 4484759516239252978, guid: 13a7c1ddce7d8c646a03bc1fe6327b12,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 13a7c1ddce7d8c646a03bc1fe6327b12, type: 3}
@@ -4745,7 +4805,7 @@ PrefabInstance:
     - target: {fileID: 4640945231051941025, guid: f30e3ecd199766c4bb856c0c29b3d7a7,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4640945231051941027, guid: f30e3ecd199766c4bb856c0c29b3d7a7,
         type: 3}
@@ -4939,11 +4999,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Foodbag6
-      objectReference: {fileID: 0}
-    - target: {fileID: 7102403300666080163, guid: 84518d8b58a4a404cafa381a05eea97d,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84518d8b58a4a404cafa381a05eea97d, type: 3}

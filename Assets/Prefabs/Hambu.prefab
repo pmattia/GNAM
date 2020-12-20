@@ -52,6 +52,7 @@ MonoBehaviour:
   IndexBlendMax: 0
   ThumbBlendMin: 0
   ThumbBlendMax: 0
+  ShowAngleGizmo: 1
 --- !u!1 &8676218058530456345
 GameObject:
   m_ObjectHideFlags: 0
@@ -104,6 +105,7 @@ MonoBehaviour:
   IndexBlendMax: 0
   ThumbBlendMin: 0
   ThumbBlendMax: 0
+  ShowAngleGizmo: 1
 --- !u!1 &8676218059443111893
 GameObject:
   m_ObjectHideFlags: 0
@@ -216,9 +218,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa13b59692476bc439841b0f831619a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouthModifiers: []
-  handsModifiers: []
+  modifiers: []
   eatTime: 1
+  grabPoints: []
 --- !u!1 &8676218059602348406
 GameObject:
   m_ObjectHideFlags: 0
@@ -232,6 +234,7 @@ GameObject:
   - component: {fileID: 8676218059602348405}
   - component: {fileID: 8676218059602348404}
   - component: {fileID: 8676218059602348407}
+  - component: {fileID: 7295214453817611713}
   m_Layer: 10
   m_Name: Hambu
   m_TagString: Untagged
@@ -357,3 +360,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eatableParts:
   - {fileID: 8676218059971180237}
+--- !u!114 &7295214453817611713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8676218059602348406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c6de38f13d6b1443b2c5a5a20ac08d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Health: 10
+  SpawnOnDeath: {fileID: 0}
+  ActivateGameObjectsOnDeath: []
+  DeactivateGameObjectsOnDeath: []
+  DeactivateCollidersOnDeath: []
+  DestroyOnDeath: 1
+  DropOnDeath: 1
+  DestroyDelay: 0
+  Respawn: 0
+  RespawnTime: 10
+  RemoveBulletHolesOnDeath: 1
+  onDamaged:
+    m_PersistentCalls:
+      m_Calls: []
+  onDestroyed:
+    m_PersistentCalls:
+      m_Calls: []
+  onRespawn:
+    m_PersistentCalls:
+      m_Calls: []

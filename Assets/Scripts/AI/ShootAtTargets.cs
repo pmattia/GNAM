@@ -12,7 +12,7 @@ namespace Assets.Scripts.AI
     public class ShootAtTargets : MonoBehaviour
     {
         RaycastWeapon[] weapons;
-        Eatable[] eatables;
+        Food[] foods;
         Transform player;
         
         public float speed = 10;
@@ -55,8 +55,8 @@ namespace Assets.Scripts.AI
 
         void SetNewTarget()
         {
-            eatables = FindObjectsOfType<Eatable>();
-            targets.AddRange(eatables.Select(e => e.transform));
+            foods = FindObjectsOfType<Food>();
+            targets.AddRange(foods.Select(e => e.transform));
             targets = targets.Where(t => t != null).ToList();
             if (targets.Count() == 0 && shootFoodFirst)
             {
@@ -70,12 +70,12 @@ namespace Assets.Scripts.AI
 
         IEnumerator ShootAndRefil()
         {
-            yield return new WaitForFixedUpdate();
+            isReadyToShoot = false;
+            yield return new WaitForSeconds(1);
             foreach(var weapon in weapons)
             {
                 weapon.Shoot();
             }
-            isReadyToShoot = false;
             yield return new WaitForSeconds(3);
             isReadyToShoot = true;
         }

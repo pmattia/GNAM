@@ -4,12 +4,13 @@ using UnityEngine;
 using System.Linq;
 using TMPro;
 using Assets.Scripts.AI;
+using BNG;
 
 public class TableBelt : MonoBehaviour
 {
     public List<ShootAtTargets> shooters;
     public List<GameObject> trays = new List<GameObject>();
-    public Foodbag[] foodbagsRepository;
+    public GameObject[] foodbagsRepository;
     public PathNode[] nodes;
     public int maxTrayOnTable;
     public float speed;
@@ -30,29 +31,38 @@ public class TableBelt : MonoBehaviour
     {
         get
         {  
-            return isPlaying && trays.All(t => t.GetComponent<PathNodesFollower>().GetCurrentNodeIndex() > (nodes.Length - maxTrayOnTable));
+            return isPlaying 
+                    && trays.All(t => t.GetComponent<PathNodesFollower>().GetCurrentNodeIndex() > (nodes.Length - maxTrayOnTable))
+                    && trays.All(t => t.GetComponent<PathNodesFollower>().GetCurrentNodeIndex() > 0)
+                    ;
         }
     }
 
     GameObject CloneRandomFoodbag()
     {
-        //var foodbag = foodbagsRepository[Random.Range(0, foodbagsRepository.Length)];
-        var foodbag = foodbagsRepository[4];
-        var clone = Instantiate(foodbag.gameObject, nodes[0].transform.position, Quaternion.identity);
-        var cloneFollower = AttachFollowPath(clone);
-        cloneFollower.StartMoving();
+        var foodbag = foodbagsRepository[Random.Range(0, foodbagsRepository.Length)];
+        //var foodbag = foodbagsRepository[4];
+        var clone = Instantiate(foodbag, nodes[0].transform.position, Quaternion.identity);
 
-        var cloneFoodbag = clone.GetComponent<Foodbag>();
-
-        cloneFoodbag.onClear += () => { 
+        var cloneFoodbag = clone.GetComponentInChildren<Foodbag>();
+        cloneFoodbag.onClear += () =>
+        {
             speed += speed * .1f;
             nodePause -= nodePause * .1f;
             var points = int.Parse(billboard.text);
             billboard.text = (points + 10).ToString();
+            var validShooters = shooters.Where(s => !s.gameObject.activeSelf).ToArray();
+            if (validShooters.Length > 0)
+            {
+                var shooter = validShooters[Random.Range(0, validShooters.Length)];
+                shooter.gameObject.SetActive(true);
+            }
         };
         cloneFoodbag.onClear += modifierSpawner.SpawnNewBonus;
 
-        return clone;
+        AttachFollowPath(cloneFoodbag).StartMoving();
+
+        return cloneFoodbag.gameObject;
     }
 
     void OnTrayEndOfPath(GameObject gameobject)
@@ -65,12 +75,13 @@ public class TableBelt : MonoBehaviour
 
     void AddTrayToTable()
     {
-        trays.Add(CloneRandomFoodbag());
+        var newTray = CloneRandomFoodbag();
+        trays.Add(newTray);
     }
 
-    PathNodesFollower AttachFollowPath(GameObject clone)
+    PathNodesFollower AttachFollowPath(Foodbag foodbag)
     {
-        var followerComponent = clone.AddComponent<PathNodesFollower>();
+        var followerComponent = foodbag.gameObject.AddComponent<PathNodesFollower>();
         followerComponent.SetNodes(this.nodes);
         followerComponent.SetSpeed(this.speed);
         followerComponent.SetNodePause(this.nodePause);
