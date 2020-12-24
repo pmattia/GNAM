@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts;
+using Assets.Scripts.Interfaces;
 using BNG;
 using System;
 using System.Collections;
@@ -11,11 +12,7 @@ public class Food : MonoBehaviour
     public List<Eatable> eatableParts;
     public event Action<EaterDto> onEated;
     public event Action<EaterDto> onBited;
-
-    public virtual void Awake()
-    {
-    }
-
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -26,7 +23,7 @@ public class Food : MonoBehaviour
         }
     }
 
-    private void PartEated(EaterDto eater, Eatable eated)
+    void PartEated(EaterDto eater, Eatable eated)
     {
         Destroy(eated.gameObject);
         if (onBited != null)
