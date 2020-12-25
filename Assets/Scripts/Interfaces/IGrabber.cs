@@ -9,5 +9,6 @@ namespace Assets.Scripts.ScriptableObjects
     public interface IGrabber
     {
         bool ForceGrab { get; set; }
+        bool Enabled { get; set; }
     }
 }

@@ -23,5 +23,17 @@ namespace Assets.Scripts.Interfaces
                 _grabber.ForceGrab = value;
             }
         }
+
+        public bool Enabled
+        {
+            get
+            {
+                return _grabber.enabled;
+            }
+            set
+            {
+                _grabber.enabled = value;
+            }
+        }
     }
 }

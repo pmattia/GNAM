@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,24 +11,36 @@ namespace Assets.Scripts.ScriptableObjects
     [CreateAssetMenu]
     public class ExplodeHandsModifier : GnamModifier
     {
+        public float duration = 3;
         public AudioClip explodeClip;
         public GameObject explodeParticle;
+
+        private GameObject leftModel;
+        private GameObject rightModel;
+
         public override void Activate(EaterDto eater)
         {
-            eater.Mouth.PlaySound(explodeClip);
-            foreach (Transform model in eater.Hands.LeftHandHolder.transform)
-            {
-                Destroy(model.gameObject);
-            }
-            var particleGameobjectL = Instantiate(explodeParticle, eater.Hands.LeftHandHolder.transform.position, eater.Hands.LeftHandHolder.transform.rotation);
-            particleGameobjectL.transform.parent = eater.Hands.LeftHandHolder.transform;
+            var leftHandHolder = eater.Hands.LeftHandHolder;
+            var rightHandHolder = eater.Hands.RightHandHolder;
 
-            foreach (Transform model in eater.Hands.RightHandHolder.transform)
-            {
-                Destroy(model.gameObject);
-            }
-            var particleGameobjectR = Instantiate(explodeParticle, eater.Hands.RightHandHolder.transform.position, eater.Hands.RightHandHolder.transform.rotation);
-            particleGameobjectR.transform.parent = eater.Hands.RightHandHolder.transform;   
+            eater.Mouth.PlaySound(explodeClip);
+            leftModel = base.DisableLeftHand(eater.Hands);
+            base.AttachToLeftHand(eater.Hands, explodeParticle);
+
+            leftModel = base.DisableRightHand(eater.Hands);
+            base.AttachToRightHand(eater.Hands, explodeParticle);
+
+            eater.Hands.StartCoroutine(WaitToReattach(eater));
+        }
+
+        IEnumerator WaitToReattach(EaterDto eater)
+        {
+            yield return new WaitForSeconds(duration);
+
+            leftModel.SetActive(true);
+            eater.Hands.LeftGrabber.Enabled = true;
+            rightModel.SetActive(true);
+            eater.Hands.RightGrabber.Enabled = true;
         }
     }
 }

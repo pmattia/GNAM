@@ -10,23 +10,27 @@ namespace Assets.Scripts.ScriptableObjects
     [CreateAssetMenu]
     public class EatableHandsModifier : GnamModifier
     {
+        private GameObject leftModel;
+        private GameObject rightModel;
+
         public GameObject eatablePrefab;
         public override void Activate(EaterDto eater)
         {
-            Debug.Log("eatable");
-            foreach (Transform model in eater.Hands.LeftHandHolder.transform)
+            leftModel = base.DisableLeftHand(eater.Hands);
+            var eatableLeft = base.AttachToLeftHand(eater.Hands, eatablePrefab).GetComponent<Eatable>();
+            eatableLeft.onEated += (leftEater) =>
             {
-                Destroy(model.gameObject);
-            }
-            var particleGameobjectL = Instantiate(eatablePrefab, eater.Hands.LeftHandHolder.transform.position, eater.Hands.LeftHandHolder.transform.rotation);
-            particleGameobjectL.transform.parent = eater.Hands.LeftHandHolder.transform;
+                leftModel.SetActive(true);
+                leftEater.Hands.LeftGrabber.Enabled = true;
+            };
 
-            foreach (Transform model in eater.Hands.RightHandHolder.transform)
+            rightModel = base.DisableRightHand(eater.Hands);
+            var eatableRight = base.AttachToRightHand(eater.Hands, eatablePrefab).GetComponent<Eatable>();
+            eatableRight.onEated += (righEater) =>
             {
-                Destroy(model.gameObject);
-            }
-            var particleGameobjectR = Instantiate(eatablePrefab, eater.Hands.RightHandHolder.transform.position, eater.Hands.RightHandHolder.transform.rotation);
-            particleGameobjectR.transform.parent = eater.Hands.RightHandHolder.transform;
+                rightModel.SetActive(true);
+                righEater.Hands.RightGrabber.Enabled = true;
+            };
         }
     }
 }
