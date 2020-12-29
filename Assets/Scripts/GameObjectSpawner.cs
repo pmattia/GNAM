@@ -4,11 +4,9 @@ using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
-public class ModifierSpawner : MonoBehaviour
+public class GameObjectSpawner : MonoBehaviour
 {
-    public GameObject[] modifiersRepository;
-    public float cooldown = 4;
-    float realtimeCooldown;
+    public GameObject[] objects;
     GameObject currentModifier;
     AudioSource audioSource;
     // Start is called before the first frame update
@@ -29,8 +27,7 @@ public class ModifierSpawner : MonoBehaviour
         {
             Destroy(currentModifier);
         }
-        realtimeCooldown = cooldown;
-        var modifier = modifiersRepository[Random.Range(0, modifiersRepository.Length)];
+        var modifier = objects[Random.Range(0, objects.Length)];
         currentModifier = Instantiate(modifier.gameObject, transform.position, Quaternion.identity);
         audioSource.Play();
     }

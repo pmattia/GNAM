@@ -12,6 +12,7 @@ public class Food : MonoBehaviour
     public List<Eatable> eatableParts;
     public event Action<EaterDto> onEated;
     public event Action<EaterDto> onBited;
+    public FoodFamily foodFamily;
     
     // Start is called before the first frame update
     void Start()
@@ -42,23 +43,14 @@ public class Food : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    private void OnCollisionEnter(Collision collision)
-    {
-        Debug.Log(collision);
-        CheckProjectile(collision.gameObject);
-    }
 
-    private void OnTriggerEnter(Collider other)
+    public enum FoodFamily
     {
-        Debug.Log(other);
-        CheckProjectile(other.gameObject);
+        Vegetable,
+        Fruit,
+        Meat,
+        Carbo,
+        Candy
     }
-
-    private void CheckProjectile(GameObject projectile)
-    {
-        if (projectile.GetComponent<Projectile>() != null)
-        {
-            Destroy(gameObject);
-        }
-    }
+    
 }

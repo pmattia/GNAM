@@ -8,6 +8,7 @@ using Assets.Scripts;
 public class Foodbag : MonoBehaviour
 {
     public event Action onClear;
+    public event Action<EaterDto,Food> onFoodEated;
     public List<Food> foods;
     // Start is called before the first frame update
     void Start()
@@ -28,7 +29,13 @@ public class Foodbag : MonoBehaviour
     {
         Destroy(eated.gameObject);
         foods.Remove(eated);
-        if (foods.Count() == 0)
+        
+        if(onFoodEated != null)
+        {
+            onFoodEated(eater, eated);
+        }
+
+        if (foods.Count() == 0 && onClear != null)
         {
             onClear();
         }

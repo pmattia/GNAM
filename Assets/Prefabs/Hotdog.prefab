@@ -109,9 +109,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa13b59692476bc439841b0f831619a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouthModifiers: []
-  handsModifiers: []
+  modifiers: []
   eatTime: 1
+  grabPoints: []
 --- !u!1 &2712073891374651868
 GameObject:
   m_ObjectHideFlags: 0
@@ -250,6 +250,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eatableParts:
   - {fileID: 2712073890407220527}
+  foodFamily: 2
 --- !u!1 &2712073891924197718
 GameObject:
   m_ObjectHideFlags: 0
@@ -302,6 +303,7 @@ MonoBehaviour:
   IndexBlendMax: 0
   ThumbBlendMin: 0
   ThumbBlendMax: 0
+  ShowAngleGizmo: 1
 --- !u!1 &2836266522982989285
 GameObject:
   m_ObjectHideFlags: 0
@@ -354,3 +356,4 @@ MonoBehaviour:
   IndexBlendMax: 0
   ThumbBlendMin: 0
   ThumbBlendMax: 0
+  ShowAngleGizmo: 1

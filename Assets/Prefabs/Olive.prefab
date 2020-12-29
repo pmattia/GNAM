@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 1832999404255990815}
   - component: {fileID: 1832999404255990803}
   - component: {fileID: 1832999404255990802}
+  - component: {fileID: 8046145454797862328}
   m_Layer: 10
   m_Name: Olive
   m_TagString: Untagged
@@ -144,9 +145,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa13b59692476bc439841b0f831619a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouthModifiers: []
-  handsModifiers: []
+  modifiers: []
   eatTime: 0.5
+  grabPoints: []
 --- !u!114 &1832999404255990802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,6 +206,20 @@ MonoBehaviour:
   - {fileID: 1832999404523200939}
   - {fileID: 1832999405378719341}
   UseCustomInspector: 1
+--- !u!114 &8046145454797862328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1832999403892923742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60be5d62bb064fd4d8021dae00be3f6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eatableParts:
+  - {fileID: 1832999404255990803}
 --- !u!1 &1832999404523200936
 GameObject:
   m_ObjectHideFlags: 0
@@ -257,6 +272,7 @@ MonoBehaviour:
   IndexBlendMax: 0
   ThumbBlendMin: 0
   ThumbBlendMax: 0
+  ShowAngleGizmo: 1
 --- !u!1 &1832999405378719330
 GameObject:
   m_ObjectHideFlags: 0
@@ -309,3 +325,4 @@ MonoBehaviour:
   IndexBlendMax: 0
   ThumbBlendMin: 0
   ThumbBlendMax: 0
+  ShowAngleGizmo: 1

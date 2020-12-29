@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts;
+using Assets.Scripts.Interfaces;
 using Assets.Scripts.ScriptableObjects;
 using BNG;
 using System;
@@ -44,15 +45,15 @@ public class Eatable : MonoBehaviour
     //    CheckProjectile(other.gameObject);
     //}
 
-    private void CheckProjectile(GameObject projectile)
-    {
-        if (projectile.GetComponent<Projectile>() != null)
-        {
-            if (onExploded != null)
-            {
-                onExploded();
-            }
-            Destroy(gameObject);
-        }
-    }
+    //private void CheckProjectile(GameObject projectile)
+    //{
+    //    //if (projectile.GetComponent<Projectile>() != null)
+    //    //{
+    //    //    Destroy(gameObject);
+    //    //}
+    //    if (projectile.GetComponent<GnamModifierProjectile>() != null)
+    //    {
+    //        var modifier
+    //    }
+    //}
 }

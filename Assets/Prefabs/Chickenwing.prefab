@@ -160,6 +160,7 @@ MonoBehaviour:
   - {fileID: 5822255954215502839}
   - {fileID: 242269865550872676}
   - {fileID: 8463924229997674426}
+  foodFamily: 2
 --- !u!1 &4851592301258745248
 GameObject:
   m_ObjectHideFlags: 0
@@ -265,7 +266,9 @@ MonoBehaviour:
   SecondaryLookOffset: {x: 0, y: 0, z: 0}
   SecondaryLookAtTransform: {fileID: 0}
   LocalOffsetTransform: {fileID: 0}
-  GrabPoints: []
+  GrabPoints:
+  - {fileID: 5715505121847821668}
+  - {fileID: 5715505121322137771}
   UseCustomInspector: 1
   holder: {fileID: 7450121225566365781}
   holderGrabPoints:

@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 5506529385073030766}
   - component: {fileID: 5506529385073030753}
   - component: {fileID: 5506529385073030752}
+  - component: {fileID: 8874327007833312871}
   m_Layer: 10
   m_Name: Watermelon
   m_TagString: Untagged
@@ -205,9 +206,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa13b59692476bc439841b0f831619a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouthModifiers: []
-  handsModifiers: []
+  modifiers: []
   eatTime: 1
+  grabPoints: []
+--- !u!114 &8874327007833312871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5506529385072996554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60be5d62bb064fd4d8021dae00be3f6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eatableParts:
+  - {fileID: 5506529385073030752}
+  foodFamily: 1
 --- !u!1 &5506529385608779401
 GameObject:
   m_ObjectHideFlags: 0
@@ -260,6 +276,7 @@ MonoBehaviour:
   IndexBlendMax: 0
   ThumbBlendMin: 0
   ThumbBlendMax: 0
+  ShowAngleGizmo: 1
 --- !u!1 &5506529385816206756
 GameObject:
   m_ObjectHideFlags: 0
@@ -312,6 +329,7 @@ MonoBehaviour:
   IndexBlendMax: 0
   ThumbBlendMin: 0
   ThumbBlendMax: 0
+  ShowAngleGizmo: 1
 --- !u!1 &5506529386210693435
 GameObject:
   m_ObjectHideFlags: 0
@@ -364,6 +382,7 @@ MonoBehaviour:
   IndexBlendMax: 0
   ThumbBlendMin: 0
   ThumbBlendMax: 0
+  ShowAngleGizmo: 1
 --- !u!1 &5506529386694716007
 GameObject:
   m_ObjectHideFlags: 0
@@ -416,6 +435,7 @@ MonoBehaviour:
   IndexBlendMax: 0
   ThumbBlendMin: 0
   ThumbBlendMax: 0
+  ShowAngleGizmo: 1
 --- !u!1 &5506529387097553085
 GameObject:
   m_ObjectHideFlags: 0

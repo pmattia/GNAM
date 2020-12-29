@@ -5,6 +5,8 @@ using System.Linq;
 using TMPro;
 using Assets.Scripts.AI;
 using BNG;
+using Assets.Scripts;
+using static Assets.Scripts.Billboard;
 
 public class TableBelt : MonoBehaviour
 {
@@ -15,16 +17,71 @@ public class TableBelt : MonoBehaviour
     public int maxTrayOnTable;
     public float speed;
     public float nodePause = 4;
-    public ModifierSpawner modifierSpawner;
-    public TextMeshPro billboard;
+    public GameObjectSpawner bonusSpawner;
+    public Billboard billboard;
     public Timer timer;
     bool isPlaying = true;
+    public int currentLevel = 1;
 
     void Start()
     {
         timer.onExpired += () => { isPlaying = false; };
         timer.SetTimer(60);
         timer.StartTimer();
+
+        billboard.SetLevel(GetLevel(currentLevel));
+        billboard.onObjectiveCompleted += (family) =>
+        {
+            Debug.Log("OBJECTIVE COMPLETED FOR " + family);
+            speed += speed * .1f;
+            nodePause -= nodePause * .1f;
+            bonusSpawner.SpawnNewBonus();
+        };
+        billboard.onMatchCompleted += () =>
+        {
+            currentLevel++;
+            billboard.SetLevel(GetLevel(currentLevel));
+
+            var validShooters = shooters.Where(s => !s.gameObject.activeSelf).ToArray();
+            if (validShooters.Length > 0)
+            {
+                var shooter = validShooters[Random.Range(0, validShooters.Length)];
+                shooter.gameObject.SetActive(true);
+            }
+        };
+    }
+
+    LevelDto GetLevel(int levelIndex)
+    {
+        var level = new LevelDto();
+        level.level = levelIndex;
+        level.objectives.Add(new ObjectiveDto()
+        {
+            family = Food.FoodFamily.Candy,
+            toEat = Mathf.CeilToInt((1f * levelIndex))
+        });
+        level.objectives.Add(new ObjectiveDto()
+        {
+            family = Food.FoodFamily.Carbo,
+            toEat = Mathf.CeilToInt((.5f * levelIndex))
+        });
+        level.objectives.Add(new ObjectiveDto()
+        {
+            family = Food.FoodFamily.Fruit,
+            toEat = Mathf.CeilToInt((.5f * levelIndex))
+        });
+        level.objectives.Add(new ObjectiveDto()
+        {
+            family = Food.FoodFamily.Meat,
+            toEat = Mathf.CeilToInt((2f * levelIndex))
+        });
+        level.objectives.Add(new ObjectiveDto()
+        {
+            family = Food.FoodFamily.Vegetable,
+            toEat = Mathf.CeilToInt((.3f * levelIndex))
+        });
+
+        return level;
     }
 
     bool CanAddTray
@@ -45,20 +102,13 @@ public class TableBelt : MonoBehaviour
         var clone = Instantiate(foodbag, nodes[0].transform.position, Quaternion.identity);
 
         var cloneFoodbag = clone.GetComponentInChildren<Foodbag>();
-        cloneFoodbag.onClear += () =>
+       
+        cloneFoodbag.onFoodEated += (eater, eated) =>
         {
-            speed += speed * .1f;
-            nodePause -= nodePause * .1f;
-            var points = int.Parse(billboard.text);
-            billboard.text = (points + 10).ToString();
-            var validShooters = shooters.Where(s => !s.gameObject.activeSelf).ToArray();
-            if (validShooters.Length > 0)
-            {
-                var shooter = validShooters[Random.Range(0, validShooters.Length)];
-                shooter.gameObject.SetActive(true);
-            }
+            billboard.AddFood(eated.foodFamily);
         };
-        cloneFoodbag.onClear += modifierSpawner.SpawnNewBonus;
+        cloneFoodbag.onClear += bonusSpawner.SpawnNewBonus;
+        
 
         AttachFollowPath(cloneFoodbag).StartMoving();
 

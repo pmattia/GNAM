@@ -52,6 +52,7 @@ MonoBehaviour:
   IndexBlendMax: 0
   ThumbBlendMin: 0
   ThumbBlendMax: 0
+  ShowAngleGizmo: 1
 --- !u!1 &3847170122268008777
 GameObject:
   m_ObjectHideFlags: 0
@@ -67,6 +68,7 @@ GameObject:
   - component: {fileID: 3847170122268008782}
   - component: {fileID: 3847170122268008783}
   - component: {fileID: 3847170122268008776}
+  - component: {fileID: 2626905645915470483}
   m_Layer: 10
   m_Name: pasticcinoFixed
   m_TagString: Untagged
@@ -240,6 +242,21 @@ MonoBehaviour:
   modifiers: []
   eatTime: 0.5
   grabPoints: []
+--- !u!114 &2626905645915470483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3847170122268008777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60be5d62bb064fd4d8021dae00be3f6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eatableParts:
+  - {fileID: 3847170122268008776}
+  foodFamily: 4
 --- !u!1 &3847170122630200519
 GameObject:
   m_ObjectHideFlags: 0
@@ -292,3 +309,4 @@ MonoBehaviour:
   IndexBlendMax: 0
   ThumbBlendMin: 0
   ThumbBlendMax: 0
+  ShowAngleGizmo: 1

@@ -201,6 +201,7 @@ GameObject:
   - component: {fileID: 1502710768572828688}
   - component: {fileID: 1502710768572828689}
   - component: {fileID: 1502710768572828690}
+  - component: {fileID: 6760124184083580619}
   m_Layer: 10
   m_Name: Nugget
   m_TagString: Untagged
@@ -313,6 +314,21 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.08220637, y: 0.031141937, z: 0.051660776}
   m_Center: {x: -0.0023556352, y: 0.012381941, z: 0.000012516975}
+--- !u!114 &6760124184083580619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1502710768572828691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60be5d62bb064fd4d8021dae00be3f6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eatableParts:
+  - {fileID: 846907752742698663}
+  foodFamily: 2
 --- !u!1 &2798071349230037119
 GameObject:
   m_ObjectHideFlags: 0

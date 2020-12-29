@@ -52,6 +52,7 @@ MonoBehaviour:
   IndexBlendMax: 0
   ThumbBlendMin: 0
   ThumbBlendMax: 0
+  ShowAngleGizmo: 1
 --- !u!1 &7882648339783236581
 GameObject:
   m_ObjectHideFlags: 0
@@ -104,6 +105,7 @@ MonoBehaviour:
   IndexBlendMax: 0
   ThumbBlendMin: 0
   ThumbBlendMax: 0
+  ShowAngleGizmo: 1
 --- !u!1 &7882648339963000999
 GameObject:
   m_ObjectHideFlags: 0
@@ -120,6 +122,7 @@ GameObject:
   - component: {fileID: 7882648339860322625}
   - component: {fileID: 7882648339860322628}
   - component: {fileID: 7569166672347075907}
+  - component: {fileID: 1066959075681025885}
   m_Layer: 10
   m_Name: Banana
   m_TagString: Untagged
@@ -309,3 +312,18 @@ MonoBehaviour:
   - {fileID: 7882648339783236580}
   - {fileID: 2965062394239300947}
   UseCustomInspector: 1
+--- !u!114 &1066959075681025885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7882648339963000999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60be5d62bb064fd4d8021dae00be3f6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eatableParts:
+  - {fileID: 7882648339860322628}
+  foodFamily: 1
