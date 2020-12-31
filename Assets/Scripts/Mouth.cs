@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Timeline;
 
 namespace Assets.Scripts
@@ -60,6 +61,11 @@ namespace Assets.Scripts
                     StartCoroutine(WaitToSwallow(eatable));
 
                     eatable.Eat(Eater);
+                }
+
+                if (other.GetComponent<Projectile>() != null)
+                {
+                    SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
                 }
             }
         }

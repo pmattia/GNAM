@@ -22,6 +22,7 @@ namespace Assets.Scripts.AI
         private bool isShooterEnabled = true;
         private List<Transform> targets = new List<Transform>();
         private Transform currentTarget;
+        private Damageable damageable;
 
         private void Start()
         {
@@ -35,7 +36,7 @@ namespace Assets.Scripts.AI
             }
             SetNewTarget();
 
-            InvokeRepeating("SetNewTarget", 2.0f, 2f);
+            InvokeRepeating("SetNewTarget", UnityEngine.Random.Range(2, 5), UnityEngine.Random.Range(2, 5));
         }
 
         void FixedUpdate()
@@ -55,9 +56,26 @@ namespace Assets.Scripts.AI
 
         void SetNewTarget()
         {
-            foods = FindObjectsOfType<Food>();
-            targets.AddRange(foods.Select(e => e.transform));
-            targets = targets.Where(t => t != null).ToList();
+            targets.Clear();
+            var tableBelt = FindObjectOfType<TableBelt>();
+            if (tableBelt != null)
+            {
+                if (tableBelt.trays.Count > 0)
+                {
+                    var foodbags = tableBelt.trays.Select(t => t.GetComponentInChildren<Foodbag>()).ToList();
+                    var paths = foodbags.Select(t => t.GetComponent<PathNodesFollower>()).ToList();
+                    var candidates = foodbags.Where(t => t.GetComponent<PathNodesFollower>().CurrentNode < 2);
+                    targets.AddRange(candidates.SelectMany(c => c.foods.Select(f=>f.transform)));
+                }
+            }
+            else {
+                foods = FindObjectsOfType<Food>();
+                targets.AddRange(foods.Select(e => e.transform));
+                targets = targets.Where(t => t != null).ToList();
+                
+            }
+
+
             if (targets.Count() == 0 && shootFoodFirst)
             {
                 currentTarget = player;
@@ -71,12 +89,12 @@ namespace Assets.Scripts.AI
         IEnumerator ShootAndRefil()
         {
             isReadyToShoot = false;
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(.1f);
             foreach(var weapon in weapons)
             {
                 weapon.Shoot();
             }
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(UnityEngine.Random.Range(2, 5));
             isReadyToShoot = true;
         }
 
@@ -107,5 +125,12 @@ namespace Assets.Scripts.AI
             isShooterEnabled = false;
         }
 
+        private void OnCollisionEnter(Collision collision)
+        {
+            if(collision.gameObject.GetComponent<Grabbable>() != null)
+            {
+                damageable.DealDamage(100);
+            }
+        }
     }
 }

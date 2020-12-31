@@ -7,6 +7,7 @@ using Assets.Scripts.AI;
 using BNG;
 using Assets.Scripts;
 using static Assets.Scripts.Billboard;
+using Assets.Scripts.Interfaces;
 
 public class TableBelt : MonoBehaviour
 {
@@ -22,6 +23,7 @@ public class TableBelt : MonoBehaviour
     public Timer timer;
     bool isPlaying = true;
     public int currentLevel = 1;
+    int eatedFoods = 0;
 
     void Start()
     {
@@ -29,7 +31,7 @@ public class TableBelt : MonoBehaviour
         timer.SetTimer(60);
         timer.StartTimer();
 
-        billboard.SetLevel(GetLevel(currentLevel));
+        billboard.SetLevel(GetLevel(currentLevel, eatedFoods));
         billboard.onObjectiveCompleted += (family) =>
         {
             Debug.Log("OBJECTIVE COMPLETED FOR " + family);
@@ -37,10 +39,10 @@ public class TableBelt : MonoBehaviour
             nodePause -= nodePause * .1f;
             bonusSpawner.SpawnNewBonus();
         };
-        billboard.onMatchCompleted += () =>
+        billboard.onMatchCompleted += (eatedFoods) =>
         {
             currentLevel++;
-            billboard.SetLevel(GetLevel(currentLevel));
+            billboard.SetLevel(GetLevel(currentLevel, eatedFoods));
 
             var validShooters = shooters.Where(s => !s.gameObject.activeSelf).ToArray();
             if (validShooters.Length > 0)
@@ -51,10 +53,11 @@ public class TableBelt : MonoBehaviour
         };
     }
 
-    LevelDto GetLevel(int levelIndex)
+    LevelDto GetLevel(int levelIndex, int eatedFoods)
     {
         var level = new LevelDto();
         level.level = levelIndex;
+        level.foodsEated = eatedFoods;
         level.objectives.Add(new ObjectiveDto()
         {
             family = Food.FoodFamily.Candy,
@@ -62,23 +65,13 @@ public class TableBelt : MonoBehaviour
         });
         level.objectives.Add(new ObjectiveDto()
         {
-            family = Food.FoodFamily.Carbo,
+            family = Random.Range(0, 1) == 0 ? Food.FoodFamily.Fruit : Food.FoodFamily.Vegetable,
             toEat = Mathf.CeilToInt((.5f * levelIndex))
         });
         level.objectives.Add(new ObjectiveDto()
         {
-            family = Food.FoodFamily.Fruit,
-            toEat = Mathf.CeilToInt((.5f * levelIndex))
-        });
-        level.objectives.Add(new ObjectiveDto()
-        {
-            family = Food.FoodFamily.Meat,
+            family = Random.Range(0,1) == 0? Food.FoodFamily.Meat : Food.FoodFamily.Carbo,
             toEat = Mathf.CeilToInt((2f * levelIndex))
-        });
-        level.objectives.Add(new ObjectiveDto()
-        {
-            family = Food.FoodFamily.Vegetable,
-            toEat = Mathf.CeilToInt((.3f * levelIndex))
         });
 
         return level;

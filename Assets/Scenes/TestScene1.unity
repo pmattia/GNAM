@@ -1909,6 +1909,7 @@ MonoBehaviour:
   eatableParts:
   - {fileID: 1075345958}
   - {fileID: 1492700638}
+  foodFamily: 0
 --- !u!1001 &304684808
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7650,6 +7651,7 @@ MonoBehaviour:
   - {fileID: 1266939226}
   - {fileID: 1530168006}
   - {fileID: 1016399850}
+  foodFamily: 0
 --- !u!1 &1428622733
 GameObject:
   m_ObjectHideFlags: 0
@@ -12878,6 +12880,7 @@ MonoBehaviour:
   eatableParts:
   - {fileID: 6004488949482619667}
   - {fileID: 6004488949482619693}
+  foodFamily: 0
 --- !u!1 &5684131721749256403
 GameObject:
   m_ObjectHideFlags: 0
@@ -12981,6 +12984,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 706290079420039041, guid: 982f63c23e3e78a4fa6bb8f1ebbae0a3,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3501320493215436106, guid: 982f63c23e3e78a4fa6bb8f1ebbae0a3,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4851592301258745248, guid: 982f63c23e3e78a4fa6bb8f1ebbae0a3,
         type: 3}
       propertyPath: m_Name
@@ -13040,6 +13053,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -89.75101
+      objectReference: {fileID: 0}
+    - target: {fileID: 8813982477577495949, guid: 982f63c23e3e78a4fa6bb8f1ebbae0a3,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 982f63c23e3e78a4fa6bb8f1ebbae0a3, type: 3}

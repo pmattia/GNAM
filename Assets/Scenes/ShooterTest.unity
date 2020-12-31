@@ -121,6 +121,44 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &10081414 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1832999403892923742, guid: 2b801b12a70978345a78eca5fc3e6677,
+    type: 3}
+  m_PrefabInstance: {fileID: 1157927084}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &10081424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 10081414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c6de38f13d6b1443b2c5a5a20ac08d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Health: 10
+  SpawnOnDeath: {fileID: 0}
+  ActivateGameObjectsOnDeath: []
+  DeactivateGameObjectsOnDeath: []
+  DeactivateCollidersOnDeath: []
+  DestroyOnDeath: 1
+  DropOnDeath: 1
+  DestroyDelay: 0
+  Respawn: 0
+  RespawnTime: 10
+  RemoveBulletHolesOnDeath: 1
+  onDamaged:
+    m_PersistentCalls:
+      m_Calls: []
+  onDestroyed:
+    m_PersistentCalls:
+      m_Calls: []
+  onRespawn:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &43635375 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2920561618962350064, guid: 496ea98f57b529f4a833f65409a22871,
@@ -209,6 +247,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: timer
+      objectReference: {fileID: 0}
+    - target: {fileID: 5741073645386889226, guid: 1e1bb2143e2a4df4d9baeec70a5a7688,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1e1bb2143e2a4df4d9baeec70a5a7688, type: 3}
@@ -651,6 +694,44 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.6281955, y: 0.8101262, z: 0.031403065}
   m_Center: {x: 0.0015473366, y: 0.4063818, z: -0.3388543}
+--- !u!1 &874272108 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5741073645386889226, guid: 1e1bb2143e2a4df4d9baeec70a5a7688,
+    type: 3}
+  m_PrefabInstance: {fileID: 79479837}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &874272117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 874272108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c6de38f13d6b1443b2c5a5a20ac08d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Health: 10
+  SpawnOnDeath: {fileID: 0}
+  ActivateGameObjectsOnDeath: []
+  DeactivateGameObjectsOnDeath: []
+  DeactivateCollidersOnDeath: []
+  DestroyOnDeath: 1
+  DropOnDeath: 1
+  DestroyDelay: 0
+  Respawn: 0
+  RespawnTime: 10
+  RemoveBulletHolesOnDeath: 1
+  onDamaged:
+    m_PersistentCalls:
+      m_Calls: []
+  onDestroyed:
+    m_PersistentCalls:
+      m_Calls: []
+  onRespawn:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &1044969498
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -717,6 +798,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Cheese
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745035950339942722, guid: e4634b4fe3b934e4684673b2bc07a37e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e4634b4fe3b934e4684673b2bc07a37e, type: 3}
@@ -866,6 +952,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hambu
       objectReference: {fileID: 0}
+    - target: {fileID: 8676218059602348406, guid: 372d44cec97b4a7439448dc1c59c1ef8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8676218059971180227, guid: 372d44cec97b4a7439448dc1c59c1ef8,
         type: 3}
       propertyPath: m_IsTrigger
@@ -884,6 +975,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Olive
+      objectReference: {fileID: 0}
+    - target: {fileID: 1832999403892923742, guid: 2b801b12a70978345a78eca5fc3e6677,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1832999403893145982, guid: 2b801b12a70978345a78eca5fc3e6677,
         type: 3}

@@ -33,7 +33,22 @@ ModelImporter:
   - first:
       43: 4300002
     second: Hotdog
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 01 - Default.004
+    second: {fileID: 2100000, guid: b88c15a809444644dbd7080b203148cc, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material #12
+    second: {fileID: 2100000, guid: 91bfefeddd4227941ac0d2d25ada008f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material #13
+    second: {fileID: 2100000, guid: c22ab7be7ad52704cae17656cb69cae6, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
@@ -111,7 +126,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.005
+    globalScale: 0.5
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0

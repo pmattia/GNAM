@@ -51,6 +51,9 @@ namespace Assets.Scripts.Interfaces
             {
                 foreach (var item in eatablesToAttach)
                 {
+                    var renderer = eatable.GetComponent<Renderer>();
+                    renderer.material.SetColor("_Color", Color.white);
+                    renderer.material.mainTexture = null;
                     item.modifiers.AddRange(GetRandomModifiers());
                 }
             }

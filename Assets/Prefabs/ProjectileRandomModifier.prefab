@@ -94,7 +94,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5000001
+  m_Radius: 6.81
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!96 &2016095900117761711
 TrailRenderer:
@@ -221,14 +221,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa5217f320d52584699f804466c681b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HitFXPrefab: {fileID: 100002, guid: 8cac8cfa57cd05a46b8f25c78463a109, type: 3}
+  HitFXPrefab: {fileID: 100002, guid: 387f0fe1a17f581449d921c46e643fa5, type: 3}
   Damage: 0
-  AddRigidForce: 0.5
+  AddRigidForce: 0
   ValidLayers:
     serializedVersion: 2
     m_Bits: 1025
   StickToObject: 0
-  MinForceHit: 0.02
+  MinForceHit: 0
   onDealtDamageEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -237,8 +237,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a1fe0b4716dabe44f9850bd66fecbf5f, type: 2}
   - {fileID: 11400000, guid: 2a4c1f9797e18c54394c2693bf30c746, type: 2}
   - {fileID: 11400000, guid: 7b362ea8fa0398d4b9a9c95c876fe583, type: 2}
-  - {fileID: 11400000, guid: 0a36b13ba6e22564c87f764744dd0ec7, type: 2}
-  - {fileID: 11400000, guid: b0147dd88ec664a499885acc93a705f1, type: 2}
   - {fileID: 11400000, guid: dcb7da42847569a42aaaa7e1329092b6, type: 2}
   - {fileID: 11400000, guid: f1dda5cf873a786479d23a23e9a55a7c, type: 2}
   - {fileID: 11400000, guid: ac67fdaed72e1f64781c177a6ebbe1fe, type: 2}

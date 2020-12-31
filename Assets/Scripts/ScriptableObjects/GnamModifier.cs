@@ -13,10 +13,12 @@ namespace Assets.Scripts.ScriptableObjects
 
         public GameObject DisableLeftHand(IHandsController handsController)
         {
+            handsController.LeftGrabber.Enabled = false;
             return DisableHand(handsController.LeftHandHolder);
         }
         public GameObject DisableRightHand(IHandsController handsController)
         {
+            handsController.RightGrabber.Enabled = false;
             return DisableHand(handsController.RightHandHolder);
         }
         public GameObject EnableLeftHand(IHandsController handsController, int index)

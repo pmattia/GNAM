@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 6927447387427107587}
   - component: {fileID: 6927447387427107596}
   - component: {fileID: 6927447387427107586}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: ShooterCatDestroy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -157,6 +157,8 @@ MonoBehaviour:
   ActivateGameObjectsOnDeath: []
   DeactivateGameObjectsOnDeath:
   - {fileID: 6927447387363736174}
+  - {fileID: 6011992197250551179}
+  - {fileID: 6011992196120178568}
   DeactivateCollidersOnDeath: []
   DestroyOnDeath: 0
   DropOnDeath: 1
@@ -693,6 +695,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2defb85b986ab243a8c5252fe34a93a, type: 3}
+--- !u!1 &6011992196120178568 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3696856878597835999, guid: b2defb85b986ab243a8c5252fe34a93a,
+    type: 3}
+  m_PrefabInstance: {fileID: 6927447387571053399}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6927447387717680503
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -876,3 +884,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2defb85b986ab243a8c5252fe34a93a, type: 3}
+--- !u!1 &6011992197250551179 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3696856878597835999, guid: b2defb85b986ab243a8c5252fe34a93a,
+    type: 3}
+  m_PrefabInstance: {fileID: 6927447388768600404}
+  m_PrefabAsset: {fileID: 0}

@@ -39,7 +39,22 @@ ModelImporter:
   - first:
       43: 4300002
     second: Banana
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 01 - Default4
+    second: {fileID: 2100000, guid: d68e2d84edcf1e04b9d3dd22a3e35020, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material #22
+    second: {fileID: 2100000, guid: 6110028e9acd09e49856712dcfa344a3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material #23
+    second: {fileID: 2100000, guid: bbf9d0857d52dd14fb3b8db12816fa75, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
@@ -117,7 +132,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.005
+    globalScale: 0.5
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0

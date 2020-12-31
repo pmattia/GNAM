@@ -33,7 +33,17 @@ ModelImporter:
   - first:
       43: 4300002
     second: Cherry
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 01 - Default2
+    second: {fileID: 2100000, guid: e396b96055bc47e44b3c168042cdd874, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material #21
+    second: {fileID: 2100000, guid: ba108fbc29ff15e459833702b98c1c55, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
@@ -111,7 +121,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.0025
+    globalScale: 0.25
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0

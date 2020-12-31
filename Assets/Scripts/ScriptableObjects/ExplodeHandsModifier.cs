@@ -27,7 +27,7 @@ namespace Assets.Scripts.ScriptableObjects
             leftModel = base.DisableLeftHand(eater.Hands);
             base.AttachToLeftHand(eater.Hands, explodeParticle);
 
-            leftModel = base.DisableRightHand(eater.Hands);
+            rightModel = base.DisableRightHand(eater.Hands);
             base.AttachToRightHand(eater.Hands, explodeParticle);
 
             eater.Hands.StartCoroutine(WaitToReattach(eater));

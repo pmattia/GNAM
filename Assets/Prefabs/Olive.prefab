@@ -66,9 +66,9 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100006, guid: bd232805ec57aa245a81c2df3f69f66a, type: 3}
-  - {fileID: 2100002, guid: bd232805ec57aa245a81c2df3f69f66a, type: 3}
-  - {fileID: 2100004, guid: bd232805ec57aa245a81c2df3f69f66a, type: 3}
+  - {fileID: 2100000, guid: 72300ae751ede8d448923f6d58c01595, type: 2}
+  - {fileID: 2100000, guid: 94d16bbcdda8dc14f9774a431edce88d, type: 2}
+  - {fileID: 2100000, guid: e396b96055bc47e44b3c168042cdd874, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -220,6 +220,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eatableParts:
   - {fileID: 1832999404255990803}
+  foodFamily: 0
 --- !u!1 &1832999404523200936
 GameObject:
   m_ObjectHideFlags: 0

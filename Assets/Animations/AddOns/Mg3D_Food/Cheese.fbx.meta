@@ -33,7 +33,22 @@ ModelImporter:
   - first:
       43: 4300002
     second: Cheese
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 01 - Default.003
+    second: {fileID: 2100000, guid: 24ad8db67e40dad48921956779efabb4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material #71
+    second: {fileID: 2100000, guid: 2bc362073a53ea1469c5779f9c922533, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material #72
+    second: {fileID: 2100000, guid: 870aab89659da2e40aaecaf2463b81d7, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
@@ -111,7 +126,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.005
+    globalScale: 0.5
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0

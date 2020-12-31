@@ -11,20 +11,19 @@ namespace Assets.Scripts
     public class Billboard : MonoBehaviour
     {
         public TextMeshPro levelText;
-        public TextMeshPro vegetablesStatsText;
-        public TextMeshPro fruitsStatsText;
-        public TextMeshPro meatStatsText;
-        public TextMeshPro candyStatsText;
-        public TextMeshPro carboStatsText;
+        public TextMeshPro foodPointStatsText;
+        public List<TextMeshPro> objectiveTexts;
 
         public event Action<Food.FoodFamily> onObjectiveCompleted;
-        public event Action onMatchCompleted;
+        public event Action<int> onMatchCompleted;
 
         List<ObjectiveDto> objectives = new List<ObjectiveDto>();
+        int foodsEated;
 
         public class LevelDto
         {
             public int level;
+            public int foodsEated;
             public List<ObjectiveDto> objectives = new List<ObjectiveDto>();
         }
         public class ObjectiveDto
@@ -45,16 +44,24 @@ namespace Assets.Scripts
         {
             objectives.Clear();
             levelText.text = string.Format("LIVELLO {0}",level.level.ToString());
-            foreach(var objective in level.objectives)
+            foodPointStatsText.text = GetFoodPointsString(level.foodsEated);
+            foodsEated = level.foodsEated;
+            for (int i =0; i< objectiveTexts.Count; i++)
             {
-                SetStatsString(objective.family, objective.toEat, objective.eated);
+                var objective = level.objectives[i];
+                objectiveTexts[i].text = GetStatsString(objective.family, objective.toEat, objective.eated);
+                objectiveTexts[i].color = Color.red;
                 objectives.Add(objective);
             }
         }
 
         public void AddFood(Food.FoodFamily family)
         {
+            foodsEated++;
+            foodPointStatsText.text = GetFoodPointsString(foodsEated);
+
             var objective = objectives.FirstOrDefault(s => s.family == family);
+            var index = objectives.IndexOf(objective);
             if(objective != null)
             {
                 objective.eated++;
@@ -65,44 +72,44 @@ namespace Assets.Scripts
                         onObjectiveCompleted(objective.family);
                         if(objectives.All(o => o.IsCompleted) && onMatchCompleted != null)
                         {
-                            onMatchCompleted();
+                            onMatchCompleted(foodsEated);
                         }
                     }
                 }
-                SetStatsString(family, objective.toEat, objective.eated, objective.IsCompleted);
+
+                var objectiveText = objectiveTexts[index];
+                objectiveText.text = GetStatsString(family, objective.toEat, objective.eated);
+                objectiveText.color = objective.IsCompleted ? Color.green : Color.red;
             }
         }
 
-        void SetStatsString(Food.FoodFamily family, int toEat, int eated = 0, bool isCompleted = false)
+        string GetStatsString(Food.FoodFamily family, int toEat, int eated = 0, bool isCompleted = false)
         {
-            TextMeshPro currentText = null;
+            var ret = string.Empty;
             switch (family)
             {
                 case Food.FoodFamily.Candy:
-                    candyStatsText.text = string.Format("DOLCI {0} SU {1}", eated.ToString(), toEat.ToString());
-                    currentText = candyStatsText;
+                    ret = string.Format("DOLCI {0} SU {1}", eated.ToString(), toEat.ToString());
                     break;
                 case Food.FoodFamily.Carbo:
-                    carboStatsText.text = string.Format("CARBOIDRATI {0} SU {1}", eated.ToString(), toEat.ToString());
-                    currentText = carboStatsText;
+                    ret = string.Format("CARBOIDRATI {0} SU {1}", eated.ToString(), toEat.ToString());
                     break;
                 case Food.FoodFamily.Fruit:
-                    fruitsStatsText.text = string.Format("FRUTTA {0} SU {1}", eated.ToString(), toEat.ToString());
-                    currentText = fruitsStatsText;
+                    ret = string.Format("FRUTTA {0} SU {1}", eated.ToString(), toEat.ToString());
                     break;
                 case Food.FoodFamily.Meat:
-                    meatStatsText.text = string.Format("CARNE {0} SU {1}", eated.ToString(), toEat.ToString());
-                    currentText = meatStatsText;
+                    ret = string.Format("CARNE {0} SU {1}", eated.ToString(), toEat.ToString());
                     break;
                 case Food.FoodFamily.Vegetable:
-                    vegetablesStatsText.text = string.Format("VERDURA {0} SU {1}", eated.ToString(), toEat.ToString());
-                    currentText = vegetablesStatsText;
+                    ret = string.Format("VERDURA {0} SU {1}", eated.ToString(), toEat.ToString());
                     break;
             }
-            if (currentText != null && isCompleted)
-            {
-                currentText.color = Color.green;
-            }
+
+            return ret;
+        }
+
+        string GetFoodPointsString(int eated) {
+            return string.Format("CIBI MANGIATI {0}", eated.ToString());
         }
     }
 }

@@ -13,6 +13,7 @@ public class PathNodesFollower : MonoBehaviour
     Vector3 currentPosition;
     bool isMoving;
     public event Action<GameObject> onEndPath;
+    public int CurrentNode { get { return currentNode; } }
 
     void Start()
     {

@@ -11,7 +11,6 @@ using UnityEngine.Events;
 public class Eatable : MonoBehaviour
 {
     public event Action<EaterDto> onEated;
-    public event Action onExploded;
 
     public List<GnamModifier> modifiers = new List<GnamModifier>();
     public float eatTime = 3f;
@@ -32,28 +31,4 @@ public class Eatable : MonoBehaviour
     {
         return modifiers;
     }
-
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    Debug.Log(collision);
-    //    CheckProjectile(collision.gameObject);
-    //}
-
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    Debug.Log(other);
-    //    CheckProjectile(other.gameObject);
-    //}
-
-    //private void CheckProjectile(GameObject projectile)
-    //{
-    //    //if (projectile.GetComponent<Projectile>() != null)
-    //    //{
-    //    //    Destroy(gameObject);
-    //    //}
-    //    if (projectile.GetComponent<GnamModifierProjectile>() != null)
-    //    {
-    //        var modifier
-    //    }
-    //}
 }
