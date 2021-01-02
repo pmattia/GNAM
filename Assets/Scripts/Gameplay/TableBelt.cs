@@ -11,7 +11,7 @@ using Assets.Scripts.Interfaces;
 
 public class TableBelt : MonoBehaviour
 {
-    public List<ShootAtTargets> shooters;
+    public MobSpawner mobSpawner;
     public List<GameObject> trays = new List<GameObject>();
     public GameObject[] foodbagsRepository;
     public PathNode[] nodes;
@@ -21,42 +21,43 @@ public class TableBelt : MonoBehaviour
     public GameObjectSpawner bonusSpawner;
     public Billboard billboard;
     public Timer timer;
+    public int startupTimer = 60;
     bool isPlaying = true;
     public int currentLevel = 1;
     int eatedFoods = 0;
 
+    float gameplayTime = 0;
+
     void Start()
     {
         timer.onExpired += () => { isPlaying = false; };
-        timer.SetTimer(60);
+        timer.SetTimer(startupTimer);
         timer.StartTimer();
 
-        billboard.SetLevel(GetLevel(currentLevel, eatedFoods));
-        billboard.onObjectiveCompleted += (family) =>
+        var level = GetLevel(currentLevel, eatedFoods);
+        billboard.SetLevel(level);
+        billboard.onObjectiveCompleted += (family, objectivesFamilies) =>
         {
             Debug.Log("OBJECTIVE COMPLETED FOR " + family);
             speed += speed * .1f;
             nodePause -= nodePause * .1f;
-            bonusSpawner.SpawnNewBonus();
-        };
-        billboard.onMatchCompleted += (eatedFoods) =>
-        {
-            currentLevel++;
-            billboard.SetLevel(GetLevel(currentLevel, eatedFoods));
+            bonusSpawner.SpawnNewObject();
+            timer.AddTime(15);
 
-            var validShooters = shooters.Where(s => !s.gameObject.activeSelf).ToArray();
-            if (validShooters.Length > 0)
-            {
-                var shooter = validShooters[Random.Range(0, validShooters.Length)];
-                shooter.gameObject.SetActive(true);
-            }
+            currentLevel = GetLevelIndex();
+
+            billboard.AddObjective(GetNewObjective(currentLevel, objectivesFamilies));
+
+            mobSpawner.SpawnMob(currentLevel);
         };
+
+
+        //mobSpawner.SpawnMob(5);
     }
 
     LevelDto GetLevel(int levelIndex, int eatedFoods)
     {
         var level = new LevelDto();
-        level.level = levelIndex;
         level.foodsEated = eatedFoods;
         level.objectives.Add(new ObjectiveDto()
         {
@@ -65,16 +66,33 @@ public class TableBelt : MonoBehaviour
         });
         level.objectives.Add(new ObjectiveDto()
         {
-            family = Random.Range(0, 1) == 0 ? Food.FoodFamily.Fruit : Food.FoodFamily.Vegetable,
+            family = Random.Range(0, 5) < 2 ? Food.FoodFamily.Fruit : Food.FoodFamily.Vegetable,
             toEat = Mathf.CeilToInt((.5f * levelIndex))
         });
         level.objectives.Add(new ObjectiveDto()
         {
-            family = Random.Range(0,1) == 0? Food.FoodFamily.Meat : Food.FoodFamily.Carbo,
+            family = Random.Range(0,5) < 2 ? Food.FoodFamily.Meat : Food.FoodFamily.Carbo,
             toEat = Mathf.CeilToInt((2f * levelIndex))
         });
 
         return level;
+    }
+
+    ObjectiveDto GetNewObjective(int levelIndex, List<Food.FoodFamily> excludedFamilies) {
+
+        var ret = new ObjectiveDto();
+
+        do
+        {
+            var rand = Random.Range(0, 5);
+            ret.family = (Food.FoodFamily)rand;
+
+        } while (excludedFamilies.Contains(ret.family));
+
+        var toEat = Mathf.CeilToInt((Random.Range(1, 5) * levelIndex));
+        ret.toEat = toEat;
+
+        return ret;
     }
 
     bool CanAddTray
@@ -100,7 +118,7 @@ public class TableBelt : MonoBehaviour
         {
             billboard.AddFood(eated.foodFamily);
         };
-        cloneFoodbag.onClear += bonusSpawner.SpawnNewBonus;
+        cloneFoodbag.onClear += bonusSpawner.SpawnNewObject;
         
 
         AttachFollowPath(cloneFoodbag).StartMoving();
@@ -134,10 +152,21 @@ public class TableBelt : MonoBehaviour
         return followerComponent;
     }
 
+    int GetLevelIndex() {
+        var ret = Mathf.CeilToInt(gameplayTime / 30);
+        return ret == 0 ? 1 : ret;
+    }
+
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (isPlaying) { 
+            gameplayTime += Time.deltaTime;
+        }
+
+
+
         if (CanAddTray)
         {
 

@@ -10,19 +10,16 @@ namespace Assets.Scripts
 {
     public class Billboard : MonoBehaviour
     {
-        public TextMeshPro levelText;
         public TextMeshPro foodPointStatsText;
         public List<TextMeshPro> objectiveTexts;
 
-        public event Action<Food.FoodFamily> onObjectiveCompleted;
-        public event Action<int> onMatchCompleted;
+        public event Action<Food.FoodFamily, List<Food.FoodFamily>> onObjectiveCompleted;
 
         List<ObjectiveDto> objectives = new List<ObjectiveDto>();
         int foodsEated;
 
         public class LevelDto
         {
-            public int level;
             public int foodsEated;
             public List<ObjectiveDto> objectives = new List<ObjectiveDto>();
         }
@@ -43,16 +40,14 @@ namespace Assets.Scripts
         public void SetLevel(LevelDto level)
         {
             objectives.Clear();
-            levelText.text = string.Format("LIVELLO {0}",level.level.ToString());
             foodPointStatsText.text = GetFoodPointsString(level.foodsEated);
             foodsEated = level.foodsEated;
-            for (int i =0; i< objectiveTexts.Count; i++)
+            for (int i =0; i< level.objectives.Count; i++)
             {
                 var objective = level.objectives[i];
-                objectiveTexts[i].text = GetStatsString(objective.family, objective.toEat, objective.eated);
-                objectiveTexts[i].color = Color.red;
                 objectives.Add(objective);
             }
+            RefreshObjectives();
         }
 
         public void AddFood(Food.FoodFamily family)
@@ -65,21 +60,37 @@ namespace Assets.Scripts
             if(objective != null)
             {
                 objective.eated++;
-                if (objective.toEat == objective.eated)
+                if (objective.IsCompleted)
                 {
-                    if(objective.IsCompleted && onObjectiveCompleted != null)
+                    objectives.Remove(objective);
+                    RefreshObjectives();
+
+                    if (onObjectiveCompleted != null)
                     {
-                        onObjectiveCompleted(objective.family);
-                        if(objectives.All(o => o.IsCompleted) && onMatchCompleted != null)
-                        {
-                            onMatchCompleted(foodsEated);
-                        }
+                        var objectivesFamilies = objectives.Select(o => o.family).ToList();
+                        onObjectiveCompleted(objective.family, objectivesFamilies);
                     }
                 }
+                else {
+                    RefreshObjectives();
+                }
 
-                var objectiveText = objectiveTexts[index];
-                objectiveText.text = GetStatsString(family, objective.toEat, objective.eated);
-                objectiveText.color = objective.IsCompleted ? Color.green : Color.red;
+
+            }
+        }
+
+        public void AddObjective(ObjectiveDto objective) {
+            objectives.Insert(0,objective);
+
+            RefreshObjectives();
+        }
+
+        void RefreshObjectives() {
+            for (int i = 0; i < objectives.Count; i++)
+            {
+                var objective = objectives[i];
+                objectiveTexts[i].text = GetStatsString(objective.family, objective.toEat, objective.eated);
+                objectiveTexts[i].color = Color.red;
             }
         }
 

@@ -8,7 +8,7 @@ public class Timer : MonoBehaviour
 {
     public float cooldown = 4;
     float realtimeCooldown;
-    public TextMeshPro timer;
+    public TextMeshPro[] timers;
     bool isPlaying = false;
     public event Action onExpired;
     // Start is called before the first frame update
@@ -20,9 +20,11 @@ public class Timer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (timer != null)
+        if (timers.Length > 0)
         {
-            timer.text = Mathf.Round(realtimeCooldown).ToString();
+            foreach (var timer in timers) { 
+                timer.text = Mathf.Round(realtimeCooldown).ToString();
+            }
         }
         if (realtimeCooldown > 0 && isPlaying)
         {
@@ -59,5 +61,10 @@ public class Timer : MonoBehaviour
     {
         this.cooldown = cooldown;
         this.realtimeCooldown = cooldown;
+    }
+
+    public float AddTime(float time) {
+        realtimeCooldown += time;
+        return realtimeCooldown;
     }
 }

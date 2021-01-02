@@ -7,7 +7,7 @@ using UnityEngine;
 public class GameObjectSpawner : MonoBehaviour
 {
     public GameObject[] objects;
-    GameObject currentModifier;
+    GameObject lastGameobject;
     AudioSource audioSource;
     // Start is called before the first frame update
     void Start()
@@ -21,14 +21,14 @@ public class GameObjectSpawner : MonoBehaviour
         
     }
 
-    public void SpawnNewBonus()
+    public void SpawnNewObject()
     {
-        if(currentModifier != null)
+        if(lastGameobject != null)
         {
-            Destroy(currentModifier);
+           // Destroy(currentModifier);
         }
         var modifier = objects[Random.Range(0, objects.Length)];
-        currentModifier = Instantiate(modifier.gameObject, transform.position, Quaternion.identity);
+        lastGameobject = Instantiate(modifier.gameObject, transform.position, Quaternion.identity);
         audioSource.Play();
     }
 }

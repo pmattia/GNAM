@@ -19,7 +19,7 @@ namespace Assets.Scripts.AI
         public bool shootFoodFirst = true;
 
         private bool isReadyToShoot = true;
-        private bool isShooterEnabled = true;
+        [SerializeField] bool isShooterEnabled = true;
         private List<Transform> targets = new List<Transform>();
         private Transform currentTarget;
         private Damageable damageable;
@@ -27,7 +27,7 @@ namespace Assets.Scripts.AI
         private void Start()
         {
             player = FindObjectOfType<Mouth>().transform;
-            
+            damageable = GetComponent<Damageable>();
 
             weapons = GetComponentsInChildren<RaycastWeapon>().Where(c => c.enabled == true).ToArray();
             if (!shootFoodFirst)
