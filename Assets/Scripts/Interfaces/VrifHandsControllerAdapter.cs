@@ -59,5 +59,121 @@ namespace Assets.Scripts.ScriptableObjects
         {
             return _handModelSelector.StartCoroutine(routine);
         }
+
+
+        public int DisableLeftHand()
+        {
+            LeftGrabber.Enabled = false;
+            return DisableHand(LeftHandHolder);
+        }
+        public int DisableRightHand()
+        {
+            RightGrabber.Enabled = false;
+            return DisableHand(RightHandHolder);
+        }
+        public int GetLeftHandIndex()
+        {
+            return GetHandIndex(LeftHandHolder);
+        }
+        public int GetRightHandIndex()
+        {
+            return GetHandIndex(RightHandHolder);
+        }
+        public GameObject GetLeftHand(int index = -1)
+        {
+            if (index == -1)
+            {
+                return GetHand(LeftHandHolder);
+            }
+            else
+            {
+                return LeftHandHolder.GetChild(index).gameObject;
+            }
+        }
+        public GameObject GetRightHand(int index = -1)
+        {
+            if (index == -1)
+            {
+                return GetHand(RightHandHolder);
+            }
+            else
+            {
+                return RightHandHolder.GetChild(index).gameObject;
+            }
+        }
+        public GameObject EnableLeftHand(int index)
+        {
+            DisableChildren(LeftHandHolder);
+            LeftGrabber.Enabled = true;
+            var selectedModel = LeftHandHolder.GetChild(index).gameObject;
+            selectedModel.SetActive(true);
+            return selectedModel;
+        }
+        public GameObject EnableRightHand(int index)
+        {
+            DisableChildren(RightHandHolder);
+            RightGrabber.Enabled = true;
+            var selectedModel = RightHandHolder.GetChild(index).gameObject;
+            selectedModel.SetActive(true);
+            return selectedModel;
+        }
+        public GameObject AttachToLeftHand(GameObject prefab)
+        {
+            var prefabGameobject = UnityEngine.Object.Instantiate(prefab, LeftHandHolder.transform.position, LeftHandHolder.transform.rotation);
+            prefabGameobject.transform.parent = LeftHandHolder.transform;
+            return prefabGameobject;
+        }
+        public GameObject AttachToRightHand(GameObject prefab)
+        {
+            var prefabGameobject = UnityEngine.Object.Instantiate(prefab, RightHandHolder.transform.position, RightHandHolder.transform.rotation);
+            prefabGameobject.transform.parent = RightHandHolder.transform;
+            return prefabGameobject;
+        }
+        private int DisableHand(Transform handHolder)
+        {
+            int index = 0;
+            foreach (Transform model in handHolder.transform)
+            {
+                if (model.gameObject.activeSelf)
+                {
+                    model.gameObject.SetActive(false);
+                    return index;
+                }
+                index++;
+            }
+            return -1;
+        }
+        private GameObject GetHand(Transform handHolder)
+        {
+            GameObject activeHand = null;
+            foreach (Transform model in handHolder.transform)
+            {
+                if (model.gameObject.activeSelf)
+                {
+                    activeHand = model.gameObject;
+                }
+            }
+            return activeHand;
+        }
+        private int GetHandIndex(Transform handHolder)
+        {
+            int index = 0;
+            foreach (Transform model in handHolder.transform)
+            {
+                if (model.gameObject.activeSelf)
+                {
+                    return index;
+                }
+                index++;
+            }
+            return -1;
+        }
+        private void DisableChildren(Transform handHolder)
+        {
+            foreach (Transform model in handHolder.transform)
+            {
+                model.gameObject.SetActive(false);
+            }
+        }
     }
 }

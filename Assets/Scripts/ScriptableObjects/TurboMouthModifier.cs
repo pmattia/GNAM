@@ -17,14 +17,13 @@ namespace Assets.Scripts.ScriptableObjects
         {
             eater.Mouth.EnableTurbo();
             eater.Mouth.PlaySound(bonusMusic);
-            eater.Mouth.StartCoroutine(WaitToDisable(eater));
+            eater.Mouth.StartCoroutine(WaitToDeactivate(eater, duration));
         }
 
-        IEnumerator WaitToDisable(EaterDto eater)
+        public override void Deactivate(EaterDto eater)
         {
-            yield return new WaitForSeconds(duration);
-
             eater.Mouth.DisableTurbo();
+            eater.Mouth.StopSound();
         }
     }
 }

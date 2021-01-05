@@ -24,6 +24,7 @@ namespace Assets.Scripts
         public IHandsController handsController;
 
         List<GnamModifier> modifiers = new List<GnamModifier>();
+        List<GnamModifier> currentModifiers = new List<GnamModifier>();
 
         //public event Action<Eatable> onBite;
         public event Action onSwallow;
@@ -84,9 +85,13 @@ namespace Assets.Scripts
 
             var tModifiers = new List<GnamModifier>();
             tModifiers.AddRange(modifiers);
-            foreach (var modifier in tModifiers)
+            foreach (var modifier in modifiers)
             {
+                currentModifiers.ForEach(m => m.Deactivate(Eater));
+                currentModifiers.Clear();
+
                 modifier.Activate(Eater);
+                currentModifiers.Add(modifier);
                 modifiers.Remove(modifier);
             }
         }
@@ -94,6 +99,11 @@ namespace Assets.Scripts
         public void PlaySound(AudioClip clip)
         {
             audioSource.PlayOneShot(clip);
+        }
+
+        public void StopSound()
+        {
+            audioSource.Stop();
         }
 
         public void EnableMouth()

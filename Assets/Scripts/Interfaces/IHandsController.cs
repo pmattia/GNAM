@@ -18,5 +18,15 @@ namespace Assets.Scripts.ScriptableObjects
         IGrabber LeftGrabber { get; }
         IGrabber RightGrabber { get; }
         Coroutine StartCoroutine(IEnumerator routine);
+        int DisableLeftHand();
+        int DisableRightHand();
+        int GetLeftHandIndex();
+        int GetRightHandIndex();
+        GameObject GetLeftHand(int index = -1);
+        GameObject GetRightHand(int index = -1);
+        GameObject EnableLeftHand(int index);
+        GameObject EnableRightHand(int index);
+        GameObject AttachToLeftHand(GameObject prefab);
+        GameObject AttachToRightHand(GameObject prefab);
     }
 }

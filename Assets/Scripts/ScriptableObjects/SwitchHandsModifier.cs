@@ -15,12 +15,11 @@ namespace Assets.Scripts.ScriptableObjects
         public override void Activate(EaterDto eater)
         {
             eater.Hands.SwitchHands();
-            eater.Hands.StartCoroutine(WaitToDisable(eater));
+            eater.Mouth.StartCoroutine(WaitToDeactivate(eater, duration));
         }
-        IEnumerator WaitToDisable(EaterDto eater)
-        {
-            yield return new WaitForSeconds(duration);
 
+        public override void Deactivate(EaterDto eater)
+        {
             eater.Hands.SwitchHands();
         }
     }

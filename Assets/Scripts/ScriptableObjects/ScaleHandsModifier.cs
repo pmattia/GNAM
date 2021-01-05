@@ -18,28 +18,9 @@ namespace Assets.Scripts.ScriptableObjects
 
         public override void Activate(EaterDto eater)
         {
-            eater.Hands.StartCoroutine(LerpScale(eater.Hands.LeftHandHolder.transform,
-                                       eater.Hands.LeftHandHolder.transform.localScale,
-                                       eater.Hands.LeftHandHolder.transform.localScale * scaleFactor));
+            ScaleHands(eater.Hands);
 
-            eater.Hands.StartCoroutine(LerpScale(eater.Hands.RightHandHolder.transform,
-                                       eater.Hands.RightHandHolder.transform.localScale,
-                                       eater.Hands.RightHandHolder.transform.localScale * scaleFactor));
-
-            eater.Hands.StartCoroutine(WaitToResize(eater));
-        }
-
-        IEnumerator WaitToResize(EaterDto eater)
-        {
-            yield return new WaitForSeconds(duration);
-
-            eater.Hands.StartCoroutine(LerpScale(eater.Hands.LeftHandHolder.transform,
-                                       eater.Hands.LeftHandHolder.transform.localScale,
-                                       eater.Hands.LeftHandHolder.transform.localScale / scaleFactor));
-
-            eater.Hands.StartCoroutine(LerpScale(eater.Hands.RightHandHolder.transform,
-                                       eater.Hands.RightHandHolder.transform.localScale,
-                                       eater.Hands.RightHandHolder.transform.localScale / scaleFactor));
+            eater.Mouth.StartCoroutine(WaitToDeactivate(eater, duration));
         }
 
         IEnumerator LerpScale(Transform transform,Vector3 initialScale, Vector3 finalScale)
@@ -54,6 +35,37 @@ namespace Assets.Scripts.ScriptableObjects
             }
             transform.localScale = finalScale;
 
+        }
+
+        void ScaleHands(IHandsController handsController, bool decrease = false)
+        {
+            if (decrease)
+            {
+                handsController.StartCoroutine(LerpScale(handsController.LeftHandHolder.transform,
+                                           handsController.LeftHandHolder.transform.localScale,
+                                           handsController.LeftHandHolder.transform.localScale / scaleFactor));
+
+                handsController.StartCoroutine(LerpScale(handsController.RightHandHolder.transform,
+                                           handsController.RightHandHolder.transform.localScale,
+                                           handsController.RightHandHolder.transform.localScale / scaleFactor));
+            }
+            else
+            {
+                handsController.StartCoroutine(LerpScale(handsController.LeftHandHolder.transform,
+                                       handsController.LeftHandHolder.transform.localScale,
+                                       handsController.LeftHandHolder.transform.localScale * scaleFactor));
+
+                handsController.StartCoroutine(LerpScale(handsController.RightHandHolder.transform,
+                                           handsController.RightHandHolder.transform.localScale,
+                                           handsController.RightHandHolder.transform.localScale * scaleFactor));
+            }
+        }
+
+        public override void Deactivate(EaterDto eater)
+        {
+            eater.Hands.LeftHandHolder.transform.localScale = Vector3.one;
+            eater.Hands.RightHandHolder.transform.localScale = Vector3.one;
+            //ScaleHands(eater.Hands, true);
         }
     }
 }

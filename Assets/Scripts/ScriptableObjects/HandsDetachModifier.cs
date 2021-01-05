@@ -21,20 +21,17 @@ public class HandsDetachModifier : GnamModifier
         prevParentR = rightHandHolder.parent;
         rightHandHolder.parent = null;
 
-        eater.Hands.StartCoroutine(WaitToReattach(leftHandHolder, rightHandHolder));
+        eater.Hands.StartCoroutine(WaitToDeactivate(eater, duration));
     }
 
-    IEnumerator WaitToReattach(Transform leftHandHolder, Transform rightHandHolder)
+    public override void Deactivate(EaterDto eater)
     {
-        yield return new WaitForSeconds(duration);
+        eater.Hands.LeftHandHolder.SetParent(prevParentL);
+        eater.Hands.LeftHandHolder.localPosition = Vector3.zero;
+        eater.Hands.LeftHandHolder.localRotation = Quaternion.identity;
 
-        leftHandHolder.SetParent(prevParentL);
-        leftHandHolder.localPosition = Vector3.zero;
-        leftHandHolder.localRotation = Quaternion.identity;
-
-        rightHandHolder.SetParent(prevParentR);
-        rightHandHolder.localPosition = Vector3.zero;
-        rightHandHolder.localRotation = Quaternion.identity;
-
+        eater.Hands.RightHandHolder.SetParent(prevParentR);
+        eater.Hands.RightHandHolder.localPosition = Vector3.zero;
+        eater.Hands.RightHandHolder.localRotation = Quaternion.identity;
     }
 }

@@ -9,6 +9,12 @@ using Assets.Scripts.ScriptableObjects;
 public class HandsSwapperModifier : GnamModifier
 {
     public int handModelIndex;
+
+    int prevLeftHandIndex;
+    int prevRightHandIndex;
+
+    public float duration = 3;
+
     public override void Activate(EaterDto eater)
     {
         int index;
@@ -21,6 +27,22 @@ public class HandsSwapperModifier : GnamModifier
             index = Random.Range(0, eater.Hands.ModelCount);
         }
 
+        prevLeftHandIndex = eater.Hands.GetLeftHandIndex();
+        prevRightHandIndex = eater.Hands.GetRightHandIndex();
+
         eater.Hands.ChangeHandsModel(index);
+
+        eater.Mouth.StartCoroutine(WaitToDeactivate(eater, duration));
     }
+
+    public override void Deactivate(EaterDto eater)
+    {
+        eater.Hands.DisableLeftHand();
+        eater.Hands.EnableLeftHand(prevLeftHandIndex);
+
+        eater.Hands.DisableRightHand();
+        eater.Hands.EnableRightHand(prevLeftHandIndex);
+    }
+
+   
 }

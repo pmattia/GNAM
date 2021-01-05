@@ -23,5 +23,10 @@ namespace Assets.Scripts.ScriptableObjects
                 SceneManager.LoadSceneAsync(sceneName);
             }
         }
+
+        public override void Deactivate(EaterDto eater)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

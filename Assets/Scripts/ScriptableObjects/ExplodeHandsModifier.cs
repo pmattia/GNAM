@@ -15,32 +15,25 @@ namespace Assets.Scripts.ScriptableObjects
         public AudioClip explodeClip;
         public GameObject explodeParticle;
 
-        private GameObject leftModel;
-        private GameObject rightModel;
+        private int leftHandIndex;
+        private int rightHandIndex;
 
         public override void Activate(EaterDto eater)
         {
-            var leftHandHolder = eater.Hands.LeftHandHolder;
-            var rightHandHolder = eater.Hands.RightHandHolder;
-
             eater.Mouth.PlaySound(explodeClip);
-            leftModel = base.DisableLeftHand(eater.Hands);
-            base.AttachToLeftHand(eater.Hands, explodeParticle);
+            leftHandIndex = eater.Hands.DisableLeftHand();
+            eater.Hands.AttachToLeftHand(explodeParticle);
 
-            rightModel = base.DisableRightHand(eater.Hands);
-            base.AttachToRightHand(eater.Hands, explodeParticle);
+            rightHandIndex = eater.Hands.DisableRightHand();
+            eater.Hands.AttachToRightHand(explodeParticle);
 
-            eater.Hands.StartCoroutine(WaitToReattach(eater));
+            eater.Hands.StartCoroutine(WaitToDeactivate(eater,duration));
         }
 
-        IEnumerator WaitToReattach(EaterDto eater)
+        public override void Deactivate(EaterDto eater)
         {
-            yield return new WaitForSeconds(duration);
-
-            leftModel.SetActive(true);
-            eater.Hands.LeftGrabber.Enabled = true;
-            rightModel.SetActive(true);
-            eater.Hands.RightGrabber.Enabled = true;
+            eater.Hands.EnableLeftHand(leftHandIndex);
+            eater.Hands.EnableRightHand(rightHandIndex);
         }
     }
 }

@@ -12,6 +12,7 @@ namespace Assets.Scripts.ScriptableObjects
     public class StickyHandsModifier : GnamModifier
     {
         public float duration;
+
         public override void Activate(EaterDto eater)
         {
             var leftGrabber = eater.Hands.LeftGrabber;
@@ -20,13 +21,11 @@ namespace Assets.Scripts.ScriptableObjects
             leftGrabber.ForceGrab = true;
             rightGrabber.ForceGrab = true;
 
-            eater.Hands.StartCoroutine(WaitToDisable(eater));
+            eater.Mouth.StartCoroutine(WaitToDeactivate(eater, duration));
         }
 
-        IEnumerator WaitToDisable(EaterDto eater)
+        public override void Deactivate(EaterDto eater)
         {
-            yield return new WaitForSeconds(duration);
-
             var leftGrabber = eater.Hands.LeftGrabber;
             var rightGrabber = eater.Hands.RightGrabber;
 

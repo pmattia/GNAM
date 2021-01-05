@@ -31,23 +31,20 @@ namespace Assets.Scripts.ScriptableObjects
             var rigidBodyR = rightHandHolder.gameObject.AddComponent<Rigidbody>();
             rigidBodyR.useGravity = true;
             rigidBodyR.mass = 1;
-            eater.Hands.StartCoroutine(WaitToReattach(leftHandHolder, rightHandHolder));
+            eater.Hands.StartCoroutine(WaitToDeactivate(eater, duration));
         }
 
-        IEnumerator WaitToReattach(Transform leftHandHolder, Transform rightHandHolder)
+        public override void Deactivate(EaterDto eater)
         {
-            yield return new WaitForSeconds(duration);
+            Destroy(eater.Hands.LeftHandHolder.GetComponent<Rigidbody>());
+            eater.Hands.LeftHandHolder.SetParent(prevParentL);
+            eater.Hands.LeftHandHolder.localPosition = Vector3.zero;
+            eater.Hands.LeftHandHolder.localRotation = Quaternion.identity;
 
-            Destroy(leftHandHolder.GetComponent<Rigidbody>());
-            leftHandHolder.SetParent(prevParentL);
-            leftHandHolder.localPosition = Vector3.zero;
-            leftHandHolder.localRotation = Quaternion.identity;
-
-            Destroy(rightHandHolder.GetComponent<Rigidbody>());
-            rightHandHolder.SetParent(prevParentR);
-            rightHandHolder.localPosition = Vector3.zero;
-            rightHandHolder.localRotation = Quaternion.identity;
-
+            Destroy(eater.Hands.RightHandHolder.GetComponent<Rigidbody>());
+            eater.Hands.RightHandHolder.SetParent(prevParentR);
+            eater.Hands.RightHandHolder.localPosition = Vector3.zero;
+            eater.Hands.RightHandHolder.localRotation = Quaternion.identity;
         }
     }
 }
