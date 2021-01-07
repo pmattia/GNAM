@@ -3,7 +3,17 @@ guid: f7a3522fc4c62344095c641aafb2961b
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_CiambellaCioccolato
+    second: {fileID: 2100000, guid: c6e0bc8e7f0fbb34287830ef0666037d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_Collider
+    second: {fileID: 2100000, guid: 5608000f94e451d4b9555c8d0211459d, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
@@ -63,7 +73,7 @@ ModelImporter:
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
-    tangentImportMode: 3
+    tangentImportMode: 0
     normalCalculationMode: 4
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1

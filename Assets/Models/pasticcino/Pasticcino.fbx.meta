@@ -3,7 +3,17 @@ guid: fa23e67368655314e81dd426f9b039cd
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_Collider
+    second: {fileID: 2100000, guid: 2f25727387ae0b74aaf5852a3d7c9379, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_Pasticcino
+    second: {fileID: 2100000, guid: d7540e63cf91f534ea1d0a2def41998c, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
@@ -63,7 +73,7 @@ ModelImporter:
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
-    tangentImportMode: 3
+    tangentImportMode: 0
     normalCalculationMode: 4
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1

@@ -3,7 +3,17 @@ guid: 41f3a62a217232646a3c9d9c0a554021
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert1
+    second: {fileID: 2100000, guid: 7f95f29a8b7e5ec4d82c2b20eddc86d7, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: panino-texture
+    second: {fileID: 2800000, guid: a750391bb999edf45909898d04b222dc, type: 3}
   materials:
     materialImportMode: 1
     materialName: 0
@@ -81,7 +91,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.06
+    globalScale: 6
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0

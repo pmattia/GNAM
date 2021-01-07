@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -2326,6 +2326,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eatableParts:
   - {fileID: 1513287418}
+  foodFamily: 0
 --- !u!114 &1513287418 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1832999404255990803, guid: 2b801b12a70978345a78eca5fc3e6677,
@@ -2986,7 +2987,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100014, guid: 7977e423937da9b48aac1866c67bb5be, type: 3}
+  - {fileID: 2100000, guid: ff9d5485bb613244fad35e4c1fc5fdfd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

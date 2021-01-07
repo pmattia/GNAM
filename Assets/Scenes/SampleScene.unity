@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -203,6 +203,7 @@ MonoBehaviour:
   IndexBlendMax: 0
   ThumbBlendMin: 0
   ThumbBlendMax: 0
+  ShowAngleGizmo: 1
 --- !u!1 &53853045 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7174878547395897505, guid: 903315d446184b4459c8c1f0f57cc3f0,
@@ -323,6 +324,7 @@ MonoBehaviour:
   IndexBlendMax: 0
   ThumbBlendMin: 0
   ThumbBlendMax: 0
+  ShowAngleGizmo: 1
 --- !u!1001 &117677147
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -964,7 +966,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ebb2de1fb7cd3d4e948b45834f0ebfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isEating: 0
   isEnabled: 1
   audioSource: {fileID: 208833983}
   crunchingAudio: {fileID: 8300000, guid: ef46248ae4c183246bbf0f17ec2d95d3, type: 3}
@@ -1187,6 +1188,7 @@ MonoBehaviour:
   IndexBlendMax: 0
   ThumbBlendMin: 0
   ThumbBlendMax: 0
+  ShowAngleGizmo: 1
 --- !u!1 &340851388 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7174878547395897505, guid: 903315d446184b4459c8c1f0f57cc3f0,
@@ -1479,10 +1481,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   foods:
-  - {fileID: 1585353934}
-  - {fileID: 1762674412}
-  - {fileID: 1931519882}
-  - {fileID: 1426587817}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!4 &363719538
 Transform:
   m_ObjectHideFlags: 0
@@ -1659,6 +1661,7 @@ MonoBehaviour:
   IndexBlendMax: 0
   ThumbBlendMin: 0
   ThumbBlendMax: 0
+  ShowAngleGizmo: 1
 --- !u!1 &465836881 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7174878547395897505, guid: 903315d446184b4459c8c1f0f57cc3f0,
@@ -2347,9 +2350,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa13b59692476bc439841b0f831619a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouthModifiers: []
-  handsModifiers: []
+  modifiers: []
   eatTime: 3
+  grabPoints: []
 --- !u!65 &737310213
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2398,9 +2401,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa13b59692476bc439841b0f831619a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouthModifiers: []
-  handsModifiers: []
+  modifiers: []
   eatTime: 0.5
+  grabPoints: []
 --- !u!23 &763968575
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5097,7 +5100,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: ff9d5485bb613244fad35e4c1fc5fdfd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5222,9 +5225,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa13b59692476bc439841b0f831619a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouthModifiers: []
-  handsModifiers: []
+  modifiers: []
   eatTime: 0.5
+  grabPoints: []
 --- !u!23 &1219971438
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6124,9 +6127,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa13b59692476bc439841b0f831619a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouthModifiers: []
-  handsModifiers: []
+  modifiers: []
   eatTime: 3
+  grabPoints: []
 --- !u!4 &1408252024
 Transform:
   m_ObjectHideFlags: 0
@@ -6265,18 +6268,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1408252020}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1426587817 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5268180856203659884, guid: 681e17d149b264846bcc2632ae4a2807,
-    type: 3}
-  m_PrefabInstance: {fileID: 1987993120}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1bbb8138e1077644484ca85be3fbfabe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1451033936
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6514,18 +6505,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1585353934 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5268180856203659884, guid: 681e17d149b264846bcc2632ae4a2807,
-    type: 3}
-  m_PrefabInstance: {fileID: 1327709984}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1bbb8138e1077644484ca85be3fbfabe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1585376010
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6934,9 +6913,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa13b59692476bc439841b0f831619a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouthModifiers: []
-  handsModifiers: []
+  modifiers: []
   eatTime: 3
+  grabPoints: []
 --- !u!1 &1711421500
 GameObject:
   m_ObjectHideFlags: 0
@@ -7100,18 +7079,6 @@ PrefabInstance:
     - {fileID: 2507538898156301007, guid: 903315d446184b4459c8c1f0f57cc3f0, type: 3}
     - {fileID: 3963103961014122134, guid: 903315d446184b4459c8c1f0f57cc3f0, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 903315d446184b4459c8c1f0f57cc3f0, type: 3}
---- !u!114 &1762674412 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5268180856203659884, guid: 681e17d149b264846bcc2632ae4a2807,
-    type: 3}
-  m_PrefabInstance: {fileID: 1352820142}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1bbb8138e1077644484ca85be3fbfabe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1765600017
 GameObject:
   m_ObjectHideFlags: 0
@@ -7164,6 +7131,7 @@ MonoBehaviour:
   IndexBlendMax: 0
   ThumbBlendMin: 0
   ThumbBlendMax: 0
+  ShowAngleGizmo: 1
 --- !u!1 &1878672432
 GameObject:
   m_ObjectHideFlags: 0
@@ -7216,6 +7184,7 @@ MonoBehaviour:
   IndexBlendMax: 0
   ThumbBlendMin: 0
   ThumbBlendMax: 0
+  ShowAngleGizmo: 1
 --- !u!1 &1879886319 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7174878547395897505, guid: 903315d446184b4459c8c1f0f57cc3f0,
@@ -7352,18 +7321,6 @@ MonoBehaviour:
   LocalOffsetTransform: {fileID: 0}
   GrabPoints: []
   UseCustomInspector: 1
---- !u!114 &1931519882 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5268180856203659884, guid: 681e17d149b264846bcc2632ae4a2807,
-    type: 3}
-  m_PrefabInstance: {fileID: 317004795}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1bbb8138e1077644484ca85be3fbfabe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1936032652
 GameObject:
   m_ObjectHideFlags: 0
@@ -7416,6 +7373,7 @@ MonoBehaviour:
   IndexBlendMax: 0
   ThumbBlendMin: 0
   ThumbBlendMax: 0
+  ShowAngleGizmo: 1
 --- !u!1001 &1987993120
 PrefabInstance:
   m_ObjectHideFlags: 0

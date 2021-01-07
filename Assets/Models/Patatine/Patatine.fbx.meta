@@ -3,7 +3,12 @@ guid: 64570cadc9569f24ab4a626a934c9f15
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_Patatine
+    second: {fileID: 2100000, guid: 28640d751d2044e40a5b50b2a5c0cfdd, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
