@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.AI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,7 +22,20 @@ namespace Assets.Scripts
 
             if (tPlaceholders.Count() > 0)
             {
-                for (int i = 0; i < level; i++)
+                var currentMobCount = FindObjectsOfType<ShootAtTargets>().Length;
+
+                var newMobCount = 0;
+                if(level > 1)
+                {
+                    newMobCount = Mathf.FloorToInt(level / (2 + UnityEngine.Random.Range(0, 1)));
+                }
+
+                if(newMobCount + currentMobCount > level)
+                {
+                    newMobCount = level - currentMobCount;
+                }
+                
+                for (int i = 0; i < newMobCount; i++)
                 {
                     var mob = mobs[UnityEngine.Random.Range(0, mobs.Length)];
 
@@ -34,6 +48,17 @@ namespace Assets.Scripts
                 }
             }
             return ret.ToArray();
+        }
+
+        public void RemoveMobs()
+        {
+            foreach (var placeholder in placeholders)
+            {
+                foreach(Transform child in placeholder.transform)
+                {
+                    Destroy(child.gameObject);
+                }
+            }
         }
     }
 }

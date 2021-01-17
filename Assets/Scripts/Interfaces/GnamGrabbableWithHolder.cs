@@ -21,10 +21,13 @@ namespace Assets.Scripts.Interfaces
             GrabPoints.Clear();
             GrabPoints.AddRange(holderGrabPoints);
 
-            holder.onEated += (eater) =>
+            if (holder)
             {
-                GrabPoints = grabpoints;
-            };
+                holder.onEated += (eater) =>
+                {
+                    GrabPoints = grabpoints;
+                };
+            }
         }
     }
 }

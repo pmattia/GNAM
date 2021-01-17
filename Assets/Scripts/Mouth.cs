@@ -49,8 +49,6 @@ namespace Assets.Scripts
 
         private void OnTriggerEnter(Collider other)
         {
-            Debug.Log("trigger " + other.gameObject.name);
-
             if ((isTurbo || !isEating) && isEnabled)
             {
                 var eatable = other.GetComponent<Eatable>();

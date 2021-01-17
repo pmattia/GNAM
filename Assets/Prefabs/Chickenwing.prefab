@@ -94,7 +94,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   modifiers: []
-  eatTime: 1
+  eatTime: 0.5
   grabPoints: []
 --- !u!64 &242269865550872679
 MeshCollider:
@@ -120,6 +120,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6033246597177402605}
   - component: {fileID: 4148384088979788298}
+  - component: {fileID: 319646962}
   m_Layer: 10
   m_Name: Mesh_ChickenWing
   m_TagString: Untagged
@@ -161,6 +162,19 @@ MonoBehaviour:
   - {fileID: 242269865550872676}
   - {fileID: 8463924229997674426}
   foodFamily: 2
+--- !u!65 &319646962
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4148384088979788533}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.3731493, y: 0.19417089, z: 0.17641097}
+  m_Center: {x: -0.045309704, y: 0.0057416484, z: -0.0014648288}
 --- !u!1 &4851592301258745248
 GameObject:
   m_ObjectHideFlags: 0
@@ -173,6 +187,7 @@ GameObject:
   - component: {fileID: 4851592301258745255}
   - component: {fileID: 4851592301258745254}
   - component: {fileID: 4851592301258745249}
+  - component: {fileID: 446776489}
   m_Layer: 10
   m_Name: Chickenwing
   m_TagString: Untagged
@@ -270,7 +285,7 @@ MonoBehaviour:
   - {fileID: 5715505121847821668}
   - {fileID: 5715505121322137771}
   UseCustomInspector: 1
-  holder: {fileID: 7450121225566365781}
+  holder: {fileID: 0}
   holderGrabPoints:
   - {fileID: 5715505121847821668}
   - {fileID: 5715505121322137771}
@@ -283,10 +298,27 @@ BoxCollider:
   m_GameObject: {fileID: 4851592301258745248}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 0.33140072, y: 0.14937893, z: 0.14332849}
   m_Center: {x: -0.05080301, y: 0, z: -0.0000783056}
+--- !u!114 &446776489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4851592301258745248}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60be5d62bb064fd4d8021dae00be3f6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eatableParts:
+  - {fileID: 5822255954215502839}
+  - {fileID: 242269865550872676}
+  - {fileID: 8463924229997674426}
+  foodFamily: 2
 --- !u!1 &5715505121322137770
 GameObject:
   m_ObjectHideFlags: 0
@@ -487,7 +519,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   modifiers: []
-  eatTime: 1
+  eatTime: 0.5
   grabPoints: []
 --- !u!64 &5822255954215502838
 MeshCollider:
@@ -515,7 +547,7 @@ GameObject:
   - component: {fileID: 8648217103633466033}
   - component: {fileID: 8017305400269220339}
   - component: {fileID: 7450121225566365780}
-  - component: {fileID: 7450121225566365781}
+  - component: {fileID: 416496014963202810}
   m_Layer: 10
   m_Name: Mesh_ChickenWing_Bone
   m_TagString: Untagged
@@ -600,7 +632,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -5565076647535931466, guid: 4307d29ad795c9a45a015cfe07c2f9f2, type: 3}
---- !u!114 &7450121225566365781
+--- !u!114 &416496014963202810
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -613,7 +645,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   modifiers: []
-  eatTime: 1
+  eatTime: 3
   grabPoints: []
 --- !u!1 &8463924229997674404
 GameObject:
@@ -709,7 +741,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   modifiers: []
-  eatTime: 1
+  eatTime: 0.5
   grabPoints: []
 --- !u!64 &8463924229997674405
 MeshCollider:

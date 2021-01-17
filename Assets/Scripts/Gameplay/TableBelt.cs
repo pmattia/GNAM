@@ -16,48 +16,105 @@ public class TableBelt : MonoBehaviour
     public GameObject[] foodbagsRepository;
     public PathNode[] nodes;
     public int maxTrayOnTable;
-    public float speed;
-    public float nodePause = 4;
+    public float speed = .1f;
+    public float nodePause = 3;
     public GameObjectSpawner bonusSpawner;
+    public GameObject nextLevelEatable;
+    public Eatable startEatable;
     public Billboard billboard;
     public Timer timer;
     public int startupTimer = 60;
     bool isPlaying = true;
     public int currentLevel = 1;
+    public int foodToEat = 50;
     int eatedFoods = 0;
 
     float gameplayTime = 0;
+    float totalGameplayTime = 0;
+
+    public AudioSource soundTrack;
 
     void Start()
     {
-        timer.onExpired += () => { isPlaying = false; };
-        timer.SetTimer(startupTimer);
-        timer.StartTimer();
-
-        var level = GetLevel(currentLevel, eatedFoods);
-        billboard.SetLevel(level);
+        totalGameplayTime = 0;
+        isPlaying = false;
         billboard.onObjectiveCompleted += (family, objectivesFamilies) =>
         {
             Debug.Log("OBJECTIVE COMPLETED FOR " + family);
-            speed += speed * .1f;
-            nodePause -= nodePause * .1f;
+            speed += speed * .05f;
+            nodePause -= nodePause * .05f;
             bonusSpawner.SpawnNewObject();
             timer.AddTime(15);
 
-            currentLevel = GetLevelIndex();
-
+            //currentLevel = GetLevelIndex();
             billboard.AddObjective(GetNewObjective(currentLevel, objectivesFamilies));
-
-            mobSpawner.SpawnMob(currentLevel);
+            
+            SpawnMobs();
+        };
+        billboard.onGameCompleted += () =>
+        {
+            isPlaying = false;
+            billboard.YouWin();
+            mobSpawner.RemoveMobs();
+            trays.ForEach(t => Destroy(t.gameObject));
+            trays.Clear();
+            soundTrack.Stop();
+            timer.StopTimer();
+            bonusSpawner.SpawnPermanentObject(nextLevelEatable, GoToNextLevel);
+        };
+        timer.onExpired += () => {
+            isPlaying = false;
+            billboard.GameOver();
+            mobSpawner.RemoveMobs();
+            trays.ForEach(t => Destroy(t.gameObject));
+            trays.Clear();
+            soundTrack.Stop();
         };
 
+        startEatable.onEated += (eater) =>
+        {
+            this.StartGame();
+        };
+
+        InvokeRepeating("SpawnMobs", 5, UnityEngine.Random.Range(10, 20));
+    }
+
+    void SpawnMobs()
+    {
+        //currentLevel = GetLevelIndex();
+
+        mobSpawner.SpawnMob(currentLevel);
+    }
+
+    void StartGame()
+    {
+        soundTrack.Play();
+
+        totalGameplayTime = gameplayTime;
+        gameplayTime = 0;
+        isPlaying = true;
+        eatedFoods = 0;
+        var level = GetLevel(currentLevel, eatedFoods);
+        billboard.SetLevel(level);
+
+        timer.SetTimer(startupTimer);
+        timer.StartTimer();
 
         //mobSpawner.SpawnMob(5);
+
+    }
+
+    void GoToNextLevel(EaterDto eater)
+    {
+        currentLevel++;
+        this.foodToEat = Mathf.CeilToInt(foodToEat * 1.5f);
+        this.StartGame();
     }
 
     LevelDto GetLevel(int levelIndex, int eatedFoods)
     {
         var level = new LevelDto();
+        level.foodToEat = foodToEat;
         level.foodsEated = eatedFoods;
         level.objectives.Add(new ObjectiveDto()
         {
@@ -89,7 +146,7 @@ public class TableBelt : MonoBehaviour
 
         } while (excludedFamilies.Contains(ret.family));
 
-        var toEat = Mathf.CeilToInt((Random.Range(1, 5) * levelIndex));
+        var toEat = Mathf.CeilToInt((Random.Range(1, levelIndex * 3)));
         ret.toEat = toEat;
 
         return ret;
@@ -152,10 +209,11 @@ public class TableBelt : MonoBehaviour
         return followerComponent;
     }
 
-    int GetLevelIndex() {
-        var ret = Mathf.CeilToInt(gameplayTime / 30);
-        return ret == 0 ? 1 : ret;
-    }
+    //int GetLevelIndex() {
+        
+    //    var ret = Mathf.CeilToInt(totalGameplayTime / 30);
+    //    return ret == 0 ? 1 : ret;
+    //}
 
 
     // Update is called once per frame
@@ -163,14 +221,14 @@ public class TableBelt : MonoBehaviour
     {
         if (isPlaying) { 
             gameplayTime += Time.deltaTime;
+            totalGameplayTime += Time.deltaTime;
+
+            if (CanAddTray)
+            {
+                AddTrayToTable();
+            }
         }
 
-
-
-        if (CanAddTray)
-        {
-
-            AddTrayToTable();
-        }
+        
     }
 }

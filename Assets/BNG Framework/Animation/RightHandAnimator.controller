@@ -41,19 +41,19 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Pose
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Pinch
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -178,16 +178,8 @@ BlendTree:
     m_DirectBlendParameter: Flex
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 165871bb4fa915847973b6955c7a670d, type: 3}
-    m_Threshold: 0.835
-    m_Position: {x: 0, y: 1}
-    m_TimeScale: 1
-    m_CycleOffset: 0
-    m_DirectBlendParameter: Flex
-    m_Mirror: 0
-  - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: 3c1e2504e79f7a242a8a0c8a4add2578, type: 3}
-    m_Threshold: 1
+    m_Threshold: 0.835
     m_Position: {x: 0.5, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
@@ -195,7 +187,7 @@ BlendTree:
     m_Mirror: 0
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: 3c1e2504e79f7a242a8a0c8a4add2578, type: 3}
-    m_Threshold: 1.165
+    m_Threshold: 1
     m_Position: {x: 0.5, y: 1}
     m_TimeScale: 1
     m_CycleOffset: 0
@@ -203,7 +195,7 @@ BlendTree:
     m_Mirror: 0
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: 649ee9096089b1342bee9132e3ccc8bd, type: 3}
-    m_Threshold: 1.3299999
+    m_Threshold: 1.165
     m_Position: {x: 0.835, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
@@ -211,8 +203,16 @@ BlendTree:
     m_Mirror: 0
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: 649ee9096089b1342bee9132e3ccc8bd, type: 3}
-    m_Threshold: 1.4949999
+    m_Threshold: 1.3299999
     m_Position: {x: 0.835, y: 1}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: Flex
+    m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: 7400000, guid: 165871bb4fa915847973b6955c7a670d, type: 3}
+    m_Threshold: 1.4949999
+    m_Position: {x: 0, y: 1}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: Flex

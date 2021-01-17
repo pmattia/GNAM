@@ -420,7 +420,6 @@ GameObject:
   - component: {fileID: 3250199791822310949}
   - component: {fileID: 3250199791822310948}
   - component: {fileID: 3250199791822310951}
-  - component: {fileID: 3250199791822310950}
   - component: {fileID: 3250199791822310969}
   - component: {fileID: 3250199791822310968}
   - component: {fileID: 3250199791822310971}
@@ -433,6 +432,7 @@ GameObject:
   - component: {fileID: 3250199791822310960}
   - component: {fileID: 3250199791822310963}
   - component: {fileID: 3250199791822310962}
+  - component: {fileID: 6849272359942939741}
   m_Layer: 10
   m_Name: Spingarda
   m_TagString: Untagged
@@ -491,64 +491,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &3250199791822310950
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3250199791822310965}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5cdea428d48e2bb488d33d5f75c39bb9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BeingHeld: 0
-  GrabButton: 2
-  Grabtype: 2
-  GrabPhysics: 0
-  GrabMechanic: 0
-  GrabSpeed: 20
-  RemoteGrabbable: 1
-  RemoteGrabDistance: 2.5
-  ThrowForceMultiplier: 2.5
-  ThrowForceMultiplierAngular: 1.5
-  BreakDistance: 1
-  HideHandGraphics: 0
-  ParentToHands: 1
-  ParentHandModel: 1
-  SnapHandModel: 1
-  CanBeDropped: 1
-  CanBeSnappedToSnapZone: 1
-  ForceDisableKinematicOnDrop: 0
-  CustomHandPose: 50
-  SecondaryGrabBehavior: 0
-  OtherGrabbableMustBeGrabbed: {fileID: 0}
-  SecondaryGrabbable: {fileID: 0}
-  SecondHandLookSpeed: 40
-  CollisionSpring: 3000
-  CollisionSlerp: 300
-  CollisionLinearMotionX: 2
-  CollisionLinearMotionY: 2
-  CollisionLinearMotionZ: 2
-  CollisionAngularMotionX: 2
-  CollisionAngularMotionY: 2
-  CollisionAngularMotionZ: 2
-  ApplyCorrectiveForce: 1
-  MoveVelocityForce: 3000
-  MoveAngularVelocityForce: 90
-  LastGrabTime: 0
-  LastDropTime: 0
-  AddControllerVelocityOnDrop: 1
-  collisions: []
-  ActiveGrabPoint: {fileID: 0}
-  SecondaryLookOffset: {x: 0, y: 0, z: 0}
-  SecondaryLookAtTransform: {fileID: 0}
-  LocalOffsetTransform: {fileID: 0}
-  GrabPoints:
-  - {fileID: 3250199791816199645}
-  - {fileID: 3250199792706895466}
-  UseCustomInspector: 1
 --- !u!82 &3250199791822310969
 AudioSource:
   m_ObjectHideFlags: 0
@@ -660,12 +602,12 @@ MonoBehaviour:
   MaxRange: 25
   Damage: 25
   FiringMethod: 0
-  ReloadMethod: 0
+  ReloadMethod: 1
   FiringRate: 0.05
   BulletImpactForce: 1000
   MaxInternalAmmo: 10
   AutoChamberRounds: 1
-  MustChamberRounds: 0
+  MustChamberRounds: 1
   AlwaysFireProjectile: 1
   FireProjectileInSlowMo: 0
   SlowMoRateOfFire: 0.3
@@ -740,7 +682,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3250199791822310965}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b5b1b54556836a49948cf0f09394c28, type: 3}
   m_Name: 
@@ -759,8 +701,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.019911647, y: 0.010543529, z: 0.32788235}
-  m_Center: {x: 0.0003091693, y: 0.012304289, z: 0.1021758}
+  m_Size: {x: 0.019911647, y: 0.05440177, z: 0.27907556}
+  m_Center: {x: 0.0003091693, y: 0.034233414, z: 0.07777241}
 --- !u!65 &3250199791822310972
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -772,8 +714,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.019911647, y: 0.03399074, z: 0.010043144}
-  m_Center: {x: 0.0003091693, y: -0.010234132, z: 0.038158298}
+  m_Size: {x: 0.019911647, y: 0.03399074, z: 0.011343598}
+  m_Center: {x: 0.0003091693, y: -0.010234132, z: 0.009584606}
 --- !u!65 &3250199791822310975
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -911,6 +853,64 @@ MonoBehaviour:
   onSnapZoneExit:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &6849272359942939741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3250199791822310965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fd58ada5e44d8e4b9b1a2277746e0b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BeingHeld: 0
+  GrabButton: 0
+  Grabtype: 0
+  GrabPhysics: 0
+  GrabMechanic: 0
+  GrabSpeed: 7.5
+  RemoteGrabbable: 0
+  RemoteGrabDistance: 0
+  ThrowForceMultiplier: 2
+  ThrowForceMultiplierAngular: 1.5
+  BreakDistance: 0.2
+  HideHandGraphics: 0
+  ParentToHands: 1
+  ParentHandModel: 0
+  SnapHandModel: 1
+  CanBeDropped: 1
+  CanBeSnappedToSnapZone: 1
+  ForceDisableKinematicOnDrop: 0
+  CustomHandPose: 0
+  SecondaryGrabBehavior: 0
+  OtherGrabbableMustBeGrabbed: {fileID: 0}
+  SecondaryGrabbable: {fileID: 0}
+  SecondHandLookSpeed: 40
+  CollisionSpring: 1000
+  CollisionSlerp: 500
+  CollisionLinearMotionX: 2
+  CollisionLinearMotionY: 2
+  CollisionLinearMotionZ: 2
+  CollisionAngularMotionX: 2
+  CollisionAngularMotionY: 2
+  CollisionAngularMotionZ: 2
+  ApplyCorrectiveForce: 1
+  MoveVelocityForce: 3000
+  MoveAngularVelocityForce: 90
+  LastGrabTime: 0
+  LastDropTime: 0
+  AddControllerVelocityOnDrop: 1
+  collisions: []
+  ActiveGrabPoint: {fileID: 0}
+  SecondaryLookOffset: {x: 0, y: 0, z: 0}
+  SecondaryLookAtTransform: {fileID: 0}
+  LocalOffsetTransform: {fileID: 0}
+  GrabPoints:
+  - {fileID: 3250199791816199645}
+  - {fileID: 3250199792706895466}
+  UseCustomInspector: 1
 --- !u!1 &3250199791885380663
 GameObject:
   m_ObjectHideFlags: 0
@@ -2832,8 +2832,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.027630344, y: 0.022264734, z: 0.19486892}
-  m_Center: {x: 0.00017517805, y: 0.032404147, z: 0.01911372}
+  m_Size: {x: 0.031375416, y: 0.030587092, z: 0.20984924}
+  m_Center: {x: 0.0020477138, y: 0.036565326, z: 0.011623561}
 --- !u!153 &3250199793115850806
 ConfigurableJoint:
   m_ObjectHideFlags: 0
@@ -3078,7 +3078,7 @@ MonoBehaviour:
   ForceDisableKinematicOnDrop: 0
   CustomHandPose: 0
   SecondaryGrabBehavior: 0
-  OtherGrabbableMustBeGrabbed: {fileID: 3250199791822310950}
+  OtherGrabbableMustBeGrabbed: {fileID: 0}
   SecondaryGrabbable: {fileID: 0}
   SecondHandLookSpeed: 40
   CollisionSpring: 3000
@@ -3478,7 +3478,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3250199793342442732}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.0338, z: 0.2343}
+  m_LocalPosition: {x: 0, y: 0.0378, z: 0.2609}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3250199793644623740}
@@ -3497,7 +3497,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.02, y: 0.023178717, z: 0.04624814}
-  m_Center: {x: 0, y: -0.040592317, z: -0.0028037832}
+  m_Center: {x: 0, y: 0, z: -0.0028037832}
 --- !u!114 &3250199793342442730
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3511,7 +3511,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AcceptableMagazineName: PistolClip
-  AttachedWeapon: {fileID: 3250199791822310950}
+  AttachedWeapon: {fileID: 0}
   ClipSnapDistance: 0.04
   ClipUnsnapDistance: 0.1
   EjectForce: 1.25
@@ -3819,7 +3819,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3250199793644623743}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.0673, z: -0.0083}
+  m_LocalPosition: {x: 0, y: -0.04, z: -0.0083}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3250199793342442733}

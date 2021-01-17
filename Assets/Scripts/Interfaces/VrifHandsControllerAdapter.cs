@@ -63,11 +63,13 @@ namespace Assets.Scripts.ScriptableObjects
 
         public int DisableLeftHand()
         {
+            LeftGrabber.TryRelease();
             LeftGrabber.Enabled = false;
             return DisableHand(LeftHandHolder);
         }
         public int DisableRightHand()
         {
+            RightGrabber.TryRelease();
             RightGrabber.Enabled = false;
             return DisableHand(RightHandHolder);
         }

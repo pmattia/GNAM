@@ -47,13 +47,17 @@ namespace Assets.Scripts.Interfaces
                 }
             }
 
+            Debug.Log($"PROJECTILE {other.name} - {eatablesToAttach.Count}");
+
             if (eatablesToAttach.Count > 0)
             {
                 foreach (var item in eatablesToAttach)
                 {
-                    var renderer = eatable.GetComponent<Renderer>();
-                    renderer.material.SetColor("_Color", Color.white);
-                    renderer.material.mainTexture = null;
+                    Debug.Log($"COLORA {item.name}");
+                    var renderer = item.GetComponent<Renderer>();
+                    //renderer.material.SetColor("_Color", Color.white);
+                    //renderer.material.mainTexture = null;
+                    renderer.material = null;
                     item.modifiers.AddRange(GetRandomModifiers());
                 }
             }

@@ -12,6 +12,8 @@ namespace Assets.Scripts.AI
     public class ShootAtTargets : MonoBehaviour
     {
         RaycastWeapon[] weapons;
+        Quaternion[] prevWeaponsRotation;
+        [SerializeField] Animator mobAnimator;
         Food[] foods;
         Transform player;
         
@@ -30,6 +32,7 @@ namespace Assets.Scripts.AI
             damageable = GetComponent<Damageable>();
 
             weapons = GetComponentsInChildren<RaycastWeapon>().Where(c => c.enabled == true).ToArray();
+            prevWeaponsRotation = weapons.Select(w => w.transform.rotation).ToArray();
             if (!shootFoodFirst)
             { 
                 targets.Add(player); 
@@ -78,7 +81,7 @@ namespace Assets.Scripts.AI
 
             if (targets.Count() == 0 && shootFoodFirst)
             {
-                currentTarget = player;
+                //currentTarget = player;
             }
             else
             {
@@ -88,12 +91,22 @@ namespace Assets.Scripts.AI
 
         IEnumerator ShootAndRefil()
         {
+            if(mobAnimator)
+                mobAnimator.SetBool("shooting", true);
             isReadyToShoot = false;
-            yield return new WaitForSeconds(.1f);
+            yield return new WaitForSeconds(.15f);
             foreach(var weapon in weapons)
             {
+                if (currentTarget && mobAnimator) //solo per monokuma
+                {
+                    Vector3 relativePos = currentTarget.position - weapon.transform.position;
+                    weapon.transform.rotation = Quaternion.LookRotation(relativePos, Vector3.up);
+                    Debug.Log("rotation");
+                }
                 weapon.Shoot();
             }
+            if(mobAnimator)
+                mobAnimator.SetBool("shooting", false);
             yield return new WaitForSeconds(UnityEngine.Random.Range(2, 5));
             isReadyToShoot = true;
         }
@@ -102,9 +115,12 @@ namespace Assets.Scripts.AI
         {
             transform.rotation = RotationLerpTo(transform, target.position);
 
-            foreach (var weapon in weapons)
+            if (!mobAnimator)  //solo per gatti
             {
-                weapon.transform.rotation = RotationLerpTo(weapon.transform, target.position);
+                foreach (var weapon in weapons)
+                {
+                    weapon.transform.rotation = RotationLerpTo(weapon.transform, target.position);
+                }
             }
         }
 

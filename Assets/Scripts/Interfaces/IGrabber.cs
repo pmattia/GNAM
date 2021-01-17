@@ -10,5 +10,6 @@ namespace Assets.Scripts.ScriptableObjects
     {
         bool ForceGrab { get; set; }
         bool Enabled { get; set; }
+        void TryRelease();
     }
 }

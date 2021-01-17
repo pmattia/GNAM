@@ -138,8 +138,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f629ae7b385ebbc489b5eb0f82e81678, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mobAnimator: {fileID: 0}
   speed: 5
   shootFoodFirst: 1
+  isShooterEnabled: 1
 --- !u!114 &4865913262836185446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,7 +209,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.17994139, y: 0.77409714, z: 0.1799416}
-  m_Center: {x: -0.09747867, y: 0.013925523, z: -0.06962757}
+  m_Center: {x: -0.09747867, y: 0.49, z: -0.06962757}
 --- !u!65 &4865913262836185447
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -220,7 +222,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.53581583, y: 0.3161022, z: 0.33466953}
-  m_Center: {x: -0.099025935, y: 0.19959924, z: -0.07581669}
+  m_Center: {x: -0.099025935, y: 0.93, z: -0.07581669}
 --- !u!54 &4865913262836185449
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -338,7 +340,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 994c301cb6f15aa4bb37ea2d87877435, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.702
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 994c301cb6f15aa4bb37ea2d87877435, type: 3}
       propertyPath: m_LocalPosition.z

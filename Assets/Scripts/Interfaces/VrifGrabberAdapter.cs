@@ -35,5 +35,10 @@ namespace Assets.Scripts.Interfaces
                 _grabber.enabled = value;
             }
         }
+
+        public void TryRelease()
+        {
+            _grabber.TryRelease();
+        }
     }
 }

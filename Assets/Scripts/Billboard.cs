@@ -12,14 +12,21 @@ namespace Assets.Scripts
     {
         public TextMeshPro foodPointStatsText;
         public List<TextMeshPro> objectiveTexts;
+        public List<SpriteRenderer> objectiveIcons;
+        public List<Sprite> foodFamilyIcons;
+        public GameObject gameover;
+        public GameObject youwin;
 
         public event Action<Food.FoodFamily, List<Food.FoodFamily>> onObjectiveCompleted;
+        public event Action onGameCompleted;
 
         List<ObjectiveDto> objectives = new List<ObjectiveDto>();
         int foodsEated;
+        int foodsToEat;
 
         public class LevelDto
         {
+            public int foodToEat;
             public int foodsEated;
             public List<ObjectiveDto> objectives = new List<ObjectiveDto>();
         }
@@ -40,24 +47,53 @@ namespace Assets.Scripts
         public void SetLevel(LevelDto level)
         {
             objectives.Clear();
-            foodPointStatsText.text = GetFoodPointsString(level.foodsEated);
+            foodPointStatsText.text = GetFoodPointsString(level.foodToEat, level.foodsEated);
             foodsEated = level.foodsEated;
+            foodsToEat = level.foodToEat;
             for (int i =0; i< level.objectives.Count; i++)
             {
                 var objective = level.objectives[i];
                 objectives.Add(objective);
             }
+
             RefreshObjectives();
+
+            this.gameover.SetActive(false);
+            this.youwin.SetActive(false);
+            objectiveTexts.ForEach(o => o.gameObject.SetActive(true));
+            objectiveIcons.ForEach(o => o.gameObject.SetActive(true));
+            foodPointStatsText.gameObject.SetActive(true);
+
+        }
+
+        public void GameOver()
+        {
+            this.gameover.SetActive(true);
+            objectiveTexts.ForEach(o => o.gameObject.SetActive(false));
+            objectiveIcons.ForEach(o => o.gameObject.SetActive(false));
+            foodPointStatsText.gameObject.SetActive(false);
+        }
+
+        public void YouWin()
+        {
+            this.youwin.SetActive(true);
+            objectiveTexts.ForEach(o => o.gameObject.SetActive(false));
+            objectiveIcons.ForEach(o => o.gameObject.SetActive(false));
+            foodPointStatsText.gameObject.SetActive(false);
         }
 
         public void AddFood(Food.FoodFamily family)
         {
+            
             foodsEated++;
-            foodPointStatsText.text = GetFoodPointsString(foodsEated);
+            foodPointStatsText.text = GetFoodPointsString(foodsToEat,foodsEated);
 
             var objective = objectives.FirstOrDefault(s => s.family == family);
             var index = objectives.IndexOf(objective);
-            if(objective != null)
+
+            Debug.Log($"{family} obj-> {index}");
+
+            if (objective != null)
             {
                 objective.eated++;
                 if (objective.IsCompleted)
@@ -74,8 +110,15 @@ namespace Assets.Scripts
                 else {
                     RefreshObjectives();
                 }
+            }
 
-
+            Debug.Log($"FINE {foodsToEat} - {foodsEated}");
+            if(foodsToEat == foodsEated)
+            {
+                if (onGameCompleted != null)
+                {
+                    onGameCompleted();
+                }
             }
         }
 
@@ -91,6 +134,8 @@ namespace Assets.Scripts
                 var objective = objectives[i];
                 objectiveTexts[i].text = GetStatsString(objective.family, objective.toEat, objective.eated);
                 objectiveTexts[i].color = Color.red;
+
+                objectiveIcons[i].sprite = foodFamilyIcons[(int)objective.family];
             }
         }
 
@@ -119,8 +164,8 @@ namespace Assets.Scripts
             return ret;
         }
 
-        string GetFoodPointsString(int eated) {
-            return string.Format("CIBI MANGIATI {0}", eated.ToString());
+        string GetFoodPointsString(int toEat, int eated) {
+            return string.Format("CIBI DA MANGIARE {0} SU {1}", eated.ToString(), toEat.ToString());
         }
     }
 }

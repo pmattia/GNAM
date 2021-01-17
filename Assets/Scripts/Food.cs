@@ -45,13 +45,11 @@ public class Food : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(collision);
         CheckProjectile(collision.gameObject);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other);
         CheckProjectile(other.gameObject);
     }
 

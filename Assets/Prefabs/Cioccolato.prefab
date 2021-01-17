@@ -214,7 +214,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   modifiers: []
-  eatTime: 1
+  eatTime: 0.5
   grabPoints:
   - {fileID: 2470655353414037371}
   - {fileID: 6808662478449422698}
@@ -393,7 +393,7 @@ MonoBehaviour:
   eatableParts:
   - {fileID: 4060201812625040536}
   - {fileID: 5824408407707342704}
-  foodFamily: 0
+  foodFamily: 4
 --- !u!1 &6567706375214338483
 GameObject:
   m_ObjectHideFlags: 0
@@ -502,7 +502,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   modifiers: []
-  eatTime: 1
+  eatTime: 0.5
   grabPoints:
   - {fileID: 2856964339300984742}
   - {fileID: 6930780287800808285}
