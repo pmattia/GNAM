@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -11,6 +12,7 @@ public class Timer : MonoBehaviour
     public TextMeshPro[] timers;
     bool isPlaying = false;
     public event Action onExpired;
+    public RadialProgress coronaProgress;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,6 +26,7 @@ public class Timer : MonoBehaviour
         {
             foreach (var timer in timers) { 
                 timer.text = Mathf.Round(realtimeCooldown).ToString();
+                coronaProgress.currentValue = Mathf.RoundToInt(realtimeCooldown);
             }
         }
         if (realtimeCooldown > 0 && isPlaying)
@@ -60,11 +63,13 @@ public class Timer : MonoBehaviour
     public void SetTimer(float cooldown)
     {
         this.cooldown = cooldown;
+        coronaProgress.totalValue = Mathf.RoundToInt(cooldown);
         this.realtimeCooldown = cooldown;
     }
 
     public float AddTime(float time) {
         realtimeCooldown += time;
+        coronaProgress.totalValue += Mathf.RoundToInt(time);
         return realtimeCooldown;
     }
 }

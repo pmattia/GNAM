@@ -3,7 +3,12 @@ guid: bf26610ea8930b94e89075934d7a603b
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_Pizza
+    second: {fileID: 2100000, guid: 68b5d518802ba08499dbdedac0bd24f8, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
@@ -63,7 +68,7 @@ ModelImporter:
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
-    tangentImportMode: 3
+    tangentImportMode: 2
     normalCalculationMode: 4
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
