@@ -23,6 +23,7 @@ namespace Assets.Scripts
         List<ObjectiveDto> objectives = new List<ObjectiveDto>();
         int foodsEated;
         int foodsToEat;
+        public RadialProgress coronaProgress;
 
         public class LevelDto
         {
@@ -50,6 +51,8 @@ namespace Assets.Scripts
             foodPointStatsText.text = GetFoodPointsString(level.foodToEat, level.foodsEated);
             foodsEated = level.foodsEated;
             foodsToEat = level.foodToEat;
+            coronaProgress.currentValue = foodsEated;
+            coronaProgress.totalValue = foodsToEat;
             for (int i =0; i< level.objectives.Count; i++)
             {
                 var objective = level.objectives[i];
@@ -87,6 +90,7 @@ namespace Assets.Scripts
             
             foodsEated++;
             foodPointStatsText.text = GetFoodPointsString(foodsToEat,foodsEated);
+            coronaProgress.currentValue = foodsEated;
 
             var objective = objectives.FirstOrDefault(s => s.family == family);
             var index = objectives.IndexOf(objective);
@@ -133,7 +137,7 @@ namespace Assets.Scripts
             {
                 var objective = objectives[i];
                 objectiveTexts[i].text = GetStatsString(objective.family, objective.toEat, objective.eated);
-                objectiveTexts[i].color = Color.red;
+              //  objectiveTexts[i].color = Color.red;
 
                 objectiveIcons[i].sprite = foodFamilyIcons[(int)objective.family];
             }
@@ -142,30 +146,31 @@ namespace Assets.Scripts
         string GetStatsString(Food.FoodFamily family, int toEat, int eated = 0, bool isCompleted = false)
         {
             var ret = string.Empty;
-            switch (family)
-            {
-                case Food.FoodFamily.Candy:
-                    ret = string.Format("DOLCI {0} SU {1}", eated.ToString(), toEat.ToString());
-                    break;
-                case Food.FoodFamily.Carbo:
-                    ret = string.Format("CARBOIDRATI {0} SU {1}", eated.ToString(), toEat.ToString());
-                    break;
-                case Food.FoodFamily.Fruit:
-                    ret = string.Format("FRUTTA {0} SU {1}", eated.ToString(), toEat.ToString());
-                    break;
-                case Food.FoodFamily.Meat:
-                    ret = string.Format("CARNE {0} SU {1}", eated.ToString(), toEat.ToString());
-                    break;
-                case Food.FoodFamily.Vegetable:
-                    ret = string.Format("VERDURA {0} SU {1}", eated.ToString(), toEat.ToString());
-                    break;
-            }
+            //switch (family)
+            //{
+            //    case Food.FoodFamily.Candy:
+            //        ret = string.Format("DOLCI {0} SU {1}", eated.ToString(), toEat.ToString());
+            //        break;
+            //    case Food.FoodFamily.Carbo:
+            //        ret = string.Format("CARBOIDRATI {0} SU {1}", eated.ToString(), toEat.ToString());
+            //        break;
+            //    case Food.FoodFamily.Fruit:
+            //        ret = string.Format("FRUTTA {0} SU {1}", eated.ToString(), toEat.ToString());
+            //        break;
+            //    case Food.FoodFamily.Meat:
+            //        ret = string.Format("CARNE {0} SU {1}", eated.ToString(), toEat.ToString());
+            //        break;
+            //    case Food.FoodFamily.Vegetable:
+            //        ret = string.Format("VERDURA {0} SU {1}", eated.ToString(), toEat.ToString());
+            //        break;
+            //}
+            ret = string.Format("{0} su {1}", eated.ToString(), toEat.ToString());
 
             return ret;
         }
 
         string GetFoodPointsString(int toEat, int eated) {
-            return string.Format("CIBI DA MANGIARE {0} SU {1}", eated.ToString(), toEat.ToString());
+            return string.Format("{0} su {1}", eated.ToString(), toEat.ToString());
         }
     }
 }
