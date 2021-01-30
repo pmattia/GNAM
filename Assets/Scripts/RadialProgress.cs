@@ -23,11 +23,9 @@ namespace Assets.Scripts
 		// Update is called once per frame
 		void Update()
 		{
-			Debug.Log($"{currentValue} {totalValue}");
 			if (totalValue > 0)
 			{
 				float normalValue = (float)currentValue / (float)totalValue;
-				Debug.Log($"{currentValue} {totalValue} {normalValue}");
 				LoadingBar.fillAmount = normalValue;
 			}
 		}

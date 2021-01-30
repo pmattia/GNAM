@@ -16,6 +16,10 @@ public class Timer : MonoBehaviour
     void Start()
     {
         realtimeCooldown = cooldown;
+        foreach (var timer in timers)
+        {
+            timer.gameObject.SetActive(false);
+        }
     }
 
     // Update is called once per frame
@@ -44,6 +48,10 @@ public class Timer : MonoBehaviour
 
     public void StartTimer()
     {
+        foreach(var timer in timers)
+        {
+            timer.gameObject.SetActive(true);
+        }
         isPlaying = true;
     }
 

@@ -1,0 +1,143 @@
+﻿using Assets.Scripts.Gameplay;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using TMPro;
+using UnityEngine;
+
+namespace Assets.Scripts
+{
+    public class Billboard : MonoBehaviour
+    {
+        public List<BillboardObjective> billboardObjectives;
+        public List<Sprite> foodFamilyIcons;
+        public GameObject gameover;
+        public GameObject youwin;
+        [SerializeField] protected Timer timer;
+
+        public event Action<Food.FoodFamily, List<Food.FoodFamily>> onObjectiveCompleted;
+        public event Action onGameCompleted;
+        public event Action onTimeExpired;
+
+        List<ObjectiveDto> objectives = new List<ObjectiveDto>();
+        int foodsEated;
+        int foodsToEat;
+        public RadialProgress coronaProgress;
+
+        private void Start()
+        {
+            billboardObjectives.ForEach(o => o.Init(foodFamilyIcons));
+            timer.onExpired += onTimeExpired;
+            foreach(var item in billboardObjectives)
+            {
+                item.gameObject.SetActive(false);
+            }
+        }
+
+        public void SetLevel(LevelDto level)
+        {
+            objectives.Clear();
+            foodsEated = level.foodsEated;
+            foodsToEat = level.foodToEat;
+            coronaProgress.currentValue = foodsEated;
+            coronaProgress.totalValue = foodsToEat;
+            timer.SetTimer(level.time);
+
+            for (int i = 0; i < level.objectives.Count; i++)
+            {
+                var objective = level.objectives[i];
+                objectives.Add(objective);
+            }
+
+            RefreshObjectives();
+
+            this.gameover.SetActive(false);
+            this.youwin.SetActive(false);
+        }
+
+        public void StartTimer()
+        {
+            timer.StartTimer();
+        }
+
+        public void StopTimer()
+        {
+            timer.StopTimer();
+        }
+
+        public void AddTime(float time)
+        {
+            timer.AddTime(time);
+        }
+
+        public void GameOver()
+        {
+            this.gameover.SetActive(true);
+            billboardObjectives.ForEach(o => o.Hide());
+        }
+
+        public void YouWin()
+        {
+            this.youwin.SetActive(true);
+            billboardObjectives.ForEach(o => o.Hide());
+        }
+
+        public void AddFood(Food.FoodFamily family)
+        {
+            
+            foodsEated++;
+            coronaProgress.currentValue = foodsEated;
+
+            var objective = objectives.FirstOrDefault(s => s.family == family);
+            var index = objectives.IndexOf(objective);
+
+            Debug.Log($"{family} obj-> {index}");
+
+            if (objective != null)
+            {
+                objective.eated++;
+                if (objective.IsCompleted)
+                {
+                    objectives.Remove(objective);
+                    RefreshObjectives();
+
+                    if (onObjectiveCompleted != null)
+                    {
+                        var objectivesFamilies = objectives.Select(o => o.family).ToList();
+                        onObjectiveCompleted(objective.family, objectivesFamilies);
+                    }
+                }
+                else {
+                    RefreshObjectives();
+                }
+            }
+
+            Debug.Log($"FINE {foodsToEat} - {foodsEated}");
+            if(foodsToEat == foodsEated)
+            {
+                if (onGameCompleted != null)
+                {
+                    onGameCompleted();
+                }
+            }
+        }
+
+        public void AddObjective(ObjectiveDto objective) {
+            objectives.Insert(0,objective);
+
+            RefreshObjectives();
+        }
+
+        void RefreshObjectives() {
+
+            billboardObjectives.ForEach(o => o.Hide());
+            for (int i = 0; i < objectives.Count; i++)
+            {
+                billboardObjectives[i].setValue(objectives[i]);
+                billboardObjectives[i].Show();
+            }
+        }
+    }
+}

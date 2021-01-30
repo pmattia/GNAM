@@ -8,47 +8,31 @@ using BNG;
 using Assets.Scripts;
 using static Assets.Scripts.Billboard;
 using Assets.Scripts.Interfaces;
+using Assets.Scripts.Gameplay;
 
-public class TableBelt : MonoBehaviour
+public class TableBelt : GnamGameplay 
 {
-    public MobSpawner mobSpawner;
     public List<GameObject> trays = new List<GameObject>();
     public GameObject[] foodbagsRepository;
     public PathNode[] nodes;
     public int maxTrayOnTable;
     public float speed = .1f;
     public float nodePause = 3;
-    public GameObjectSpawner bonusSpawner;
-    public GameObject nextLevelEatable;
-    public Eatable startEatable;
-    public Billboard billboard;
-    public Timer timer;
-    public int startupTimer = 60;
-    bool isPlaying = true;
-    public int currentLevel = 1;
-    public int foodToEat = 50;
-    int eatedFoods = 0;
 
-    float gameplayTime = 0;
-    float totalGameplayTime = 0;
-
-    public AudioSource soundTrack;
-
-    void Start()
+    protected override void Start()
     {
-        totalGameplayTime = 0;
-        isPlaying = false;
+        base.Start();
         billboard.onObjectiveCompleted += (family, objectivesFamilies) =>
         {
             Debug.Log("OBJECTIVE COMPLETED FOR " + family);
             speed += speed * .05f;
             nodePause -= nodePause * .05f;
-            bonusSpawner.SpawnNewObject();
-            timer.AddTime(15);
+            bonusSpawner.SpawnBonus();
+            billboard.AddTime(15);
 
             //currentLevel = GetLevelIndex();
             billboard.AddObjective(GetNewObjective(currentLevel, objectivesFamilies));
-            
+
             SpawnMobs();
         };
         billboard.onGameCompleted += () =>
@@ -59,10 +43,10 @@ public class TableBelt : MonoBehaviour
             trays.ForEach(t => Destroy(t.gameObject));
             trays.Clear();
             soundTrack.Stop();
-            timer.StopTimer();
-            bonusSpawner.SpawnPermanentObject(nextLevelEatable, GoToNextLevel);
+            billboard.StopTimer();
+            bonusSpawner.SpawnObject(nextLevelEatable, GoToNextLevel);
         };
-        timer.onExpired += () => {
+        billboard.onTimeExpired += () => {
             isPlaying = false;
             billboard.GameOver();
             mobSpawner.RemoveMobs();
@@ -70,86 +54,6 @@ public class TableBelt : MonoBehaviour
             trays.Clear();
             soundTrack.Stop();
         };
-
-        startEatable.onEated += (eater) =>
-        {
-            this.StartGame();
-        };
-
-        InvokeRepeating("SpawnMobs", 5, UnityEngine.Random.Range(10, 20));
-    }
-
-    void SpawnMobs()
-    {
-        //currentLevel = GetLevelIndex();
-
-        mobSpawner.SpawnMob(currentLevel);
-    }
-
-    void StartGame()
-    {
-        soundTrack.Play();
-
-        totalGameplayTime = gameplayTime;
-        gameplayTime = 0;
-        isPlaying = true;
-        eatedFoods = 0;
-        var level = GetLevel(currentLevel, eatedFoods);
-        billboard.SetLevel(level);
-
-        timer.SetTimer(startupTimer);
-        timer.StartTimer();
-
-        //mobSpawner.SpawnMob(5);
-
-    }
-
-    void GoToNextLevel(EaterDto eater)
-    {
-        currentLevel++;
-        this.foodToEat = Mathf.CeilToInt(foodToEat * 1.5f);
-        this.StartGame();
-    }
-
-    LevelDto GetLevel(int levelIndex, int eatedFoods)
-    {
-        var level = new LevelDto();
-        level.foodToEat = foodToEat;
-        level.foodsEated = eatedFoods;
-        level.objectives.Add(new ObjectiveDto()
-        {
-            family = Food.FoodFamily.Candy,
-            toEat = Mathf.CeilToInt((1f * levelIndex))
-        });
-        level.objectives.Add(new ObjectiveDto()
-        {
-            family = Random.Range(0, 5) < 2 ? Food.FoodFamily.Fruit : Food.FoodFamily.Vegetable,
-            toEat = Mathf.CeilToInt((.5f * levelIndex))
-        });
-        level.objectives.Add(new ObjectiveDto()
-        {
-            family = Random.Range(0,5) < 2 ? Food.FoodFamily.Meat : Food.FoodFamily.Carbo,
-            toEat = Mathf.CeilToInt((2f * levelIndex))
-        });
-
-        return level;
-    }
-
-    ObjectiveDto GetNewObjective(int levelIndex, List<Food.FoodFamily> excludedFamilies) {
-
-        var ret = new ObjectiveDto();
-
-        do
-        {
-            var rand = Random.Range(0, 5);
-            ret.family = (Food.FoodFamily)rand;
-
-        } while (excludedFamilies.Contains(ret.family));
-
-        var toEat = Mathf.CeilToInt((Random.Range(1, levelIndex * 3)));
-        ret.toEat = toEat;
-
-        return ret;
     }
 
     bool CanAddTray
@@ -175,7 +79,7 @@ public class TableBelt : MonoBehaviour
         {
             billboard.AddFood(eated.foodFamily);
         };
-        cloneFoodbag.onClear += bonusSpawner.SpawnNewObject;
+        cloneFoodbag.onClear += bonusSpawner.SpawnBonus;
         
 
         AttachFollowPath(cloneFoodbag).StartMoving();
@@ -208,12 +112,6 @@ public class TableBelt : MonoBehaviour
 
         return followerComponent;
     }
-
-    //int GetLevelIndex() {
-        
-    //    var ret = Mathf.CeilToInt(totalGameplayTime / 30);
-    //    return ret == 0 ? 1 : ret;
-    //}
 
 
     // Update is called once per frame

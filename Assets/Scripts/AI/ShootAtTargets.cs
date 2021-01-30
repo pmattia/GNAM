@@ -23,7 +23,7 @@ namespace Assets.Scripts.AI
         private bool isReadyToShoot = true;
         [SerializeField] bool isShooterEnabled = true;
         private List<Transform> targets = new List<Transform>();
-        private Transform currentTarget;
+        public Transform currentTarget;
         private Damageable damageable;
 
         private void Start()
@@ -48,6 +48,10 @@ namespace Assets.Scripts.AI
                 if (currentTarget != null)
                 {
                     TakeAim(currentTarget);
+                }
+                else
+                {
+                    TakeAim(player);
                 }
 
                 if (isReadyToShoot)

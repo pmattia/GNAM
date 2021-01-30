@@ -18,8 +18,9 @@ namespace Assets.Scripts
         bool isTurbo = false;
 
         public AudioSource audioSource;
-        public AudioClip crunchingAudio;
-        public AudioClip gnamAudio;
+        [SerializeField] AudioClip crunchingAudio;
+        [SerializeField] AudioClip gnamAudio;
+        [SerializeField] AudioClip chokeAudio;
         public HandModelSelector handModelSelecter;
         public IHandsController handsController;
 
@@ -49,6 +50,7 @@ namespace Assets.Scripts
 
         private void OnTriggerEnter(Collider other)
         {
+            Debug.Log("collide " + other.name);
             if ((isTurbo || !isEating) && isEnabled)
             {
                 var eatable = other.GetComponent<Eatable>();
@@ -65,6 +67,18 @@ namespace Assets.Scripts
                 if (other.GetComponent<Projectile>() != null)
                 {
                     SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
+                }
+            }
+            else
+            {
+                if (!isTurbo && isEating && isEnabled)
+                {
+                    var eatable = other.GetComponent<Eatable>();
+                    if (eatable != null)
+                    {
+                        audioSource.PlayOneShot(chokeAudio);
+                        Debug.Log(chokeAudio);
+                    }
                 }
             }
         }
