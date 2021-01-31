@@ -59,12 +59,12 @@ namespace BNG {
 
         void Update() {
 
-            if ((YKeySlowsTime && InputBridge.Instance.YButton) || ForceTimeScale) {
-                SlowTime();
-            }
-            else {
-                ResumeTime();
-            }
+            //if ((YKeySlowsTime && InputBridge.Instance.YButton) || ForceTimeScale) {
+            //    SlowTime();
+            //}
+            //else {
+            //    ResumeTime();
+            //}
         }
 
         public void SlowTime() {

@@ -16,6 +16,8 @@ namespace Assets.Scripts.AI
         [SerializeField] Animator mobAnimator;
         Food[] foods;
         Transform player;
+        [SerializeField] AudioClip[] voices;
+        AudioSource audioSource;
         
         public float speed = 10;
         public bool shootFoodFirst = true;
@@ -30,6 +32,7 @@ namespace Assets.Scripts.AI
         {
             player = FindObjectOfType<Mouth>().transform;
             damageable = GetComponent<Damageable>();
+            audioSource = GetComponent<AudioSource>();
 
             weapons = GetComponentsInChildren<RaycastWeapon>().Where(c => c.enabled == true).ToArray();
             prevWeaponsRotation = weapons.Select(w => w.transform.rotation).ToArray();
@@ -40,6 +43,7 @@ namespace Assets.Scripts.AI
             SetNewTarget();
 
             InvokeRepeating("SetNewTarget", UnityEngine.Random.Range(2, 5), UnityEngine.Random.Range(2, 5));
+            InvokeRepeating("SaySomething", UnityEngine.Random.Range(2, 5), UnityEngine.Random.Range(10, 30));
         }
 
         void FixedUpdate()
@@ -91,6 +95,13 @@ namespace Assets.Scripts.AI
             {
                 currentTarget = targets[UnityEngine.Random.Range(0, targets.Count())];
             }
+
+        }
+
+        void SaySomething()
+        {
+            var randomAudio = voices[UnityEngine.Random.Range(0, voices.Length)];
+            audioSource.PlayOneShot(randomAudio);
         }
 
         IEnumerator ShootAndRefil()

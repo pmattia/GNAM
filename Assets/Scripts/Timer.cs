@@ -10,8 +10,10 @@ public class Timer : MonoBehaviour
     public float cooldown = 4;
     float realtimeCooldown;
     public TextMeshPro[] timers;
-    bool isPlaying = false;
+    public bool isRunning { get; private set; }
     public event Action onExpired;
+    public bool isExpiring { get; private set; }
+    [SerializeField] float expiringEdge;
     // Start is called before the first frame update
     void Start()
     {
@@ -31,12 +33,14 @@ public class Timer : MonoBehaviour
                 timer.text = Mathf.Round(realtimeCooldown).ToString();
             }
         }
-        if (realtimeCooldown > 0 && isPlaying)
+        if (realtimeCooldown > 0 && isRunning)
         {
             realtimeCooldown -= Time.deltaTime;
+            isExpiring = realtimeCooldown < expiringEdge;
         }
-        else if (realtimeCooldown <= 0 && isPlaying)
+        else if (realtimeCooldown <= 0 && isRunning)
         {
+            isExpiring = false;
             realtimeCooldown = 0;
             StopTimer();
             if(onExpired!= null)
@@ -52,20 +56,27 @@ public class Timer : MonoBehaviour
         {
             timer.gameObject.SetActive(true);
         }
-        isPlaying = true;
+        isRunning = true;
     }
 
     public void StopTimer()
     {
-        isPlaying = false;
+        isRunning = false;
     }
 
     public void ResetTimer()
     {
-        isPlaying = false;
+        isRunning = false;
         realtimeCooldown = 0;
     }
 
+    public void Highligh(bool isHighlighted)
+    {
+        foreach (var timer in timers)
+        {
+            timer.fontSize = isHighlighted? 150 : 100;
+        }
+    }
     public void SetTimer(float cooldown)
     {
         this.cooldown = cooldown;

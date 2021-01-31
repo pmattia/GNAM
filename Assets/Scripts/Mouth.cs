@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.ScriptableObjects;
+﻿using Assets.Scripts.Interfaces;
+using Assets.Scripts.ScriptableObjects;
 using BNG;
 using System;
 using System.Collections;
@@ -21,8 +22,10 @@ namespace Assets.Scripts
         [SerializeField] AudioClip crunchingAudio;
         [SerializeField] AudioClip gnamAudio;
         [SerializeField] AudioClip chokeAudio;
-        public HandModelSelector handModelSelecter;
-        public IHandsController handsController;
+        [SerializeField] HandModelSelector handModelSelecter;
+        IHandsController handsController;
+        [SerializeField] TimeController playerTimeController;
+        ITimeController timeController;
 
         List<GnamModifier> modifiers = new List<GnamModifier>();
         List<GnamModifier> currentModifiers = new List<GnamModifier>();
@@ -35,7 +38,7 @@ namespace Assets.Scripts
             get {
                 if (_eater != null) return _eater;
                 
-                _eater = new EaterDto(this, handsController);
+                _eater = new EaterDto(this, handsController, timeController);
                 return _eater;
             }
         }
@@ -45,12 +48,13 @@ namespace Assets.Scripts
         {
             audioSource = GetComponent<AudioSource>();
             handsController = new VrifHandsControllerAdapter(handModelSelecter);
+            timeController = new VrifTimeControllerAdapter(playerTimeController);
         }
 
 
         private void OnTriggerEnter(Collider other)
         {
-            Debug.Log("collide " + other.name);
+           // Debug.Log("collide " + other.name);
             if ((isTurbo || !isEating) && isEnabled)
             {
                 var eatable = other.GetComponent<Eatable>();
@@ -64,7 +68,7 @@ namespace Assets.Scripts
                     eatable.Eat(Eater);
                 }
 
-                if (other.GetComponent<Projectile>() != null)
+                if (other.GetComponent<Projectile>() != null) //sei morto
                 {
                     SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
                 }
@@ -76,8 +80,8 @@ namespace Assets.Scripts
                     var eatable = other.GetComponent<Eatable>();
                     if (eatable != null)
                     {
-                        audioSource.PlayOneShot(chokeAudio);
-                        Debug.Log(chokeAudio);
+                        //audioSource.PlayOneShot(chokeAudio);
+                        //eventually add haptics
                     }
                 }
             }
@@ -89,7 +93,8 @@ namespace Assets.Scripts
             audioSource.clip = crunchingAudio;
             audioSource.Play();
 
-            yield return new WaitForSeconds(eatable.eatTime);
+            var runtimeEatTime = Eater.Time.TimeSlowing? eatable.eatTime * Eater.Time.SlowTimeScale : eatable.eatTime;
+            yield return new WaitForSeconds(runtimeEatTime);
 
             audioSource.Stop();
 

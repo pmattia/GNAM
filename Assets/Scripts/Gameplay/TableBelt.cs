@@ -13,47 +13,66 @@ using Assets.Scripts.Gameplay;
 public class TableBelt : GnamGameplay 
 {
     public List<GameObject> trays = new List<GameObject>();
-    public GameObject[] foodbagsRepository;
-    public PathNode[] nodes;
-    public int maxTrayOnTable;
-    public float speed = .1f;
-    public float nodePause = 3;
+    [SerializeField] GameObject[] foodbagsRepository;
+    [SerializeField] PathNode[] nodes;
+    [SerializeField] int maxTrayOnTable;
+    [SerializeField] float speed = .1f;
+    [SerializeField] float nodePause = 3;
+    [SerializeField] Animator cookAnimator;
+    [SerializeField] AudioSource cookingAudio;
+    [SerializeField] GameObject cookingParticle;
+    [SerializeField] Transform cookingParticlePlaholder;
+    bool isCooking = false;
 
     protected override void Start()
     {
         base.Start();
+        base.onGameStarted += StartCooking;
+
         billboard.onObjectiveCompleted += (family, objectivesFamilies) =>
         {
-            Debug.Log("OBJECTIVE COMPLETED FOR " + family);
             speed += speed * .05f;
             nodePause -= nodePause * .05f;
-            bonusSpawner.SpawnBonus();
-            billboard.AddTime(15);
-
-            //currentLevel = GetLevelIndex();
-            billboard.AddObjective(GetNewObjective(currentLevel, objectivesFamilies));
-
-            SpawnMobs();
         };
         billboard.onGameCompleted += () =>
         {
-            isPlaying = false;
-            billboard.YouWin();
-            mobSpawner.RemoveMobs();
             trays.ForEach(t => Destroy(t.gameObject));
             trays.Clear();
-            soundTrack.Stop();
-            billboard.StopTimer();
-            bonusSpawner.SpawnObject(nextLevelEatable, GoToNextLevel);
+            StopCooking();
         };
         billboard.onTimeExpired += () => {
-            isPlaying = false;
-            billboard.GameOver();
-            mobSpawner.RemoveMobs();
             trays.ForEach(t => Destroy(t.gameObject));
             trays.Clear();
-            soundTrack.Stop();
+            StopCooking();
         };
+    }
+
+    protected override void GoToNextLevel(EaterDto eater)
+    {
+        base.GoToNextLevel(eater);
+        StartCooking();
+    }
+
+    void StartCooking()
+    {
+        isCooking = true;
+        cookAnimator.SetBool("isCooking", true);
+        cookingAudio.Play();
+        InvokeRepeating("spawnCookingParticle", 0, 1.5f);
+    }
+
+    void StopCooking()
+    {
+        CancelInvoke();
+        cookAnimator.SetBool("isCooking", false);
+        cookingAudio.Stop();
+    }
+
+    void spawnCookingParticle()
+    {
+        var particle = Instantiate(cookingParticle, cookingParticlePlaholder.position, cookingParticlePlaholder.rotation);
+        var autodestroyer = particle.AddComponent<Autodestroy>();
+        autodestroyer.Countdown = 5;
     }
 
     bool CanAddTray
@@ -118,15 +137,10 @@ public class TableBelt : GnamGameplay
     void FixedUpdate()
     {
         if (isPlaying) { 
-            gameplayTime += Time.deltaTime;
-            totalGameplayTime += Time.deltaTime;
-
             if (CanAddTray)
             {
                 AddTrayToTable();
             }
         }
-
-        
     }
 }

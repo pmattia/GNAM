@@ -57,7 +57,9 @@ namespace Assets.Scripts.Gameplay
             //        ret = string.Format("VERDURA {0} SU {1}", eated.ToString(), toEat.ToString());
             //        break;
             //}
-            ret = string.Format("{0} su {1}", eated.ToString(), toEat.ToString());
+
+            //ret = string.Format("{0} su {1}", eated.ToString(), toEat.ToString());
+            ret = string.Format("{0}", (toEat - eated).ToString());
 
             return ret;
         }

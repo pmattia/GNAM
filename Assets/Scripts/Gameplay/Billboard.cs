@@ -15,7 +15,10 @@ namespace Assets.Scripts
         public List<Sprite> foodFamilyIcons;
         public GameObject gameover;
         public GameObject youwin;
-        [SerializeField] protected Timer timer;
+        [SerializeField] Timer timer;
+        [SerializeField] AudioClip timeExiring;
+        [SerializeField] AudioClip timerRing;
+        [SerializeField] AudioSource timerAudio;
 
         public event Action<Food.FoodFamily, List<Food.FoodFamily>> onObjectiveCompleted;
         public event Action onGameCompleted;
@@ -29,10 +32,35 @@ namespace Assets.Scripts
         private void Start()
         {
             billboardObjectives.ForEach(o => o.Init(foodFamilyIcons));
-            timer.onExpired += onTimeExpired;
+            timer.onExpired += () =>
+            {
+                timerAudio.Stop();
+                timerAudio.PlayOneShot(timerRing);
+                if (onTimeExpired != null)
+                {
+                    onTimeExpired();
+                }
+            };
             foreach(var item in billboardObjectives)
             {
                 item.gameObject.SetActive(false);
+            }
+        }
+
+        private void Update()
+        {
+            if (timer.isRunning)
+            {
+                if (timer.isExpiring && !timerAudio.isPlaying)
+                {
+                    timerAudio.PlayOneShot(timeExiring);
+                    timer.Highligh(true);
+                }
+                else if (!timer.isExpiring && timerAudio.isPlaying)
+                {
+                    timerAudio.Stop();
+                    timer.Highligh(false);
+                }
             }
         }
 
@@ -64,6 +92,7 @@ namespace Assets.Scripts
 
         public void StopTimer()
         {
+            timerAudio.Stop();
             timer.StopTimer();
         }
 

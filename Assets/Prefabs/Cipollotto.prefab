@@ -232,8 +232,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa13b59692476bc439841b0f831619a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  modifiers: []
-  eatTime: 3
+  modifiers:
+  - {fileID: 11400000, guid: 5a19e01288bd71d42b59e8306214c3a4, type: 2}
+  eatTime: 0.2
   grabPoints: []
 --- !u!114 &4703673658939228152
 MonoBehaviour:

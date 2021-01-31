@@ -11,32 +11,79 @@ namespace Assets.Scripts.Gameplay
     {
         [SerializeField] protected BonusSpawner bonusSpawner;
         [SerializeField] GameObjectSpawner commandSpawner;
-        [SerializeField] protected GameObject nextLevelEatable;
+        [SerializeField] GameObject nextLevelEatable;
         [SerializeField] Eatable startEatable;
         [SerializeField] protected Billboard billboard;
         [SerializeField] int levelDuration = 60;
-        [SerializeField] protected int currentLevel = 1;
-        [SerializeField] int foodToEat = 50;
-        [SerializeField] protected MobSpawner mobSpawner;
-        [SerializeField] protected AudioSource soundTrack;
-        protected bool isPlaying = true;
-        protected int eatedFoods = 0;
+        [SerializeField] protected int currentLevel { get; private set; }
+        [SerializeField] int foodToEat = 30;
+        [SerializeField] MobSpawner mobSpawner;
+        [SerializeField] AudioSource soundTrack;
+        [SerializeField] AudioSource gameplaySound;
+        [SerializeField] AudioClip winSound;
+        [SerializeField] AudioClip loseSound;
+        protected bool isPlaying { get; private set; }
 
-        protected float gameplayTime = 0;
-        protected float totalGameplayTime = 0;
+        public event System.Action onGameStarted;
+
+        int eatedFoods = 0;
+        float gameplayTime = 0;
+        float totalGameplayTime = 0;
 
 
         protected virtual void Start()
         {
-            totalGameplayTime = 0;
             isPlaying = false;
+            currentLevel = 1;
+            totalGameplayTime = 0;
             
             startEatable.onEated += (eater) =>
             {
                 this.StartGame();
+                if (onGameStarted != null)
+                {
+                    onGameStarted();
+                }
+            };
+            billboard.onObjectiveCompleted += (family, objectivesFamilies) =>
+            {
+                Debug.Log("OBJECTIVE COMPLETED FOR " + family);
+                bonusSpawner.SpawnBonus();
+                billboard.AddTime(15);
+
+                //currentLevel = GetLevelIndex();
+                billboard.AddObjective(GetNewObjective(currentLevel, objectivesFamilies));
+
+                SpawnMobs();
+            };
+            billboard.onGameCompleted += () =>
+            {
+                isPlaying = false;
+                billboard.YouWin();
+                mobSpawner.RemoveMobs();
+                billboard.StopTimer();
+                commandSpawner.SpawnObject(nextLevelEatable, GoToNextLevel);
+                soundTrack.Stop();
+                gameplaySound.PlayOneShot(winSound);
+            };
+            billboard.onTimeExpired += () => {
+                isPlaying = false;
+                billboard.GameOver();
+                mobSpawner.RemoveMobs();
+                soundTrack.Stop();
+                gameplaySound.PlayOneShot(loseSound);
             };
 
             InvokeRepeating("SpawnMobs", 5, UnityEngine.Random.Range(10, 20));
+        }
+
+        void FixedUpdate()
+        {
+            if (isPlaying)
+            {
+                gameplayTime += Time.deltaTime;
+                totalGameplayTime += Time.deltaTime;
+            }
         }
 
         protected void SpawnMobs()
@@ -60,7 +107,7 @@ namespace Assets.Scripts.Gameplay
 
         }
 
-        protected void GoToNextLevel(EaterDto eater)
+        protected virtual void GoToNextLevel(EaterDto eater)
         {
             currentLevel++;
             this.foodToEat = Mathf.CeilToInt(foodToEat * 1.5f);
