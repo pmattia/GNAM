@@ -31,8 +31,7 @@ public class TableBelt : GnamGameplay
 
         billboard.onObjectiveCompleted += (family, objectivesFamilies) =>
         {
-            speed += speed * .05f;
-            nodePause -= nodePause * .05f;
+            //IncreaseSpeed(.25f);
         };
         billboard.onGameCompleted += () =>
         {
@@ -47,9 +46,16 @@ public class TableBelt : GnamGameplay
         };
     }
 
+    void IncreaseSpeed(float quantity)
+    {
+        speed += speed * quantity;
+        nodePause -= nodePause * quantity;
+    }
+
     protected override void GoToNextLevel(EaterDto eater)
     {
         base.GoToNextLevel(eater);
+        IncreaseSpeed(.2f);
         StartCooking();
     }
 

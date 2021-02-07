@@ -16,7 +16,7 @@ namespace Assets.Scripts.Gameplay
         [SerializeField] protected Billboard billboard;
         [SerializeField] int levelDuration = 60;
         [SerializeField] protected int currentLevel { get; private set; }
-        [SerializeField] int foodToEat = 30;
+        [SerializeField] int baseFoodToEat = 30;
         [SerializeField] MobSpawner mobSpawner;
         [SerializeField] AudioSource soundTrack;
         [SerializeField] AudioSource gameplaySound;
@@ -30,6 +30,9 @@ namespace Assets.Scripts.Gameplay
         float gameplayTime = 0;
         float totalGameplayTime = 0;
 
+        List<Food.FoodFamily> currentObjectiveFamilies = new List<Food.FoodFamily>();
+        int completedObjectsStack = 0;
+        float objectiveCooldown = 5;
 
         protected virtual void Start()
         {
@@ -45,36 +48,45 @@ namespace Assets.Scripts.Gameplay
                     onGameStarted();
                 }
             };
+            mobSpawner.OnMobDeath += () =>
+            {
+                bonusSpawner.SpawnBonus();
+                billboard.AddTime(5);
+            };
             billboard.onObjectiveCompleted += (family, objectivesFamilies) =>
             {
                 Debug.Log("OBJECTIVE COMPLETED FOR " + family);
                 bonusSpawner.SpawnBonus();
-                billboard.AddTime(15);
-
-                //currentLevel = GetLevelIndex();
-                billboard.AddObjective(GetNewObjective(currentLevel, objectivesFamilies));
-
-                SpawnMobs();
+                billboard.AddTime(5);
+                currentObjectiveFamilies = objectivesFamilies;
+                completedObjectsStack++;
+               // SpawnMobs();
             };
             billboard.onGameCompleted += () =>
             {
-                isPlaying = false;
+                StopGameplay();
                 billboard.YouWin();
-                mobSpawner.RemoveMobs();
                 billboard.StopTimer();
                 commandSpawner.SpawnObject(nextLevelEatable, GoToNextLevel);
-                soundTrack.Stop();
                 gameplaySound.PlayOneShot(winSound);
+                bonusSpawner.SpawnBonus();
             };
             billboard.onTimeExpired += () => {
-                isPlaying = false;
+                StopGameplay();
                 billboard.GameOver();
-                mobSpawner.RemoveMobs();
-                soundTrack.Stop();
                 gameplaySound.PlayOneShot(loseSound);
             };
 
-            InvokeRepeating("SpawnMobs", 5, UnityEngine.Random.Range(10, 20));
+        }
+
+        void StopGameplay()
+        {
+            isPlaying = false;
+            mobSpawner.RemoveMobs();
+            soundTrack.Stop();
+            completedObjectsStack = 0;
+            CancelInvoke("SpawnMobs");
+            CancelInvoke("AddNewObjective");
         }
 
         void FixedUpdate()
@@ -91,6 +103,15 @@ namespace Assets.Scripts.Gameplay
             mobSpawner.SpawnMob(currentLevel);
         }
 
+        void AddNewObjective()
+        {
+            if (completedObjectsStack > 0)
+            {
+                billboard.AddObjective(GetNewObjective(currentLevel, currentObjectiveFamilies));
+                completedObjectsStack--;
+            }
+        }
+
         protected void StartGame()
         {
             soundTrack.Play();
@@ -103,21 +124,23 @@ namespace Assets.Scripts.Gameplay
             billboard.SetLevel(level);
             billboard.StartTimer();
 
-            //mobSpawner.SpawnMob(5);
+            InvokeRepeating("SpawnMobs", 15, UnityEngine.Random.Range(15, 30));
+            InvokeRepeating("AddNewObjective", 5, UnityEngine.Random.Range(5, 10));
 
         }
 
         protected virtual void GoToNextLevel(EaterDto eater)
         {
             currentLevel++;
-            this.foodToEat = Mathf.CeilToInt(foodToEat * 1.5f);
             this.StartGame();
         }
 
         protected LevelDto GetLevel(int level, int eatedFoods)
         {
             var levelDto = new LevelDto();
-            levelDto.foodToEat = foodToEat;
+            levelDto.levelIndex = level;
+            levelDto.foodToEat = Mathf.CeilToInt(baseFoodToEat + ((currentLevel -1) * baseFoodToEat * .35f));
+            Debug.Log($"{currentLevel} - {baseFoodToEat} - {(currentLevel - 1 * baseFoodToEat * .35f)}");
             levelDto.foodsEated = eatedFoods;
             levelDto.time = levelDuration;
 
@@ -137,12 +160,14 @@ namespace Assets.Scripts.Gameplay
 
             do
             {
-                var rand = UnityEngine.Random.Range(0, 5);
+                var rand = UnityEngine.Random.Range(0, 6);
                 ret.family = (Food.FoodFamily)rand;
 
             } while (excludedFamilies.Contains(ret.family));
 
-            var toEat = Mathf.CeilToInt((Random.Range(1, levelIndex * 3)));
+            //var toEat = Mathf.CeilToInt((Random.Range(1, 2 + levelIndex * 2)));
+            var toEat = Mathf.CeilToInt((Random.Range(1, 5)));
+
             ret.toEat = toEat;
 
             return ret;
@@ -151,6 +176,7 @@ namespace Assets.Scripts.Gameplay
 
     public class LevelDto
     {
+        public int levelIndex;
         public int foodToEat;
         public int foodsEated;
         public float time;

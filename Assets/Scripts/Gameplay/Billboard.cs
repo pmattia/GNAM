@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Gameplay;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,8 @@ namespace Assets.Scripts
         [SerializeField] AudioClip timeExiring;
         [SerializeField] AudioClip timerRing;
         [SerializeField] AudioSource timerAudio;
+        [SerializeField] TextMeshPro foodCount;
+        [SerializeField] TextMeshPro levelLabel;
 
         public event Action<Food.FoodFamily, List<Food.FoodFamily>> onObjectiveCompleted;
         public event Action onGameCompleted;
@@ -66,6 +69,8 @@ namespace Assets.Scripts
 
         public void SetLevel(LevelDto level)
         {
+            foodCount.text = $"{level.foodsEated}/{level.foodToEat}";
+            levelLabel.text = $"Livello {level.levelIndex}";
             objectives.Clear();
             foodsEated = level.foodsEated;
             foodsToEat = level.foodToEat;
@@ -73,16 +78,22 @@ namespace Assets.Scripts
             coronaProgress.totalValue = foodsToEat;
             timer.SetTimer(level.time);
 
-            for (int i = 0; i < level.objectives.Count; i++)
+            StartCoroutine(DelayedObjectives(level.objectives));
+
+            this.gameover.SetActive(false);
+            this.youwin.SetActive(false);
+        }
+
+        IEnumerator DelayedObjectives(List<ObjectiveDto> dObjectives)
+        {
+            yield return new WaitForSeconds(10);
+            for (int i = 0; i < dObjectives.Count; i++)
             {
-                var objective = level.objectives[i];
+                var objective = dObjectives[i];
                 objectives.Add(objective);
             }
 
             RefreshObjectives();
-
-            this.gameover.SetActive(false);
-            this.youwin.SetActive(false);
         }
 
         public void StartTimer()
@@ -151,6 +162,8 @@ namespace Assets.Scripts
                     onGameCompleted();
                 }
             }
+
+            foodCount.text = $"{foodsEated}/{foodsToEat}";
         }
 
         public void AddObjective(ObjectiveDto objective) {

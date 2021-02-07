@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Assets.Scripts.AI
 {
@@ -18,7 +19,8 @@ namespace Assets.Scripts.AI
         Transform player;
         [SerializeField] AudioClip[] voices;
         AudioSource audioSource;
-        
+        public event Action onDeath;
+
         public float speed = 10;
         public bool shootFoodFirst = true;
 
@@ -41,6 +43,15 @@ namespace Assets.Scripts.AI
                 targets.Add(player); 
             }
             SetNewTarget();
+
+            UnityEvent onMobDeath = new UnityEvent();
+            onMobDeath.AddListener(()=> {
+                if (onDeath != null)
+                {
+                    onDeath();
+                }
+            });
+            damageable.onDestroyed = onMobDeath;
 
             InvokeRepeating("SetNewTarget", UnityEngine.Random.Range(2, 5), UnityEngine.Random.Range(2, 5));
             InvokeRepeating("SaySomething", UnityEngine.Random.Range(2, 5), UnityEngine.Random.Range(10, 30));

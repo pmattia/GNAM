@@ -71,6 +71,7 @@ public class Food : MonoBehaviour
         Meat,
         Carbo,
         Candy,
+        Fish
         //Fat
     }
     

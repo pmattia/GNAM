@@ -68,10 +68,10 @@ namespace Assets.Scripts
                     eatable.Eat(Eater);
                 }
 
-                if (other.GetComponent<Projectile>() != null) //sei morto
-                {
-                    SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
-                }
+                //if (other.GetComponent<Projectile>() != null) //sei morto
+                //{
+                //    SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
+                //}
             }
             else
             {

@@ -10,8 +10,10 @@ namespace Assets.Scripts
 {
     public class MobSpawner: MonoBehaviour
     {
-        [SerializeField] GameObject[] mobs;
+        [SerializeField] GameObject[] modifierMobs;
+        [SerializeField] GameObject[] killerMobs;
         [SerializeField] Transform[] placeholders;
+        public event Action OnMobDeath;
 
         public GameObject[] SpawnMob(int level) {
             var ret = new List<GameObject>();
@@ -24,30 +26,94 @@ namespace Assets.Scripts
             {
                 var currentMobCount = FindObjectsOfType<ShootAtTargets>().Length;
 
-                var newMobCount = 0;
-                if(level > 1)
+                var newModifierMobsCount = 0;
+                var newKillerMobsCount = 0;
+                //if(level > 2)
+                //{
+                //    newMobCount = Mathf.FloorToInt(level-2 / (2 + UnityEngine.Random.Range(0, 1)));
+                //}
+
+                //if(newMobCount + currentMobCount > level)
+                //{
+                //    newMobCount = level - currentMobCount;
+                //    Debug.Log($"{newMobCount} {level} {currentMobCount}");
+                //}
+
+                switch (level)
                 {
-                    newMobCount = Mathf.FloorToInt(level / (2 + UnityEngine.Random.Range(0, 1)));
+                    case 0:
+                    case 1:
+                    case 2:
+                        break;
+                    case 3:
+                        newModifierMobsCount = UnityEngine.Random.Range(1, 3);
+                        newKillerMobsCount = 0;
+                        break;
+                    case 4:
+                        newModifierMobsCount = UnityEngine.Random.Range(2, 4);
+                        newKillerMobsCount = 1;
+                        break;
+                    case 5:
+                        newModifierMobsCount = UnityEngine.Random.Range(4, 6);
+                        newKillerMobsCount = UnityEngine.Random.Range(2, 3);
+                        break;
+                    case 6:
+                        newModifierMobsCount = UnityEngine.Random.Range(5, 7);
+                        newModifierMobsCount = UnityEngine.Random.Range(5, 7);
+                        break;
+                    default:
+                        newModifierMobsCount = UnityEngine.Random.Range(10, 13);
+                        newModifierMobsCount = UnityEngine.Random.Range(10, 13);
+                        //newMobCount = Mathf.FloorToInt(level - 2 / (2 + UnityEngine.Random.Range(0, 1)));
+                        //if (newMobCount + currentMobCount > level)
+                        //{
+                        //    newMobCount = level - currentMobCount;
+                        //    Debug.Log($"{newMobCount} {level} {currentMobCount}");
+                        //}
+                        break;
                 }
 
-                if(newMobCount + currentMobCount > level)
-                {
-                    newMobCount = level - currentMobCount;
-                }
-                
-                for (int i = 0; i < newMobCount; i++)
-                {
-                    var mob = mobs[UnityEngine.Random.Range(0, mobs.Length)];
-
-                    var placeholder = tPlaceholders[UnityEngine.Random.Range(0, tPlaceholders.Count())];
-                    var instancedMob = Instantiate(mob.gameObject, placeholder.position, Quaternion.identity);
-                    instancedMob.transform.SetParent(placeholder);
-                    ret.Add(instancedMob);
-                    tPlaceholders.Remove(placeholder);
-
-                }
+                var randomKillers = InstantiateRandomMobsFromList(modifierMobs.ToList(), tPlaceholders, newKillerMobsCount - currentMobCount);
+                ret.AddRange(randomKillers);
+                currentMobCount = currentMobCount + randomKillers.Count();
+                var randomModifiers = InstantiateRandomMobsFromList(killerMobs.ToList(), tPlaceholders, newModifierMobsCount - currentMobCount);
+                ret.AddRange(randomModifiers);
+                currentMobCount = currentMobCount + randomModifiers.Count();
             }
             return ret.ToArray();
+        }
+
+        List<GameObject> InstantiateRandomMobsFromList(List<GameObject> mobs, List<Transform> placeholders, int count)
+        {
+            var ret = new List<GameObject>();
+            for (int i = 0; i < count; i++)
+            {
+                var mob = mobs[UnityEngine.Random.Range(0, mobs.Count())];
+                var placeholder = DrawPlaceholder(placeholders);
+
+                ret.Add(InstantiateNewMob(mob, placeholder));
+                placeholders.Remove(placeholder);
+            }
+            return ret;
+        }
+
+        Transform DrawPlaceholder(List<Transform> placeholders)
+        {
+            var maxPositionToSpawn = placeholders.Count() < 4 ? placeholders.Count() : 4; //defines priority to lower level placeholders
+            return placeholders[UnityEngine.Random.Range(0, maxPositionToSpawn)];
+        }
+        GameObject InstantiateNewMob(GameObject mob, Transform placeholder)
+        {
+            var instancedMob = Instantiate(mob.gameObject, placeholder.position, Quaternion.identity);
+            instancedMob.transform.SetParent(placeholder);
+            var shooter = instancedMob.GetComponent<ShootAtTargets>();
+            shooter.onDeath += () => { 
+                if(OnMobDeath!= null)
+                {
+                    OnMobDeath();
+                }
+            };
+            return instancedMob;
         }
 
         public void RemoveMobs()
