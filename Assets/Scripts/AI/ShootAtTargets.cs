@@ -112,6 +112,7 @@ namespace Assets.Scripts.AI
         void SaySomething()
         {
             var randomAudio = voices[UnityEngine.Random.Range(0, voices.Length)];
+            audioSource.pitch = Time.timeScale;
             audioSource.PlayOneShot(randomAudio);
         }
 

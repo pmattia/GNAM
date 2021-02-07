@@ -38,6 +38,7 @@ namespace Assets.Scripts
             timer.onExpired += () =>
             {
                 timerAudio.Stop();
+                timerAudio.pitch = Time.timeScale;
                 timerAudio.PlayOneShot(timerRing);
                 if (onTimeExpired != null)
                 {
@@ -57,11 +58,13 @@ namespace Assets.Scripts
                 if (timer.isExpiring && !timerAudio.isPlaying)
                 {
                     timerAudio.PlayOneShot(timeExiring);
+                    timerAudio.pitch = Time.timeScale;
                     timer.Highligh(true);
                 }
                 else if (!timer.isExpiring && timerAudio.isPlaying)
                 {
                     timerAudio.Stop();
+                    timerAudio.pitch = Time.timeScale;
                     timer.Highligh(false);
                 }
             }
@@ -69,8 +72,8 @@ namespace Assets.Scripts
 
         public void SetLevel(LevelDto level)
         {
-            foodCount.text = $"{level.foodsEated}/{level.foodToEat}";
-            levelLabel.text = $"Livello {level.levelIndex}";
+            foodCount.text = $"Eat {level.foodToEat - level.foodsEated} more";
+            levelLabel.text = $"Level {level.levelIndex}";
             objectives.Clear();
             foodsEated = level.foodsEated;
             foodsToEat = level.foodToEat;
@@ -163,7 +166,7 @@ namespace Assets.Scripts
                 }
             }
 
-            foodCount.text = $"{foodsEated}/{foodsToEat}";
+            foodCount.text = $"Eat {foodsToEat - foodsEated} more";
         }
 
         public void AddObjective(ObjectiveDto objective) {

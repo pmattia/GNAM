@@ -140,8 +140,9 @@ public class TableBelt : GnamGameplay
 
 
     // Update is called once per frame
-    void FixedUpdate()
+    protected override void FixedUpdate()
     {
+        base.FixedUpdate();
         if (isPlaying) { 
             if (CanAddTray)
             {

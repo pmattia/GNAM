@@ -89,12 +89,14 @@ namespace Assets.Scripts.Gameplay
             CancelInvoke("AddNewObjective");
         }
 
-        void FixedUpdate()
+        protected virtual void FixedUpdate()
         {
             if (isPlaying)
             {
+                Debug.Log($"update gameplay audio {Time.timeScale}");
                 gameplayTime += Time.deltaTime;
                 totalGameplayTime += Time.deltaTime;
+                soundTrack.pitch = Time.timeScale;
             }
         }
 
@@ -126,7 +128,6 @@ namespace Assets.Scripts.Gameplay
 
             InvokeRepeating("SpawnMobs", 15, UnityEngine.Random.Range(15, 30));
             InvokeRepeating("AddNewObjective", 5, UnityEngine.Random.Range(5, 10));
-
         }
 
         protected virtual void GoToNextLevel(EaterDto eater)
