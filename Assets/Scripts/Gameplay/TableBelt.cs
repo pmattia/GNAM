@@ -99,9 +99,16 @@ public class TableBelt : GnamGameplay
         var clone = Instantiate(foodbag, nodes[0].transform.position, Quaternion.identity);
 
         var cloneFoodbag = clone.GetComponentInChildren<Foodbag>();
-       
+
+        foreach (var eatable in cloneFoodbag.foods.SelectMany(f => f.eatableParts))
+        {
+            eatable.onEated += (eater) => {
+                Score += 1;
+            };
+        }
         cloneFoodbag.onFoodEated += (eater, eated) =>
         {
+            Score += 5;
             billboard.AddFood(eated.foodFamily);
         };
         cloneFoodbag.onClear += bonusSpawner.SpawnBonus;
@@ -114,10 +121,8 @@ public class TableBelt : GnamGameplay
 
     void OnTrayEndOfPath(GameObject gameobject)
     {
-        
         trays.Remove(gameobject);
         Destroy(gameobject);
-
     }
 
     void AddTrayToTable()

@@ -34,6 +34,8 @@ namespace Assets.Scripts.Gameplay
         int completedObjectsStack = 0;
         float objectiveCooldown = 5;
 
+        protected int Score { get; set; }
+
         protected virtual void Start()
         {
             isPlaying = false;
@@ -52,6 +54,8 @@ namespace Assets.Scripts.Gameplay
             {
                 bonusSpawner.SpawnBonus();
                 billboard.AddTime(5);
+
+                Score += 5;
             };
             billboard.onObjectiveCompleted += (family, objectivesFamilies) =>
             {
@@ -60,12 +64,14 @@ namespace Assets.Scripts.Gameplay
                 billboard.AddTime(5);
                 currentObjectiveFamilies = objectivesFamilies;
                 completedObjectsStack++;
-               // SpawnMobs();
+
+                Score += 10;
+                // SpawnMobs();
             };
             billboard.onGameCompleted += () =>
             {
                 StopGameplay();
-                billboard.YouWin();
+                billboard.YouWin(Score);
                 billboard.StopTimer();
                 commandSpawner.SpawnObject(nextLevelEatable, GoToNextLevel);
                 gameplaySound.PlayOneShot(winSound);
@@ -75,6 +81,8 @@ namespace Assets.Scripts.Gameplay
                 StopGameplay();
                 billboard.GameOver();
                 gameplaySound.PlayOneShot(loseSound);
+
+                Score = 0;
             };
 
         }

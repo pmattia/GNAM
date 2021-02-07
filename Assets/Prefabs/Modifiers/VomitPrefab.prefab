@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8792005869241853149}
   - component: {fileID: 8792005869241853148}
   - component: {fileID: 8792005869241853091}
+  - component: {fileID: 6586804992354252942}
   m_Layer: 0
   m_Name: VomitPrefab
   m_TagString: Untagged
@@ -3554,9 +3555,9 @@ ParticleSystem:
         m_NumAlphaKeys: 2
     range: {x: 0, y: 1}
   CollisionModule:
-    enabled: 0
+    enabled: 1
     serializedVersion: 3
-    type: 0
+    type: 1
     collisionMode: 0
     colliderForce: 0
     multiplyColliderForceByParticleSize: 0
@@ -3624,7 +3625,7 @@ ParticleSystem:
     m_Bounce:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -3732,11 +3733,11 @@ ParticleSystem:
     radiusScale: 1
     collidesWith:
       serializedVersion: 2
-      m_Bits: 4294967295
+      m_Bits: 1024
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
-    collisionMessages: 0
+    collisionMessages: 1
     collidesWithDynamic: 1
     interiorCollisions: 0
   TriggerModule:
@@ -4754,3 +4755,17 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &6586804992354252942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8792005869241853090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5af67496fa4a0e408cfbebc146f0b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  modifiers:
+  - {fileID: 11400000, guid: dcb7da42847569a42aaaa7e1329092b6, type: 2}

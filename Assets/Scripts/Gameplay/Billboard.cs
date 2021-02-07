@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts
 {
@@ -22,6 +23,7 @@ namespace Assets.Scripts
         [SerializeField] AudioSource timerAudio;
         [SerializeField] TextMeshPro foodCount;
         [SerializeField] TextMeshPro levelLabel;
+        [SerializeField] Text scoreLabel;
 
         public event Action<Food.FoodFamily, List<Food.FoodFamily>> onObjectiveCompleted;
         public event Action onGameCompleted;
@@ -121,9 +123,10 @@ namespace Assets.Scripts
             billboardObjectives.ForEach(o => o.Hide());
         }
 
-        public void YouWin()
+        public void YouWin(int score)
         {
             this.youwin.SetActive(true);
+            scoreLabel.text = $"Score {score}";
             billboardObjectives.ForEach(o => o.Hide());
         }
 

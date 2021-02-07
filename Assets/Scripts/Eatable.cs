@@ -31,4 +31,5 @@ public class Eatable : MonoBehaviour
     {
         return modifiers;
     }
+
 }
