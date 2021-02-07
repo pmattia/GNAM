@@ -59,11 +59,19 @@ namespace Assets.Scripts
                         break;
                     case 6:
                         newModifierMobsCount = UnityEngine.Random.Range(5, 7);
-                        newModifierMobsCount = UnityEngine.Random.Range(5, 7);
+                        newKillerMobsCount = UnityEngine.Random.Range(5, 7);
+                        break;
+                    case 7:
+                        newModifierMobsCount = 13;
+                        newKillerMobsCount = 0;
+                        break;
+                    case 8:
+                        newModifierMobsCount = 0;
+                        newKillerMobsCount = 13;
                         break;
                     default:
                         newModifierMobsCount = UnityEngine.Random.Range(10, 13);
-                        newModifierMobsCount = UnityEngine.Random.Range(10, 13);
+                        newKillerMobsCount = UnityEngine.Random.Range(10, 13);
                         //newMobCount = Mathf.FloorToInt(level - 2 / (2 + UnityEngine.Random.Range(0, 1)));
                         //if (newMobCount + currentMobCount > level)
                         //{
