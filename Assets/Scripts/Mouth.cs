@@ -18,7 +18,9 @@ namespace Assets.Scripts
         bool isEating = false;
         bool isTurbo = false;
 
-        public AudioSource audioSource;
+        AudioSource[] audiosources;
+        AudioSource audioSource;
+        AudioSource audioLoop;
         [SerializeField] AudioClip crunchingAudio;
         [SerializeField] AudioClip gnamAudio;
         [SerializeField] AudioClip chokeAudio;
@@ -46,7 +48,9 @@ namespace Assets.Scripts
 
         void Awake()
         {
-            audioSource = GetComponent<AudioSource>();
+            audiosources = GetComponents<AudioSource>();
+            audioSource = audiosources[0];
+            audioLoop = audiosources[1];
             handsController = new VrifHandsControllerAdapter(handModelSelecter);
             timeController = new VrifTimeControllerAdapter(playerTimeController);
         }
@@ -118,9 +122,16 @@ namespace Assets.Scripts
             audioSource.PlayOneShot(clip);
         }
 
+        public void PlayLoop(AudioClip clip)
+        {
+            audioLoop.clip = clip;
+            audioLoop.Play();
+        }
+
         public void StopSound()
         {
             audioSource.Stop();
+            audioLoop.Stop();
         }
 
         public void EnableMouth()

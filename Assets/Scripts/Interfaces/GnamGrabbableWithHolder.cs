@@ -24,6 +24,7 @@ namespace Assets.Scripts.Interfaces
             GrabPoints.AddRange(holder.grabPoints.Select(g => g.transform));
 
             holder.IsEatable = false;
+            holder.eatTime = 3;
 
             holdedFood.onEated += (eater) => {
                 holder.IsEatable = true;

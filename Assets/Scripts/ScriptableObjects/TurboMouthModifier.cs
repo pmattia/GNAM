@@ -16,7 +16,7 @@ namespace Assets.Scripts.ScriptableObjects
         public override void Activate(EaterDto eater)
         {
             eater.Mouth.EnableTurbo();
-            eater.Mouth.PlaySound(bonusMusic);
+            eater.Mouth.PlayLoop(bonusMusic);
             eater.Mouth.StartCoroutine(WaitToDeactivate(eater, duration));
         }
 

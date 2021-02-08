@@ -11,6 +11,7 @@ namespace Assets.Scripts.ScriptableObjects
     public interface IMouthController
     {
         void PlaySound(AudioClip clip);
+        void PlayLoop(AudioClip clip);
         void StopSound();
         void DisableMouthForSeconds(float time);
         GameObject GameObject { get; }
