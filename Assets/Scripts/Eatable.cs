@@ -15,16 +15,26 @@ public class Eatable : MonoBehaviour
     public List<GnamModifier> modifiers = new List<GnamModifier>();
     public float eatTime = 3f;
     public List<GameObject> grabPoints = new List<GameObject>();
+    public bool IsEatable = true;
+
+    private void Start()
+    {
+        eatTime = 0.2f;
+    }
 
     public void Eat(EaterDto eater)
     {
-        if (onEated != null)
+        Debug.Log($"{name} {IsEatable}");
+        if (IsEatable)
         {
-            onEated(eater);
-        }
+            if (onEated != null)
+            {
+                onEated(eater);
+            }
 
-        grabPoints.ForEach(Destroy);
-        Destroy(gameObject);
+            grabPoints.ForEach(Destroy);
+            Destroy(gameObject);
+        }
     }
 
     public List<GnamModifier> GetModifiers()

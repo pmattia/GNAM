@@ -2054,13 +2054,13 @@ MonoBehaviour:
   trays: []
   foodbagsRepository:
   - {fileID: 6078328811505468204, guid: 2d01cc8565159934c84d547d200e8db8, type: 3}
-  - {fileID: 2901497559272298021, guid: 55843d2b47594fa408df4aa740ff9bd7, type: 3}
   - {fileID: 3118473105754769412, guid: 5421abb475cd5164f96c68480e3c33e7, type: 3}
-  - {fileID: 3396732986127359792, guid: 7c7e15b14559e7b4486f4f79b0235b61, type: 3}
-  - {fileID: 2275663245708806934, guid: 7f1bbc9796bde8144841fee58a040eed, type: 3}
-  - {fileID: 1191002338365374819, guid: aecf4d4b856807e4da403e7d39d43e8d, type: 3}
-  - {fileID: 1464744379061544053, guid: d5e62352bac6869468b7c93d9e59139f, type: 3}
   - {fileID: 2414996108566652071, guid: 8a3da664d28a7f3439258e5bfb3a3e26, type: 3}
+  - {fileID: 1464744379061544053, guid: d5e62352bac6869468b7c93d9e59139f, type: 3}
+  - {fileID: 1191002338365374819, guid: aecf4d4b856807e4da403e7d39d43e8d, type: 3}
+  - {fileID: 2275663245708806934, guid: 7f1bbc9796bde8144841fee58a040eed, type: 3}
+  - {fileID: 3396732986127359792, guid: 7c7e15b14559e7b4486f4f79b0235b61, type: 3}
+  - {fileID: 2901497559272298021, guid: 55843d2b47594fa408df4aa740ff9bd7, type: 3}
   - {fileID: 5892830203062539790, guid: afe6513e5ead2cd4788b7f8190bd213b, type: 3}
   - {fileID: 1652568946051494486, guid: e1ecef63419d1d64e949df19d41315f8, type: 3}
   nodes:
@@ -45974,7 +45974,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3966782000574564141
 Transform:
   m_ObjectHideFlags: 0

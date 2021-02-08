@@ -96,6 +96,7 @@ MonoBehaviour:
   modifiers: []
   eatTime: 0.5
   grabPoints: []
+  IsEatable: 1
 --- !u!64 &242269865550872679
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -187,7 +188,6 @@ GameObject:
   - component: {fileID: 4851592301258745255}
   - component: {fileID: 4851592301258745254}
   - component: {fileID: 4851592301258745249}
-  - component: {fileID: 446776489}
   m_Layer: 10
   m_Name: Chickenwing
   m_TagString: Untagged
@@ -286,9 +286,7 @@ MonoBehaviour:
   - {fileID: 5715505121322137771}
   UseCustomInspector: 1
   holder: {fileID: 416496014963202810}
-  holderGrabPoints:
-  - {fileID: 5715505121847821668}
-  - {fileID: 5715505121322137771}
+  holdedFood: {fileID: 4148384088979788298}
 --- !u!65 &4851592301258745249
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -298,27 +296,10 @@ BoxCollider:
   m_GameObject: {fileID: 4851592301258745248}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.33140072, y: 0.14937893, z: 0.14332849}
   m_Center: {x: -0.05080301, y: 0, z: -0.0000783056}
---- !u!114 &446776489
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4851592301258745248}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60be5d62bb064fd4d8021dae00be3f6f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  eatableParts:
-  - {fileID: 5822255954215502839}
-  - {fileID: 242269865550872676}
-  - {fileID: 8463924229997674426}
-  foodFamily: 2
 --- !u!1 &5715505121322137770
 GameObject:
   m_ObjectHideFlags: 0
@@ -521,6 +502,7 @@ MonoBehaviour:
   modifiers: []
   eatTime: 0.5
   grabPoints: []
+  IsEatable: 1
 --- !u!64 &5822255954215502838
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -646,7 +628,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   modifiers: []
   eatTime: 3
-  grabPoints: []
+  grabPoints:
+  - {fileID: 5715505121322137770}
+  - {fileID: 5715505121847821671}
+  IsEatable: 1
 --- !u!1 &8463924229997674404
 GameObject:
   m_ObjectHideFlags: 0
@@ -743,6 +728,7 @@ MonoBehaviour:
   modifiers: []
   eatTime: 0.5
   grabPoints: []
+  IsEatable: 1
 --- !u!64 &8463924229997674405
 MeshCollider:
   m_ObjectHideFlags: 0

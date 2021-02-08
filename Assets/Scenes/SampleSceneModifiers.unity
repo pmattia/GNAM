@@ -2162,6 +2162,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 87590e23f4f9f3240b449b05ba9e7e1b, type: 2}
   eatTime: 0.5
   grabPoints: []
+  IsEatable: 1
 --- !u!23 &316138950
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4151,6 +4152,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b80fe431b7919d049b2d725e782f652c, type: 2}
   eatTime: 0.5
   grabPoints: []
+  IsEatable: 1
 --- !u!23 &614632369
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4475,6 +4477,7 @@ MonoBehaviour:
   modifiers: []
   eatTime: 3
   grabPoints: []
+  IsEatable: 1
 --- !u!64 &651999400
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -4978,6 +4981,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Chickenwing
       objectReference: {fileID: 0}
+    - target: {fileID: 4851592301258745249, guid: 982f63c23e3e78a4fa6bb8f1ebbae0a3,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5197015236724162330, guid: 982f63c23e3e78a4fa6bb8f1ebbae0a3,
         type: 3}
       propertyPath: m_RootOrder
@@ -4986,7 +4994,7 @@ PrefabInstance:
     - target: {fileID: 5197015236724162330, guid: 982f63c23e3e78a4fa6bb8f1ebbae0a3,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.768
+      value: 0.146
       objectReference: {fileID: 0}
     - target: {fileID: 5197015236724162330, guid: 982f63c23e3e78a4fa6bb8f1ebbae0a3,
         type: 3}
@@ -4996,7 +5004,7 @@ PrefabInstance:
     - target: {fileID: 5197015236724162330, guid: 982f63c23e3e78a4fa6bb8f1ebbae0a3,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.662
+      value: 0.498
       objectReference: {fileID: 0}
     - target: {fileID: 5197015236724162330, guid: 982f63c23e3e78a4fa6bb8f1ebbae0a3,
         type: 3}
@@ -5252,6 +5260,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 62c04c7e83471a9408613d370155bc69, type: 2}
   eatTime: 0.5
   grabPoints: []
+  IsEatable: 1
 --- !u!23 &857845058
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6882,6 +6891,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ea4ca49cae8a19b4b98bd4347a84fa8a, type: 2}
   eatTime: 0.5
   grabPoints: []
+  IsEatable: 1
 --- !u!23 &1136373172
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7068,6 +7078,7 @@ MonoBehaviour:
   modifiers: []
   eatTime: 3
   grabPoints: []
+  IsEatable: 1
 --- !u!64 &1161350046
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -9913,6 +9924,7 @@ MonoBehaviour:
   modifiers: []
   eatTime: 3
   grabPoints: []
+  IsEatable: 1
 --- !u!114 &1745288090
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11164,6 +11176,7 @@ MonoBehaviour:
   modifiers: []
   eatTime: 3
   grabPoints: []
+  IsEatable: 1
 --- !u!64 &1977137298
 MeshCollider:
   m_ObjectHideFlags: 0

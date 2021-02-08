@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BNG;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,23 +11,43 @@ namespace Assets.Scripts.Interfaces
     public class GnamGrabbableWithHolder: GnamGrabbable
     {
         public Eatable holder;
-        public List<Transform> holderGrabPoints;
+        public Food holdedFood;
+        //public List<Transform> holderGrabPoints;
         private List<Transform> grabpoints = new List<Transform>();
 
         private void Start()
         {
             grabpoints.AddRange(GrabPoints);
-            holderGrabPoints.ForEach(p => grabpoints.Remove(p));
+            holder.grabPoints.ForEach(p => grabpoints.Remove(p.transform));
 
             GrabPoints.Clear();
-            GrabPoints.AddRange(holderGrabPoints);
+            GrabPoints.AddRange(holder.grabPoints.Select(g => g.transform));
 
-            if (holder)
+            holder.IsEatable = false;
+
+            holdedFood.onEated += (eater) => {
+                holder.IsEatable = true;
+            };
+        }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            CheckProjectile(collision.gameObject);
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            CheckProjectile(other.gameObject);
+        }
+
+        private void CheckProjectile(GameObject projectile)
+        {
+            if (projectile.GetComponent<Projectile>() != null)
             {
-                holder.onEated += (eater) =>
+                if (projectile.GetComponent<GnamModifierProjectile>() == null)
                 {
-                    GrabPoints = grabpoints;
-                };
+                    Destroy(gameObject);
+                }
             }
         }
     }

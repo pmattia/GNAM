@@ -58,7 +58,7 @@ namespace Assets.Scripts
             if ((isTurbo || !isEating) && isEnabled)
             {
                 var eatable = other.GetComponent<Eatable>();
-                if (eatable != null)
+                if (eatable != null && eatable.IsEatable)
                 {
                     modifiers.AddRange(eatable.GetModifiers());
 
