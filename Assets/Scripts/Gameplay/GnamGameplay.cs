@@ -22,6 +22,8 @@ namespace Assets.Scripts.Gameplay
         [SerializeField] AudioSource gameplaySound;
         [SerializeField] AudioClip winSound;
         [SerializeField] AudioClip loseSound;
+        [SerializeField] int startLevel = 1;
+
         protected bool isPlaying { get; private set; }
 
         public event System.Action onGameStarted;
@@ -39,7 +41,7 @@ namespace Assets.Scripts.Gameplay
         protected virtual void Start()
         {
             isPlaying = false;
-            currentLevel = 1;
+            currentLevel = startLevel;
             totalGameplayTime = 0;
             
             startEatable.onEated += (eater) =>
@@ -68,8 +70,9 @@ namespace Assets.Scripts.Gameplay
                 Score += 10;
                 // SpawnMobs();
             };
-            billboard.onGameCompleted += () =>
+            billboard.onGameCompleted += (residueSeconds) =>
             {
+                Score += residueSeconds;
                 StopGameplay();
                 billboard.YouWin(Score);
                 billboard.StopTimer();
@@ -87,7 +90,7 @@ namespace Assets.Scripts.Gameplay
 
         }
 
-        void StopGameplay()
+        protected virtual void StopGameplay()
         {
             isPlaying = false;
             mobSpawner.RemoveMobs();
@@ -101,7 +104,7 @@ namespace Assets.Scripts.Gameplay
         {
             if (isPlaying)
             {
-                Debug.Log($"update gameplay audio {Time.timeScale}");
+                //Debug.Log($"update gameplay audio {Time.timeScale}");
                 gameplayTime += Time.deltaTime;
                 totalGameplayTime += Time.deltaTime;
                 soundTrack.pitch = Time.timeScale;
@@ -122,7 +125,7 @@ namespace Assets.Scripts.Gameplay
             }
         }
 
-        protected void StartGame()
+        protected virtual void StartGame()
         {
             soundTrack.Play();
 

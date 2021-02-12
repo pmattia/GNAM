@@ -57,7 +57,8 @@ public class Food : MonoBehaviour
     {
         if (projectile.GetComponent<Projectile>() != null)
         {
-            if (projectile.GetComponent<GnamModifierProjectile>() == null)
+            if (projectile.GetComponent<GnamModifierProjectile>() == null
+                && projectile.GetComponent<GnamDuplicatorProjectile>() == null)
             {
                 Destroy(gameObject);
             }

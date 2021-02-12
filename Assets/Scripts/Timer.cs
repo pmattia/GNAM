@@ -70,6 +70,11 @@ public class Timer : MonoBehaviour
         realtimeCooldown = 0;
     }
 
+    public int GetResidueSeconds()
+    {
+        return Mathf.CeilToInt(realtimeCooldown);
+    }
+
     public void Highligh(bool isHighlighted)
     {
         foreach (var timer in timers)

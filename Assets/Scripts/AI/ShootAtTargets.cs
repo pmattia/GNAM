@@ -53,7 +53,7 @@ namespace Assets.Scripts.AI
             });
             damageable.onDestroyed = onMobDeath;
 
-            InvokeRepeating("SetNewTarget", UnityEngine.Random.Range(2, 5), UnityEngine.Random.Range(2, 5));
+            InvokeRepeating("SetNewTarget", UnityEngine.Random.Range(2, 5), UnityEngine.Random.Range(1, 3));
             InvokeRepeating("SaySomething", UnityEngine.Random.Range(2, 5), UnityEngine.Random.Range(10, 30));
         }
 

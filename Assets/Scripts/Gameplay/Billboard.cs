@@ -26,7 +26,7 @@ namespace Assets.Scripts
         [SerializeField] Text scoreLabel;
 
         public event Action<Food.FoodFamily, List<Food.FoodFamily>> onObjectiveCompleted;
-        public event Action onGameCompleted;
+        public event Action<int> onGameCompleted;
         public event Action onTimeExpired;
 
         List<ObjectiveDto> objectives = new List<ObjectiveDto>();
@@ -165,7 +165,7 @@ namespace Assets.Scripts
             {
                 if (onGameCompleted != null)
                 {
-                    onGameCompleted();
+                    onGameCompleted(timer.GetResidueSeconds());
                 }
             }
 

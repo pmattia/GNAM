@@ -16,8 +16,10 @@ public class TableBelt : GnamGameplay
     [SerializeField] GameObject[] foodbagsRepository;
     [SerializeField] PathNode[] nodes;
     [SerializeField] int maxTrayOnTable;
-    [SerializeField] float speed = .1f;
-    [SerializeField] float nodePause = 3;
+    [SerializeField] float startFoodbagSpeed = .1f;
+    float foodBagSpeed;
+    [SerializeField] float startFoodbagPause = 3;
+    float foodBagPause;
     [SerializeField] Animator cookAnimator;
     [SerializeField] AudioSource cookingAudio;
     [SerializeField] GameObject cookingParticle;
@@ -27,13 +29,17 @@ public class TableBelt : GnamGameplay
     protected override void Start()
     {
         base.Start();
+
+        foodBagSpeed = startFoodbagSpeed;
+        foodBagPause = startFoodbagPause;
+
         base.onGameStarted += StartCooking;
 
         billboard.onObjectiveCompleted += (family, objectivesFamilies) =>
         {
             //IncreaseSpeed(.25f);
         };
-        billboard.onGameCompleted += () =>
+        billboard.onGameCompleted += (residueSeconds) =>
         {
             trays.ForEach(t => Destroy(t.gameObject));
             trays.Clear();
@@ -46,17 +52,24 @@ public class TableBelt : GnamGameplay
         };
     }
 
-    void IncreaseSpeed(float quantity)
-    {
-        speed += speed * quantity;
-        nodePause -= nodePause * quantity;
-    }
-
     protected override void GoToNextLevel(EaterDto eater)
     {
         base.GoToNextLevel(eater);
-        IncreaseSpeed(.2f);
+    }
+
+    protected override void StartGame()
+    {
+        base.StartGame();
+        SetSpeedByLevel(currentLevel);
         StartCooking();
+    }
+
+    void SetSpeedByLevel(int level)
+    {
+        foodBagSpeed = startFoodbagSpeed + (level * .05f);
+        foodBagPause = startFoodbagPause - (level * .2f);
+
+        Debug.Log($"{foodBagSpeed} {foodBagPause}");
     }
 
     void StartCooking()
@@ -111,7 +124,7 @@ public class TableBelt : GnamGameplay
             Score += 5;
             billboard.AddFood(eated.foodFamily);
         };
-        cloneFoodbag.onClear += bonusSpawner.SpawnBonus;
+       // cloneFoodbag.onClear += bonusSpawner.SpawnBonus;
         
 
         AttachFollowPath(cloneFoodbag).StartMoving();
@@ -135,8 +148,8 @@ public class TableBelt : GnamGameplay
     {
         var followerComponent = foodbag.gameObject.AddComponent<PathNodesFollower>();
         followerComponent.SetNodes(this.nodes);
-        followerComponent.SetSpeed(this.speed);
-        followerComponent.SetNodePause(this.nodePause);
+        followerComponent.SetSpeed(this.foodBagSpeed);
+        followerComponent.SetNodePause(this.foodBagPause);
         followerComponent.onEndPath += OnTrayEndOfPath;
         followerComponent.StartMoving();
 
