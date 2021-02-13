@@ -24,7 +24,8 @@ namespace Assets.Scripts
 
             if (tPlaceholders.Count() > 0)
             {
-                var currentMobCount = FindObjectsOfType<ShootAtTargets>().Length;
+                var currentMofierMobCount = FindObjectsOfType<ShootAtTargets>().Where(s => s.Type == 0).Count();
+                var currentKillerMobCount = FindObjectsOfType<ShootAtTargets>().Where(s => s.Type == 1).Count();
 
                 var newModifierMobsCount = 0;
                 var newKillerMobsCount = 0;
@@ -54,18 +55,26 @@ namespace Assets.Scripts
                         newKillerMobsCount = 1;
                         break;
                     case 5:
-                        newModifierMobsCount = UnityEngine.Random.Range(4, 6);
+                        newModifierMobsCount = UnityEngine.Random.Range(2, 4);
                         newKillerMobsCount = UnityEngine.Random.Range(2, 3);
                         break;
                     case 6:
+                        newModifierMobsCount = UnityEngine.Random.Range(3, 5);
+                        newKillerMobsCount = UnityEngine.Random.Range(3, 5);
+                        break;
+                    case 7:
                         newModifierMobsCount = UnityEngine.Random.Range(5, 7);
                         newKillerMobsCount = UnityEngine.Random.Range(5, 7);
                         break;
-                    case 7:
-                        newModifierMobsCount = 13;
-                        newKillerMobsCount = 0;
-                        break;
                     case 8:
+                        newModifierMobsCount = 0;
+                        newKillerMobsCount = 13;
+                        break;
+                    case 9:
+                        newModifierMobsCount = 0;
+                        newKillerMobsCount = 13;
+                        break;
+                    case 10:
                         newModifierMobsCount = 0;
                         newKillerMobsCount = 13;
                         break;
@@ -81,12 +90,10 @@ namespace Assets.Scripts
                         break;
                 }
 
-                var randomKillers = InstantiateRandomMobsFromList(modifierMobs.ToList(), tPlaceholders, newKillerMobsCount - currentMobCount);
-                ret.AddRange(randomKillers);
-                currentMobCount = currentMobCount + randomKillers.Count();
-                var randomModifiers = InstantiateRandomMobsFromList(killerMobs.ToList(), tPlaceholders, newModifierMobsCount - currentMobCount);
+                var randomModifiers = InstantiateRandomMobsFromList(killerMobs.ToList(), tPlaceholders, newModifierMobsCount - currentMofierMobCount);
                 ret.AddRange(randomModifiers);
-                currentMobCount = currentMobCount + randomModifiers.Count();
+                var randomKillers = InstantiateRandomMobsFromList(modifierMobs.ToList(), tPlaceholders, newKillerMobsCount - currentKillerMobCount);
+                ret.AddRange(randomKillers);
             }
             return ret.ToArray();
         }

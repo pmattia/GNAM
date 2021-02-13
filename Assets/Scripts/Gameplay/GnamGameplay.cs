@@ -156,7 +156,7 @@ namespace Assets.Scripts.Gameplay
             levelDto.foodsEated = eatedFoods;
             levelDto.time = levelDuration;
 
-            var objCount = Mathf.FloorToInt((float)level / 2f);
+            var objCount = Mathf.FloorToInt((float)level / 3f);
             for(int i=0; i<objCount; i++)
             {
                 levelDto.objectives.Add(GetNewObjective(level, null));

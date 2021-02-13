@@ -26,6 +26,14 @@ namespace Assets.Scripts.Interfaces
                 Debug.Log($"PROJECTILE {other.name} - {food.name}");
 
                 var clone = Instantiate(food.gameObject, food.transform.position, food.transform.rotation) as GameObject;
+                Destroy(clone.GetComponent<SnapZoneOffset>());
+                clone.transform.parent = null;
+                clone.GetComponent<Rigidbody>().isKinematic = false;
+                var grabbabble = clone.GetComponent<GnamGrabbable>();
+                grabbabble.ResetScale();
+                grabbabble.ResetGrabbing(true);
+               
+                grabbabble.enabled = true;
                 base.OnCollisionEvent(collision);
             }
         }

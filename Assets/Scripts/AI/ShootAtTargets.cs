@@ -30,6 +30,8 @@ namespace Assets.Scripts.AI
         public Transform currentTarget;
         private Damageable damageable;
 
+        public int Type = 0; //0 -> modifier 1 -> killer
+
         private void Start()
         {
             player = FindObjectOfType<Mouth>().transform;

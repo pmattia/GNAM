@@ -1194,9 +1194,13 @@ namespace BNG {
             remoteGrabbing = true;
         }
 
-        public void ResetGrabbing() {
-            if (rigid) {
+        public void ResetGrabbing(bool resetWasKinematic = false) {
+            if (rigid && !resetWasKinematic) {
                 rigid.isKinematic = wasKinematic;
+            }
+            else if(resetWasKinematic)
+            {
+                wasKinematic = false;
             }
 
             flyingTo = null;
