@@ -4,12 +4,14 @@ using UnityEngine;
 using System.Linq;
 using System;
 using Assets.Scripts;
+using Assets.Scripts.Gameplay;
 
 public class Foodbag : MonoBehaviour
 {
     public event Action onClear;
     public event Action<EaterDto,Food> onFoodEated;
     public List<Food> foods;
+    [SerializeField] public Difficulty difficulty;
     // Start is called before the first frame update
     void Start()
     {
@@ -61,3 +63,4 @@ public class Foodbag : MonoBehaviour
         gameObject.SetActive(true);
     }
 }
+

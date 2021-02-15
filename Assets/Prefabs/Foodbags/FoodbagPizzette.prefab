@@ -1646,6 +1646,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2901497559272298020}
+  - component: {fileID: 8970069528549565450}
   m_Layer: 0
   m_Name: FoodbagPizzette
   m_TagString: Untagged
@@ -1676,6 +1677,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8970069528549565450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2901497559272298021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d241a33dd5486747b1034e92b7027bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foods:
+  - {fileID: 5670020201642946511}
+  - {fileID: 5670020201624282815}
+  - {fileID: 5670020201465419060}
+  - {fileID: 5670020202612173741}
+  - {fileID: 5670020201996639744}
+  - {fileID: 5763034355402369402}
+  - {fileID: 3942888996271298949}
+  - {fileID: 5201588530314346337}
+  difficulty: 0
 --- !u!1 &2901497559459241911
 GameObject:
   m_ObjectHideFlags: 0
@@ -1955,7 +1978,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2901497560017905430}
   - component: {fileID: 2901497560017905448}
-  - component: {fileID: 2901497560017905449}
   m_Layer: 0
   m_Name: Foodbag (1)
   m_TagString: Untagged
@@ -2000,27 +2022,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.397534, y: 0.038448513, z: 0.40551376}
   m_Center: {x: 0.011969507, y: 0.000000044703484, z: 0.005984783}
---- !u!114 &2901497560017905449
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2901497560017905431}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d241a33dd5486747b1034e92b7027bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  foods:
-  - {fileID: 5670020201642946511}
-  - {fileID: 5670020201624282815}
-  - {fileID: 5670020201465419060}
-  - {fileID: 5670020202612173741}
-  - {fileID: 5670020201996639744}
-  - {fileID: 5763034355402369402}
-  - {fileID: 3942888996271298949}
-  - {fileID: 5201588530314346337}
 --- !u!1 &2901497560098596479
 GameObject:
   m_ObjectHideFlags: 0

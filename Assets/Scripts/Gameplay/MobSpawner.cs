@@ -47,36 +47,36 @@ namespace Assets.Scripts
                     case 2:
                         break;
                     case 3:
-                        newModifierMobsCount = UnityEngine.Random.Range(1, 3);
+                        newModifierMobsCount = 1;
                         newKillerMobsCount = 0;
                         break;
                     case 4:
-                        newModifierMobsCount = UnityEngine.Random.Range(2, 4);
+                        newModifierMobsCount = 2;
                         newKillerMobsCount = 1;
                         break;
                     case 5:
-                        newModifierMobsCount = UnityEngine.Random.Range(2, 4);
-                        newKillerMobsCount = UnityEngine.Random.Range(2, 3);
+                        newModifierMobsCount = 2;
+                        newKillerMobsCount = 2;
                         break;
                     case 6:
-                        newModifierMobsCount = UnityEngine.Random.Range(3, 5);
-                        newKillerMobsCount = UnityEngine.Random.Range(3, 5);
+                        newModifierMobsCount = 3;
+                        newKillerMobsCount = 2;
                         break;
                     case 7:
-                        newModifierMobsCount = UnityEngine.Random.Range(5, 7);
-                        newKillerMobsCount = UnityEngine.Random.Range(5, 7);
+                        newModifierMobsCount = 4;
+                        newKillerMobsCount = 3;
                         break;
                     case 8:
-                        newModifierMobsCount = 0;
-                        newKillerMobsCount = 13;
+                        newModifierMobsCount = 4;
+                        newKillerMobsCount = 4;
                         break;
                     case 9:
-                        newModifierMobsCount = 0;
-                        newKillerMobsCount = 13;
+                        newModifierMobsCount = 5;
+                        newKillerMobsCount = 5;
                         break;
                     case 10:
-                        newModifierMobsCount = 0;
-                        newKillerMobsCount = 13;
+                        newModifierMobsCount = 7;
+                        newKillerMobsCount = 6;
                         break;
                     default:
                         newModifierMobsCount = UnityEngine.Random.Range(10, 13);
@@ -90,9 +90,9 @@ namespace Assets.Scripts
                         break;
                 }
 
-                var randomModifiers = InstantiateRandomMobsFromList(killerMobs.ToList(), tPlaceholders, newModifierMobsCount - currentMofierMobCount);
+                var randomModifiers = InstantiateRandomMobsFromList(modifierMobs.ToList(), tPlaceholders, newModifierMobsCount - currentMofierMobCount);
                 ret.AddRange(randomModifiers);
-                var randomKillers = InstantiateRandomMobsFromList(modifierMobs.ToList(), tPlaceholders, newKillerMobsCount - currentKillerMobCount);
+                var randomKillers = InstantiateRandomMobsFromList(killerMobs.ToList(), tPlaceholders, newKillerMobsCount - currentKillerMobCount);
                 ret.AddRange(randomKillers);
             }
             return ret.ToArray();

@@ -42,7 +42,7 @@ namespace Assets.Scripts.AI
             prevWeaponsRotation = weapons.Select(w => w.transform.rotation).ToArray();
             if (!shootFoodFirst)
             { 
-                targets.Add(player); 
+                //targets.Add(player); 
             }
             SetNewTarget();
 
@@ -68,10 +68,10 @@ namespace Assets.Scripts.AI
                 }
                 else
                 {
-                    TakeAim(player);
+                    //TakeAim(player);
                 }
 
-                if (isReadyToShoot)
+                if (isReadyToShoot && currentTarget!=null)
                 {
                     StartCoroutine(ShootAndRefil());
                 }

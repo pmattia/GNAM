@@ -645,6 +645,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1191002338365374816}
+  - component: {fileID: 1677329830556062764}
   m_Layer: 0
   m_Name: FoodbagDonuts
   m_TagString: Untagged
@@ -672,6 +673,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1677329830556062764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1191002338365374819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d241a33dd5486747b1034e92b7027bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foods:
+  - {fileID: 2265074350986227396}
+  - {fileID: 2265074351824545446}
+  - {fileID: 2265074350902456712}
+  - {fileID: 1146275292266072797}
+  - {fileID: 1146275292611063564}
+  difficulty: 0
 --- !u!1 &1191002339062391896
 GameObject:
   m_ObjectHideFlags: 0
@@ -966,7 +986,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1191002339926738614}
   - component: {fileID: 1191002339926738612}
-  - component: {fileID: 1191002339926738615}
   m_Layer: 0
   m_Name: Foodbag (2)
   m_TagString: Untagged
@@ -1008,24 +1027,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.397534, y: 0.038448513, z: 0.40551376}
   m_Center: {x: 0.011969507, y: 0.000000044703484, z: 0.005984783}
---- !u!114 &1191002339926738615
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1191002339926738601}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d241a33dd5486747b1034e92b7027bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  foods:
-  - {fileID: 2265074350986227396}
-  - {fileID: 2265074351824545446}
-  - {fileID: 2265074350902456712}
-  - {fileID: 1146275292266072797}
-  - {fileID: 1146275292611063564}
 --- !u!1 &1191002339955114007
 GameObject:
   m_ObjectHideFlags: 0

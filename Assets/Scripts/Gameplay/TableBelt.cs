@@ -66,7 +66,7 @@ public class TableBelt : GnamGameplay
 
     void SetSpeedByLevel(int level)
     {
-        foodBagSpeed = startFoodbagSpeed + (level * .05f);
+        foodBagSpeed = startFoodbagSpeed + (level * .08f);
         foodBagPause = startFoodbagPause - (level * .2f);
 
         Debug.Log($"{foodBagSpeed} {foodBagPause}");
@@ -105,9 +105,11 @@ public class TableBelt : GnamGameplay
         }
     }
 
-    GameObject CloneRandomFoodbag()
+    GameObject CloneRandomFoodbag(Difficulty difficulty)
     {
-        var foodbag = foodbagsRepository[Random.Range(0, foodbagsRepository.Length)];
+        var foodbags = foodbagsRepository.Select(f => f.GetComponent<Foodbag>());
+        var availableFoodbags = foodbags.Where(f => f.difficulty <= difficulty).ToArray();
+        var foodbag = availableFoodbags[Random.Range(0, availableFoodbags.Count())];
         //var foodbag = foodbagsRepository[4];
         var clone = Instantiate(foodbag, nodes[0].transform.position, Quaternion.identity);
 
@@ -140,7 +142,7 @@ public class TableBelt : GnamGameplay
 
     void AddTrayToTable()
     {
-        var newTray = CloneRandomFoodbag();
+        var newTray = CloneRandomFoodbag(currentDifficulty);
         trays.Add(newTray);
     }
 

@@ -17,7 +17,11 @@ namespace Assets.Scripts.Gameplay
         [SerializeField] Light highlight;
         [SerializeField] AudioSource audioSource;
 
-        public GameObject[] bonuses;
+        List<GameObject> bonus = new List<GameObject>();
+        [SerializeField] GameObject gunPrefab;
+        [SerializeField] List<GameObject> lowLevelBonus;
+        [SerializeField] List<GameObject> midLevelBonus;
+        [SerializeField] List<GameObject> highLevelBonus;
         Vector3 originalHighlightScale;
         public bool HasBonusToTake { get {
                 return snapZone.HeldItem != null;
@@ -30,7 +34,7 @@ namespace Assets.Scripts.Gameplay
             originalHighlightScale = highlightPrefab.transform.localScale;
         }
 
-        public void SpawnBonus()
+        void RemoveLastBonus()
         {
             if (lastGameobject != null)
             {
@@ -40,8 +44,47 @@ namespace Assets.Scripts.Gameplay
                     Destroy(lastGameobject);
                 }
             }
+        }
 
-            var modifier = bonuses[UnityEngine.Random.Range(0, bonuses.Length)];
+        public void SpawnGun()
+        {
+            RemoveLastBonus();
+
+            lastGameobject = Instantiate(gunPrefab, transform.position, Quaternion.identity);
+
+            SnapBonusAndHighlight();
+        }
+
+        void SnapBonusAndHighlight()
+        {
+            snapZone.GrabGrabbable(lastGameobject.GetComponent<Grabbable>());
+
+            audioSource.Play();
+            StartCoroutine(FlashHighlight());
+        }
+
+        public void SpawnBonus(Difficulty difficulty)
+        {
+            RemoveLastBonus();
+
+            bonus.Clear();
+            if(difficulty >= Difficulty.Low)
+            {
+                bonus.AddRange(lowLevelBonus);
+            }
+            if (difficulty >= Difficulty.Mid)
+            {
+                bonus.AddRange(midLevelBonus);
+                bonus.AddRange(midLevelBonus);
+            }
+            if (difficulty >= Difficulty.High)
+            {
+                bonus.AddRange(highLevelBonus);
+                bonus.AddRange(highLevelBonus);
+                bonus.AddRange(highLevelBonus);
+            }
+
+            var modifier = bonus[UnityEngine.Random.Range(0, bonus.Count())];
             lastGameobject = Instantiate(modifier.gameObject, transform.position, Quaternion.identity);
 
             var autodestroyer = lastGameobject.GetComponent<Autodestroy>();
@@ -51,10 +94,7 @@ namespace Assets.Scripts.Gameplay
                 autodestroyer.Countdown = 10;
             }
 
-            snapZone.GrabGrabbable(lastGameobject.GetComponent<Grabbable>());
-
-            audioSource.Play();
-            StartCoroutine(FlashHighlight());
+            SnapBonusAndHighlight();
         }
 
         void highLightIterator(float value)

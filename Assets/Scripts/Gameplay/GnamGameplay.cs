@@ -16,6 +16,29 @@ namespace Assets.Scripts.Gameplay
         [SerializeField] protected Billboard billboard;
         [SerializeField] int levelDuration = 60;
         [SerializeField] protected int currentLevel { get; private set; }
+        protected Difficulty currentDifficulty { get {
+                switch (currentLevel)
+                {
+                    case 0:
+                    case 1:
+                    case 2:
+                    case 3:
+                        return Difficulty.Low;
+                        break;
+                    case 4:
+                    case 5:
+                    case 6:
+                        return Difficulty.Mid;
+                        break;
+                    case 7:
+                    case 8:
+                    case 9:
+                    default:
+                        return Difficulty.High;
+                        break;
+                }
+            } 
+        }
         [SerializeField] int baseFoodToEat = 30;
         [SerializeField] MobSpawner mobSpawner;
         [SerializeField] AudioSource soundTrack;
@@ -54,7 +77,7 @@ namespace Assets.Scripts.Gameplay
             };
             mobSpawner.OnMobDeath += () =>
             {
-                bonusSpawner.SpawnBonus();
+                bonusSpawner.SpawnBonus(currentDifficulty);
                 billboard.AddTime(5);
 
                 Score += 5;
@@ -62,7 +85,7 @@ namespace Assets.Scripts.Gameplay
             billboard.onObjectiveCompleted += (family, objectivesFamilies) =>
             {
                 Debug.Log("OBJECTIVE COMPLETED FOR " + family);
-                bonusSpawner.SpawnBonus();
+                bonusSpawner.SpawnBonus(currentDifficulty);
                 billboard.AddTime(5);
                 currentObjectiveFamilies = objectivesFamilies;
                 completedObjectsStack++;
@@ -78,7 +101,15 @@ namespace Assets.Scripts.Gameplay
                 billboard.StopTimer();
                 commandSpawner.SpawnObject(nextLevelEatable, GoToNextLevel);
                 gameplaySound.PlayOneShot(winSound);
-                bonusSpawner.SpawnBonus();
+                //todo: gestire bonus obbligati in base al livello
+                //if(currentLevel == 3)
+                //{
+                //    bonusSpawner.SpawnGun();
+                //}
+                //else
+                //{
+                    bonusSpawner.SpawnBonus(currentDifficulty);
+                //}
             };
             billboard.onTimeExpired += () => {
                 StopGameplay();
@@ -151,8 +182,8 @@ namespace Assets.Scripts.Gameplay
         {
             var levelDto = new LevelDto();
             levelDto.levelIndex = level;
-            levelDto.foodToEat = Mathf.CeilToInt(baseFoodToEat + ((currentLevel -1) * baseFoodToEat * .35f));
-            Debug.Log($"{currentLevel} - {baseFoodToEat} - {(currentLevel - 1 * baseFoodToEat * .35f)}");
+            levelDto.foodToEat = Mathf.CeilToInt(baseFoodToEat + ((currentLevel -1) * baseFoodToEat * .25f));
+            Debug.Log($"{currentLevel} - {baseFoodToEat} - {(currentLevel - 1 * baseFoodToEat * .25f)}");
             levelDto.foodsEated = eatedFoods;
             levelDto.time = levelDuration;
 
@@ -206,5 +237,12 @@ namespace Assets.Scripts.Gameplay
                 return eated >= toEat && toEat > 0;
             }
         }
+    }
+
+    public enum Difficulty
+    {
+        Low,
+        Mid,
+        High
     }
 }

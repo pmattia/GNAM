@@ -10523,7 +10523,7 @@ PrefabInstance:
     - target: {fileID: 3881234476210240771, guid: b486b7d39b8bfc94f963221a6629ba7b,
         type: 3}
       propertyPath: m_RootOrder
-      value: 42
+      value: 41
       objectReference: {fileID: 0}
     - target: {fileID: 4084199529324635319, guid: b486b7d39b8bfc94f963221a6629ba7b,
         type: 3}
@@ -10793,7 +10793,7 @@ PrefabInstance:
     - target: {fileID: 7597364275351745371, guid: b486b7d39b8bfc94f963221a6629ba7b,
         type: 3}
       propertyPath: m_RootOrder
-      value: 34
+      value: 33
       objectReference: {fileID: 0}
     - target: {fileID: 7635248733106487233, guid: b486b7d39b8bfc94f963221a6629ba7b,
         type: 3}
@@ -10828,12 +10828,12 @@ PrefabInstance:
     - target: {fileID: 8732598190449730476, guid: b486b7d39b8bfc94f963221a6629ba7b,
         type: 3}
       propertyPath: m_RootOrder
-      value: 41
+      value: 42
       objectReference: {fileID: 0}
     - target: {fileID: 8818974004584224697, guid: b486b7d39b8bfc94f963221a6629ba7b,
         type: 3}
       propertyPath: m_RootOrder
-      value: 33
+      value: 34
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b486b7d39b8bfc94f963221a6629ba7b, type: 3}
@@ -19173,15 +19173,22 @@ MonoBehaviour:
   highlightPrefab: {fileID: 1566137787}
   highlight: {fileID: 909025798}
   audioSource: {fileID: 1179139637}
-  bonuses:
+  gunPrefab: {fileID: 5638594037168375564, guid: b2f551fc1c5a05b4688e6e46ebd4db26,
+    type: 3}
+  lowLevelBonus:
   - {fileID: 2299418697691696293, guid: 65dce79ba40b99c4dad5b9c37de7c739, type: 3}
-  - {fileID: 5638594037168375564, guid: b2f551fc1c5a05b4688e6e46ebd4db26, type: 3}
+  - {fileID: 1516834870044470377, guid: d865bd5617dddf7468c777fa59e9982d, type: 3}
+  - {fileID: 4851592301258745248, guid: 982f63c23e3e78a4fa6bb8f1ebbae0a3, type: 3}
+  - {fileID: 9123416911660168559, guid: 46887fc3d87b5744faa4c960e5a69d1f, type: 3}
+  midLevelBonus:
   - {fileID: 5586618117548221859, guid: 3c4035cef05e5c7469425cc0dc0b686a, type: 3}
-  - {fileID: 4846239893969188111, guid: 9b1f4924b6f5f6d47aa90cc26c42e047, type: 3}
-  - {fileID: 4846239893969188111, guid: 9b1f4924b6f5f6d47aa90cc26c42e047, type: 3}
   - {fileID: 2299418697691696293, guid: 65dce79ba40b99c4dad5b9c37de7c739, type: 3}
   - {fileID: 5638594037168375564, guid: b2f551fc1c5a05b4688e6e46ebd4db26, type: 3}
+  - {fileID: 4846239893969188111, guid: 9b1f4924b6f5f6d47aa90cc26c42e047, type: 3}
+  highLevelBonus:
+  - {fileID: 4846239893969188111, guid: 9b1f4924b6f5f6d47aa90cc26c42e047, type: 3}
   - {fileID: 3705229115148965805, guid: a0684f196b4c8384fa54faf74c6aa8da, type: 3}
+  - {fileID: 5638594037168375564, guid: b2f551fc1c5a05b4688e6e46ebd4db26, type: 3}
 --- !u!1 &920465867647711584
 GameObject:
   m_ObjectHideFlags: 0
@@ -31124,6 +31131,7 @@ MonoBehaviour:
   foods:
   - {fileID: 74596501}
   - {fileID: 132054846}
+  difficulty: 0
 --- !u!54 &2414996108136864585
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -73031,6 +73039,7 @@ MonoBehaviour:
   foods:
   - {fileID: 74596501}
   - {fileID: 132054846}
+  difficulty: 0
 --- !u!136 &7119152562379897431
 CapsuleCollider:
   m_ObjectHideFlags: 0
