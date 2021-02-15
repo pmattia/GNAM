@@ -13,6 +13,7 @@ namespace Assets.Scripts.Gameplay
         public TextMeshPro ObjectiveText;
         public SpriteRenderer ObjectiveIcon;
         List<Sprite> foodFamilyIcons;
+        [SerializeField] Transform bonusHolder;
 
         public void Init(List<Sprite> foodFamilyIcons)
         {
@@ -24,6 +25,16 @@ namespace Assets.Scripts.Gameplay
             ObjectiveText.text = GetStatsString(objective.family, objective.toEat, objective.eated);
             //  objectiveTexts[i].color = Color.red;
             ObjectiveIcon.sprite = foodFamilyIcons[(int)objective.family];
+
+            foreach(Transform child in bonusHolder.transform)
+            {
+                Destroy(child.gameObject);
+            }
+
+            var bonus = Instantiate(objective.bonus, bonusHolder);
+            bonus.transform.localPosition= Vector3.zero;
+            bonus.transform.localRotation = Quaternion.identity;
+            bonus.GetComponent<Rigidbody>().isKinematic = true;
         }
 
         public void Show()

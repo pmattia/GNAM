@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Interfaces
 {
-    public class GnamDuplicatorProjectile : Projectile
+    public class GnamDuplicatorProjectile : GnamProjectile
     {
         public override void OnCollisionEvent(Collision collision)
         {
@@ -23,7 +23,7 @@ namespace Assets.Scripts.Interfaces
             if (food != null)
             {
                 //    Debug.Log($"PROJECTILE {other.name}");
-                Debug.Log($"PROJECTILE {other.name} - {food.name}");
+                //Debug.Log($"PROJECTILE {other.name} - {food.name}");
 
                 var clone = Instantiate(food.gameObject, food.transform.position, food.transform.rotation) as GameObject;
                 Destroy(clone.GetComponent<SnapZoneOffset>());

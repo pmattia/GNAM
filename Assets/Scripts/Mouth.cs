@@ -106,7 +106,7 @@ namespace Assets.Scripts
 
             var tModifiers = new List<GnamModifier>();
             tModifiers.AddRange(modifiers);
-            foreach (var modifier in modifiers)
+            foreach (var modifier in tModifiers)
             {
                 currentModifiers.ForEach(m => m.Deactivate(Eater));
                 currentModifiers.Clear();

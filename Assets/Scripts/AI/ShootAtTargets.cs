@@ -88,8 +88,13 @@ namespace Assets.Scripts.AI
                 {
                     var foodbags = tableBelt.trays.Select(t => t.GetComponentInChildren<Foodbag>()).ToList();
                     var paths = foodbags.Select(t => t.GetComponent<PathNodesFollower>()).ToList();
-                    var candidates = foodbags.Where(t => t.GetComponent<PathNodesFollower>().CurrentNode < 2);
-                    targets.AddRange(candidates.SelectMany(c => c.foods.Select(f=>f.transform)));
+                    var candidates = foodbags.Where(t => t.foods!= null && t.foods.Count()>0 && t.GetComponent<PathNodesFollower>().CurrentNode < 2);
+                    foreach(var foodbag in candidates)
+                    {
+                        var foods = foodbag.foods.Where(f => f != null);
+                        targets.AddRange(foods.Select(food => food.transform));
+                    }
+                    //targets.AddRange(candidates.SelectMany(c => c.foods.Select(f=>f.transform)));
                 }
             }
             else {
@@ -130,7 +135,6 @@ namespace Assets.Scripts.AI
                 {
                     Vector3 relativePos = currentTarget.position - weapon.transform.position;
                     weapon.transform.rotation = Quaternion.LookRotation(relativePos, Vector3.up);
-                    Debug.Log("rotation");
                 }
                 weapon.Shoot();
             }

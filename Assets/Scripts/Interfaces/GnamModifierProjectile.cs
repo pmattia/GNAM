@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Interfaces
 {
-    public class GnamModifierProjectile : Projectile
+    public class GnamModifierProjectile : GnamProjectile
     {
         [SerializeField]
         List<GnamModifier> modifiers = new List<GnamModifier>();
@@ -46,8 +46,6 @@ namespace Assets.Scripts.Interfaces
                     eatablesToAttach.AddRange(eatables);
                 }
             }
-
-            Debug.Log($"PROJECTILE {other.name} - {eatablesToAttach.Count}");
 
             if (eatablesToAttach.Count > 0)
             {

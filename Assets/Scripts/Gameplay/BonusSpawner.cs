@@ -18,10 +18,10 @@ namespace Assets.Scripts.Gameplay
         [SerializeField] AudioSource audioSource;
 
         List<GameObject> bonus = new List<GameObject>();
-        [SerializeField] GameObject gunPrefab;
         [SerializeField] List<GameObject> lowLevelBonus;
         [SerializeField] List<GameObject> midLevelBonus;
         [SerializeField] List<GameObject> highLevelBonus;
+
         Vector3 originalHighlightScale;
         public bool HasBonusToTake { get {
                 return snapZone.HeldItem != null;
@@ -34,41 +34,10 @@ namespace Assets.Scripts.Gameplay
             originalHighlightScale = highlightPrefab.transform.localScale;
         }
 
-        void RemoveLastBonus()
+        public GameObject GetBonus(Difficulty difficulty)
         {
-            if (lastGameobject != null)
-            {
-                var lastAutodestroyer = lastGameobject.GetComponent<Autodestroy>();
-                if (lastAutodestroyer != null)
-                {
-                    Destroy(lastGameobject);
-                }
-            }
-        }
-
-        public void SpawnGun()
-        {
-            RemoveLastBonus();
-
-            lastGameobject = Instantiate(gunPrefab, transform.position, Quaternion.identity);
-
-            SnapBonusAndHighlight();
-        }
-
-        void SnapBonusAndHighlight()
-        {
-            snapZone.GrabGrabbable(lastGameobject.GetComponent<Grabbable>());
-
-            audioSource.Play();
-            StartCoroutine(FlashHighlight());
-        }
-
-        public void SpawnBonus(Difficulty difficulty)
-        {
-            RemoveLastBonus();
-
             bonus.Clear();
-            if(difficulty >= Difficulty.Low)
+            if (difficulty >= Difficulty.Low)
             {
                 bonus.AddRange(lowLevelBonus);
             }
@@ -84,18 +53,67 @@ namespace Assets.Scripts.Gameplay
                 bonus.AddRange(highLevelBonus);
             }
 
-            var modifier = bonus[UnityEngine.Random.Range(0, bonus.Count())];
-            lastGameobject = Instantiate(modifier.gameObject, transform.position, Quaternion.identity);
+            var bonusGameobject = bonus[UnityEngine.Random.Range(0, bonus.Count())];
 
-            var autodestroyer = lastGameobject.GetComponent<Autodestroy>();
+            return bonusGameobject;
+        }
+
+        public GameObject SpawnBonus(Difficulty difficulty)
+        {
+            var bonusGameobject = GetBonus(difficulty);
+
+            return InstantiateBonusPrefab(bonusGameobject);
+        }
+
+        public GameObject SpawnBonus(GameObject bonus)
+        {
+            return InstantiateBonusPrefab(bonus);
+        }
+
+        GameObject InstantiateBonusPrefab(GameObject bonusPrefab)
+        {
+            RemoveLastBonus();
+
+            lastGameobject = Instantiate(bonusPrefab, transform.position, Quaternion.identity);
+
+            AttachAutodestroyer(lastGameobject);
+
+            SnapBonusAndHighlight(lastGameobject);
+
+            return lastGameobject;
+        }
+
+        void RemoveLastBonus()
+        {
+            if (lastGameobject != null)
+            {
+                var lastAutodestroyer = lastGameobject.GetComponent<Autodestroy>();
+                if (lastAutodestroyer != null)
+                {
+                    Destroy(lastGameobject);
+                }
+            }
+        }
+
+        void SnapBonusAndHighlight(GameObject bonus)
+        {
+            snapZone.GrabGrabbable(bonus.GetComponent<Grabbable>());
+
+            audioSource.Play();
+            StartCoroutine(FlashHighlight());
+        }
+
+        void AttachAutodestroyer(GameObject bonus)
+        {
+            var autodestroyer = bonus.GetComponent<Autodestroy>();
             if (autodestroyer == null)
             {
-                autodestroyer = lastGameobject.AddComponent<Autodestroy>();
+                autodestroyer = bonus.AddComponent<Autodestroy>();
                 autodestroyer.Countdown = 10;
             }
 
-            SnapBonusAndHighlight();
         }
+
 
         void highLightIterator(float value)
         {

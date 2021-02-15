@@ -35,7 +35,7 @@ public class TableBelt : GnamGameplay
 
         base.onGameStarted += StartCooking;
 
-        billboard.onObjectiveCompleted += (family, objectivesFamilies) =>
+        billboard.onObjectiveCompleted += (family, objectivesFamilies, bonus) =>
         {
             //IncreaseSpeed(.25f);
         };
@@ -68,8 +68,6 @@ public class TableBelt : GnamGameplay
     {
         foodBagSpeed = startFoodbagSpeed + (level * .08f);
         foodBagPause = startFoodbagPause - (level * .2f);
-
-        Debug.Log($"{foodBagSpeed} {foodBagPause}");
     }
 
     void StartCooking()

@@ -24,7 +24,7 @@ public class Eatable : MonoBehaviour
 
     public void Eat(EaterDto eater)
     {
-        Debug.Log($"{name} {IsEatable}");
+        //Debug.Log($"{name} {IsEatable}");
         if (IsEatable)
         {
             if (onEated != null)

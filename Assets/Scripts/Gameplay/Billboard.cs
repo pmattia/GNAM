@@ -25,7 +25,7 @@ namespace Assets.Scripts
         [SerializeField] TextMeshPro levelLabel;
         [SerializeField] Text scoreLabel;
 
-        public event Action<Food.FoodFamily, List<Food.FoodFamily>> onObjectiveCompleted;
+        public event Action<Food.FoodFamily, List<Food.FoodFamily>, GameObject> onObjectiveCompleted;
         public event Action<int> onGameCompleted;
         public event Action onTimeExpired;
 
@@ -139,8 +139,6 @@ namespace Assets.Scripts
             var objective = objectives.FirstOrDefault(s => s.family == family);
             var index = objectives.IndexOf(objective);
 
-            Debug.Log($"{family} obj-> {index}");
-
             if (objective != null)
             {
                 objective.eated++;
@@ -152,7 +150,7 @@ namespace Assets.Scripts
                     if (onObjectiveCompleted != null)
                     {
                         var objectivesFamilies = objectives.Select(o => o.family).ToList();
-                        onObjectiveCompleted(objective.family, objectivesFamilies);
+                        onObjectiveCompleted(objective.family, objectivesFamilies, objective.bonus);
                     }
                 }
                 else {
@@ -160,7 +158,6 @@ namespace Assets.Scripts
                 }
             }
 
-            Debug.Log($"FINE {foodsToEat} - {foodsEated}");
             if(foodsToEat == foodsEated)
             {
                 if (onGameCompleted != null)

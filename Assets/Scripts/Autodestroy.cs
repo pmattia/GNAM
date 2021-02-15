@@ -9,6 +9,7 @@ namespace Assets.Scripts
 {
     public class Autodestroy : MonoBehaviour
     {
+        public event Action onDestroy;
         public int Countdown { get; set; }
         float lifetime = 0;
 
@@ -16,6 +17,10 @@ namespace Assets.Scripts
         {
             lifetime += Time.deltaTime;
             if (lifetime > Countdown) {
+                if (onDestroy != null)
+                {
+                    onDestroy();
+                }
                 Destroy(gameObject);
             }
         }

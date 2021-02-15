@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Assets.Scripts.Interfaces;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,7 @@ namespace Assets.Scripts.Gameplay
         [SerializeField] Eatable startEatable;
         [SerializeField] protected Billboard billboard;
         [SerializeField] int levelDuration = 60;
+        List<GameObject> ownedBonus = new List<GameObject>();
         [SerializeField] protected int currentLevel { get; private set; }
         protected Difficulty currentDifficulty { get {
                 switch (currentLevel)
@@ -47,6 +49,9 @@ namespace Assets.Scripts.Gameplay
         [SerializeField] AudioClip loseSound;
         [SerializeField] int startLevel = 1;
 
+        [SerializeField] GameObject gunPrefab;
+        [SerializeField] GameObject gunClipPrefab;
+
         protected bool isPlaying { get; private set; }
 
         public event System.Action onGameStarted;
@@ -60,6 +65,17 @@ namespace Assets.Scripts.Gameplay
         float objectiveCooldown = 5;
 
         protected int Score { get; set; }
+        protected bool HasGun { get {
+                return ownedBonus.Any(b => b != null && b.GetComponent<GnamRaycastWeapon>() != null);
+            } 
+        }
+        protected bool HasGunClip
+        {
+            get
+            {
+                return ownedBonus.Any(b => b != null && b.GetComponent<GnamPistolClip>() != null);
+            }
+        }
 
         protected virtual void Start()
         {
@@ -77,15 +93,15 @@ namespace Assets.Scripts.Gameplay
             };
             mobSpawner.OnMobDeath += () =>
             {
-                bonusSpawner.SpawnBonus(currentDifficulty);
+                SpawnBonus();
                 billboard.AddTime(5);
 
                 Score += 5;
             };
-            billboard.onObjectiveCompleted += (family, objectivesFamilies) =>
+            billboard.onObjectiveCompleted += (family, objectivesFamilies, bonus) =>
             {
-                Debug.Log("OBJECTIVE COMPLETED FOR " + family);
-                bonusSpawner.SpawnBonus(currentDifficulty);
+                Debug.Log("OBJECTIVE COMPLETED FOR " + family); 
+                SpawnBonus(bonus);
                 billboard.AddTime(5);
                 currentObjectiveFamilies = objectivesFamilies;
                 completedObjectsStack++;
@@ -101,15 +117,19 @@ namespace Assets.Scripts.Gameplay
                 billboard.StopTimer();
                 commandSpawner.SpawnObject(nextLevelEatable, GoToNextLevel);
                 gameplaySound.PlayOneShot(winSound);
-                //todo: gestire bonus obbligati in base al livello
-                //if(currentLevel == 3)
-                //{
-                //    bonusSpawner.SpawnGun();
-                //}
-                //else
-                //{
-                    bonusSpawner.SpawnBonus(currentDifficulty);
-                //}
+
+                if (!HasGun && currentLevel >= 3)
+                {
+                    SpawnBonus(gunPrefab);
+                }
+                else if (HasGun && !HasGunClip && currentLevel >= 3)
+                {
+                    SpawnBonus(gunClipPrefab);
+                }
+                else
+                {
+                    SpawnBonus();
+                }
             };
             billboard.onTimeExpired += () => {
                 StopGameplay();
@@ -118,6 +138,88 @@ namespace Assets.Scripts.Gameplay
 
                 Score = 0;
             };
+
+        }
+
+        protected virtual GameObject DrawNewBonus(int level)
+        {
+            GameObject bonus = null;
+            if (!HasGun && level >= 3)
+            {
+                bonus = gunPrefab;
+            }
+            else if (HasGun && !HasGunClip && currentLevel >= 3)
+            {
+                bonus = gunClipPrefab;
+            }
+            else
+            {
+                bonus = bonusSpawner.GetBonus(currentDifficulty);
+            }
+
+            return bonus;
+        }
+
+        protected virtual GameObject DrawNewBonus(Difficulty difficulty)
+        {
+            GameObject bonus = null;
+            if (!HasGun && difficulty == Difficulty.Mid)
+            {
+                bonus = gunPrefab;
+            }
+            else if (HasGun && !HasGunClip && difficulty == Difficulty.Mid)
+            {
+                bonus = gunClipPrefab;
+            }
+            else
+            {
+                bonus = bonusSpawner.GetBonus(currentDifficulty);
+            }
+
+            return bonus;
+        }
+
+        protected virtual void SpawnBonus(GameObject bonus = null)
+        {
+            if (bonus ==null)
+            {
+                bonus = DrawNewBonus(currentLevel);
+            }
+
+            if (bonus != null)
+            {
+                Debug.Log($"SPAWN BONUS {bonus.name}");
+
+                var bonusAutodestroyer = bonus.GetComponent<Autodestroy>();
+                if (bonusAutodestroyer != null)
+                {
+                    bonusAutodestroyer.onDestroy += () =>
+                    {
+                        ownedBonus.Remove(bonus);
+                    };
+                }
+
+                var bonusEatable = bonus.GetComponent<Eatable>();
+                if (bonusEatable != null)
+                {
+                    bonusEatable.onEated += (eater) =>
+                    {
+                        ownedBonus.Remove(bonus);
+                    };
+                }
+
+                var bonusFood = bonus.GetComponent<Food>();
+                if (bonusFood != null)
+                {
+                    bonusFood.onEated += (eater) =>
+                    {
+                        billboard.AddFood(bonusFood.foodFamily);
+                        ownedBonus.Remove(bonus);
+                    };
+                }
+
+                ownedBonus.Add(bonusSpawner.SpawnBonus(bonus));
+            }
 
         }
 
@@ -212,6 +314,7 @@ namespace Assets.Scripts.Gameplay
             var toEat = Mathf.CeilToInt((Random.Range(1, 5)));
 
             ret.toEat = toEat;
+            ret.bonus = DrawNewBonus(currentDifficulty);
 
             return ret;
         }
@@ -230,6 +333,7 @@ namespace Assets.Scripts.Gameplay
         public Food.FoodFamily family;
         public int toEat;
         public int eated;
+        public GameObject bonus;
         public bool IsCompleted
         {
             get

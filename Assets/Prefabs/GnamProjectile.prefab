@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 4952634154692634041}
   - component: {fileID: 8179559549584198799}
   - component: {fileID: 1617075437836214339}
-  - component: {fileID: 857965906688937770}
+  - component: {fileID: -4256986492815822729}
   m_Layer: 2
-  m_Name: Projectile
+  m_Name: GnamProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -209,7 +209,7 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 2
---- !u!114 &857965906688937770
+--- !u!114 &-4256986492815822729
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -218,7 +218,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1449094533667961452}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c079485b3cec8a14c85546b51a8b27b7, type: 3}
+  m_Script: {fileID: 11500000, guid: ce296017a975cfe4096fb567cb06b4e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   HitFXPrefab: {fileID: 3454612190511497970, guid: fa39ce2ce96bec94b82f2c8124ce3930,
@@ -227,7 +227,7 @@ MonoBehaviour:
   AddRigidForce: 5
   ValidLayers:
     serializedVersion: 2
-    m_Bits: 3073
+    m_Bits: 1537
   StickToObject: 0
   MinForceHit: 0.02
   onDealtDamageEvent:

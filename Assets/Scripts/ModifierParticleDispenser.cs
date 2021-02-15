@@ -19,7 +19,6 @@ namespace Assets.Scripts
             {
                 foreach (var item in food.eatableParts)
                 {
-                    Debug.Log($"COLORA {item.name}");
                     var renderer = item.GetComponent<Renderer>();
                     renderer.material = null;
                     item.modifiers.AddRange(modifiers);

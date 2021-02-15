@@ -18,12 +18,10 @@ namespace Assets.Scripts.Interfaces
         {
             var clip = GetComponentInChildren<GnamPistolClip>();
             this.ProjectilePrefab = clip.GnamProjectile;
-            Debug.Log(clip.GnamProjectile.name);
 
             var autodestroyer = clip.GetComponent<Autodestroy>();
             if (autodestroyer != null)
             {
-                Debug.Log("remove autodestroyer from clip");
                 Destroy(autodestroyer);
             }
         }

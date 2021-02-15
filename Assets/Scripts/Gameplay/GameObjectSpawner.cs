@@ -12,10 +12,10 @@ public class GameObjectSpawner : MonoBehaviour
     protected GameObject lastGameobject;
     
 
-    public void SpawnObject(GameObject prefab, Action<EaterDto> onEated)
+    public GameObject SpawnObject(GameObject prefab, Action<EaterDto> onEated)
     {
         lastGameobject = Instantiate(prefab, transform.position, Quaternion.identity);
         lastGameobject.GetComponent<Eatable>().onEated += onEated;
-
+        return lastGameobject;
     }
 }

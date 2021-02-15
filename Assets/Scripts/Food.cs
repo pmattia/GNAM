@@ -32,7 +32,6 @@ public class Food : MonoBehaviour
         }
         eatableParts.Remove(eated);
 
-        Debug.Log($"eatables: {eatableParts.Count()}");
         if (eatableParts.Count() == 0)
         {
             if (onEated != null)
