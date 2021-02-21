@@ -14,6 +14,10 @@ namespace Assets.Scripts.Gameplay
         public SpriteRenderer ObjectiveIcon;
         List<Sprite> foodFamilyIcons;
         [SerializeField] Transform bonusHolder;
+        public event Action<Food.FoodFamily> onTimeExpired;
+        float lifeTime = 0;
+        float cooldown = 0;
+        public Food.FoodFamily Family;
 
         public void Init(List<Sprite> foodFamilyIcons)
         {
@@ -22,8 +26,9 @@ namespace Assets.Scripts.Gameplay
 
         public void setValue(ObjectiveDto objective)
         {
+            cooldown = objective.cooldown;
+            Family = objective.family;
             ObjectiveText.text = GetStatsString(objective.family, objective.toEat, objective.eated);
-            //  objectiveTexts[i].color = Color.red;
             ObjectiveIcon.sprite = foodFamilyIcons[(int)objective.family];
 
             foreach(Transform child in bonusHolder.transform)
@@ -35,6 +40,19 @@ namespace Assets.Scripts.Gameplay
             bonus.transform.localPosition= Vector3.zero;
             bonus.transform.localRotation = Quaternion.identity;
             bonus.GetComponent<Rigidbody>().isKinematic = true;
+        }
+
+        private void Update()
+        {
+            lifeTime += Time.deltaTime;
+            if(lifeTime > cooldown)
+            {
+                if (onTimeExpired != null)
+                {
+                    onTimeExpired(Family);
+                    lifeTime = 0;
+                }
+            }
         }
 
         public void Show()

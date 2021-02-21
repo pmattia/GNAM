@@ -55,8 +55,11 @@ namespace Assets.Scripts.Interfaces
                     var renderer = item.GetComponent<Renderer>();
                     //renderer.material.SetColor("_Color", Color.white);
                     //renderer.material.mainTexture = null;
-                    renderer.material = null;
-                    item.modifiers.AddRange(GetRandomModifiers());
+                    if (renderer != null)
+                    {
+                        renderer.material = null;
+                        item.modifiers.AddRange(GetRandomModifiers());
+                    }
                 }
             }
 

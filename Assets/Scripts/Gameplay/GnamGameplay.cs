@@ -61,8 +61,6 @@ namespace Assets.Scripts.Gameplay
         float totalGameplayTime = 0;
 
         List<Food.FoodFamily> currentObjectiveFamilies = new List<Food.FoodFamily>();
-        int completedObjectsStack = 0;
-        float objectiveCooldown = 5;
 
         protected int Score { get; set; }
         protected bool HasGun { get {
@@ -104,10 +102,14 @@ namespace Assets.Scripts.Gameplay
                 SpawnBonus(bonus);
                 billboard.AddTime(5);
                 currentObjectiveFamilies = objectivesFamilies;
-                completedObjectsStack++;
 
                 Score += 10;
                 // SpawnMobs();
+            };
+            billboard.onObjectiveExpired += (family, objectivesFamilies) =>
+            {
+                Debug.Log("OBJECTIVE EXPIRED FOR " + family);
+                currentObjectiveFamilies = objectivesFamilies;
             };
             billboard.onGameCompleted += (residueSeconds) =>
             {
@@ -228,7 +230,6 @@ namespace Assets.Scripts.Gameplay
             isPlaying = false;
             mobSpawner.RemoveMobs();
             soundTrack.Stop();
-            completedObjectsStack = 0;
             CancelInvoke("SpawnMobs");
             CancelInvoke("AddNewObjective");
         }
@@ -251,10 +252,11 @@ namespace Assets.Scripts.Gameplay
 
         void AddNewObjective()
         {
-            if (completedObjectsStack > 0)
+            var objCount = Mathf.FloorToInt((float)currentLevel / 3f);
+            var currentObjCount = billboard.GetObjectives().Count();
+            for (int i = 0; i < objCount - currentObjCount; i++)
             {
                 billboard.AddObjective(GetNewObjective(currentLevel, currentObjectiveFamilies));
-                completedObjectsStack--;
             }
         }
 
@@ -289,11 +291,11 @@ namespace Assets.Scripts.Gameplay
             levelDto.foodsEated = eatedFoods;
             levelDto.time = levelDuration;
 
-            var objCount = Mathf.FloorToInt((float)level / 3f);
-            for(int i=0; i<objCount; i++)
-            {
-                levelDto.objectives.Add(GetNewObjective(level, null));
-            }
+            //var objCount = Mathf.FloorToInt((float)level / 3f);
+            //for(int i=0; i<objCount; i++)
+            //{
+            //    levelDto.objectives.Add(GetNewObjective(level, null));
+            //}
 
             return levelDto;
         }
@@ -311,11 +313,22 @@ namespace Assets.Scripts.Gameplay
             } while (excludedFamilies.Contains(ret.family));
 
             //var toEat = Mathf.CeilToInt((Random.Range(1, 2 + levelIndex * 2)));
-            var toEat = Mathf.CeilToInt((Random.Range(1, 5)));
+            var toEat = Mathf.CeilToInt((Random.Range(2, 5)));
 
             ret.toEat = toEat;
             ret.bonus = DrawNewBonus(currentDifficulty);
-
+            switch (currentDifficulty)
+            {
+                case Difficulty.Low:
+                    ret.cooldown = 15;
+                    break;
+                case Difficulty.Mid:
+                    ret.cooldown = 15;
+                    break;
+                case Difficulty.High:
+                    ret.cooldown = 10;
+                    break;
+            }
             return ret;
         }
     }
@@ -334,6 +347,7 @@ namespace Assets.Scripts.Gameplay
         public int toEat;
         public int eated;
         public GameObject bonus;
+        public float cooldown;
         public bool IsCompleted
         {
             get

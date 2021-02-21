@@ -38,7 +38,7 @@ MonoBehaviour:
   MuzzleFlashObject: {fileID: 5638594036689796843}
   BulletCasingPrefab: {fileID: 4293907302815737054, guid: f8313a7c0e07bba40ac0f3634a590caf,
     type: 3}
-  ProjectilePrefab: {fileID: 1449094533667961452, guid: 4af46545725f628459794cfc7c0f7d54,
+  ProjectilePrefab: {fileID: 1449094533667961452, guid: a1ed19681c3836e44905adfbc02857cb,
     type: 3}
   HitFXPrefab: {fileID: 3454612190511497970, guid: fa39ce2ce96bec94b82f2c8124ce3930,
     type: 3}
@@ -134,7 +134,7 @@ PrefabInstance:
     - target: {fileID: 3250199791822310965, guid: 6c8b6c71585261b46a9ae33fc2c5df5f,
         type: 3}
       propertyPath: m_Name
-      value: GnamSpingarda
+      value: GnamSpingarda Variant
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3250199791822310968, guid: 6c8b6c71585261b46a9ae33fc2c5df5f, type: 3}

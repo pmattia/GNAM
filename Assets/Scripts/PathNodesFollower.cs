@@ -11,7 +11,7 @@ public class PathNodesFollower : MonoBehaviour
     float nodePause;
     int currentNode;
     Vector3 currentPosition;
-    bool isMoving;
+    public bool IsMoving { get; private set; }
     public event Action<GameObject> onEndPath;
     public int CurrentNode { get { return currentNode; } }
 
@@ -28,12 +28,12 @@ public class PathNodesFollower : MonoBehaviour
 
     public void StartMoving()
     {
-        isMoving = true;
+        IsMoving = true;
     }
 
     public void StopMoving()
     {
-        isMoving = false;
+        IsMoving = false;
     }
 
     public void SetNodes(PathNode[] nodes)
@@ -59,7 +59,7 @@ public class PathNodesFollower : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (isMoving)
+        if (IsMoving)
         {
             timer += Time.deltaTime * speed;
             if (transform.position != currentPosition)
@@ -88,8 +88,8 @@ public class PathNodesFollower : MonoBehaviour
 
     IEnumerator Pause()
     {
-        isMoving = false;
+        IsMoving = false;
         yield return new WaitForSeconds(nodePause);
-        isMoving = true;
+        IsMoving = true;
     }
 }

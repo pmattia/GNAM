@@ -20,6 +20,7 @@ public class TableBelt : GnamGameplay
     float foodBagSpeed;
     [SerializeField] float startFoodbagPause = 3;
     float foodBagPause;
+    [SerializeField] Animator destroyAnimator;
     [SerializeField] Animator cookAnimator;
     [SerializeField] AudioSource cookingAudio;
     [SerializeField] GameObject cookingParticle;
@@ -74,6 +75,7 @@ public class TableBelt : GnamGameplay
     {
         isCooking = true;
         cookAnimator.SetBool("isCooking", true);
+        destroyAnimator.SetBool("isDestroing", true);
         cookingAudio.Play();
         InvokeRepeating("spawnCookingParticle", 0, 1.5f);
     }
@@ -82,6 +84,7 @@ public class TableBelt : GnamGameplay
     {
         CancelInvoke();
         cookAnimator.SetBool("isCooking", false);
+        destroyAnimator.SetBool("isDestroing", false);
         cookingAudio.Stop();
     }
 

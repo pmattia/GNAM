@@ -68,7 +68,7 @@ namespace Assets.Scripts.AI
                 }
                 else
                 {
-                    //TakeAim(player);
+                    TakeAim(player);
                 }
 
                 if (isReadyToShoot && currentTarget!=null)
@@ -88,7 +88,10 @@ namespace Assets.Scripts.AI
                 {
                     var foodbags = tableBelt.trays.Select(t => t.GetComponentInChildren<Foodbag>()).ToList();
                     var paths = foodbags.Select(t => t.GetComponent<PathNodesFollower>()).ToList();
-                    var candidates = foodbags.Where(t => t.foods!= null && t.foods.Count()>0 && t.GetComponent<PathNodesFollower>().CurrentNode < 2);
+                    var candidates = foodbags.Where(t => t.foods!= null 
+                                                        && t.foods.Count()>0 && t.GetComponent<PathNodesFollower>().CurrentNode < 2
+                                                        && (t.foods.Count() > 0 && t.GetComponent<PathNodesFollower>().CurrentNode > 0 && t.GetComponent<PathNodesFollower>().IsMoving)
+                                                        );
                     foreach(var foodbag in candidates)
                     {
                         var foods = foodbag.foods.Where(f => f != null);
@@ -178,7 +181,7 @@ namespace Assets.Scripts.AI
         {
             if(collision.gameObject.GetComponent<Grabbable>() != null)
             {
-                damageable.DealDamage(100);
+                damageable.DealDamage(5000);
             }
         }
     }

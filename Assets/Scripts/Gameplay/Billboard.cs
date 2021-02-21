@@ -26,6 +26,7 @@ namespace Assets.Scripts
         [SerializeField] Text scoreLabel;
 
         public event Action<Food.FoodFamily, List<Food.FoodFamily>, GameObject> onObjectiveCompleted;
+        public event Action<Food.FoodFamily, List<Food.FoodFamily>> onObjectiveExpired;
         public event Action<int> onGameCompleted;
         public event Action onTimeExpired;
 
@@ -36,7 +37,22 @@ namespace Assets.Scripts
 
         private void Start()
         {
-            billboardObjectives.ForEach(o => o.Init(foodFamilyIcons));
+            billboardObjectives.ForEach(o =>
+            {
+                o.Init(foodFamilyIcons);
+                o.onTimeExpired += (family) =>
+                {
+                    var objective = objectives.FirstOrDefault(obj => obj.family == family);
+                    objectives.Remove(objective);
+                    RefreshObjectives();
+
+                    if (onObjectiveExpired != null)
+                    {
+                        var objectivesFamilies = objectives.Select(obj => obj.family).ToList();
+                        onObjectiveExpired(family, objectivesFamilies);
+                    }
+                };
+            });
             timer.onExpired += () =>
             {
                 timerAudio.Stop();
@@ -183,6 +199,11 @@ namespace Assets.Scripts
                 billboardObjectives[i].setValue(objectives[i]);
                 billboardObjectives[i].Show();
             }
+        }
+
+        public List<ObjectiveDto> GetObjectives()
+        {
+            return objectives;
         }
     }
 }

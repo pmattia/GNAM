@@ -223,11 +223,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HitFXPrefab: {fileID: 3454612190511497970, guid: fa39ce2ce96bec94b82f2c8124ce3930,
     type: 3}
-  Damage: 25
+  Damage: 5000
   AddRigidForce: 5
   ValidLayers:
     serializedVersion: 2
-    m_Bits: 1537
+    m_Bits: 9729
   StickToObject: 0
   MinForceHit: 0.02
   onDealtDamageEvent:
