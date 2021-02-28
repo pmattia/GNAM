@@ -13,13 +13,13 @@ public class Eatable : MonoBehaviour
     public event Action<EaterDto> onEated;
 
     public List<GnamModifier> modifiers = new List<GnamModifier>();
-    public float eatTime = 3f;
+    [SerializeField] float eatDuration = .2f;
     public List<GameObject> grabPoints = new List<GameObject>();
     public bool IsEatable = true;
+    public float EatDuration { get { return eatDuration; } }
 
     private void Start()
     {
-        eatTime = 0.2f;
     }
 
     public void Eat(EaterDto eater)

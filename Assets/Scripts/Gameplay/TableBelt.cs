@@ -14,6 +14,8 @@ public class TableBelt : GnamGameplay
 {
     public List<GameObject> trays = new List<GameObject>();
     [SerializeField] GameObject[] foodbagsRepository;
+    [SerializeField] GameObject[] firstLevelfoodbags;
+
     [SerializeField] PathNode[] nodes;
     [SerializeField] int maxTrayOnTable;
     [SerializeField] float startFoodbagSpeed = .1f;
@@ -108,8 +110,16 @@ public class TableBelt : GnamGameplay
 
     GameObject CloneRandomFoodbag(Difficulty difficulty)
     {
-        var foodbags = foodbagsRepository.Select(f => f.GetComponent<Foodbag>());
-        var availableFoodbags = foodbags.Where(f => f.difficulty <= difficulty).ToArray();
+        Foodbag[] availableFoodbags;
+        if(currentLevel == 1)
+        {
+            availableFoodbags = firstLevelfoodbags.Select(f => f.GetComponent<Foodbag>()).ToArray();
+        }
+        else
+        {
+            var foodbags = foodbagsRepository.Select(f => f.GetComponent<Foodbag>());
+            availableFoodbags = foodbags.Where(f => f.difficulty <= difficulty).ToArray();
+        }
         var foodbag = availableFoodbags[Random.Range(0, availableFoodbags.Count())];
         //var foodbag = foodbagsRepository[4];
         var clone = Instantiate(foodbag, nodes[0].transform.position, Quaternion.identity);

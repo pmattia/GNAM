@@ -99,7 +99,7 @@ namespace Assets.Scripts
             audioSource.Play();
            // Instantiate(briciolePrefab, transform.position, transform.rotation);
 
-            var runtimeEatTime = Eater.Time.TimeSlowing? eatable.eatTime * Eater.Time.SlowTimeScale : eatable.eatTime;
+            var runtimeEatTime = Eater.Time.TimeSlowing? eatable.EatDuration * Eater.Time.SlowTimeScale : eatable.EatDuration;
             yield return new WaitForSeconds(runtimeEatTime);
 
             audioSource.Stop();

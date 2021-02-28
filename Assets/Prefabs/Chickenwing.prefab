@@ -94,7 +94,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   modifiers: []
-  eatTime: 0.5
+  eatDuration: 0.2
   grabPoints: []
   IsEatable: 1
 --- !u!64 &242269865550872679
@@ -500,7 +500,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   modifiers: []
-  eatTime: 0.5
+  eatDuration: 0.2
   grabPoints: []
   IsEatable: 1
 --- !u!64 &5822255954215502838
@@ -627,7 +627,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   modifiers: []
-  eatTime: 3
+  eatDuration: 3
   grabPoints:
   - {fileID: 5715505121322137770}
   - {fileID: 5715505121847821671}
@@ -726,7 +726,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   modifiers: []
-  eatTime: 0.5
+  eatDuration: 0.2
   grabPoints: []
   IsEatable: 1
 --- !u!64 &8463924229997674405
