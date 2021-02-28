@@ -52,17 +52,8 @@ namespace Assets.Scripts.Interfaces
                 foreach (var item in eatablesToAttach)
                 {
                     Debug.Log($"COLORA {item.name}");
-                    var renderer = item.GetComponent<Renderer>();
-                    //renderer.material.SetColor("_Color", Color.white);
-                    //renderer.material.mainTexture = null;
-                    if (renderer != null)
-                    {
-                        //3DEE15
-                        VRUtils.Instance.PlaySpatialClipAt(hitSound, transform.position, 1f, 0.5f);
-                        renderer.material.SetColor("Color_B5C1F6F5", new Color32(0x3D, 0xEE, 0x15, 0));
-                     //   renderer.material = null;
-                        item.modifiers.AddRange(GetRandomModifiers());
-                    }
+                    item.AddModifiers(GetRandomModifiers());
+                    VRUtils.Instance.PlaySpatialClipAt(hitSound, transform.position, 1f, 0.5f);
                 }
             }
 

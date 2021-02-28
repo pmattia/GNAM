@@ -23,6 +23,11 @@ public class Food : MonoBehaviour
         }
     }
 
+    public bool HasModifiers { get {
+            return eatableParts.Any(e => e.GetModifiers().Count > 0);
+        } 
+    }
+
     void PartEated(EaterDto eater, Eatable eated)
     {
         Destroy(eated.gameObject);

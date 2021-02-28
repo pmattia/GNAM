@@ -101,7 +101,7 @@ namespace Assets.Scripts.AI
                 }
             }
             else {
-                foods = FindObjectsOfType<Food>();
+                foods = FindObjectsOfType<Food>().Where(f => !f.HasModifiers).ToArray();
                 targets.AddRange(foods.Select(e => e.transform));
                 targets = targets.Where(t => t != null).ToList();
                 

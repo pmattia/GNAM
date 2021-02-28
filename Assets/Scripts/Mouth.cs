@@ -28,6 +28,7 @@ namespace Assets.Scripts
         IHandsController handsController;
         [SerializeField] TimeController playerTimeController;
         ITimeController timeController;
+        [SerializeField] GameObject briciolePrefab;
 
         List<GnamModifier> modifiers = new List<GnamModifier>();
         List<GnamModifier> currentModifiers = new List<GnamModifier>();
@@ -96,6 +97,7 @@ namespace Assets.Scripts
 
             audioSource.clip = crunchingAudio;
             audioSource.Play();
+           // Instantiate(briciolePrefab, transform.position, transform.rotation);
 
             var runtimeEatTime = Eater.Time.TimeSlowing? eatable.eatTime * Eater.Time.SlowTimeScale : eatable.eatTime;
             yield return new WaitForSeconds(runtimeEatTime);

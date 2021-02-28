@@ -345,7 +345,7 @@ namespace Assets.Scripts.Gameplay
 
         int GetFoodToEatByLevel(int level)
         {
-            return Mathf.CeilToInt(baseFoodToEat + ((level - 1) * baseFoodToEat * .25f));
+            return Mathf.CeilToInt(baseFoodToEat + ((level - 1) * baseFoodToEat * .30f));
         }
 
         protected ObjectiveDto GetNewObjective(int levelIndex, List<Food.FoodFamily> excludedFamilies)

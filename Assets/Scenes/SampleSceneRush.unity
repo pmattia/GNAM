@@ -1094,6 +1094,7 @@ MonoBehaviour:
   chokeAudio: {fileID: 8300000, guid: 6b3963afbae2d8f4ab0fc0882175ce5b, type: 3}
   handModelSelecter: {fileID: 0}
   playerTimeController: {fileID: 0}
+  briciolePrefab: {fileID: 0}
 --- !u!82 &208833983
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2095,7 +2096,7 @@ MonoBehaviour:
   starter: {fileID: 3100686047583185674}
   billboard: {fileID: 2019122974}
   levelDuration: 60
-  baseFoodToEat: 20
+  baseFoodToEat: 30
   mobSpawner: {fileID: 488617309}
   soundTrack: {fileID: 2028788866}
   gameplaySound: {fileID: 437091750}
@@ -15856,6 +15857,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4491510836679305804, guid: c9f645d837066a24a8741aaeb899e03d,
+        type: 3}
+      propertyPath: briciolePrefab
+      value: 
+      objectReference: {fileID: 6038565295235048154, guid: 21e08168d4f5e614d8c0e8dfe4860ac9,
+        type: 3}
     - target: {fileID: 5558233721500997365, guid: c9f645d837066a24a8741aaeb899e03d,
         type: 3}
       propertyPath: m_IsActive

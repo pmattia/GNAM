@@ -42,4 +42,19 @@ public class Eatable : MonoBehaviour
         return modifiers;
     }
 
+    public void AddModifiers(List<GnamModifier> modifiers)
+    {
+        var renderer = GetComponent<Renderer>();
+        //renderer.material.SetColor("_Color", Color.white);
+        //renderer.material.mainTexture = null;
+        if (renderer != null && modifiers.Count > 0)
+        {
+            //3DEE15
+            
+            renderer.material.SetColor("Color_B5C1F6F5", new Color32(0x3D, 0xEE, 0x15, 0));
+            //   renderer.material = null;
+            modifiers.AddRange(modifiers);
+        }
+    }
+
 }
