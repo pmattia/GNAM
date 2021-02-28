@@ -161,6 +161,7 @@ namespace Assets.Scripts.Gameplay
                 StopGameplay();
                 billboard.GameOver();
                 gameplaySound.PlayOneShot(loseSound);
+                starter.Show();
 
                 Score = 0;
             };

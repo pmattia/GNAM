@@ -14,7 +14,7 @@ namespace Assets.Scripts.Interfaces
         [SerializeField]
         List<GnamModifier> modifiers = new List<GnamModifier>();
         int modifiersLength = 1;
-
+        [SerializeField] AudioClip hitSound;
         public List<GnamModifier> GetRandomModifiers()
         {
             var ret = new List<GnamModifier>();
@@ -57,7 +57,10 @@ namespace Assets.Scripts.Interfaces
                     //renderer.material.mainTexture = null;
                     if (renderer != null)
                     {
-                        renderer.material = null;
+                        //3DEE15
+                        VRUtils.Instance.PlaySpatialClipAt(hitSound, transform.position, 1f, 0.5f);
+                        renderer.material.SetColor("Color_B5C1F6F5", new Color32(0x3D, 0xEE, 0x15, 0));
+                     //   renderer.material = null;
                         item.modifiers.AddRange(GetRandomModifiers());
                     }
                 }

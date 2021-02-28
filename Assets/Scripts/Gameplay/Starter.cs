@@ -34,13 +34,16 @@ namespace Assets.Scripts.Gameplay
             });
         }
 
-        void InitStarter(Action delayedCallback)
+        void InitStarter(Action delayedCallback = null)
         {
             ClearStarter();
             spawnedItems.Add(commandSpawner.SpawnObject(restartEatable, (eater) => {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             }));
-            StartCoroutine(DelayedFun(delayedCallback));
+            if (delayedCallback != null)
+            {
+                StartCoroutine(DelayedFun(delayedCallback));
+            }
         }
 
         IEnumerator DelayedFun(Action fun)
@@ -52,6 +55,7 @@ namespace Assets.Scripts.Gameplay
         public void Show()
         {
             gameObject.SetActive(true);
+            InitStarter();
         }
 
         public void Hide()

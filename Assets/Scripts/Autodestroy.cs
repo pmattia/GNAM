@@ -17,6 +17,9 @@ namespace Assets.Scripts
         {
             lifetime += Time.deltaTime;
             if (lifetime > Countdown) {
+                var particle = Resources.Load<GameObject>("GnamAutodestroy");
+                Instantiate(particle, transform.position, transform.rotation);
+
                 if (onDestroy != null)
                 {
                     onDestroy();

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1965646791289930768}
   - component: {fileID: 1965646791289930771}
   - component: {fileID: 1965646791289930770}
+  - component: {fileID: 6448019562806768158}
   m_Layer: 10
   m_Name: Coperchio
   m_TagString: Untagged
@@ -138,6 +139,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.15424004, y: 0.075582504, z: 0.04466918}
   m_Center: {x: 0.00000010430813, y: 0.08, z: 0.0006619543}
+--- !u!114 &6448019562806768158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1965646791289931756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa13b59692476bc439841b0f831619a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  modifiers: []
+  eatTime: 3
+  grabPoints: []
+  IsEatable: 1
 --- !u!1 &1965646791445217077
 GameObject:
   m_ObjectHideFlags: 0
