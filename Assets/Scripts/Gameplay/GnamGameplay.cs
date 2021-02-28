@@ -1,4 +1,6 @@
 ﻿using Assets.Scripts.Interfaces;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,13 +13,19 @@ namespace Assets.Scripts.Gameplay
 
     {
         [SerializeField] protected BonusSpawner bonusSpawner;
-        [SerializeField] GameObjectSpawner commandSpawner;
-        [SerializeField] GameObject nextLevelEatable;
-        [SerializeField] Eatable startEatable;
+        [SerializeField] Starter starter;
         [SerializeField] protected Billboard billboard;
         [SerializeField] int levelDuration = 60;
         List<GameObject> ownedBonus = new List<GameObject>();
         [SerializeField] protected int currentLevel { get; private set; }
+
+
+        //scores
+        protected const int eatableScore = 1;
+        protected const int foodScore = 5;
+        protected const int mobKillScore = 5;
+        protected const int objectiveScore = 10;
+
         protected Difficulty currentDifficulty { get {
                 switch (currentLevel)
                 {
@@ -80,21 +88,29 @@ namespace Assets.Scripts.Gameplay
             isPlaying = false;
             currentLevel = startLevel;
             totalGameplayTime = 0;
-            
-            startEatable.onEated += (eater) =>
+
+            starter.onStart += (eater) =>
             {
+                starter.Hide();
                 this.StartGame();
                 if (onGameStarted != null)
                 {
                     onGameStarted();
                 }
             };
+            starter.SpawnStartEatable();
+            starter.onNextlevel += (eater) =>
+            {
+                starter.Hide();
+                GoToNextLevel(eater);
+            };
+
             mobSpawner.OnMobDeath += () =>
             {
                 SpawnBonus();
                 billboard.AddTime(5);
 
-                Score += 5;
+                Score += mobKillScore;
             };
             billboard.onObjectiveCompleted += (family, objectivesFamilies, bonus) =>
             {
@@ -103,7 +119,7 @@ namespace Assets.Scripts.Gameplay
                 billboard.AddTime(5);
                 currentObjectiveFamilies = objectivesFamilies;
 
-                Score += 10;
+                Score += objectiveScore;
                 // SpawnMobs();
             };
             billboard.onObjectiveExpired += (family, objectivesFamilies) =>
@@ -115,23 +131,31 @@ namespace Assets.Scripts.Gameplay
             {
                 Score += residueSeconds;
                 StopGameplay();
-                billboard.YouWin(Score);
                 billboard.StopTimer();
-                commandSpawner.SpawnObject(nextLevelEatable, GoToNextLevel);
+
                 gameplaySound.PlayOneShot(winSound);
 
+                GameObject bonus;
                 if (!HasGun && currentLevel >= 3)
                 {
-                    SpawnBonus(gunPrefab);
+                    bonus = SpawnBonus(gunPrefab);
                 }
                 else if (HasGun && !HasGunClip && currentLevel >= 3)
                 {
-                    SpawnBonus(gunClipPrefab);
+                    bonus = SpawnBonus(gunClipPrefab);
                 }
                 else
                 {
-                    SpawnBonus();
+                    bonus = SpawnBonus();
                 }
+
+                var rate = GetGameRate(Score, currentLevel);
+
+                billboard.YouWin(Score, rate, bonus);
+                StartCoroutine(DelayedCallback(3, () => {
+                    starter.Show();
+                    starter.SpawnNextLevelEatable();
+                }));
             };
             billboard.onTimeExpired += () => {
                 StopGameplay();
@@ -141,6 +165,19 @@ namespace Assets.Scripts.Gameplay
                 Score = 0;
             };
 
+        }
+
+        IEnumerator DelayedCallback(float delay, Action callback)
+        {
+            yield return new WaitForSeconds(delay);
+            callback.Invoke();
+        }
+
+        int GetGameRate(int score, int level)
+        {
+            var foodPoints = GetFoodToEatByLevel(level) * foodScore;
+            Debug.Log($"{score}/{foodPoints} = {Mathf.CeilToInt((float)score / (float)foodPoints)}");
+            return Mathf.CeilToInt((float)score / (float)foodPoints);
         }
 
         protected virtual GameObject DrawNewBonus(int level)
@@ -181,7 +218,7 @@ namespace Assets.Scripts.Gameplay
             return bonus;
         }
 
-        protected virtual void SpawnBonus(GameObject bonus = null)
+        protected virtual GameObject SpawnBonus(GameObject bonus = null)
         {
             if (bonus ==null)
             {
@@ -223,6 +260,7 @@ namespace Assets.Scripts.Gameplay
                 ownedBonus.Add(bonusSpawner.SpawnBonus(bonus));
             }
 
+            return bonus;
         }
 
         protected virtual void StopGameplay()
@@ -256,7 +294,12 @@ namespace Assets.Scripts.Gameplay
             var currentObjCount = billboard.GetObjectives().Count();
             for (int i = 0; i < objCount - currentObjCount; i++)
             {
-                billboard.AddObjective(GetNewObjective(currentLevel, currentObjectiveFamilies));
+                var newObjective = GetNewObjective(currentLevel, currentObjectiveFamilies);
+                if (!currentObjectiveFamilies.Contains(newObjective.family))
+                {
+                    currentObjectiveFamilies.Add(newObjective.family);
+                }
+                billboard.AddObjective(newObjective);
             }
         }
 
@@ -286,8 +329,7 @@ namespace Assets.Scripts.Gameplay
         {
             var levelDto = new LevelDto();
             levelDto.levelIndex = level;
-            levelDto.foodToEat = Mathf.CeilToInt(baseFoodToEat + ((currentLevel -1) * baseFoodToEat * .25f));
-            Debug.Log($"{currentLevel} - {baseFoodToEat} - {(currentLevel - 1 * baseFoodToEat * .25f)}");
+            levelDto.foodToEat = GetFoodToEatByLevel(level);
             levelDto.foodsEated = eatedFoods;
             levelDto.time = levelDuration;
 
@@ -298,6 +340,11 @@ namespace Assets.Scripts.Gameplay
             //}
 
             return levelDto;
+        }
+
+        int GetFoodToEatByLevel(int level)
+        {
+            return Mathf.CeilToInt(baseFoodToEat + ((level - 1) * baseFoodToEat * .25f));
         }
 
         protected ObjectiveDto GetNewObjective(int levelIndex, List<Food.FoodFamily> excludedFamilies)
@@ -313,7 +360,7 @@ namespace Assets.Scripts.Gameplay
             } while (excludedFamilies.Contains(ret.family));
 
             //var toEat = Mathf.CeilToInt((Random.Range(1, 2 + levelIndex * 2)));
-            var toEat = Mathf.CeilToInt((Random.Range(2, 5)));
+            var toEat = Mathf.CeilToInt((UnityEngine.Random.Range(2, 5)));
 
             ret.toEat = toEat;
             ret.bonus = DrawNewBonus(currentDifficulty);

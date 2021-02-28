@@ -119,12 +119,12 @@ public class TableBelt : GnamGameplay
         foreach (var eatable in cloneFoodbag.foods.SelectMany(f => f.eatableParts))
         {
             eatable.onEated += (eater) => {
-                Score += 1;
+                Score += eatableScore;
             };
         }
         cloneFoodbag.onFoodEated += (eater, eated) =>
         {
-            Score += 5;
+            Score += foodScore;
             billboard.AddFood(eated.foodFamily);
         };
        // cloneFoodbag.onClear += bonusSpawner.SpawnBonus;

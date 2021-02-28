@@ -29,7 +29,7 @@ namespace Assets.Scripts.AI
         private List<Transform> targets = new List<Transform>();
         public Transform currentTarget;
         private Damageable damageable;
-
+        private int coolDownMultiplier;
         public int Type = 0; //0 -> modifier 1 -> killer
 
         private void Start()
@@ -143,8 +143,25 @@ namespace Assets.Scripts.AI
             }
             if(mobAnimator)
                 mobAnimator.SetBool("shooting", false);
-            yield return new WaitForSeconds(UnityEngine.Random.Range(2, 5));
+            yield return new WaitForSeconds(GetRandomCoolDown());
             isReadyToShoot = true;
+        }
+
+        public void SetShootingSpeed(ShootingSpeed speed)
+        {
+            if (speed == ShootingSpeed.Standard)
+            {
+                coolDownMultiplier = 1;
+            }
+            else if (speed == ShootingSpeed.Fast)
+            {
+                coolDownMultiplier = 2;
+            }
+        }
+
+        int GetRandomCoolDown()
+        {
+            return UnityEngine.Random.Range(Mathf.FloorToInt(2/ coolDownMultiplier), Mathf.FloorToInt(5/coolDownMultiplier));
         }
 
         void TakeAim(Transform target)
@@ -184,5 +201,11 @@ namespace Assets.Scripts.AI
                 damageable.DealDamage(5000);
             }
         }
+    }
+
+    public enum ShootingSpeed
+    {
+        Standard,
+        Fast
     }
 }

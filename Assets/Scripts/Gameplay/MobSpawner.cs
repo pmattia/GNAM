@@ -90,15 +90,15 @@ namespace Assets.Scripts
                         break;
                 }
 
-                var randomModifiers = InstantiateRandomMobsFromList(modifierMobs.ToList(), tPlaceholders, newModifierMobsCount - currentMofierMobCount);
+                var randomModifiers = InstantiateRandomMobsFromList(modifierMobs.ToList(), tPlaceholders, newModifierMobsCount - currentMofierMobCount, level);
                 ret.AddRange(randomModifiers);
-                var randomKillers = InstantiateRandomMobsFromList(killerMobs.ToList(), tPlaceholders, newKillerMobsCount - currentKillerMobCount);
+                var randomKillers = InstantiateRandomMobsFromList(killerMobs.ToList(), tPlaceholders, newKillerMobsCount - currentKillerMobCount, level);
                 ret.AddRange(randomKillers);
             }
             return ret.ToArray();
         }
 
-        List<GameObject> InstantiateRandomMobsFromList(List<GameObject> mobs, List<Transform> placeholders, int count)
+        List<GameObject> InstantiateRandomMobsFromList(List<GameObject> mobs, List<Transform> placeholders, int count, int level)
         {
             var ret = new List<GameObject>();
             for (int i = 0; i < count; i++)
@@ -106,7 +106,7 @@ namespace Assets.Scripts
                 var mob = mobs[UnityEngine.Random.Range(0, mobs.Count())];
                 var placeholder = DrawPlaceholder(placeholders);
 
-                ret.Add(InstantiateNewMob(mob, placeholder));
+                ret.Add(InstantiateNewMob(mob, placeholder, level));
                 placeholders.Remove(placeholder);
             }
             return ret;
@@ -117,7 +117,7 @@ namespace Assets.Scripts
             var maxPositionToSpawn = placeholders.Count() < 4 ? placeholders.Count() : 4; //defines priority to lower level placeholders
             return placeholders[UnityEngine.Random.Range(0, maxPositionToSpawn)];
         }
-        GameObject InstantiateNewMob(GameObject mob, Transform placeholder)
+        GameObject InstantiateNewMob(GameObject mob, Transform placeholder, int level)
         {
             var instancedMob = Instantiate(mob.gameObject, placeholder.position, Quaternion.identity);
             instancedMob.transform.SetParent(placeholder);
@@ -128,6 +128,14 @@ namespace Assets.Scripts
                     OnMobDeath();
                 }
             };
+            if (level > 7)
+            {
+                shooter.SetShootingSpeed(ShootingSpeed.Fast);
+            }
+            else
+            {
+                shooter.SetShootingSpeed(ShootingSpeed.Standard);
+            }
             return instancedMob;
         }
 
