@@ -10,6 +10,7 @@ namespace Assets.Scripts.Interfaces
 {
     public class GnamGrabbable : Grabbable
     {
+        [SerializeField] bool dontDestroyOnDrop = false;
         public GnamGrabbable() : base()
         {
             base.GrabButton = GrabButton.Grip;
@@ -40,7 +41,7 @@ namespace Assets.Scripts.Interfaces
             base.DropItem(droppedBy);
 
             var autodestroyer = gameObject.GetComponent<Autodestroy>();
-            if (autodestroyer == null)
+            if (autodestroyer == null && !dontDestroyOnDrop)
             {
                 autodestroyer = gameObject.AddComponent<Autodestroy>();
                 autodestroyer.Countdown = 4;

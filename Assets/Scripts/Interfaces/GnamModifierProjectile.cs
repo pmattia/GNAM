@@ -51,7 +51,6 @@ namespace Assets.Scripts.Interfaces
             {
                 foreach (var item in eatablesToAttach)
                 {
-                    Debug.Log($"COLORA {item.name}");
                     item.AddModifiers(GetRandomModifiers());
                     VRUtils.Instance.PlaySpatialClipAt(hitSound, transform.position, 1f, 0.5f);
                 }

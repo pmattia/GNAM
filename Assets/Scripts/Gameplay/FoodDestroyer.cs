@@ -11,7 +11,7 @@ namespace Assets.Scripts.Gameplay
     {
         private void OnCollisionEnter(Collision collision)
         {
-            Debug.Log($"collision {collision.collider.name}");
+       //     Debug.Log($"collision {collision.collider.name}");
             var foodbag = collision.rigidbody.GetComponent<Foodbag>();
             if (foodbag != null)
             {

@@ -36,6 +36,13 @@ namespace Assets.Scripts.Interfaces
             }
         }
 
+        public GnamGrabbable HeldGrabbable
+        {
+            get {
+                return _grabber.HeldGrabbable as GnamGrabbable;
+            }
+        }
+
         public void TryRelease()
         {
             _grabber.TryRelease();

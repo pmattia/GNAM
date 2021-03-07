@@ -24,6 +24,7 @@ namespace Assets.Scripts
         [SerializeField] TextMeshPro foodCount;
         [SerializeField] TextMeshPro levelLabel;
         [SerializeField] LevelScore levelScore;
+        [SerializeField] GameScores gameScores;
 
         public event Action<Food.FoodFamily, List<Food.FoodFamily>, GameObject> onObjectiveCompleted;
         public event Action<Food.FoodFamily, List<Food.FoodFamily>> onObjectiveExpired;
@@ -125,6 +126,7 @@ namespace Assets.Scripts
             coronaProgress.gameObject.SetActive(true);
 
             levelScore.Hide();
+            gameScores.Hide();
             timer.StartTimer();
         }
 
@@ -139,10 +141,17 @@ namespace Assets.Scripts
             timer.AddTime(time);
         }
 
-        public void GameOver()
+        public void GameOver(Dictionary<int,int> results)
         {
             this.gameover.SetActive(true);
             billboardObjectives.ForEach(o => o.Hide());
+            ShowResults(results);
+        }
+
+        public void ShowResults(Dictionary<int, int> results)
+        {
+            levelScore.Hide();
+            gameScores.ShowResults(results);
         }
 
         public void YouWin(int score,int rate, GameObject bonus = null)

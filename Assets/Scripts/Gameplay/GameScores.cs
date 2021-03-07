@@ -1,0 +1,54 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace Assets.Scripts.Gameplay
+{
+    public class GameScores: MonoBehaviour
+    {
+        [SerializeField] GameObject itemPrefab;
+        [SerializeField] Transform resultGrid;
+        [SerializeField] Text totalScore;
+
+        public void ShowResults(Dictionary<int,int> results)
+        {
+            gameObject.SetActive(true);
+
+            foreach(Transform item in resultGrid)
+            {
+                Destroy(item.gameObject);
+            }
+
+            int scoresSum = 0;
+            foreach (var item in results)
+            {
+                var listItem = Instantiate(itemPrefab, resultGrid);
+                var levelScoreItem = listItem.GetComponent<LevelScoreItem>();
+                levelScoreItem.SetLevelScore(item.Key, item.Value);
+                //StartCoroutine(DelayedCallback(.01f, () => {
+                //    var levelScoreItem = listItem.GetComponent<LevelScoreItem>();
+                //    levelScoreItem.SetLevelScore(item.Key, item.Value);
+                //}));
+
+                scoresSum += item.Value;
+            }
+
+            totalScore.text = $"Score {scoresSum}";
+        }
+
+        public void Hide()
+        {
+            gameObject.SetActive(false);
+        }
+        IEnumerator DelayedCallback(float delay, Action callback)
+        {
+            yield return new WaitForSeconds(delay);
+            callback.Invoke();
+        }
+    }
+}

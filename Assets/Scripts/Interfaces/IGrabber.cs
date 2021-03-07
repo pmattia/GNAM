@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,5 +12,6 @@ namespace Assets.Scripts.ScriptableObjects
         bool ForceGrab { get; set; }
         bool Enabled { get; set; }
         void TryRelease();
+        GnamGrabbable HeldGrabbable { get; }
     }
 }

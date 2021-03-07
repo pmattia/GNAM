@@ -1,4 +1,6 @@
 ﻿using Assets.Scripts.Interfaces;
+using Assets.Scripts.ScriptableObjects;
+using BNG;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,22 +14,26 @@ namespace Assets.Scripts.Gameplay
     public abstract class GnamGameplay : MonoBehaviour
 
     {
+        [SerializeField] HandModelSelector handModelSelector;
+        protected IHandsController handsController;
         [SerializeField] protected BonusSpawner bonusSpawner;
         [SerializeField] Starter starter;
         [SerializeField] protected Billboard billboard;
         [SerializeField] int levelDuration = 60;
-        List<GameObject> ownedBonus = new List<GameObject>();
-        [SerializeField] protected int currentLevel { get; private set; }
+        [SerializeField] Inventory inventory;
+        [SerializeField] protected int CurrentLevel { get; private set; }
 
+        Dictionary<int, int> levelScores = new Dictionary<int, int>();
 
         //scores
         protected const int eatableScore = 1;
         protected const int foodScore = 5;
         protected const int mobKillScore = 5;
         protected const int objectiveScore = 10;
+        protected const int maxLevel = 9;
 
         protected Difficulty currentDifficulty { get {
-                switch (currentLevel)
+                switch (CurrentLevel)
                 {
                     case 0:
                     case 1:
@@ -70,23 +76,57 @@ namespace Assets.Scripts.Gameplay
 
         List<Food.FoodFamily> currentObjectiveFamilies = new List<Food.FoodFamily>();
 
-        protected int Score { get; set; }
+        int TotalScore { get; set; }
+        protected int CurrentLevelScore { get; set; }
         protected bool HasGun { get {
-                return ownedBonus.Any(b => b != null && b.GetComponent<GnamRaycastWeapon>() != null);
+                //var hasGun = ownedBonus.Any(b => b != null && b.GetComponent<GnamRaycastWeapon>() != null);
+                //Debug.Log($"has gun {HasGun} in elements {ownedBonus.Count()} not null --> { ownedBonus.Count(b => b != null && b.GetComponent<GnamRaycastWeapon>() != null)}");
+                var heldedInRightHand = false;
+                if (handsController.RightGrabber.HeldGrabbable != null)
+                {
+                    heldedInRightHand = handsController.RightGrabber.HeldGrabbable.GetComponent<GnamRaycastWeapon>() != null;
+                }
+                var heldedInLeftHand = false;
+                if (handsController.LeftGrabber.HeldGrabbable != null)
+                {
+                    heldedInLeftHand = handsController.LeftGrabber.HeldGrabbable.GetComponent<GnamRaycastWeapon>() != null;
+                }
+                var isInInventory = inventory.CheckObjectExistance<GnamRaycastWeapon>();
+
+                return heldedInLeftHand || heldedInRightHand || isInInventory;
             } 
         }
         protected bool HasGunClip
         {
             get
             {
-                return ownedBonus.Any(b => b != null && b.GetComponent<GnamPistolClip>() != null);
+                var heldedInRightHand = false;
+                if (handsController.RightGrabber.HeldGrabbable != null)
+                {
+                    heldedInRightHand = handsController.RightGrabber.HeldGrabbable.GetComponent<GnamPistolClip>() != null;
+                }
+                var heldedInLeftHand = false;
+                if (handsController.LeftGrabber.HeldGrabbable != null)
+                {
+                    heldedInLeftHand = handsController.LeftGrabber.HeldGrabbable.GetComponent<GnamPistolClip>();
+                }
+                var isInInventory = inventory.CheckObjectExistance<GnamPistolClip>();
+
+                return heldedInLeftHand || heldedInRightHand || isInInventory;
             }
         }
 
         protected virtual void Start()
         {
+            handsController = new VrifHandsControllerAdapter(handModelSelector);
+            for (int i = 1; i <= maxLevel; i++)
+            {
+                Debug.Log($"level added {i}");
+                levelScores.Add(i, 0);
+            }
+
             isPlaying = false;
-            currentLevel = startLevel;
+            CurrentLevel = startLevel;
             totalGameplayTime = 0;
 
             starter.onStart += (eater) =>
@@ -104,66 +144,74 @@ namespace Assets.Scripts.Gameplay
                 starter.Hide();
                 GoToNextLevel(eater);
             };
+            starter.onRetry += (eater) =>
+            {
+                starter.Hide();
+                StartGame();
+            };
 
             mobSpawner.OnMobDeath += () =>
             {
                 SpawnBonus();
                 billboard.AddTime(5);
 
-                Score += mobKillScore;
+                CurrentLevelScore += mobKillScore;
             };
             billboard.onObjectiveCompleted += (family, objectivesFamilies, bonus) =>
             {
-                Debug.Log("OBJECTIVE COMPLETED FOR " + family); 
+             //   Debug.Log("OBJECTIVE COMPLETED FOR " + family); 
                 SpawnBonus(bonus);
                 billboard.AddTime(5);
                 currentObjectiveFamilies = objectivesFamilies;
 
-                Score += objectiveScore;
+                CurrentLevelScore += objectiveScore;
                 // SpawnMobs();
             };
             billboard.onObjectiveExpired += (family, objectivesFamilies) =>
             {
-                Debug.Log("OBJECTIVE EXPIRED FOR " + family);
+             //   Debug.Log("OBJECTIVE EXPIRED FOR " + family);
                 currentObjectiveFamilies = objectivesFamilies;
             };
             billboard.onGameCompleted += (residueSeconds) =>
             {
-                Score += residueSeconds;
+                CurrentLevelScore += residueSeconds;
+                TotalScore += CurrentLevelScore;
+
                 StopGameplay();
                 billboard.StopTimer();
 
                 gameplaySound.PlayOneShot(winSound);
 
                 GameObject bonus;
-                if (!HasGun && currentLevel >= 3)
-                {
-                    bonus = SpawnBonus(gunPrefab);
+                if(CurrentLevel == 3) {
+                    bonus = gunPrefab;
                 }
-                else if (HasGun && !HasGunClip && currentLevel >= 3)
-                {
-                    bonus = SpawnBonus(gunClipPrefab);
-                }
-                else
-                {
-                    bonus = SpawnBonus();
+                else {
+                    bonus = DrawNewBonus(currentDifficulty);
                 }
 
-                var rate = GetGameRate(Score, currentLevel);
+                SpawnBonus(bonus);
 
-                billboard.YouWin(Score, rate, bonus);
+                UpdateLevelScore(CurrentLevel, CurrentLevelScore);
+                var rate = GetGameRate(CurrentLevelScore, CurrentLevel);
+
+                billboard.YouWin(CurrentLevelScore, rate, bonus);
                 StartCoroutine(DelayedCallback(3, () => {
                     starter.Show();
+                    starter.SpawnRetryEatable();
                     starter.SpawnNextLevelEatable();
                 }));
             };
             billboard.onTimeExpired += () => {
                 StopGameplay();
-                billboard.GameOver();
+
+                billboard.GameOver(levelScores);
+
                 gameplaySound.PlayOneShot(loseSound);
                 starter.Show();
+                starter.SpawnRetryEatable();
 
-                Score = 0;
+                CurrentLevelScore = 0;
             };
 
         }
@@ -174,30 +222,23 @@ namespace Assets.Scripts.Gameplay
             callback.Invoke();
         }
 
+        void UpdateLevelScore(int level, int score)
+        {
+            if (levelScores.Any(l => l.Key == level))
+            {
+                levelScores[level] = score;
+            }
+            else
+            {
+                levelScores.Add(level, score);
+            }
+        }
+
         int GetGameRate(int score, int level)
         {
             var foodPoints = GetFoodToEatByLevel(level) * foodScore;
             Debug.Log($"{score}/{foodPoints} = {Mathf.CeilToInt((float)score / (float)foodPoints)}");
             return Mathf.CeilToInt((float)score / (float)foodPoints);
-        }
-
-        protected virtual GameObject DrawNewBonus(int level)
-        {
-            GameObject bonus = null;
-            if (!HasGun && level >= 3)
-            {
-                bonus = gunPrefab;
-            }
-            else if (HasGun && !HasGunClip && currentLevel >= 3)
-            {
-                bonus = gunClipPrefab;
-            }
-            else
-            {
-                bonus = bonusSpawner.GetBonus(currentDifficulty);
-            }
-
-            return bonus;
         }
 
         protected virtual GameObject DrawNewBonus(Difficulty difficulty)
@@ -223,43 +264,10 @@ namespace Assets.Scripts.Gameplay
         {
             if (bonus ==null)
             {
-                bonus = DrawNewBonus(currentLevel);
+                bonus = DrawNewBonus(currentDifficulty);
             }
 
-            if (bonus != null)
-            {
-                Debug.Log($"SPAWN BONUS {bonus.name}");
-
-                var bonusAutodestroyer = bonus.GetComponent<Autodestroy>();
-                if (bonusAutodestroyer != null)
-                {
-                    bonusAutodestroyer.onDestroy += () =>
-                    {
-                        ownedBonus.Remove(bonus);
-                    };
-                }
-
-                var bonusEatable = bonus.GetComponent<Eatable>();
-                if (bonusEatable != null)
-                {
-                    bonusEatable.onEated += (eater) =>
-                    {
-                        ownedBonus.Remove(bonus);
-                    };
-                }
-
-                var bonusFood = bonus.GetComponent<Food>();
-                if (bonusFood != null)
-                {
-                    bonusFood.onEated += (eater) =>
-                    {
-                        billboard.AddFood(bonusFood.foodFamily);
-                        ownedBonus.Remove(bonus);
-                    };
-                }
-
-                ownedBonus.Add(bonusSpawner.SpawnBonus(bonus));
-            }
+            bonusSpawner.SpawnBonus(bonus);
 
             return bonus;
         }
@@ -286,16 +294,16 @@ namespace Assets.Scripts.Gameplay
 
         protected void SpawnMobs()
         {
-            mobSpawner.SpawnMob(currentLevel);
+            mobSpawner.SpawnMob(CurrentLevel);
         }
 
         void AddNewObjective()
         {
-            var objCount = Mathf.FloorToInt((float)currentLevel / 3f);
+            var objCount = Mathf.FloorToInt((float)CurrentLevel / 3f);
             var currentObjCount = billboard.GetObjectives().Count();
             for (int i = 0; i < objCount - currentObjCount; i++)
             {
-                var newObjective = GetNewObjective(currentLevel, currentObjectiveFamilies);
+                var newObjective = GetNewObjective(CurrentLevel, currentObjectiveFamilies);
                 if (!currentObjectiveFamilies.Contains(newObjective.family))
                 {
                     currentObjectiveFamilies.Add(newObjective.family);
@@ -312,7 +320,7 @@ namespace Assets.Scripts.Gameplay
             gameplayTime = 0;
             isPlaying = true;
             eatedFoods = 0;
-            var level = GetLevel(currentLevel, eatedFoods);
+            var level = GetLevel(CurrentLevel, eatedFoods);
             billboard.SetLevel(level);
             billboard.StartTimer();
 
@@ -322,8 +330,22 @@ namespace Assets.Scripts.Gameplay
 
         protected virtual void GoToNextLevel(EaterDto eater)
         {
-            currentLevel++;
-            this.StartGame();
+            CurrentLevelScore = 0;
+            foreach (var levelScore in levelScores)
+            {
+                Debug.Log($"LIVELLO {levelScore.Key} PUNTI {levelScore.Value}");
+            }
+
+            if (CurrentLevel < maxLevel)
+            {
+                CurrentLevel++;
+                this.StartGame();
+            }
+            else
+            {
+                starter.Show();
+                billboard.ShowResults(levelScores);
+            }
         }
 
         protected LevelDto GetLevel(int level, int eatedFoods)
@@ -333,12 +355,6 @@ namespace Assets.Scripts.Gameplay
             levelDto.foodToEat = GetFoodToEatByLevel(level);
             levelDto.foodsEated = eatedFoods;
             levelDto.time = levelDuration;
-
-            //var objCount = Mathf.FloorToInt((float)level / 3f);
-            //for(int i=0; i<objCount; i++)
-            //{
-            //    levelDto.objectives.Add(GetNewObjective(level, null));
-            //}
 
             return levelDto;
         }

@@ -27,6 +27,7 @@ public class TableBelt : GnamGameplay
     [SerializeField] AudioSource cookingAudio;
     [SerializeField] GameObject cookingParticle;
     [SerializeField] Transform cookingParticlePlaholder;
+
     bool isCooking = false;
 
     protected override void Start()
@@ -55,15 +56,10 @@ public class TableBelt : GnamGameplay
         };
     }
 
-    protected override void GoToNextLevel(EaterDto eater)
-    {
-        base.GoToNextLevel(eater);
-    }
-
     protected override void StartGame()
     {
         base.StartGame();
-        SetSpeedByLevel(currentLevel);
+        SetSpeedByLevel(CurrentLevel);
         StartCooking();
     }
 
@@ -111,7 +107,7 @@ public class TableBelt : GnamGameplay
     GameObject CloneRandomFoodbag(Difficulty difficulty)
     {
         Foodbag[] availableFoodbags;
-        if(currentLevel == 1)
+        if(CurrentLevel == 1)
         {
             availableFoodbags = firstLevelfoodbags.Select(f => f.GetComponent<Foodbag>()).ToArray();
         }
@@ -129,12 +125,12 @@ public class TableBelt : GnamGameplay
         foreach (var eatable in cloneFoodbag.foods.SelectMany(f => f.eatableParts))
         {
             eatable.onEated += (eater) => {
-                Score += eatableScore;
+                CurrentLevelScore += eatableScore;
             };
         }
         cloneFoodbag.onFoodEated += (eater, eated) =>
         {
-            Score += foodScore;
+            CurrentLevelScore += foodScore;
             billboard.AddFood(eated.foodFamily);
         };
        // cloneFoodbag.onClear += bonusSpawner.SpawnBonus;
@@ -181,4 +177,5 @@ public class TableBelt : GnamGameplay
             }
         }
     }
+
 }

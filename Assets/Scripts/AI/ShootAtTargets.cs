@@ -194,8 +194,14 @@ namespace Assets.Scripts.AI
             isShooterEnabled = false;
         }
 
+        public void  OnDamaged(float damage)
+        {
+       //     Debug.Log($"{name} danneggiato di {damage}");
+        }
+
         private void OnCollisionEnter(Collision collision)
         {
+       //     Debug.Log($"{name} colpito da {collision.gameObject.name}");
             if(collision.gameObject.GetComponent<Grabbable>() != null)
             {
                 damageable.DealDamage(5000);

@@ -160,6 +160,7 @@ MonoBehaviour:
   - {fileID: 1188101790042945389}
   - {fileID: 1188101790862751982}
   UseCustomInspector: 1
+  dontDestroyOnDrop: 1
 --- !u!65 &345876663528751023
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -186,8 +187,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   modifiers: []
-  eatTime: 0.2
+  eatDuration: 0.2
   grabPoints: []
+  IsEatable: 1
 --- !u!1 &1188101790042945390
 GameObject:
   m_ObjectHideFlags: 0

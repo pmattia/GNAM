@@ -69,6 +69,38 @@ MonoBehaviour:
   onRaycastHitEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &8704434910311158365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5638594037168375564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa13b59692476bc439841b0f831619a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  modifiers: []
+  eatDuration: 3
+  grabPoints: []
+  IsEatable: 1
+--- !u!114 &50478731735243341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5638594035777495413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa13b59692476bc439841b0f831619a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  modifiers: []
+  eatDuration: 3
+  grabPoints: []
+  IsEatable: 1
 --- !u!1001 &7159395315358927161
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -136,6 +168,46 @@ PrefabInstance:
       propertyPath: m_Name
       value: GnamSpingarda Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 3250199792118929295, guid: 6c8b6c71585261b46a9ae33fc2c5df5f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3250199792118929295, guid: 6c8b6c71585261b46a9ae33fc2c5df5f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.3034
+      objectReference: {fileID: 0}
+    - target: {fileID: 3250199793115850807, guid: 6c8b6c71585261b46a9ae33fc2c5df5f,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 0.05352497
+      objectReference: {fileID: 0}
+    - target: {fileID: 3250199793115850807, guid: 6c8b6c71585261b46a9ae33fc2c5df5f,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 0.04947938
+      objectReference: {fileID: 0}
+    - target: {fileID: 3250199793115850807, guid: 6c8b6c71585261b46a9ae33fc2c5df5f,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 0.22157551
+      objectReference: {fileID: 0}
+    - target: {fileID: 3250199793115850807, guid: 6c8b6c71585261b46a9ae33fc2c5df5f,
+        type: 3}
+      propertyPath: m_Center.x
+      value: 0.0020476915
+      objectReference: {fileID: 0}
+    - target: {fileID: 3250199793115850807, guid: 6c8b6c71585261b46a9ae33fc2c5df5f,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 0.03493669
+      objectReference: {fileID: 0}
+    - target: {fileID: 3250199793115850807, guid: 6c8b6c71585261b46a9ae33fc2c5df5f,
+        type: 3}
+      propertyPath: m_Center.z
+      value: 0.005760424
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3250199791822310968, guid: 6c8b6c71585261b46a9ae33fc2c5df5f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 6c8b6c71585261b46a9ae33fc2c5df5f, type: 3}
@@ -166,6 +238,12 @@ Transform:
 --- !u!4 &5638594035352250558 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3250199793814610311, guid: 6c8b6c71585261b46a9ae33fc2c5df5f,
+    type: 3}
+  m_PrefabInstance: {fileID: 7159395315358927161}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5638594035777495413 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3250199793115850828, guid: 6c8b6c71585261b46a9ae33fc2c5df5f,
     type: 3}
   m_PrefabInstance: {fileID: 7159395315358927161}
   m_PrefabAsset: {fileID: 0}

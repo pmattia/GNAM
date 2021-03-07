@@ -50,12 +50,11 @@ public class Eatable : MonoBehaviour
         if (renderer != null && newModifiers.Count > 0)
         {
             //3DEE15
-            
+           // Debug.Log($"COLORA {name}");
             renderer.material.SetColor("Color_B5C1F6F5", new Color32(0x3D, 0xEE, 0x15, 0));
-            //   renderer.material = null;
             
-            Debug.Log($"modifiers {newModifiers.Count}");
-            newModifiers.ForEach(m => Debug.Log(m.name));
+           // Debug.Log($"modifiers {newModifiers.Count}");
+           // newModifiers.ForEach(m => Debug.Log(m.name));
             modifiers.AddRange(newModifiers);
         }
     }
