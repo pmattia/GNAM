@@ -15,6 +15,11 @@ namespace Assets.Scripts
         private void OnParticleCollision(GameObject other)
         {
             var food = other.gameObject.GetComponent<Food>();
+            if(food == null)
+            {
+                food = other.gameObject.GetComponentInChildren<Food>();
+            }
+
             if (food != null)
             {
                 foreach (var item in food.eatableParts)
