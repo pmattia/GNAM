@@ -199,6 +199,8 @@ namespace Assets.Scripts.Gameplay
                 StartCoroutine(DelayedCallback(3, () => {
                     starter.Show();
                     starter.SpawnRetryEatable();
+                }));
+                StartCoroutine(DelayedCallback(3.2f, () => {
                     starter.SpawnNextLevelEatable();
                 }));
             };

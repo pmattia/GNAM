@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 370770883415716353, guid: 7da4b843d5e75244498a04b82074e76f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 245dac9b9832d6b428d86858d5ec3f45, type: 2}
     - target: {fileID: 762782764124795562, guid: 7da4b843d5e75244498a04b82074e76f,
         type: 3}
       propertyPath: m_text
@@ -70,7 +75,7 @@ PrefabInstance:
     - target: {fileID: 2172356075697902548, guid: 7da4b843d5e75244498a04b82074e76f,
         type: 3}
       propertyPath: m_Name
-      value: BiscoRetry
+      value: BiscoRetry Variant
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7da4b843d5e75244498a04b82074e76f, type: 3}

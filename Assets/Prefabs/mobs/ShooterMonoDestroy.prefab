@@ -337,6 +337,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 0e851f6695a34184aa2176e892d0c895, type: 3}
   - {fileID: 8300000, guid: 1f5a132fd9efca944b099fe198e19382, type: 3}
   - {fileID: 8300000, guid: 2b3c76464b8045c4d87bd777ef65b563, type: 3}
+  spawn: {fileID: 8300000, guid: 35294cb5d134c8d49875e90cd0cb5259, type: 3}
+  stun: {fileID: 8300000, guid: c91bc0bea0f215547bb7d2188ea0a223, type: 3}
   speed: 5
   shootFoodFirst: 1
   isShooterEnabled: 1
@@ -461,7 +463,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 35294cb5d134c8d49875e90cd0cb5259, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 0.5
   m_Pitch: 1
   Loop: 0

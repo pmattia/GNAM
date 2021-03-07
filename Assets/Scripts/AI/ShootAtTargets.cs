@@ -18,7 +18,8 @@ namespace Assets.Scripts.AI
         Food[] foods;
         Transform player;
         [SerializeField] AudioClip[] voices;
-        AudioSource audioSource;
+        [SerializeField] AudioClip spawn;
+        [SerializeField] AudioClip stun;
         public event Action onDeath;
 
         public float speed = 10;
@@ -34,10 +35,10 @@ namespace Assets.Scripts.AI
 
         private void Start()
         {
+            VRUtils.Instance.PlaySpatialClipAt(spawn, transform.position, 1f, 0.5f);
             player = FindObjectOfType<Mouth>().transform;
             damageable = GetComponent<Damageable>();
-            audioSource = GetComponent<AudioSource>();
-
+          
             weapons = GetComponentsInChildren<RaycastWeapon>().Where(c => c.enabled == true).ToArray();
             prevWeaponsRotation = weapons.Select(w => w.transform.rotation).ToArray();
             if (!shootFoodFirst)
@@ -122,8 +123,8 @@ namespace Assets.Scripts.AI
         void SaySomething()
         {
             var randomAudio = voices[UnityEngine.Random.Range(0, voices.Length)];
-            audioSource.pitch = Time.timeScale;
-            audioSource.PlayOneShot(randomAudio);
+
+            VRUtils.Instance.PlaySpatialClipAt(randomAudio, transform.position, 1f, 0.5f);
         }
 
         IEnumerator ShootAndRefil()
@@ -204,10 +205,29 @@ namespace Assets.Scripts.AI
        //     Debug.Log($"{name} colpito da {collision.gameObject.name}");
             if(collision.gameObject.GetComponent<Grabbable>() != null)
             {
-                damageable.DealDamage(5000);
+                VRUtils.Instance.PlaySpatialClipAt(stun, transform.position, 1f, 0.5f);
+                //damageable.DealDamage(5000);
+                var isDead = mobAnimator.GetBool("die");
+                if (!isDead)
+                {
+                    mobAnimator.SetBool("die", true);
+                    isShooterEnabled = false;
+
+                    StartCoroutine(DelayedCallback(5, () =>
+                    {
+                        mobAnimator.SetBool("die", false);
+                        isShooterEnabled = true;
+                    }));
+                }
             }
         }
+        IEnumerator DelayedCallback(float delay, Action callback)
+        {
+            yield return new WaitForSeconds(delay);
+            callback.Invoke();
+        }
     }
+
 
     public enum ShootingSpeed
     {

@@ -28,7 +28,6 @@ namespace Assets.Scripts.Interfaces
         public override void GrabItem(Grabber grabbedBy)
         {
             base.GrabItem(grabbedBy);
-
             var autodestroyer = gameObject.GetComponent<Autodestroy>();
             if (autodestroyer != null) 
             {
@@ -39,6 +38,8 @@ namespace Assets.Scripts.Interfaces
         public override void DropItem(Grabber droppedBy)
         {
             base.DropItem(droppedBy);
+
+            transform.SetParent(null);
 
             var autodestroyer = gameObject.GetComponent<Autodestroy>();
             if (autodestroyer == null && !dontDestroyOnDrop)

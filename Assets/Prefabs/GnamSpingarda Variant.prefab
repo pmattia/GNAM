@@ -1,5 +1,21 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &50478731735243341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5638594035777495413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa13b59692476bc439841b0f831619a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  modifiers: []
+  eatDuration: 3
+  grabPoints: []
+  IsEatable: 1
 --- !u!114 &403352767
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85,22 +101,6 @@ MonoBehaviour:
   eatDuration: 3
   grabPoints: []
   IsEatable: 1
---- !u!114 &50478731735243341
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5638594035777495413}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa13b59692476bc439841b0f831619a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  modifiers: []
-  eatDuration: 3
-  grabPoints: []
-  IsEatable: 1
 --- !u!1001 &7159395315358927161
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -116,17 +116,17 @@ PrefabInstance:
     - target: {fileID: 3250199791822310949, guid: 6c8b6c71585261b46a9ae33fc2c5df5f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.427
+      value: -0.1598103
       objectReference: {fileID: 0}
     - target: {fileID: 3250199791822310949, guid: 6c8b6c71585261b46a9ae33fc2c5df5f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.154
+      value: 0.108
       objectReference: {fileID: 0}
     - target: {fileID: 3250199791822310949, guid: 6c8b6c71585261b46a9ae33fc2c5df5f,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.6
+      value: 0.50407565
       objectReference: {fileID: 0}
     - target: {fileID: 3250199791822310949, guid: 6c8b6c71585261b46a9ae33fc2c5df5f,
         type: 3}
@@ -171,12 +171,12 @@ PrefabInstance:
     - target: {fileID: 3250199792118929295, guid: 6c8b6c71585261b46a9ae33fc2c5df5f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3250199792118929295, guid: 6c8b6c71585261b46a9ae33fc2c5df5f,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.3034
+      value: 0.322
       objectReference: {fileID: 0}
     - target: {fileID: 3250199793115850807, guid: 6c8b6c71585261b46a9ae33fc2c5df5f,
         type: 3}
