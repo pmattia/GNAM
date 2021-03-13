@@ -39,6 +39,7 @@ namespace Assets.Scripts.Gameplay
         [SerializeField] AudioClip tutorialCompletedAudio;
 
         [SerializeField] bool skipTutorial = false;
+        [SerializeField] bool forceTutorial = false;
 
         public event Action onStep1Completed;
         public event Action onStep2Completed;
@@ -58,7 +59,7 @@ namespace Assets.Scripts.Gameplay
         {
             var tutorialDone = PlayerPrefs.GetInt(tutorialDoneKey);
             Debug.Log($"tutorial done = {tutorialDone}");
-            if(tutorialDone > 0 || skipTutorial)
+            if((tutorialDone > 0 || skipTutorial) && !forceTutorial)
             {
                 GoToGameplay();
             }
@@ -71,12 +72,16 @@ namespace Assets.Scripts.Gameplay
 
         void InitTutorial()
         {
+            chipPlate.SetActive(true);
+            instructionsPanel.SetActive(true);
+            panels.ForEach(p => p.SetActive(false));
+
             InitStepCompletedActions();
 
             ClearStarter();
             spawnedItems.Add(commandSpawner.SpawnObject(startEatable, (eater) =>
             {
-                CompletedStep();
+                CompletedStep(false);
                 StartCoroutine(DelayedCallback(stepCompletedDelay, () => {
                     instructionsPanel.SetActive(false);
 
@@ -268,10 +273,13 @@ namespace Assets.Scripts.Gameplay
             SceneManager.LoadSceneAsync(rushScene);
         }
 
-        void CompletedStep()
+        void CompletedStep(bool playsound = true)
         {
             panelAnimator.SetBool("show", false);
-            VRUtils.Instance.PlaySpatialClipAt(stepCompletedAudio, transform.position, 1f, 0.5f);
+            if (playsound)
+            {
+                VRUtils.Instance.PlaySpatialClipAt(stepCompletedAudio, transform.position, 1f, 0.5f);
+            }
         }
 
         void InitStep(int stepIndex)

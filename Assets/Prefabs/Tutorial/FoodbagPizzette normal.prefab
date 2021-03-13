@@ -7,11 +7,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1590920811317820144, guid: fa66ac58dbcc1174e827750f43bf8328,
+        type: 3}
+      propertyPath: modifiers.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1590920812900775906, guid: fa66ac58dbcc1174e827750f43bf8328,
         type: 3}
       propertyPath: modifiers.Array.size
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3585097945290683489, guid: fa66ac58dbcc1174e827750f43bf8328,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: bbf2fdc4d1ce9654398be6f03b826f5d, type: 2}
     - target: {fileID: 3585097946547272051, guid: fa66ac58dbcc1174e827750f43bf8328,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -20,7 +30,7 @@ PrefabInstance:
     - target: {fileID: 8880654199840628770, guid: fa66ac58dbcc1174e827750f43bf8328,
         type: 3}
       propertyPath: m_Name
-      value: FoodbagPizzette Variant
+      value: FoodbagPizzette normal
       objectReference: {fileID: 0}
     - target: {fileID: 8880654199840628771, guid: fa66ac58dbcc1174e827750f43bf8328,
         type: 3}
