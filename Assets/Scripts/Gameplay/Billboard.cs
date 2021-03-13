@@ -13,10 +13,10 @@ namespace Assets.Scripts
 {
     public class Billboard : MonoBehaviour
     {
-        public List<BillboardObjective> billboardObjectives;
-        public List<Sprite> foodFamilyIcons;
-        public GameObject gameover;
-        public GameObject youwin;
+        [SerializeField] List<BillboardObjective> billboardObjectives;
+        [SerializeField] List<Sprite> foodFamilyIcons;
+        [SerializeField] GameObject gameover;
+        [SerializeField] GameObject youwin;
         [SerializeField] Timer timer;
         [SerializeField] AudioClip timeExiring;
         [SerializeField] AudioClip timerRing;
@@ -34,7 +34,7 @@ namespace Assets.Scripts
         List<ObjectiveDto> objectives = new List<ObjectiveDto>();
         int foodsEated;
         int foodsToEat;
-        public RadialProgress coronaProgress;
+        [SerializeField] RadialProgress coronaProgress; //disabled until reviewed
 
         private void Start()
         {
@@ -123,7 +123,7 @@ namespace Assets.Scripts
         {
             foodCount.gameObject.SetActive(true);
             levelLabel.gameObject.SetActive(true);
-            coronaProgress.gameObject.SetActive(true);
+            //coronaProgress.gameObject.SetActive(true); disabled unitil reviewed
 
             levelScore.Hide();
             gameScores.Hide();
