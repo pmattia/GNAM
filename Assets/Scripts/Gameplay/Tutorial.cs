@@ -49,6 +49,19 @@ namespace Assets.Scripts.Gameplay
 
         float stepCompletedDelay = .5f;
 
+        const string tutorialDoneKey = "GNAM_TUTORIAL_DONE";
+        const string rushScene = "SampleSceneRush";
+
+        private void Awake()
+        {
+            var tutorialDone = PlayerPrefs.GetInt(tutorialDoneKey);
+            Debug.Log($"tutorial done = {tutorialDone}");
+            if(tutorialDone > 0)
+            {
+                GoToGameplay();
+            }
+        }
+
         private void Start()
         {
             InitTutorial();
@@ -241,9 +254,16 @@ namespace Assets.Scripts.Gameplay
                 ClearStarter();
                 spawnedItems.Add(commandSpawner.SpawnObject(startEatable, (eater) =>
                 {
-                    SceneManager.LoadSceneAsync("SampleSceneRush");
+                    GoToGameplay();
                 }));
+
+                PlayerPrefs.SetInt(tutorialDoneKey, 1);
             };
+        }
+
+        void GoToGameplay()
+        {
+            SceneManager.LoadSceneAsync(rushScene);
         }
 
         void CompletedStep()

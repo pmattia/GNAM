@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.Gameplay
 {
@@ -17,12 +18,14 @@ namespace Assets.Scripts.Gameplay
         [SerializeField] GameObject retryEatable;
         [SerializeField] GameObjectSpawner commandSpawner;
         [SerializeField] GameObject instructionsPanel;
+        [SerializeField] Text bestScoreLabel;
 
         public event Action<EaterDto> onStart;
         public event Action<EaterDto> onNextlevel;
         public event Action<EaterDto> onRetry;
 
         List<GameObject> spawnedItems = new List<GameObject>();
+
 
         private void Awake()
         {
@@ -33,6 +36,11 @@ namespace Assets.Scripts.Gameplay
                     instructionsPanel.SetActive(false);
                 }
             };
+        }
+
+        public void SetBestScore(int score)
+        {
+            bestScoreLabel.text = score.ToString();
         }
 
         public void SpawnNextLevelEatable()
