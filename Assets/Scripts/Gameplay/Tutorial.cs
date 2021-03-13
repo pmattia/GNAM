@@ -38,6 +38,8 @@ namespace Assets.Scripts.Gameplay
         [SerializeField] AudioClip stepCompletedAudio;
         [SerializeField] AudioClip tutorialCompletedAudio;
 
+        [SerializeField] bool skipTutorial = false;
+
         public event Action onStep1Completed;
         public event Action onStep2Completed;
         public event Action onStep3Completed;
@@ -56,7 +58,7 @@ namespace Assets.Scripts.Gameplay
         {
             var tutorialDone = PlayerPrefs.GetInt(tutorialDoneKey);
             Debug.Log($"tutorial done = {tutorialDone}");
-            if(tutorialDone > 0)
+            if(tutorialDone > 0 || skipTutorial)
             {
                 GoToGameplay();
             }
