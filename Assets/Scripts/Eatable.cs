@@ -45,18 +45,25 @@ public class Eatable : MonoBehaviour
     public void AddModifiers(List<GnamModifier> newModifiers)
     {
         var renderer = GetComponent<Renderer>();
-        //renderer.material.SetColor("_Color", Color.white);
-        //renderer.material.mainTexture = null;
         if (renderer != null && newModifiers.Count > 0)
         {
             //3DEE15
            // Debug.Log($"COLORA {name}");
             renderer.material.SetColor("Color_B5C1F6F5", new Color32(0x3D, 0xEE, 0x15, 0));
             
-           // Debug.Log($"modifiers {newModifiers.Count}");
-           // newModifiers.ForEach(m => Debug.Log(m.name));
             modifiers.AddRange(newModifiers);
         }
     }
 
+    public void SetModifiers(List<GnamModifier> newModifiers)
+    {
+        var renderer = GetComponent<Renderer>();
+        if (renderer != null && newModifiers.Count > 0)
+        {
+            renderer.material.SetColor("Color_B5C1F6F5", new Color32(0x3D, 0xEE, 0x15, 0));
+
+            modifiers.Clear();
+            modifiers.AddRange(newModifiers);
+        }
+    }
 }

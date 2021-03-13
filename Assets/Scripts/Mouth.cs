@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Timeline;
+using System.Linq;
 
 namespace Assets.Scripts
 {
@@ -108,8 +109,9 @@ namespace Assets.Scripts
 
             var tModifiers = new List<GnamModifier>();
             tModifiers.AddRange(modifiers);
-            foreach (var modifier in tModifiers)
+            foreach (var modifier in tModifiers.Where(t=> t !=null))
             {
+                Debug.Log($"modifier {modifier.name}");
                 currentModifiers.ForEach(m => m.Deactivate(Eater));
                 currentModifiers.Clear();
 

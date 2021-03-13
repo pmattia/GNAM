@@ -16,11 +16,24 @@ namespace Assets.Scripts.Gameplay
         [SerializeField] GameObject restartEatable;
         [SerializeField] GameObject retryEatable;
         [SerializeField] GameObjectSpawner commandSpawner;
+        [SerializeField] GameObject instructionsPanel;
+
         public event Action<EaterDto> onStart;
         public event Action<EaterDto> onNextlevel;
         public event Action<EaterDto> onRetry;
 
         List<GameObject> spawnedItems = new List<GameObject>();
+
+        private void Awake()
+        {
+            onStart += (eater) =>
+            {
+                if (instructionsPanel != null)
+                {
+                    instructionsPanel.SetActive(false);
+                }
+            };
+        }
 
         public void SpawnNextLevelEatable()
         {

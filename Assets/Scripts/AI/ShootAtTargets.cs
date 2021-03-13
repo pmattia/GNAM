@@ -213,7 +213,7 @@ namespace Assets.Scripts.AI
                     mobAnimator.SetBool("die", true);
                     isShooterEnabled = false;
 
-                    StartCoroutine(DelayedCallback(5, () =>
+                    StartCoroutine(DelayedCallback(UnityEngine.Random.Range(5,7), () =>
                     {
                         mobAnimator.SetBool("die", false);
                         isShooterEnabled = true;

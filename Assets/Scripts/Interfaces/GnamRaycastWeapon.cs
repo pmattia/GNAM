@@ -25,5 +25,17 @@ namespace Assets.Scripts.Interfaces
                 Destroy(autodestroyer);
             }
         }
+
+        public override void Shoot()
+        {
+            Debug.Log($"bullets count {base.GetBulletCount()}");
+            var bulletCount = base.GetBulletCount();
+            if(bulletCount == 0 && !BulletInChamber)
+            {
+                base.EjectMagazine();
+            }
+
+            base.Shoot();
+        }
     }
 }
