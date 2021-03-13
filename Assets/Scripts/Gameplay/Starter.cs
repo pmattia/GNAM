@@ -38,8 +38,9 @@ namespace Assets.Scripts.Gameplay
             };
         }
 
-        public void SetBestScore(int score)
+        public void InitStarter(int score)
         {
+            gameObject.SetActive(true);
             bestScoreLabel.text = score.ToString();
         }
 

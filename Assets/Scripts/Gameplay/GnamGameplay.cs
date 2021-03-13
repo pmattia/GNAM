@@ -132,7 +132,7 @@ namespace Assets.Scripts.Gameplay
             totalGameplayTime = 0;
 
             var bestScore = PlayerPrefs.GetInt(bestScoreKey);
-            starter.SetBestScore(bestScore);
+            starter.InitStarter(bestScore);
             starter.onStart += (eater) =>
             {
                 starter.Hide();
