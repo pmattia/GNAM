@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3430407334609074612}
   - component: {fileID: 5443826184917489367}
   - component: {fileID: 5465639280353553634}
+  - component: {fileID: 8447996294786935312}
   m_Layer: 0
   m_Name: base
   m_TagString: Untagged
@@ -84,6 +85,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &8447996294786935312
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1971922609446838881}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -1388485733357891733, guid: 6b07e0cc931196547b5da3a7ded96c29, type: 3}
 --- !u!1 &5400013130409467229
 GameObject:
   m_ObjectHideFlags: 0
@@ -572,6 +587,7 @@ GameObject:
   - component: {fileID: 8447996293257693767}
   - component: {fileID: 8447996293257693785}
   - component: {fileID: 8447996293257693784}
+  - component: {fileID: 8447996294786935309}
   m_Layer: 0
   m_Name: Mesh_Pizza_Margherita (3)
   m_TagString: Untagged
@@ -640,6 +656,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &8447996294786935309
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8447996293257693766}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 7753116368342870141, guid: 0e78bd69cf15d26438979878fa335145, type: 3}
 --- !u!1 &8447996293520035161
 GameObject:
   m_ObjectHideFlags: 0
@@ -1047,6 +1077,7 @@ GameObject:
   - component: {fileID: 8447996293546191521}
   - component: {fileID: 8447996293546191523}
   - component: {fileID: 8447996293546191522}
+  - component: {fileID: 8447996294786935310}
   m_Layer: 0
   m_Name: Mesh_Pizza_Margherita (2)
   m_TagString: Untagged
@@ -1115,6 +1146,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &8447996294786935310
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8447996293546191520}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 7753116368342870141, guid: 0e78bd69cf15d26438979878fa335145, type: 3}
 --- !u!1 &8447996293562656954
 GameObject:
   m_ObjectHideFlags: 0
@@ -1694,6 +1739,7 @@ GameObject:
   - component: {fileID: 8447996294042982455}
   - component: {fileID: 8447996294042982473}
   - component: {fileID: 8447996294042982472}
+  - component: {fileID: 8447996294786935311}
   m_Layer: 0
   m_Name: Mesh_Pizza_Margherita (1)
   m_TagString: Untagged
@@ -1762,6 +1808,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &8447996294786935311
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8447996294042982454}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 7753116368342870141, guid: 0e78bd69cf15d26438979878fa335145, type: 3}
 --- !u!1 &8447996294072358518
 GameObject:
   m_ObjectHideFlags: 0
@@ -4672,7 +4732,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8789942420455795897}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.849, y: -0.9552634, z: 0.365}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
