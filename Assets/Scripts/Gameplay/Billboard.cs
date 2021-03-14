@@ -77,6 +77,7 @@ namespace Assets.Scripts
             {
                 if (timer.isExpiring && !timerAudio.isPlaying)
                 {
+                    Debug.Log("timer expiring");
                     timerAudio.PlayOneShot(timeExiring);
                     timerAudio.pitch = Time.timeScale;
                     timer.Highligh(true);
@@ -145,13 +146,12 @@ namespace Assets.Scripts
         {
             this.gameover.SetActive(true);
             billboardObjectives.ForEach(o => o.Hide());
-            ShowResults(results);
         }
 
-        public void ShowResults(Dictionary<int, int> results)
+        public void ShowResults(Dictionary<int, int> results, bool isNewRecord)
         {
             levelScore.Hide();
-            gameScores.ShowResults(results);
+            gameScores.ShowResults(results,isNewRecord);
         }
 
         public void YouWin(int score,int rate, GameObject bonus = null)

@@ -14,8 +14,9 @@ namespace Assets.Scripts.Gameplay
         [SerializeField] GameObject itemPrefab;
         [SerializeField] Transform resultGrid;
         [SerializeField] Text totalScore;
+        [SerializeField] GameObject newRecordRibbon;
 
-        public void ShowResults(Dictionary<int,int> results)
+        public void ShowResults(Dictionary<int,int> results, bool isNewRecord)
         {
             gameObject.SetActive(true);
 
@@ -30,15 +31,12 @@ namespace Assets.Scripts.Gameplay
                 var listItem = Instantiate(itemPrefab, resultGrid);
                 var levelScoreItem = listItem.GetComponent<LevelScoreItem>();
                 levelScoreItem.SetLevelScore(item.Key, item.Value);
-                //StartCoroutine(DelayedCallback(.01f, () => {
-                //    var levelScoreItem = listItem.GetComponent<LevelScoreItem>();
-                //    levelScoreItem.SetLevelScore(item.Key, item.Value);
-                //}));
 
                 scoresSum += item.Value;
             }
 
             totalScore.text = $"Score {scoresSum}";
+            newRecordRibbon.SetActive(isNewRecord);
         }
 
         public void Hide()

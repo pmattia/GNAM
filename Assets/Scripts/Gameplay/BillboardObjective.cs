@@ -14,7 +14,7 @@ namespace Assets.Scripts.Gameplay
         public TextMeshPro ObjectiveText;
         public SpriteRenderer ObjectiveIcon;
         List<Sprite> foodFamilyIcons;
-        //[SerializeField] Transform bonusHolder; //deprecated
+        [SerializeField] Transform bonusHolder; //deprecated
         [SerializeField] SpriteRenderer BonusIcon;
         public event Action<Food.FoodFamily> onTimeExpired;
         float lifeTime = 0;
@@ -33,6 +33,12 @@ namespace Assets.Scripts.Gameplay
             ObjectiveText.text = GetStatsString(objective.family, objective.toEat, objective.eated);
             ObjectiveIcon.sprite = foodFamilyIcons[(int)objective.family];
 
+            foreach (Transform child in bonusHolder.transform)
+            {
+                Destroy(child.gameObject);
+            }
+            BonusIcon.sprite = null;
+
             var currentBonusIcon = objective.bonus.GetComponent<GnamGrabbable>().Icon;
             if (currentBonusIcon != null)
             {
@@ -40,18 +46,11 @@ namespace Assets.Scripts.Gameplay
             }
             else
             {
-                BonusIcon.sprite = null;
+                var bonus = Instantiate(objective.bonus, bonusHolder);
+                bonus.transform.localPosition = Vector3.zero;
+                bonus.transform.localRotation = Quaternion.identity;
+                bonus.GetComponent<Rigidbody>().isKinematic = true;
             }
-
-            //foreach(Transform child in bonusHolder.transform)
-            //{
-            //    Destroy(child.gameObject);
-            //}
-
-            //var bonus = Instantiate(objective.bonus, bonusHolder);
-            //bonus.transform.localPosition= Vector3.zero;
-            //bonus.transform.localRotation = Quaternion.identity;
-            //bonus.GetComponent<Rigidbody>().isKinematic = true;
         }
 
         private void Update()

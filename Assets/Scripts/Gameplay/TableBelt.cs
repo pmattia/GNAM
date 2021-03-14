@@ -104,7 +104,7 @@ public class TableBelt : GnamGameplay
         }
     }
 
-    GameObject CloneRandomFoodbag(Difficulty difficulty)
+    GameObject CloneRandomFoodbag(Difficulty difficulty, List<Food.FoodFamily> foodFamiliesSuggestion)
     {
         Foodbag[] availableFoodbags;
         if(CurrentLevel == 1)
@@ -115,9 +115,24 @@ public class TableBelt : GnamGameplay
         {
             var foodbags = foodbagsRepository.Select(f => f.GetComponent<Foodbag>());
             availableFoodbags = foodbags.Where(f => f.difficulty <= difficulty).ToArray();
+
+            if (foodFamiliesSuggestion!= null 
+                && foodFamiliesSuggestion.Count() > 0
+                && !CheckFoodbagByFoodFamilies(foodFamiliesSuggestion))
+            {
+                Debug.Log($"suggestion");
+                var rand = UnityEngine.Random.Range(0, 10);
+                if(rand > 4)
+                {
+                    availableFoodbags = availableFoodbags
+                                            .Where(f => f.foods.Select(food => foodFamiliesSuggestion.Contains(food.foodFamily)).Any()
+                                            ).ToArray();
+
+                    Debug.Log($"selected suggestion {availableFoodbags.Count()}");
+                }
+            }
         }
         var foodbag = availableFoodbags[Random.Range(0, availableFoodbags.Count())];
-        //var foodbag = foodbagsRepository[4];
         var clone = Instantiate(foodbag, nodes[0].transform.position, Quaternion.identity);
 
         var cloneFoodbag = clone.GetComponentInChildren<Foodbag>();
@@ -149,7 +164,7 @@ public class TableBelt : GnamGameplay
 
     void AddTrayToTable()
     {
-        var newTray = CloneRandomFoodbag(currentDifficulty);
+        var newTray = CloneRandomFoodbag(currentDifficulty, currentObjectiveFamilies);
         trays.Add(newTray);
     }
 
@@ -163,6 +178,13 @@ public class TableBelt : GnamGameplay
         followerComponent.StartMoving();
 
         return followerComponent;
+    }
+
+    bool CheckFoodbagByFoodFamilies(List<Food.FoodFamily> foodFamilies)
+    {
+        var nodeFollowers = FindObjectsOfType<PathNodesFollower>();
+        var foodbags = nodeFollowers.Select(n => n.GetComponent<Foodbag>());
+        return foodbags.Where(f => f.foods.Any(food => foodFamilies.Contains(food.foodFamily))).Any();
     }
 
 

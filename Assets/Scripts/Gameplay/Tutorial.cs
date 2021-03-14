@@ -54,9 +54,13 @@ namespace Assets.Scripts.Gameplay
 
         const string tutorialDoneKey = "GNAM_TUTORIAL_DONE";
         const string rushScene = "SampleSceneRush";
+        const string bestScoreKey = "GNAM_BEST_SCORE";
 
         private void Awake()
         {
+          //  PlayerPrefs.SetInt(bestScoreKey, 0);
+
+
             var tutorialDone = PlayerPrefs.GetInt(tutorialDoneKey);
             Debug.Log($"tutorial done = {tutorialDone}");
             if((tutorialDone > 0 || skipTutorial) && !forceTutorial)

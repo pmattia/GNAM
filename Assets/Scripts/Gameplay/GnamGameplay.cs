@@ -76,7 +76,7 @@ namespace Assets.Scripts.Gameplay
         float gameplayTime = 0;
         float totalGameplayTime = 0;
 
-        List<Food.FoodFamily> currentObjectiveFamilies = new List<Food.FoodFamily>();
+        protected List<Food.FoodFamily> currentObjectiveFamilies = new List<Food.FoodFamily>();
 
         int TotalScore { get; set; }
         protected int CurrentLevelScore { get; set; }
@@ -218,11 +218,14 @@ namespace Assets.Scripts.Gameplay
                 starter.SpawnRetryEatable();
 
                 CurrentLevelScore = 0;
-                
-                if (TotalScore > bestScore)
+
+                var isNewRecord = TotalScore > bestScore;
+                if (isNewRecord)
                 {
                     PlayerPrefs.SetInt(bestScoreKey, TotalScore);
                 }
+
+                billboard.ShowResults(levelScores, isNewRecord);
             };
 
         }
@@ -314,7 +317,7 @@ namespace Assets.Scripts.Gameplay
             var currentObjCount = billboard.GetObjectives().Count();
             for (int i = 0; i < objCount - currentObjCount; i++)
             {
-                var newObjective = GetNewObjective(CurrentLevel, currentObjectiveFamilies);
+                var newObjective = GetNewObjective(currentObjectiveFamilies);
                 if (!currentObjectiveFamilies.Contains(newObjective.family))
                 {
                     currentObjectiveFamilies.Add(newObjective.family);
@@ -354,14 +357,15 @@ namespace Assets.Scripts.Gameplay
             }
             else
             {
-                starter.Show();
-                billboard.ShowResults(levelScores);
-
                 var bestScore = PlayerPrefs.GetInt(bestScoreKey);
-                if(TotalScore > bestScore)
+                var isNewRecord = TotalScore > bestScore;
+                if (isNewRecord)
                 {
                     PlayerPrefs.SetInt(bestScoreKey, TotalScore);
                 }
+
+                starter.Show();
+                billboard.ShowResults(levelScores, isNewRecord);
             }
         }
 
@@ -381,7 +385,7 @@ namespace Assets.Scripts.Gameplay
             return Mathf.CeilToInt(baseFoodToEat + ((level - 1) * baseFoodToEat * .30f));
         }
 
-        protected ObjectiveDto GetNewObjective(int levelIndex, List<Food.FoodFamily> excludedFamilies)
+        protected ObjectiveDto GetNewObjective(List<Food.FoodFamily> excludedFamilies)
         {
             excludedFamilies = excludedFamilies == null ? new List<Food.FoodFamily>() : excludedFamilies;
             var ret = new ObjectiveDto();
@@ -393,7 +397,6 @@ namespace Assets.Scripts.Gameplay
 
             } while (excludedFamilies.Contains(ret.family));
 
-            //var toEat = Mathf.CeilToInt((Random.Range(1, 2 + levelIndex * 2)));
             var toEat = Mathf.CeilToInt((UnityEngine.Random.Range(2, 5)));
 
             ret.toEat = toEat;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,8 @@ namespace Assets.Scripts.Gameplay
     {
         [SerializeField] List<GameObject> stars;
         [SerializeField] Text scoreText;
-        [SerializeField] Transform bonusHolder;
+        [SerializeField] Transform bonusHolder; //deprecated
+        [SerializeField] SpriteRenderer BonusIcon;
 
         public void SetResult(int score, int rate, GameObject bonus = null)
         {
@@ -27,14 +29,23 @@ namespace Assets.Scripts.Gameplay
             {
                 Destroy(child.gameObject);
             }
+            BonusIcon.sprite = null;
 
             if (bonus != null)
             {
-                bonusHolder.gameObject.SetActive(true);
-                var holdedBonus = Instantiate(bonus, bonusHolder);
-                holdedBonus.transform.localPosition = Vector3.zero;
-                holdedBonus.transform.localRotation = Quaternion.identity;
-                holdedBonus.GetComponent<Rigidbody>().isKinematic = true;
+                var currentBonusIcon = bonus.GetComponent<GnamGrabbable>().Icon;
+                if (currentBonusIcon != null)
+                {
+                    BonusIcon.sprite = currentBonusIcon;
+                }
+                else
+                {
+                    bonusHolder.gameObject.SetActive(true);
+                    var holdedBonus = Instantiate(bonus, bonusHolder);
+                    holdedBonus.transform.localPosition = Vector3.zero;
+                    holdedBonus.transform.localRotation = Quaternion.identity;
+                    holdedBonus.GetComponent<Rigidbody>().isKinematic = true;
+                }
             }
             else
             {
