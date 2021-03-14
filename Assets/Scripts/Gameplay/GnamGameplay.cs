@@ -32,7 +32,6 @@ namespace Assets.Scripts.Gameplay
         protected const int objectiveScore = 10;
         protected const int maxLevel = 9;
 
-        const string bestScoreKey = "GNAM_BEST_SCORE";
 
         protected Difficulty currentDifficulty { get {
                 switch (CurrentLevel)
@@ -131,7 +130,7 @@ namespace Assets.Scripts.Gameplay
             CurrentLevel = startLevel;
             totalGameplayTime = 0;
 
-            var bestScore = PlayerPrefs.GetInt(bestScoreKey);
+            var bestScore = PlayerPrefs.GetInt(GnamConstants.bestScoreKey);
             starter.InitStarter(bestScore);
             starter.onStart += (eater) =>
             {
@@ -222,7 +221,7 @@ namespace Assets.Scripts.Gameplay
                 var isNewRecord = TotalScore > bestScore;
                 if (isNewRecord)
                 {
-                    PlayerPrefs.SetInt(bestScoreKey, TotalScore);
+                    PlayerPrefs.SetInt(GnamConstants.bestScoreKey, TotalScore);
                 }
 
                 billboard.ShowResults(levelScores, isNewRecord);
@@ -357,11 +356,11 @@ namespace Assets.Scripts.Gameplay
             }
             else
             {
-                var bestScore = PlayerPrefs.GetInt(bestScoreKey);
+                var bestScore = PlayerPrefs.GetInt(GnamConstants.bestScoreKey);
                 var isNewRecord = TotalScore > bestScore;
                 if (isNewRecord)
                 {
-                    PlayerPrefs.SetInt(bestScoreKey, TotalScore);
+                    PlayerPrefs.SetInt(GnamConstants.bestScoreKey, TotalScore);
                 }
 
                 starter.Show();

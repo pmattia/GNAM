@@ -52,16 +52,13 @@ namespace Assets.Scripts.Gameplay
 
         float stepCompletedDelay = .5f;
 
-        const string tutorialDoneKey = "GNAM_TUTORIAL_DONE";
-        const string rushScene = "SampleSceneRush";
-        const string bestScoreKey = "GNAM_BEST_SCORE";
 
         private void Awake()
         {
           //  PlayerPrefs.SetInt(bestScoreKey, 0);
 
 
-            var tutorialDone = PlayerPrefs.GetInt(tutorialDoneKey);
+            var tutorialDone = PlayerPrefs.GetInt(GnamConstants.tutorialDoneKey);
             Debug.Log($"tutorial done = {tutorialDone}");
             if((tutorialDone > 0 || skipTutorial) && !forceTutorial)
             {
@@ -268,13 +265,13 @@ namespace Assets.Scripts.Gameplay
                     GoToGameplay();
                 }));
 
-                PlayerPrefs.SetInt(tutorialDoneKey, 1);
+                PlayerPrefs.SetInt(GnamConstants.tutorialDoneKey, 1);
             };
         }
 
         void GoToGameplay()
         {
-            SceneManager.LoadSceneAsync(rushScene);
+            SceneManager.LoadSceneAsync(GnamConstants.rushScene);
         }
 
         void CompletedStep(bool playsound = true)

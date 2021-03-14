@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1262,7 +1262,7 @@ MonoBehaviour:
   gameplaySound: {fileID: 437091750}
   winSound: {fileID: 8300000, guid: fde1f50d56cbf474c84570b30ab61540, type: 3}
   loseSound: {fileID: 8300000, guid: 2976ae8ca1ba531488ab8d13e4e68c93, type: 3}
-  startLevel: 7
+  startLevel: 1
   gunPrefab: {fileID: 5638594037168375564, guid: b2f551fc1c5a05b4688e6e46ebd4db26,
     type: 3}
   gunClipPrefab: {fileID: 4846239893969188111, guid: 9b1f4924b6f5f6d47aa90cc26c42e047,
@@ -2459,7 +2459,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.004, y: 0.166}
+  m_AnchoredPosition: {x: -0.004000002, y: 0.08900003}
   m_SizeDelta: {x: 771.07416, y: 113.841125}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &726097424
@@ -9600,12 +9600,15 @@ PrefabInstance:
     - target: {fileID: 3608664869690345084, guid: d607b6195281c7141a7b152b0cb6fdd0,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.255
+      value: 0.246
       objectReference: {fileID: 0}
     - target: {fileID: 3608664869690345085, guid: d607b6195281c7141a7b152b0cb6fdd0,
         type: 3}
       propertyPath: m_Text
-      value: Your best score is
+      value: 'GNAM ALPHA Ver 0.1
+
+
+        Your best score is'
       objectReference: {fileID: 0}
     - target: {fileID: 3608664869690345085, guid: d607b6195281c7141a7b152b0cb6fdd0,
         type: 3}
