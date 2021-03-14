@@ -234,8 +234,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   modifiers:
   - {fileID: 11400000, guid: 5a19e01288bd71d42b59e8306214c3a4, type: 2}
-  eatTime: 0.2
+  eatDuration: 0.2
   grabPoints: []
+  IsEatable: 1
 --- !u!114 &4703673658939228152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -294,6 +295,8 @@ MonoBehaviour:
   - {fileID: 5766251121390836280}
   - {fileID: 2826656499779136772}
   UseCustomInspector: 1
+  dontDestroyOnDrop: 0
+  Icon: {fileID: 21300000, guid: 8cd7fab33323eef4b965827c299bc7b9, type: 3}
 --- !u!1 &5913576707813233389
 GameObject:
   m_ObjectHideFlags: 0

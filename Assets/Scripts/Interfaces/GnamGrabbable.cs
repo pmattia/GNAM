@@ -11,6 +11,7 @@ namespace Assets.Scripts.Interfaces
     public class GnamGrabbable : Grabbable
     {
         [SerializeField] bool dontDestroyOnDrop = false;
+        [SerializeField] public Sprite Icon;
         public GnamGrabbable() : base()
         {
             base.GrabButton = GrabButton.Grip;

@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -8322,40 +8322,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2019122973}
     m_Modifications:
-    - target: {fileID: 1384467682283602435, guid: 93558e6a69aea8b4381fa7f560d300b5,
-        type: 3}
-      propertyPath: m_Layer
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3625877643572744599, guid: 93558e6a69aea8b4381fa7f560d300b5,
-        type: 3}
-      propertyPath: m_Layer
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4556079116387525993, guid: 93558e6a69aea8b4381fa7f560d300b5,
-        type: 3}
-      propertyPath: m_Layer
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 5068805440632105517, guid: 93558e6a69aea8b4381fa7f560d300b5,
         type: 3}
       propertyPath: m_RootOrder
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5068805440632105517, guid: 93558e6a69aea8b4381fa7f560d300b5,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2.1322377
-      objectReference: {fileID: 0}
-    - target: {fileID: 5068805440632105517, guid: 93558e6a69aea8b4381fa7f560d300b5,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 2.1322377
-      objectReference: {fileID: 0}
-    - target: {fileID: 5068805440632105517, guid: 93558e6a69aea8b4381fa7f560d300b5,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.42644757
       objectReference: {fileID: 0}
     - target: {fileID: 5068805440632105517, guid: 93558e6a69aea8b4381fa7f560d300b5,
         type: 3}
@@ -8414,43 +8384,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5068805440632105518, guid: 93558e6a69aea8b4381fa7f560d300b5,
         type: 3}
-      propertyPath: m_Layer
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5068805440632105518, guid: 93558e6a69aea8b4381fa7f560d300b5,
-        type: 3}
       propertyPath: m_IsActive
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5068805441290246960, guid: 93558e6a69aea8b4381fa7f560d300b5,
-        type: 3}
-      propertyPath: m_Layer
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5068805441486968373, guid: 93558e6a69aea8b4381fa7f560d300b5,
-        type: 3}
-      propertyPath: m_Layer
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5069802142418093020, guid: 93558e6a69aea8b4381fa7f560d300b5,
-        type: 3}
-      propertyPath: m_Layer
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5198890277805129714, guid: 93558e6a69aea8b4381fa7f560d300b5,
-        type: 3}
-      propertyPath: m_Layer
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5335296011737052260, guid: 93558e6a69aea8b4381fa7f560d300b5,
-        type: 3}
-      propertyPath: m_Layer
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6908995213771120150, guid: 93558e6a69aea8b4381fa7f560d300b5,
-        type: 3}
-      propertyPath: m_Layer
-      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 93558e6a69aea8b4381fa7f560d300b5, type: 3}
@@ -10562,12 +10497,12 @@ MonoBehaviour:
   - {fileID: 1006930711}
   - {fileID: 1180853935}
   foodFamilyIcons:
-  - {fileID: 21300000, guid: c13ce980e8f60ac4ca2ca29ec83eb506, type: 3}
-  - {fileID: 21300000, guid: 72aab6f0095761543a7c4f67c0842daa, type: 3}
-  - {fileID: 21300000, guid: b78e75d342510b143a39155f53964010, type: 3}
-  - {fileID: 21300000, guid: 89dcc161464b1a44e8f40cc6fa08fd7c, type: 3}
-  - {fileID: 21300000, guid: 940a2ef61597ec44fadcc5b234b548c0, type: 3}
-  - {fileID: 21300000, guid: 7338bc72babf8184a8b0d55b942a57c9, type: 3}
+  - {fileID: 21300000, guid: adcd035418ee1de4db2e3232c5140c3a, type: 3}
+  - {fileID: 21300000, guid: de80f88ca28438a409d93d9da9d6d8e1, type: 3}
+  - {fileID: 21300000, guid: a3726c809dd882d46b7fb28a9e97c5a9, type: 3}
+  - {fileID: 21300000, guid: 818ebe7199acabe4d983f62013f4234c, type: 3}
+  - {fileID: 21300000, guid: f6551d8d95fe81742bd1341ee3fa7e91, type: 3}
+  - {fileID: 21300000, guid: 5adac76d254740f43bc372e9809177d0, type: 3}
   gameover: {fileID: 27742414}
   youwin: {fileID: 2065051924}
   timer: {fileID: 1860739112}

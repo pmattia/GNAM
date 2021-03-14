@@ -1,5 +1,21 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &50478731735243341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5638594035777495413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa13b59692476bc439841b0f831619a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  modifiers: []
+  eatDuration: 3
+  grabPoints: []
+  IsEatable: 1
 --- !u!114 &403352767
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76,22 +92,6 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5638594037168375564}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa13b59692476bc439841b0f831619a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  modifiers: []
-  eatDuration: 3
-  grabPoints: []
-  IsEatable: 1
---- !u!114 &50478731735243341
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5638594035777495413}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aa13b59692476bc439841b0f831619a0, type: 3}
@@ -208,6 +208,12 @@ PrefabInstance:
       propertyPath: m_Center.z
       value: 0.005760424
       objectReference: {fileID: 0}
+    - target: {fileID: 6849272359942939741, guid: 6c8b6c71585261b46a9ae33fc2c5df5f,
+        type: 3}
+      propertyPath: Icon
+      value: 
+      objectReference: {fileID: 21300000, guid: 44e60ea0b5f416a438656f937846a14b,
+        type: 3}
     - target: {fileID: 6849272359942939741, guid: 6c8b6c71585261b46a9ae33fc2c5df5f,
         type: 3}
       propertyPath: RemoteGrabbable

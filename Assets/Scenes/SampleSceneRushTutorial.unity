@@ -9027,12 +9027,12 @@ MonoBehaviour:
   - {fileID: 1006930711}
   - {fileID: 1180853935}
   foodFamilyIcons:
-  - {fileID: 21300000, guid: c13ce980e8f60ac4ca2ca29ec83eb506, type: 3}
-  - {fileID: 21300000, guid: 72aab6f0095761543a7c4f67c0842daa, type: 3}
-  - {fileID: 21300000, guid: b78e75d342510b143a39155f53964010, type: 3}
-  - {fileID: 21300000, guid: 89dcc161464b1a44e8f40cc6fa08fd7c, type: 3}
-  - {fileID: 21300000, guid: 940a2ef61597ec44fadcc5b234b548c0, type: 3}
-  - {fileID: 21300000, guid: 7338bc72babf8184a8b0d55b942a57c9, type: 3}
+  - {fileID: 21300000, guid: adcd035418ee1de4db2e3232c5140c3a, type: 3}
+  - {fileID: 21300000, guid: de80f88ca28438a409d93d9da9d6d8e1, type: 3}
+  - {fileID: 21300000, guid: a3726c809dd882d46b7fb28a9e97c5a9, type: 3}
+  - {fileID: 21300000, guid: 818ebe7199acabe4d983f62013f4234c, type: 3}
+  - {fileID: 21300000, guid: f6551d8d95fe81742bd1341ee3fa7e91, type: 3}
+  - {fileID: 21300000, guid: 5adac76d254740f43bc372e9809177d0, type: 3}
   gameover: {fileID: 27742414}
   youwin: {fileID: 2065051924}
   timer: {fileID: 1860739112}
@@ -13240,7 +13240,7 @@ MonoBehaviour:
   tutorialCompletedAudio: {fileID: 8300000, guid: fde1f50d56cbf474c84570b30ab61540,
     type: 3}
   skipTutorial: 0
-  forceTutorial: 0
+  forceTutorial: 1
 --- !u!4 &6103440133087563393
 Transform:
   m_ObjectHideFlags: 0

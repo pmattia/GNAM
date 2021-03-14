@@ -144,6 +144,8 @@ MonoBehaviour:
   - {fileID: 7158088823399801662}
   - {fileID: 7158088823947436845}
   UseCustomInspector: 1
+  dontDestroyOnDrop: 0
+  Icon: {fileID: 21300000, guid: 7a36de00c4267314badc2d5b751fdeea, type: 3}
 --- !u!54 &1516834870044470381
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -186,7 +188,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   modifiers: []
-  eatTime: 3
+  eatDuration: 0.2
   grabPoints: []
   IsEatable: 1
 --- !u!114 &1516834870044470376
