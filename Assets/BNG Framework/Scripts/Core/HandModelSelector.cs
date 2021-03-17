@@ -15,13 +15,11 @@ namespace BNG {
         /// If true, hand model will be saved and loaded from player prefs. If false DefaultHandModel will be loaded.
         /// </summary>
         [Tooltip("If true, the selected hand model will be saved and loaded from player prefs")]  
-        public bool LoadHandSelectionFromPrefs = true;
+        public bool LoadHandSelectionFromPrefs = false;
 
-        /// <summary>
-        /// Click Right Thumbstick Down to toggle between hand models.
-        /// </summary>
-        [Tooltip("Click Right Thumbstick Down to toggle between hand models.")]
-        public bool RightThumbstickToggleHands = false;
+
+        [Tooltip("Input used to toggle between hands")]
+        public ControllerBinding ToggleHandsInput = ControllerBinding.RightThumbstickDown;
 
         /// <summary>
         /// This transform holds all of the hand models. Can be used to enabled / disabled various hand options
@@ -47,7 +45,6 @@ namespace BNG {
         /// </summary>
         UIPointer uiPoint;       
 
-        // Start is called before the first frame update
         void Start() {
             uiPoint = GetComponentInChildren<UIPointer>();
 
@@ -60,10 +57,9 @@ namespace BNG {
             }
         }
 
-        // Update is called once per frame
         void Update() {
             // Cycle through hand models with Right Thumbstick
-            if ((RightThumbstickToggleHands && InputBridge.Instance.RightThumbstickDown)) {
+            if (ToggleHandsInput.GetDown()) {
                 ChangeHandsModel(_selectedHandGFX + 1, LoadHandSelectionFromPrefs);
             }
         }

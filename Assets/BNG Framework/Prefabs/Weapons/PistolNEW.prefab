@@ -1,5 +1,179 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &343391316
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 343391317}
+  - component: {fileID: 343391318}
+  - component: {fileID: 343391320}
+  m_Layer: 10
+  m_Name: SecondHandTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &343391317
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 343391316}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.0813, z: -0.057}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1284734579}
+  - {fileID: 513945725}
+  m_Father: {fileID: 6024261396410624979}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &343391318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 343391316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 537aafab1362ca34a8606b807c1e647c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GrabObject: {fileID: 0}
+  OtherGrabbableMustBeHeld: {fileID: 6024261396410624990}
+  MoveInStyle: 0
+  MoveOutStyle: 0
+  HandSpeed: 20
+  LiveUpdateNearestGrabPoint: 1
+  GrabPoints:
+  - {fileID: 1284734580}
+  - {fileID: 513945726}
+--- !u!65 &343391320
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 343391316}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.135, y: 0.06, z: 0.074}
+  m_Center: {x: 0, y: 0.054, z: 0.012}
+--- !u!1 &513945724
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 513945725}
+  - component: {fileID: 513945726}
+  m_Layer: 10
+  m_Name: GrabPoint Right
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &513945725
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 513945724}
+  m_LocalRotation: {x: -0.053756334, y: -0.05234105, z: -0.70506054, w: 0.705167}
+  m_LocalPosition: {x: -0.003, y: 0.032, z: 0.005}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 343391317}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: -8.6050005, y: 0.115, z: -90}
+--- !u!114 &513945726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 513945724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab52d2f563d6a2547a95671c153ebbb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HandPose: 0
+  LeftHandIsValid: 0
+  RightHandIsValid: 1
+  HandPosition: {fileID: 0}
+  MaxDegreeDifferenceAllowed: 360
+  IndexBlendMin: 0
+  IndexBlendMax: 0
+  ThumbBlendMin: 0
+  ThumbBlendMax: 0
+  ShowAngleGizmo: 1
+--- !u!1 &1284734578
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1284734579}
+  - component: {fileID: 1284734580}
+  m_Layer: 10
+  m_Name: GrabPoint Left
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1284734579
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1284734578}
+  m_LocalRotation: {x: -0.059577532, y: 0.0456055, z: 0.59552926, w: 0.7998223}
+  m_LocalPosition: {x: 0.003, y: 0.032, z: 0.005}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 343391317}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -8.6050005, y: 0.115, z: 73.332}
+--- !u!114 &1284734580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1284734578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab52d2f563d6a2547a95671c153ebbb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HandPose: 0
+  LeftHandIsValid: 1
+  RightHandIsValid: 0
+  HandPosition: {fileID: 0}
+  MaxDegreeDifferenceAllowed: 360
+  IndexBlendMin: 0
+  IndexBlendMax: 0
+  ThumbBlendMin: 0
+  ThumbBlendMax: 0
+  ShowAngleGizmo: 1
 --- !u!1 &487094148783905881
 GameObject:
   m_ObjectHideFlags: 0
@@ -2601,11 +2775,18 @@ MonoBehaviour:
   CanBeDropped: 1
   CanBeSnappedToSnapZone: 0
   ForceDisableKinematicOnDrop: 0
+  InstantMovement: 0
   CustomHandPose: 0
   SecondaryGrabBehavior: 0
-  OtherGrabbableMustBeGrabbed: {fileID: 6024261396410624990}
-  SecondaryGrabbable: {fileID: 0}
+  TwoHandedPosition: 0
+  TwoHandedPostionLerpAmount: 0.5
+  TwoHandedRotation: 1
+  TwoHandedRotationLerpAmount: 0.5
+  TwoHandedDropBehavior: 0
+  TwoHandedLookVector: 0
   SecondHandLookSpeed: 40
+  SecondaryGrabbable: {fileID: 0}
+  OtherGrabbableMustBeGrabbed: {fileID: 6024261396410624990}
   CollisionSpring: 3000
   CollisionSlerp: 500
   CollisionLinearMotionX: 2
@@ -3092,6 +3273,7 @@ Transform:
   - {fileID: 6534105839233010635}
   - {fileID: 6024261394743409021}
   - {fileID: 6024261394720629044}
+  - {fileID: 343391317}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3149,11 +3331,18 @@ MonoBehaviour:
   CanBeDropped: 1
   CanBeSnappedToSnapZone: 1
   ForceDisableKinematicOnDrop: 0
+  InstantMovement: 0
   CustomHandPose: 50
   SecondaryGrabBehavior: 0
-  OtherGrabbableMustBeGrabbed: {fileID: 0}
-  SecondaryGrabbable: {fileID: 0}
+  TwoHandedPosition: 0
+  TwoHandedPostionLerpAmount: 0.5
+  TwoHandedRotation: 1
+  TwoHandedRotationLerpAmount: 0.5
+  TwoHandedDropBehavior: 0
+  TwoHandedLookVector: 0
   SecondHandLookSpeed: 40
+  SecondaryGrabbable: {fileID: 0}
+  OtherGrabbableMustBeGrabbed: {fileID: 0}
   CollisionSpring: 3000
   CollisionSlerp: 300
   CollisionLinearMotionX: 2
@@ -3298,6 +3487,7 @@ MonoBehaviour:
   FireProjectileInSlowMo: 1
   SlowMoRateOfFire: 0.3
   ShotForce: 20
+  BulletCasingForce: 3
   RecoilForce: {x: 0, y: 0, z: 0}
   RecoilDuration: 0.3
   ValidLayers:
@@ -3320,8 +3510,6 @@ MonoBehaviour:
   SlideDistance: -0.028
   ForceSlideBackOnLastShot: 1
   slideSpeed: 1
-  SecondHandGrabbable: {fileID: 0}
-  SecondHandLookSpeed: 40
   EjectInput: 04000000
   ReleaseSlideInput: 02000000
   BulletInChamber: 0
@@ -3898,6 +4086,7 @@ MonoBehaviour:
   IndexBlendMax: 0.195
   ThumbBlendMin: 0
   ThumbBlendMax: 0
+  ShowAngleGizmo: 1
 --- !u!1 &7390625811927104297
 GameObject:
   m_ObjectHideFlags: 0
@@ -4187,6 +4376,7 @@ MonoBehaviour:
   IndexBlendMax: 0.195
   ThumbBlendMin: 0
   ThumbBlendMax: 0
+  ShowAngleGizmo: 1
 --- !u!1 &8885127584237888815
 GameObject:
   m_ObjectHideFlags: 0
@@ -4419,7 +4609,7 @@ PrefabInstance:
     - target: {fileID: 4213795611944346747, guid: 9e3b0bca4dce07c4cac56011bea1487d,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9e3b0bca4dce07c4cac56011bea1487d, type: 3}

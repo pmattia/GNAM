@@ -1580,6 +1580,7 @@ MonoBehaviour:
   IndexBlendMax: 0.195
   ThumbBlendMin: 0
   ThumbBlendMax: 0
+  ShowAngleGizmo: 1
 --- !u!1 &3594841392279636762
 GameObject:
   m_ObjectHideFlags: 0
@@ -2218,9 +2219,14 @@ MonoBehaviour:
   ForceDisableKinematicOnDrop: 0
   CustomHandPose: 0
   SecondaryGrabBehavior: 0
-  OtherGrabbableMustBeGrabbed: {fileID: 0}
-  SecondaryGrabbable: {fileID: 0}
+  TwoHandedPosition: 0
+  TwoHandedPostionLerpAmount: 0.5
+  TwoHandedRotation: 1
+  TwoHandedRotationLerpAmount: 0.5
+  TwoHandedDropBehavior: 0
   SecondHandLookSpeed: 40
+  SecondaryGrabbable: {fileID: 0}
+  OtherGrabbableMustBeGrabbed: {fileID: 0}
   CollisionSpring: 3000
   CollisionSlerp: 500
   CollisionLinearMotionX: 2
@@ -2243,6 +2249,9 @@ MonoBehaviour:
   GrabPoints:
   - {fileID: 0}
   UseCustomInspector: 1
+  UseFixedDelta: 1
+  MinMagnitude: 0
+  TestFloat: 0
 --- !u!65 &3594841392680093951
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2478,10 +2487,15 @@ MonoBehaviour:
   CanBeSnappedToSnapZone: 1
   ForceDisableKinematicOnDrop: 0
   CustomHandPose: 50
-  SecondaryGrabBehavior: 0
-  OtherGrabbableMustBeGrabbed: {fileID: 0}
-  SecondaryGrabbable: {fileID: 3594841392680093891}
+  SecondaryGrabBehavior: 2
+  TwoHandedPosition: 1
+  TwoHandedPostionLerpAmount: 0.5
+  TwoHandedRotation: 2
+  TwoHandedRotationLerpAmount: 0.5
+  TwoHandedDropBehavior: 0
   SecondHandLookSpeed: 40
+  SecondaryGrabbable: {fileID: 3594841392680093891}
+  OtherGrabbableMustBeGrabbed: {fileID: 0}
   CollisionSpring: 3000
   CollisionSlerp: 300
   CollisionLinearMotionX: 1
@@ -2505,6 +2519,9 @@ MonoBehaviour:
   - {fileID: 3594841392019261893}
   - {fileID: 4992691994897585653}
   UseCustomInspector: 1
+  UseFixedDelta: 1
+  MinMagnitude: 0
+  TestFloat: 0
 --- !u!82 &3594841392878154753
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2648,8 +2665,6 @@ MonoBehaviour:
   SlideDistance: -0.028
   ForceSlideBackOnLastShot: 1
   slideSpeed: 1
-  SecondHandGrabbable: {fileID: 3594841392680093891}
-  SecondHandLookSpeed: 40
   EjectInput: 04000000
   ReleaseSlideInput: 02000000
   BulletInChamber: 0
@@ -3099,9 +3114,14 @@ MonoBehaviour:
   ForceDisableKinematicOnDrop: 0
   CustomHandPose: 0
   SecondaryGrabBehavior: 0
-  OtherGrabbableMustBeGrabbed: {fileID: 3594841392878154754}
-  SecondaryGrabbable: {fileID: 0}
+  TwoHandedPosition: 0
+  TwoHandedPostionLerpAmount: 0.5
+  TwoHandedRotation: 1
+  TwoHandedRotationLerpAmount: 0.5
+  TwoHandedDropBehavior: 0
   SecondHandLookSpeed: 40
+  SecondaryGrabbable: {fileID: 0}
+  OtherGrabbableMustBeGrabbed: {fileID: 3594841392878154754}
   CollisionSpring: 3000
   CollisionSlerp: 500
   CollisionLinearMotionX: 2
@@ -3123,6 +3143,9 @@ MonoBehaviour:
   LocalOffsetTransform: {fileID: 0}
   GrabPoints: []
   UseCustomInspector: 1
+  UseFixedDelta: 1
+  MinMagnitude: 0
+  TestFloat: 0
 --- !u!114 &3594841392909505733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4395,6 +4418,7 @@ MonoBehaviour:
   IndexBlendMax: 0.195
   ThumbBlendMin: 0
   ThumbBlendMax: 0
+  ShowAngleGizmo: 1
 --- !u!1 &6817462436256059481
 GameObject:
   m_ObjectHideFlags: 0

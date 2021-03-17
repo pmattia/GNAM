@@ -212,11 +212,20 @@ namespace BNG {
         }
 
         public virtual void AddValidRemoteGrabbable(Collider col, Grabbable grabObject) {
+            
+            // Sanity check
+            if(col == null || grabObject == null) {
+                return;
+            }
+
+            // Ensure our collection has been initialized
+            if (ValidRemoteGrabbables == null) {
+                ValidRemoteGrabbables = new Dictionary<Collider, Grabbable>();
+            }
+
             try {
                 if (grabObject != null && grabObject.RemoteGrabbable && col != null && !ValidRemoteGrabbables.ContainsKey(col)) {
-                    if (ValidRemoteGrabbables == null) {
-                        ValidRemoteGrabbables = new Dictionary<Collider, Grabbable>();
-                    }
+                    
                     ValidRemoteGrabbables.Add(col, grabObject);
                 }
             }

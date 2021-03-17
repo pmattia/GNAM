@@ -26,8 +26,10 @@ namespace BNG {
         bool wasGrappling = false;
 
         CharacterController characterController;
-        BNGPlayerController bngController;
+        SmoothLocomotion smoothLocomotion;
         PlayerGravity playerGravity;
+        PlayerClimbing playerClimbing;
+
         AudioSource audioSource;
 
         // How far away the grapple is in meters
@@ -51,8 +53,9 @@ namespace BNG {
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             if (player) {
                 characterController = player.GetComponentInChildren<CharacterController>();
-                bngController = player.GetComponentInChildren<BNGPlayerController>();
+                smoothLocomotion = player.GetComponentInChildren<SmoothLocomotion>();
                 playerGravity = player.GetComponentInChildren<PlayerGravity>();
+                playerClimbing = player.GetComponentInChildren<PlayerClimbing>();
             }
             else {
                 Debug.Log("No player object found.");
@@ -146,7 +149,7 @@ namespace BNG {
 
             // Reset Climbing
             ClimbHelper.transform.localPosition = Vector3.zero;
-            bngController.RemoveClimber(thisGrabber);
+            playerClimbing.RemoveClimber(thisGrabber);
             climbing = false;
 
             grappling = false;
@@ -270,7 +273,15 @@ namespace BNG {
 
                     // Turn off gravity before we move
                     changeGravity(false);
-                    characterController.Move(moveDirection * Time.deltaTime * triggerValue);
+
+                    // Use smooth loco method if available
+                    if(smoothLocomotion) {
+                        smoothLocomotion.MoveCharacter(moveDirection * Time.deltaTime * triggerValue);
+                    }
+                    // Fall back to character controller
+                    else if(characterController) {
+                        characterController.Move(moveDirection * Time.deltaTime * triggerValue);
+                    }
                 }
             }
             else if(validTargetFound && currentGrappleDistance <= MinReelDistance) {
@@ -285,7 +296,7 @@ namespace BNG {
                 if(!climbing && !isDynamic) {
                     // Add climbable / grabber
                     ClimbHelper.transform.localPosition = Vector3.zero;
-                    bngController.AddClimber(ClimbHelper, thisGrabber);
+                    playerClimbing.AddClimber(ClimbHelper, thisGrabber);
                     climbing = true;
                 }
                 

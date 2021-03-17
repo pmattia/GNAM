@@ -52,6 +52,7 @@ MonoBehaviour:
   IndexBlendMax: 0
   ThumbBlendMin: 0
   ThumbBlendMax: 0
+  ShowAngleGizmo: 1
 --- !u!1 &354645236
 GameObject:
   m_ObjectHideFlags: 0
@@ -104,6 +105,7 @@ MonoBehaviour:
   IndexBlendMax: 0
   ThumbBlendMin: 0
   ThumbBlendMax: 0
+  ShowAngleGizmo: 1
 --- !u!1 &4729082080450706797
 GameObject:
   m_ObjectHideFlags: 0
@@ -201,7 +203,7 @@ MonoBehaviour:
   GrabSpeed: 15
   RemoteGrabbable: 0
   RemoteGrabDistance: 2
-  ThrowForceMultiplier: 1.5
+  ThrowForceMultiplier: 2.5
   ThrowForceMultiplierAngular: 1.125
   BreakDistance: 0.5
   HideHandGraphics: 0
@@ -211,11 +213,18 @@ MonoBehaviour:
   CanBeDropped: 1
   CanBeSnappedToSnapZone: 1
   ForceDisableKinematicOnDrop: 0
+  InstantMovement: 0
   CustomHandPose: 2
   SecondaryGrabBehavior: 1
-  OtherGrabbableMustBeGrabbed: {fileID: 0}
-  SecondaryGrabbable: {fileID: 0}
+  TwoHandedPosition: 0
+  TwoHandedPostionLerpAmount: 0.5
+  TwoHandedRotation: 1
+  TwoHandedRotationLerpAmount: 0.5
+  TwoHandedDropBehavior: 0
+  TwoHandedLookVector: 0
   SecondHandLookSpeed: 40
+  SecondaryGrabbable: {fileID: 0}
+  OtherGrabbableMustBeGrabbed: {fileID: 0}
   CollisionSpring: 3000
   CollisionSlerp: 500
   CollisionLinearMotionX: 2

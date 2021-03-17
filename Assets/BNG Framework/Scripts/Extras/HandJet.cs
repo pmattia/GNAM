@@ -15,6 +15,7 @@ namespace BNG {
         public ParticleSystem JetFX;
 
         CharacterController characterController;
+        SmoothLocomotion smoothLocomotion;
         PlayerGravity playerGravity;
 
         AudioSource audioSource;
@@ -25,6 +26,7 @@ namespace BNG {
             if(player) {
                 characterController = player.GetComponentInChildren<CharacterController>();
                 playerGravity = player.GetComponentInChildren<PlayerGravity>();
+                smoothLocomotion = player.GetComponentInChildren<SmoothLocomotion>();
             }
             else {
                 Debug.Log("No player object found.");
@@ -65,7 +67,15 @@ namespace BNG {
 
         void doJet(float triggerValue) {
             Vector3 moveDirection = transform.forward * JetForce;
-            characterController.Move(moveDirection * Time.deltaTime * triggerValue);
+
+            // Use smooth loco method if available
+            if (smoothLocomotion) {
+                smoothLocomotion.MoveCharacter(moveDirection * Time.deltaTime * triggerValue);
+            }
+            // Fall back to character controller
+            else if (characterController) {
+                characterController.Move(moveDirection * Time.deltaTime * triggerValue);
+            }
 
             // Gravity is always off while jetting
             ChangeGravity(false);

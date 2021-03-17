@@ -19,9 +19,6 @@ namespace BNG {
         [Tooltip("If true, Hand COlliders will be disabled while grabbing an object")]
         public bool DisableHandCollidersOnGrab = true;
 
-        [Tooltip("If true, the physical hand will be parented to the AttachPoint when no collisions are present. This keeps the hand 1:1 with the controller.")]
-        public bool ParentToAttachPoint = true;
-
         [Tooltip("If the hand exceeds this distance from it's origin it will snap back to the original position. Specified in meters.")]
         public float SnapBackDistance = 1f;
 
@@ -83,15 +80,18 @@ namespace BNG {
             attachRB.useGravity = false;
             attachRB.isKinematic = true;
             attachRB.constraints = RigidbodyConstraints.FreezeAll;
-            configJoint.connectedBody = attachRB;
+            // configJoint.connectedBody = attachRB;
+            Destroy(configJoint);
 
             localHandOffset = HandModel.localPosition;
             localHandOffsetRotation = HandModel.localEulerAngles;
 
-            initHandColliders();            
-        }
+            initHandColliders();
 
-        public bool MovePosition = true;
+            _priorParent = transform.parent;
+            // Physics Hands typically want to have no parent at all
+            transform.parent = null;
+        }
 
         void Update() {
             updateHandGraphics();
@@ -110,20 +110,6 @@ namespace BNG {
                 return;
             }
 
-            // Parent if holding something or no collisions occuring
-            bool noCollisions = collisions.Count == 0;
-            // Velocity Grabbables currently jitter if parented to attach poitns
-            bool isVelocityGrabbable = ThisGrabber.HeldGrabbable != null && ThisGrabber.HeldGrabbable.GrabPhysics == GrabPhysics.Velocity;
-
-            if (ParentToAttachPoint && (HoldingObject || noCollisions)) {
-                transform.parent = AttachTo;
-                //transform.localPosition = Vector3.zero;
-                //transform.localPosition = Vector3.zero;
-            }
-            else {
-                transform.parent = null;
-            }
-
             // If we are holding something, move the hands in Update, ignoring physics. 
             if (HoldingObject) {
 
@@ -133,10 +119,8 @@ namespace BNG {
                 }
 
                 // If we are holding something, move the hands in Update, ignoring physics. 
-                if(MovePosition) {
-                    transform.position = AttachTo.position;
-                    transform.rotation = AttachTo.rotation;
-                }
+                //transform.position = AttachTo.position;
+                //transform.rotation = AttachTo.rotation;
             }
             else {
                 if (wasHoldingObject) {
@@ -151,13 +135,13 @@ namespace BNG {
 
             // Move object directly to our hand since the hand joint is controlling movement now
             if (HoldingObject && ThisGrabber.HeldGrabbable.DidParentHands) {
-                //rigid.MovePosition(AttachTo.position);
-                //rigid.MoveRotation(AttachTo.rotation);
+                rigid.MovePosition(AttachTo.position);
+                rigid.MoveRotation(AttachTo.rotation);
             }
             else {
                 // Move using Velocity
                 Vector3 positionDelta = AttachTo.position - transform.position;
-                rigid.velocity = Vector3.MoveTowards(rigid.velocity, (positionDelta * HandVelocity) * Time.deltaTime, 5f);
+                rigid.velocity = Vector3.MoveTowards(rigid.velocity, (positionDelta * HandVelocity) * Time.fixedDeltaTime, 5f);
 
                 // Rotate using angular velocity
                 float angle;
@@ -172,7 +156,7 @@ namespace BNG {
 
                 if (angle != 0) {
                     Vector3 angularTarget = angle * axis;
-                    angularTarget = (angularTarget * 60f) * Time.deltaTime;
+                    angularTarget = (angularTarget * 60f) * Time.fixedDeltaTime;
                     rigid.angularVelocity = Vector3.MoveTowards(rigid.angularVelocity, angularTarget, 20f);
                 }
             }
@@ -302,6 +286,17 @@ namespace BNG {
             }
         }
 
+        Transform _priorParent;
+
+        public virtual void LockLocalPosition() {
+            _priorParent = transform.parent;
+            transform.parent = AttachTo;
+        }
+
+        public virtual void UnlockLocalPosition() {
+            transform.parent = _priorParent;
+        }
+
         public virtual void OnReleasedObject(Grabbable grabbedObject) {
 
             if (heldGrabbable != null) {
@@ -326,6 +321,31 @@ namespace BNG {
                 ThisRemoteGrabber.enabled = true;
                 DisableRemoteGrabber.enabled = false;
             }
+
+            // Move events
+            PlayerTeleport.OnBeforeTeleport += LockLocalPosition;
+            PlayerTeleport.OnAfterTeleport += UnlockLocalPosition;
+
+            PlayerRotation.OnBeforeRotate += LockLocalPosition;
+            PlayerRotation.OnAfterRotate += UnlockLocalPosition;
+
+            SmoothLocomotion.OnBeforeMove += LockOffset;
+            SmoothLocomotion.OnAfterMove += UnlockOffset;
+        }
+
+        Vector3 _priorLocalOffsetPosition;
+
+        public virtual void LockOffset() {
+            _priorLocalOffsetPosition = AttachTo.InverseTransformPoint(transform.position);
+        }
+
+        public virtual void UnlockOffset() {
+            Vector3 dest = AttachTo.TransformPoint(_priorLocalOffsetPosition);
+            float dist = Vector3.Distance(transform.position, dest);
+            // Only move if gone far enough
+            if (dist > 0.0005f) {
+                transform.position = dest;
+            }
         }
 
         void OnDisable() {
@@ -344,6 +364,16 @@ namespace BNG {
             if (DisableRemoteGrabber) {
                 DisableRemoteGrabber.enabled = true;
             }
+
+            // Move events
+            PlayerTeleport.OnBeforeTeleport -= LockLocalPosition;
+            PlayerTeleport.OnAfterTeleport -= UnlockLocalPosition;
+
+            PlayerRotation.OnBeforeRotate -= LockLocalPosition;
+            PlayerRotation.OnAfterRotate -= UnlockLocalPosition;
+
+            SmoothLocomotion.OnBeforeMove -= LockOffset;
+            SmoothLocomotion.OnAfterMove -= UnlockOffset;
         }
 
         void OnCollisionStay(Collision collision) {

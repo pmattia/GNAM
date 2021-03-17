@@ -73,14 +73,14 @@ MonoBehaviour:
   DefaultHoldType: 0
   DefaultGrabButton: 0
   GripAmount: 0.9
-  ReleaseGripAmount: 0.1
+  ReleaseGripAmount: 0.5
   GrabCheckSeconds: 1
   EquipGrabbableOnStart: {fileID: 0}
   HandsGraphics: {fileID: 3181413271529996814}
   HeldGrabbable: {fileID: 0}
-  LastDropTime: 0
   ForceGrab: 0
   ForceRelease: 0
+  LastDropTime: 0
   PreviousPosition: {x: 0, y: 0, z: 0}
   DummyTransform: {fileID: 0}
   FreshGrip: 1
@@ -573,6 +573,11 @@ MonoBehaviour:
   ControllerSide: 0
   AutoUpdateUITransforms: 1
   cursor: {fileID: 2255670627275077591, guid: cda3e347c37ecf24e89b8cd380c7f9f2, type: 3}
+  HidePointerIfNoObjectsFound: 1
+  FixedPointerLength: 0.5
+  CursorScaling: 1
+  CursorMinScale: 0.6
+  CursorMaxScale: 6
   LineDistanceModifier: 0.8
   lineRenderer: {fileID: 412880597057349010}
 --- !u!1 &1247141267538704520
@@ -658,7 +663,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HandAnchor: {fileID: 5119220787211519073}
   ResetHandAnchorPosition: 1
-  SmoothMovement: 1
   HandAnimator: {fileID: 0}
   grabber: {fileID: 0}
   GripAmount: 0
@@ -900,7 +904,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HandAnchor: {fileID: 5118943030497372719}
   ResetHandAnchorPosition: 1
-  SmoothMovement: 1
   HandAnimator: {fileID: 0}
   grabber: {fileID: 0}
   GripAmount: 0
@@ -979,7 +982,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1447509482774238497}
   m_Layer: 0
-  m_Name: Models
+  m_Name: ModelsRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1254,14 +1257,14 @@ MonoBehaviour:
   DefaultHoldType: 0
   DefaultGrabButton: 0
   GripAmount: 0.9
-  ReleaseGripAmount: 0.1
+  ReleaseGripAmount: 0.5
   GrabCheckSeconds: 1
   EquipGrabbableOnStart: {fileID: 0}
   HandsGraphics: {fileID: 1447509482774238497}
   HeldGrabbable: {fileID: 0}
-  LastDropTime: 0
   ForceGrab: 0
   ForceRelease: 0
+  LastDropTime: 0
   PreviousPosition: {x: 0, y: 0, z: 0}
   DummyTransform: {fileID: 0}
   FreshGrip: 1
@@ -1945,7 +1948,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3181413271529996814}
   m_Layer: 0
-  m_Name: Models
+  m_Name: ModelsLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2405,7 +2408,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5119220787211519073}
-  - component: {fileID: 5116132295859591580}
+  - component: {fileID: 5222675193742709931}
   m_Layer: 0
   m_Name: LeftControllerAnchor
   m_TagString: Untagged
@@ -2428,7 +2431,7 @@ Transform:
   m_Father: {fileID: 5117709272728107143}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 40, y: 0, z: 0}
---- !u!114 &5116132295859591580
+--- !u!114 &5222675193742709931
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2437,15 +2440,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5116132295859591579}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a2a9c34df4095f47b9ca8f975175f5b, type: 3}
+  m_Script: {fileID: 11500000, guid: 6d9560e911de58f4cb0d9f82e68ff296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Device: 1
-  m_PoseSource: 4
-  m_PoseProviderComponent: {fileID: 0}
-  m_TrackingType: 0
-  m_UpdateType: 0
-  m_UseRelativeTransform: 0
+  Device: 1
 --- !u!1 &5117709272727730625
 GameObject:
   m_ObjectHideFlags: 0
@@ -2611,7 +2609,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FadeOnSceneLoaded: 1
   FadeColor: {r: 0, g: 0, b: 0, a: 0.9882353}
-  FadeSpeed: 6
+  FadeInSpeed: 6
+  FadeOutSpeed: 6
+  SceneFadeInDelay: 1
 --- !u!1 &5117709272727892639
 GameObject:
   m_ObjectHideFlags: 0
@@ -2754,7 +2754,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InputSource: 0
+  actionSet: {fileID: -944628639613478452, guid: e39f4b35a6db18348b41eb0262520e69,
+    type: 3}
   TrackingOrigin: 2
+  ThumbstickDeadzoneX: 0.001
+  ThumbstickDeadzoneY: 0.001
   LeftGrip: 0
   LeftGripDown: 0
   RightGrip: 0
@@ -2795,13 +2799,12 @@ MonoBehaviour:
   RightThumbstickAxis: {x: 0, y: 0}
   LeftTouchPadAxis: {x: 0, y: 0}
   RightTouchPadAxis: {x: 0, y: 0}
-  ThumbstickDeadzoneX: 0.001
-  ThumbstickDeadzoneY: 0.001
   ConnectedControllerType: 0
   HMDActive: 0
   SupportsBothTouchPadAndJoystick: 0
   SupportsIndexTouch: 0
   SupportsThumbTouch: 0
+  ShowInputDebugger: 0
 --- !u!114 &1247141269419349802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2965,7 +2968,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5118943030497372719}
-  - component: {fileID: 5117846498257179514}
+  - component: {fileID: 6317366394398486854}
   m_Layer: 0
   m_Name: RightControllerAnchor
   m_TagString: Untagged
@@ -2988,7 +2991,7 @@ Transform:
   m_Father: {fileID: 5117709272728103145}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5117846498257179514
+--- !u!114 &6317366394398486854
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2997,15 +3000,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5117846498257179513}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a2a9c34df4095f47b9ca8f975175f5b, type: 3}
+  m_Script: {fileID: 11500000, guid: 6d9560e911de58f4cb0d9f82e68ff296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Device: 1
-  m_PoseSource: 5
-  m_PoseProviderComponent: {fileID: 0}
-  m_TrackingType: 0
-  m_UpdateType: 0
-  m_UseRelativeTransform: 0
+  Device: 2
 --- !u!1 &5154982430853292791
 GameObject:
   m_ObjectHideFlags: 0
@@ -3869,6 +3867,11 @@ MonoBehaviour:
   ControllerSide: 1
   AutoUpdateUITransforms: 1
   cursor: {fileID: 2255670627275077591, guid: cda3e347c37ecf24e89b8cd380c7f9f2, type: 3}
+  HidePointerIfNoObjectsFound: 1
+  FixedPointerLength: 0.5
+  CursorScaling: 1
+  CursorMinScale: 0.6
+  CursorMaxScale: 6
   LineDistanceModifier: 0.8
   lineRenderer: {fileID: 3165472505434009774}
 --- !u!1 &7276301767836870475
@@ -4370,6 +4373,8 @@ GameObject:
   - component: {fileID: 2981720430411257789}
   - component: {fileID: 1334413062160626248}
   - component: {fileID: 1416394701893124138}
+  - component: {fileID: 6179961375502454275}
+  - component: {fileID: 8622308822696291321}
   m_Layer: 9
   m_Name: PlayerController
   m_TagString: Player
@@ -4404,21 +4409,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4688ae0e7d3f7c7498dd85852dfd2622, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedLocomotion: 1
   MoveCharacterWithCamera: 1
   RotateCharacterWithCamera: 1
   TrackingSpace: {fileID: 5117709272728089495}
   CameraRig: {fileID: 5117709272728151533}
   CenterEyeAnchor: {fileID: 5117709272728151529}
-  CheckForMovingPlatforms: 1
   GroundedLayers:
     serializedVersion: 2
     m_Bits: 1281
   DistanceFromGround: 0
   MinimumCapsuleHeight: 0.4
   MaximumCapsuleHeight: 3
-  ClimbingCapsuleHeight: 0.5
-  ClimbingCapsuleCenter: -0.25
   LastTeleportTime: 0
   CharacterControllerYOffset: -0.025
   CameraHeight: 0
@@ -4426,7 +4427,6 @@ MonoBehaviour:
   ElevateCameraHeight: 1.65
   MinElevation: -100
   MaxElevation: 5000
-  GrippingClimbable: 0
   LastPlayerMoveTime: 0
 --- !u!143 &9166498488697346858
 CharacterController:
@@ -4461,7 +4461,8 @@ MonoBehaviour:
   DefaultLocomotion: 1
   LoadLocomotionFromPrefs: 1
   locomotionToggleInput: 00000000
-  LeftThumbstickToggleLocomotionOculus: 1
+  LocomotionToggleAction: {fileID: 3512515067727415170, guid: e39f4b35a6db18348b41eb0262520e69,
+    type: 3}
 --- !u!114 &5883667856760302795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4475,16 +4476,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MovementSpeed: 1.25
+  ForwardDirection: {fileID: 0}
   inputAxis: 01000000
+  MoveAction: {fileID: 6972639530819350904, guid: e39f4b35a6db18348b41eb0262520e69,
+    type: 3}
+  RequireAppFocus: 1
   SprintSpeed: 1.5
   SprintInput: 00000000
+  SprintAction: {fileID: -9014867403852775025, guid: e39f4b35a6db18348b41eb0262520e69,
+    type: 3}
   StrafeSpeed: 1
   StrafeSprintSpeed: 1.25
   JumpForce: 3
   JumpInput: 00000000
+  JumpAction: {fileID: 3598031526004978682, guid: e39f4b35a6db18348b41eb0262520e69,
+    type: 3}
   AirControl: 1
   AirControlSpeed: 1
-  AllowKeyboardInputs: 1
+  Magnitude: 0
 --- !u!114 &6552592445350430801
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4497,18 +4506,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 855d72b36bb9d904e80e3c9e587f3d8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TeleportLine: {fileID: 1247141268419097902}
   ValidTeleport: {r: 0.007843138, g: 0.83137256, b: 0.7294118, a: 1}
   InvalidTeleport: {r: 0.83137256, g: 0.007843156, b: 0.030413372, a: 1}
   HandSide: 0
   TeleportBeginTransform: {fileID: 6711515952486323386}
   TeleportBeginTransformAlt: {fileID: 7283491045585077141}
   TeleportDestination: {fileID: 1247141268387152934}
+  DestinationObject: {fileID: 0}
   TeleportMarker: {fileID: 5117709273679435457}
   DirectionIndicator: {fileID: 4970065941414173402}
   MaxRange: 50
   SegmentCount: 200
-  simulationVelocity: 500
-  segmentScale: 0.1
+  SimulationVelocity: 500
+  SegmentScale: 0.5
   CollisionLayers:
     serializedVersion: 2
     m_Bits: 259
@@ -4521,7 +4532,6 @@ MonoBehaviour:
   FadeScreenOnTeleport: 1
   TeleportFadeSpeed: 10
   TeleportDelay: 0.2
-  TeleportLine: {fileID: 1247141268419097902}
 --- !u!114 &5883667856760302794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4536,12 +4546,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AllowInput: 1
   inputAxis: 03000000
+  RotateAction: {fileID: -6493913391331992944, guid: e39f4b35a6db18348b41eb0262520e69,
+    type: 3}
   RotationType: 0
   SnapRotationAmount: 45
   SnapInputAmount: 0.75
   SmoothTurnSpeed: 40
   SmoothTurnMinInput: 0.1
-  AllowKeyboardInputs: 1
 --- !u!114 &2981720430411257789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4570,6 +4581,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SlowTimeScale: 0.25
   YKeySlowsTime: 1
+  SlowTimeAction: {fileID: 4152163271159088786, guid: e39f4b35a6db18348b41eb0262520e69,
+    type: 3}
   SlowTimeClip: {fileID: 8300000, guid: 3264b135b94635f42a09d672b19cae85, type: 3}
   SpeedupTimeClip: {fileID: 8300000, guid: 8a4a5bd0b5270024ca91ab9d88bce279, type: 3}
   SetFixedDelta: 0
@@ -4670,6 +4683,42 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &6179961375502454275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9166498488684277474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce69dd88838504c4c988eb0d63cad28a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LeftControllerTransform: {fileID: 5119220787211519073}
+  RightControllerTransform: {fileID: 5118943030497372719}
+  ClimbingCapsuleHeight: 0.5
+  ClimbingCapsuleCenter: -0.25
+  ApplyHapticsOnGrab: 1
+  VibrateFrequency: 0.3
+  VibrateAmplitude: 0.1
+  VibrateDuration: 0.1
+  GrippingClimbable: 0
+--- !u!114 &8622308822696291321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9166498488684277474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57ed093aba1f3dc40b680242d0f0e734, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GroundedLayers:
+    serializedVersion: 2
+    m_Bits: 1025
 --- !u!1001 &3671052058624549672
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4743,15 +4792,15 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: bb512fe3350bcb8479ad97e466039877, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 95ce9f4c6f9d92a46b626a353c690dac, type: 3}
---- !u!4 &3671052058624948636 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 400052, guid: 95ce9f4c6f9d92a46b626a353c690dac,
-    type: 3}
-  m_PrefabInstance: {fileID: 3671052058624549672}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3671052058624948644 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400012, guid: 95ce9f4c6f9d92a46b626a353c690dac,
+    type: 3}
+  m_PrefabInstance: {fileID: 3671052058624549672}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &3671052058624948636 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400052, guid: 95ce9f4c6f9d92a46b626a353c690dac,
     type: 3}
   m_PrefabInstance: {fileID: 3671052058624549672}
   m_PrefabAsset: {fileID: 0}
@@ -4832,15 +4881,15 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: bb512fe3350bcb8479ad97e466039877, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 95ce9f4c6f9d92a46b626a353c690dac, type: 3}
---- !u!4 &8929318598879214720 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 400052, guid: 95ce9f4c6f9d92a46b626a353c690dac,
-    type: 3}
-  m_PrefabInstance: {fileID: 8929318598879340084}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8929318598879214776 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400012, guid: 95ce9f4c6f9d92a46b626a353c690dac,
+    type: 3}
+  m_PrefabInstance: {fileID: 8929318598879340084}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8929318598879214720 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400052, guid: 95ce9f4c6f9d92a46b626a353c690dac,
     type: 3}
   m_PrefabInstance: {fileID: 8929318598879340084}
   m_PrefabAsset: {fileID: 0}

@@ -542,7 +542,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0.0397}
-  m_SizeDelta: {x: 40, y: 40}
+  m_SizeDelta: {x: 0.25, y: 0.25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1748435246770122953
 CanvasRenderer:
@@ -1919,6 +1919,7 @@ MonoBehaviour:
   IndexBlendMax: 0.195
   ThumbBlendMin: 0
   ThumbBlendMax: 0
+  ShowAngleGizmo: 1
 --- !u!1 &5429772369788765512
 GameObject:
   m_ObjectHideFlags: 0
@@ -2063,6 +2064,7 @@ MonoBehaviour:
   IndexBlendMax: 0.195
   ThumbBlendMin: 0
   ThumbBlendMax: 0
+  ShowAngleGizmo: 1
 --- !u!1 &5819665744856665899
 GameObject:
   m_ObjectHideFlags: 0
@@ -2955,11 +2957,18 @@ MonoBehaviour:
   CanBeDropped: 1
   CanBeSnappedToSnapZone: 1
   ForceDisableKinematicOnDrop: 0
+  InstantMovement: 0
   CustomHandPose: 0
   SecondaryGrabBehavior: 0
-  OtherGrabbableMustBeGrabbed: {fileID: 7173746675366546361}
-  SecondaryGrabbable: {fileID: 0}
+  TwoHandedPosition: 0
+  TwoHandedPostionLerpAmount: 0.5
+  TwoHandedRotation: 1
+  TwoHandedRotationLerpAmount: 0.5
+  TwoHandedDropBehavior: 0
+  TwoHandedLookVector: 0
   SecondHandLookSpeed: 40
+  SecondaryGrabbable: {fileID: 0}
+  OtherGrabbableMustBeGrabbed: {fileID: 7173746675366546361}
   CollisionSpring: 3000
   CollisionSlerp: 500
   CollisionLinearMotionX: 2
@@ -3247,11 +3256,18 @@ MonoBehaviour:
   CanBeDropped: 1
   CanBeSnappedToSnapZone: 1
   ForceDisableKinematicOnDrop: 0
+  InstantMovement: 0
   CustomHandPose: 50
   SecondaryGrabBehavior: 0
-  OtherGrabbableMustBeGrabbed: {fileID: 0}
-  SecondaryGrabbable: {fileID: 0}
+  TwoHandedPosition: 0
+  TwoHandedPostionLerpAmount: 0.5
+  TwoHandedRotation: 1
+  TwoHandedRotationLerpAmount: 0.5
+  TwoHandedDropBehavior: 0
+  TwoHandedLookVector: 0
   SecondHandLookSpeed: 40
+  SecondaryGrabbable: {fileID: 0}
+  OtherGrabbableMustBeGrabbed: {fileID: 0}
   CollisionSpring: 3000
   CollisionSlerp: 500
   CollisionLinearMotionX: 2
@@ -3396,6 +3412,7 @@ MonoBehaviour:
   FireProjectileInSlowMo: 1
   SlowMoRateOfFire: 0.3
   ShotForce: 20
+  BulletCasingForce: 3
   RecoilForce: {x: 0, y: 0, z: 0}
   RecoilDuration: 0.3
   ValidLayers:
@@ -3418,8 +3435,6 @@ MonoBehaviour:
   SlideDistance: -0.028
   ForceSlideBackOnLastShot: 1
   slideSpeed: 1
-  SecondHandGrabbable: {fileID: 0}
-  SecondHandLookSpeed: 40
   EjectInput: 04000000
   ReleaseSlideInput: 02000000
   BulletInChamber: 0

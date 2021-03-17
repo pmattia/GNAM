@@ -111,11 +111,16 @@ namespace BNG {
 
         public void ResetGrabbables() {
             foreach (var kvp in _initalGrabbables) {
-
-                // Only reset high level grabbables
-                if(kvp.Key != null && kvp.Key.transform.parent == ItemsHolder) {
+                // Only reset high level grabbables that aren't being held
+                if(kvp.Key != null && !kvp.Key.BeingHeld && kvp.Key.transform.parent == ItemsHolder) {
                     kvp.Key.transform.position = kvp.Value.Position;
                     kvp.Key.transform.rotation = kvp.Value.Rotation;
+
+                    Rigidbody rb = kvp.Key.GetComponent<Rigidbody>();
+                    if(rb) {
+                        rb.velocity = Vector3.zero;
+                        rb.angularVelocity = Vector3.zero;
+                    }
                 }
             }
         }
@@ -184,7 +189,7 @@ namespace BNG {
                 cubeRigid1 = GameObject.Find("GravityCube 2").GetComponent<Rigidbody>();
             }
 
-            if (GameObject.Find("GravityCube 33")) {
+            if (GameObject.Find("GravityCube 3")) {
                 cubeRigid2 = GameObject.Find("GravityCube 3").GetComponent<Rigidbody>();
             }
 

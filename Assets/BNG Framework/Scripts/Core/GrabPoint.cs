@@ -90,11 +90,16 @@ namespace BNG {
 
             // If there is a Hand in the scene, use that offset instead of our defaults
             if(GameObject.Find("LeftController/Grabber") != null) {
-                previewModelOffsetLeft = GameObject.Find("LeftController/Grabber").GetComponent<Grabber>().HandsGraphics.position - GameObject.Find("LeftController/Grabber").transform.position;
+
+                Grabber LeftGrabber = GameObject.Find("LeftController/Grabber").GetComponent<Grabber>();
+                previewModelOffsetLeft = LeftGrabber.transform.InverseTransformPoint(LeftGrabber.HandsGraphics.position);
+                //previewModelOffsetLeft = GameObject.Find("LeftController/Grabber").GetComponent<Grabber>().HandsGraphics.position - GameObject.Find("LeftController/Grabber").transform.position;
             }
 
             if (GameObject.Find("RightController/Grabber") != null) {
-                previewModelOffsetRight = GameObject.Find("RightController/Grabber").GetComponent<Grabber>().HandsGraphics.position - GameObject.Find("RightController/Grabber").transform.position;
+                Grabber RightGrabber = GameObject.Find("RightController/Grabber").GetComponent<Grabber>();
+                previewModelOffsetRight = RightGrabber.transform.InverseTransformPoint(RightGrabber.HandsGraphics.position);
+                // previewModelOffsetRight = GameObject.Find("RightController/Grabber").GetComponent<Grabber>().HandsGraphics.position - GameObject.Find("RightController/Grabber").transform.position;
             }
 
             if (leftHandPreview) {

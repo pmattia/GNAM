@@ -42,7 +42,7 @@ namespace BNG {
             playSpace = GameObject.Find("TrackingSpace");
         }
 
-        void Update() {
+        void FixedUpdate() {
             UpdateVelocities();
 
             // Save our last position / rotation so we can use it for velocity calculations

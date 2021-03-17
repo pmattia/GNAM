@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
-using UnityEditorInternal;
 using UnityEngine;
 
 namespace BNG {
 
     public class IntegrationsEditor : EditorWindow {
 
-        [MenuItem("Window/VRIF Settings")]
+        [MenuItem("VRIF/VRIF Integrations")]
         public static void ShowWindow() {
             //Show existing window instance. If one doesn't exist, make one.
             EditorWindow.GetWindow(typeof(IntegrationsEditor));
@@ -27,6 +26,9 @@ namespace BNG {
             GUILayout.Label("*Enabling an integration will add the appropriate Scripting Define Symbol to your Project Settings for you.", EditorStyles.label);
 
             GUILayout.Label("*Note : The project will rebuild after toggling an integration.", EditorStyles.boldLabel);
+
+            EditorGUILayout.Separator();
+
         }
     }
 

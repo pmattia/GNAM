@@ -1262,7 +1262,7 @@ MonoBehaviour:
   gameplaySound: {fileID: 437091750}
   winSound: {fileID: 8300000, guid: fde1f50d56cbf474c84570b30ab61540, type: 3}
   loseSound: {fileID: 8300000, guid: 2976ae8ca1ba531488ab8d13e4e68c93, type: 3}
-  startLevel: 1
+  startLevel: 7
   gunPrefab: {fileID: 5638594037168375564, guid: b2f551fc1c5a05b4688e6e46ebd4db26,
     type: 3}
   gunClipPrefab: {fileID: 4846239893969188111, guid: 9b1f4924b6f5f6d47aa90cc26c42e047,
@@ -4446,11 +4446,18 @@ MonoBehaviour:
   CanBeDropped: 1
   CanBeSnappedToSnapZone: 1
   ForceDisableKinematicOnDrop: 0
+  InstantMovement: 0
   CustomHandPose: 0
   SecondaryGrabBehavior: 0
-  OtherGrabbableMustBeGrabbed: {fileID: 0}
-  SecondaryGrabbable: {fileID: 0}
+  TwoHandedPosition: 0
+  TwoHandedPostionLerpAmount: 0.5
+  TwoHandedRotation: 1
+  TwoHandedRotationLerpAmount: 0.5
+  TwoHandedDropBehavior: 0
+  TwoHandedLookVector: 0
   SecondHandLookSpeed: 40
+  SecondaryGrabbable: {fileID: 0}
+  OtherGrabbableMustBeGrabbed: {fileID: 0}
   CollisionSpring: 3000
   CollisionSlerp: 500
   CollisionLinearMotionX: 2
@@ -12363,6 +12370,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8447996294786935309, guid: e58a4472d43417a4c955ddbfd515b28a,
+        type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8447996294786935310, guid: e58a4472d43417a4c955ddbfd515b28a,
+        type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8447996294786935311, guid: e58a4472d43417a4c955ddbfd515b28a,
+        type: 3}
+      propertyPath: m_Convex
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8789942420455795897, guid: e58a4472d43417a4c955ddbfd515b28a,
         type: 3}

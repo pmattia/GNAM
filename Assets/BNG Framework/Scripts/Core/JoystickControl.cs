@@ -9,6 +9,10 @@ namespace BNG {
     /// </summary>
     public class JoystickControl : MonoBehaviour {
 
+        [Header("Deadzone")]
+        [Tooltip("Any values below this threshold will not be passed to events")]
+        public float DeadZone = 0.001f;
+
         /// <summary>
         /// Minimum angle the Level can be rotated
         /// </summary>
@@ -25,9 +29,11 @@ namespace BNG {
         public float LeverPercentageX = 0;
 
         /// <summary>
-        /// Current Percentage of joystick on Z axis (forward / back)
+        /// Current Percentage of joystick on Y axis (forward / back)
         /// </summary>
-        public float LeverPercentageZ = 0;
+        public float LeverPercentageY = 0;
+
+        public Vector2 LeverVector;
 
         public bool UseSmoothLook = true;
         public float SmoothLookSpeed = 15f;
@@ -41,6 +47,11 @@ namespace BNG {
         /// Event called when Joystick value is changed
         /// </summary>
         public FloatFloatEvent onJoystickChange;
+
+        /// <summary>
+        /// Event called when Joystick value is changed
+        /// </summary>
+        public Vector2Event onJoystickVectorChange;
 
 
         Grabbable grab;
@@ -94,11 +105,29 @@ namespace BNG {
             }
 
             // Set percentage of level position
-            LeverPercentageX = (angleX - MinDegrees) / (MaxDegrees - MinDegrees) * 100;
-            LeverPercentageZ = (angleY - MinDegrees) / (MaxDegrees - MinDegrees) * 100;
+            LeverPercentageX = (angleY - MinDegrees) / (MaxDegrees - MinDegrees) * 100;
+            LeverPercentageY = (angleX - MinDegrees) / (MaxDegrees - MinDegrees) * 100;
 
             // Lever value changed event
-            OnJoystickChange(LeverPercentageX, LeverPercentageZ);
+            OnJoystickChange(LeverPercentageX, LeverPercentageY);
+
+            // Lever Vector Changed Event
+            float xInput = Mathf.Lerp(-1f, 1f, LeverPercentageX / 100);
+            float yInput = Mathf.Lerp(-1f, 1f, LeverPercentageY / 100);
+
+            // Reset any values that are inside the deadzone
+            if(DeadZone > 0) {
+                if(Mathf.Abs(xInput) < DeadZone) {
+                    xInput = 0;
+                }
+                if (Mathf.Abs(yInput) < DeadZone) {
+                    yInput = 0;
+                }
+            }
+
+            LeverVector = new Vector2(xInput, yInput);
+
+            OnJoystickChange(LeverVector);
         }
 
         void FixedUpdate() {
@@ -136,6 +165,14 @@ namespace BNG {
         public virtual void OnJoystickChange(float leverX, float leverY) {
             if (onJoystickChange != null) {
                 onJoystickChange.Invoke(leverX, leverY);
+            }
+        }
+
+        public virtual void OnJoystickChange(Vector2 joystickVector) {
+            
+
+            if (onJoystickVectorChange != null) {
+                onJoystickVectorChange.Invoke(joystickVector);
             }
         }
     }

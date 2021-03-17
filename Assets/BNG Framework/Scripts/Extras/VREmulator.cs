@@ -38,7 +38,10 @@ namespace BNG {
         Transform mainCameraTransform;
         Transform leftControllerTranform;
         Transform rightControllerTranform;
-       
+
+        Transform leftHandAnchor;
+        Transform rightHandAnchor;
+
         BNGPlayerController player;
         SmoothLocomotion smoothLocomotion;
         bool didFirstActivate = false;
@@ -51,24 +54,46 @@ namespace BNG {
         [Header("Shown for Debug : ")]
         public bool HMDIsActive;
 
+        public Vector3 LeftControllerPosition = new Vector3(-0.2f, -0.2f, 0.5f);
+        public Vector3 RightControllerPosition = new Vector3(0.2f, -0.2f, 0.5f);
 
         void Start() {
             mainCameraTransform = GameObject.Find("CameraRig").transform;
-            leftControllerTranform = GameObject.Find("LeftHandAnchor").transform;
-            rightControllerTranform = GameObject.Find("RightHandAnchor").transform;
+            leftHandAnchor = GameObject.Find("LeftHandAnchor").transform;
+            rightHandAnchor = GameObject.Find("RightHandAnchor").transform;
+
+            leftControllerTranform = GameObject.Find("LeftControllerAnchor").transform;
+            rightControllerTranform = GameObject.Find("RightControllerAnchor").transform;
 
             player = FindObjectOfType<BNGPlayerController>();
 
-            // Use this to keep our head up high
-            player.ElevateCameraIfNoHMDPresent = true;
-            _originalPlayerYOffset = player.ElevateCameraHeight;
+            if(player) {
+                // Use this to keep our head up high
+                player.ElevateCameraIfNoHMDPresent = true;
+                _originalPlayerYOffset = player.ElevateCameraHeight;
 
-            smoothLocomotion = player.GetComponentInChildren<SmoothLocomotion>();
-        }        
+                smoothLocomotion = player.GetComponentInChildren<SmoothLocomotion>();
+
+                if (smoothLocomotion == null) {
+                    Debug.Log("No Smooth Locomotion component found. Will not be able to use SmoothLocomotion without calling it manually.");
+                }
+                else if (smoothLocomotion.MoveAction == null) {
+                    Debug.Log("Smooth Locomotion Move Action has not been assigned. Make sure to assign this in the inspector if you want to be able to move around using the VR Emulator.");
+                }
+            }
+        }
+
+        public void OnBeforeRender() {
+            HMDIsActive = InputBridge.Instance.HMDActive;
+
+            // Ready to go
+            if (EmulatorEnabled && !HMDIsActive) {
+                UpdateControllerPositions();
+            }
+        }
 
         void onFirstActivate() {
-            leftControllerTranform.transform.localPosition = new Vector3(-0.2f, -0.2f, 0.5f);
-            rightControllerTranform.transform.localPosition = new Vector3(0.2f, -0.2f, 0.5f);
+            UpdateControllerPositions();            
 
             didFirstActivate = true;
         }
@@ -88,6 +113,8 @@ namespace BNG {
                 }
 
                 CheckHeadControls();
+
+                UpdateControllerPositions();
 
                 CheckPlayerControls();
             }
@@ -135,12 +162,24 @@ namespace BNG {
             // Make sure grabbers are assigned
             checkGrabbers();
 
+            var prevVal = InputBridge.Instance.LeftTrigger;
             InputBridge.Instance.LeftTrigger = Input.GetKey(LeftTrigger) ? 1f : 0;
+            InputBridge.Instance.LeftTriggerDown = prevVal < InputBridge.Instance.DownThreshold && InputBridge.Instance.LeftTrigger >= InputBridge.Instance.DownThreshold;
+            InputBridge.Instance.LeftTriggerUp = prevVal >= InputBridge.Instance.DownThreshold && InputBridge.Instance.LeftTrigger == 0;
+
+            prevVal = InputBridge.Instance.LeftGrip;
             InputBridge.Instance.LeftGrip = Input.GetKey(LeftGrip) ? 1f : 0;
+            InputBridge.Instance.LeftGripDown = prevVal < InputBridge.Instance.DownThreshold && InputBridge.Instance.LeftGrip >= InputBridge.Instance.DownThreshold;
             InputBridge.Instance.LeftThumbNear = Input.GetKey(LeftThumbNear);
 
+            prevVal = InputBridge.Instance.RightTrigger;
             InputBridge.Instance.RightTrigger = Input.GetKey(RightTrigger) ? 1f : 0;
+            InputBridge.Instance.RightTriggerDown = prevVal < InputBridge.Instance.DownThreshold && InputBridge.Instance.RightTrigger >= InputBridge.Instance.DownThreshold;
+            InputBridge.Instance.RightTriggerUp = prevVal >= InputBridge.Instance.DownThreshold && InputBridge.Instance.RightTrigger == 0;
+
+            prevVal = InputBridge.Instance.RightGrip;
             InputBridge.Instance.RightGrip = Input.GetKey(RightGrip) ? 1f : 0;
+            InputBridge.Instance.RightGripDown = prevVal < InputBridge.Instance.DownThreshold && InputBridge.Instance.RightGrip >= InputBridge.Instance.DownThreshold;
             InputBridge.Instance.RightThumbNear = Input.GetKey(RightThumbNear);
         }
 
@@ -157,9 +196,18 @@ namespace BNG {
             // Player Move Forward / Back, Snap Turn
             if(smoothLocomotion != null && smoothLocomotion.enabled == false) {
                 // Manually allow player movement if the smooth locomotion component is disabled
+                smoothLocomotion.CheckControllerReferences();
                 smoothLocomotion.UpdateInputs();
                 smoothLocomotion.MoveCharacter();
             }
+        }
+
+        public virtual void UpdateControllerPositions() {
+            leftControllerTranform.transform.localPosition = LeftControllerPosition;
+            leftControllerTranform.transform.localEulerAngles = Vector3.zero;
+
+            rightControllerTranform.transform.localPosition = RightControllerPosition;
+            rightControllerTranform.transform.localEulerAngles = Vector3.zero;
         }
 
         void checkGrabbers() {
@@ -211,10 +259,15 @@ namespace BNG {
         void OnEnable() {
             // Subscribe to input events
             InputBridge.OnInputsUpdated += UpdateInputs;
+
+            Application.onBeforeRender += OnBeforeRender;
         }
 
         void OnDisable() {
-            if(isQuitting) {
+
+            Application.onBeforeRender -= OnBeforeRender;
+
+            if (isQuitting) {
                 return;
             }
 

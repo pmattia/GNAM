@@ -74,6 +74,9 @@ namespace BNG {
         [Tooltip("Amount of force to apply to Projectile")]
         public float ShotForce = 10f;
 
+        [Tooltip("Amount of force to apply to the BulletCasingPrefab object")]
+        public float BulletCasingForce = 3f;
+
         [Header("Recoil : ")]
         /// <summary>
         /// How much force to apply to the tip of the barrel
@@ -345,7 +348,7 @@ namespace BNG {
             bool useProjectile = AlwaysFireProjectile || (FireProjectileInSlowMo && Time.timeScale < 1);
             if (useProjectile) {
                 GameObject projectile = Instantiate(ProjectilePrefab, MuzzlePointTransform.position, MuzzlePointTransform.rotation) as GameObject;
-                Rigidbody projectileRigid = projectile.GetComponent<Rigidbody>();
+                Rigidbody projectileRigid = projectile.GetComponentInChildren<Rigidbody>();
                 projectileRigid.AddForce(MuzzlePointTransform.forward * ShotForce, ForceMode.VelocityChange);
                 
                 Projectile proj = projectile.GetComponent<Projectile>();
@@ -439,7 +442,7 @@ namespace BNG {
             // Damage if possible
             Damageable d = hit.collider.GetComponent<Damageable>();
             if (d) {
-                d.DealDamage(Damage);
+                d.DealDamage(Damage, hit.point, hit.normal, true, gameObject, hit.collider.gameObject);
 
                 if (onDealtDamageEvent != null) {
                     onDealtDamageEvent.Invoke(Damage);
@@ -447,7 +450,7 @@ namespace BNG {
             }
 
             // Call event
-            if(onRaycastHitEvent != null) {
+            if (onRaycastHitEvent != null) {
                 onRaycastHitEvent.Invoke(hit);
             }
         }
@@ -565,13 +568,13 @@ namespace BNG {
                 onWeaponChargedEvent.Invoke();
             }
         }
-
+        
         protected virtual void ejectCasing() {
             GameObject shell = Instantiate(BulletCasingPrefab, EjectPointTransform.position, EjectPointTransform.rotation) as GameObject;
-            Rigidbody rb = shell.GetComponent<Rigidbody>();
+            Rigidbody rb = shell.GetComponentInChildren<Rigidbody>();
 
             if (rb) {
-                rb.AddRelativeForce(Vector3.right * 3, ForceMode.VelocityChange);
+                rb.AddRelativeForce(Vector3.right * BulletCasingForce, ForceMode.VelocityChange);
             }
 
             // Clean up shells

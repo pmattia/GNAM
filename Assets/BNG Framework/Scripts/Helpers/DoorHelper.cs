@@ -127,7 +127,24 @@ namespace BNG {
             }
 
             // Lock Door in place if closed and requires handle to be turned
-            rigid.isKinematic = angle < 0.02f && doorLocked;
+            bool rigidIsKinematic = angle < 0.02f && doorLocked;
+            if(rigidIsKinematic) {
+                // Check on detection mode
+                if (rigid.collisionDetectionMode == CollisionDetectionMode.Continuous || rigid.collisionDetectionMode == CollisionDetectionMode.ContinuousDynamic) {
+                    rigid.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
+                }
+
+                rigid.isKinematic = true;
+            }
+            else {
+                // Check on detection mode
+                if (rigid.collisionDetectionMode == CollisionDetectionMode.ContinuousSpeculative) {
+                    rigid.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+                }
+
+                rigid.isKinematic = false;
+            }
+            
         }
     }
 }

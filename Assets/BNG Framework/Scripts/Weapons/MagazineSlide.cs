@@ -56,7 +56,7 @@ namespace BNG {
         void LateUpdate() {
 
             // Are we trying to grab the clip from the weapon
-            checkGrabClipInput();
+            CheckGrabClipInput();
 
             // There is a magazine inside the slide. Position it properly
             if(HeldMagazine != null) {
@@ -115,7 +115,7 @@ namespace BNG {
             HeldMagazine.transform.localPosition = localPosition;
         }
 
-        void checkGrabClipInput() {
+        public void CheckGrabClipInput() {
 
             // No need to check for grabbing a clip out if none exists
             if(HeldMagazine == null || grabClipArea == null) {

@@ -25,8 +25,10 @@ namespace BNG {
         }
 
         void updateTexture() {
-            ren.material.mainTextureScale = Tiling;
-            ren.material.mainTextureOffset = Offset;
+            if(ren != null && ren.material != null) {
+                ren.material.mainTextureScale = Tiling;
+                ren.material.mainTextureOffset = Offset;
+            }
         }
     }
 }

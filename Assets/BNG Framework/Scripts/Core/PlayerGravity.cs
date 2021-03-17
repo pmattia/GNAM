@@ -17,6 +17,8 @@ namespace BNG {
         public Vector3 Gravity = Physics.gravity;
 
         CharacterController characterController;
+        SmoothLocomotion smoothLocomotion;
+
         Rigidbody playerRigidbody;
 
         private float _movementY;
@@ -27,6 +29,7 @@ namespace BNG {
 
         void Start() {
             characterController = GetComponent<CharacterController>();
+            smoothLocomotion = GetComponentInChildren<SmoothLocomotion>();
             playerRigidbody = GetComponent<Rigidbody>();
 
             _validRigidBody = playerRigidbody != null;
@@ -38,10 +41,19 @@ namespace BNG {
         void LateUpdate() {
 
             // Apply Gravity to Character Controller
-            if (GravityEnabled && characterController != null) {
+            if (GravityEnabled && characterController != null && characterController.enabled) {
                 _movementY += Gravity.y * Time.deltaTime;
-                characterController.Move(new Vector3(0, _movementY, 0) * Time.deltaTime);
 
+                // Default to smooth locomotion
+                if(smoothLocomotion) {
+                    smoothLocomotion.MoveCharacter(new Vector3(0, _movementY, 0) * Time.deltaTime);
+                }
+                // Fallback to character controller
+                else if(characterController) {
+                    characterController.Move(new Vector3(0, _movementY, 0) * Time.deltaTime);
+                }
+                
+                // Reset Y movement if we are grounded
                 if (characterController.isGrounded) {
                     _movementY = 0;
                 }

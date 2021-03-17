@@ -19,12 +19,22 @@ namespace BNG {
     /// </summary>
     public class PlayerTeleport : MonoBehaviour {
 
+        [Header("Colors")]
+
+        [Tooltip("The LineRenderer to use when showing a teleport preview")]
+        public LineRenderer TeleportLine;
+
+        [Tooltip("If a Valid Teleport destination is found, color of 'TeleportLine' will be updated to this.")]
         public Color ValidTeleport = Color.green;
+
+        [Tooltip("If a Valid Teleport destination is not found, color of 'TeleportLine' will be updated to this.")]
         public Color InvalidTeleport = Color.red;
 
+        [Header("Hand Side")]
         [Tooltip("Whether the Teleport should initiate from the left or right controller. This affects input and where the teleport line should begin from.")]
         public ControllerHand HandSide = ControllerHand.Left;
 
+        [Header("Transform Definitions")]
         [Tooltip("Where the Teleport Line should begin if using the left ControllerHand")]
         public Transform TeleportBeginTransform;
 
@@ -48,11 +58,17 @@ namespace BNG {
         [Tooltip("Transform indicating where Player should be placed on teleport.")]
         public Transform TeleportDestination;
 
+        [HideInInspector]
+        [Tooltip("The TeleportDestination if we are hitting one. Null if not.")]
+        public TeleportDestination DestinationObject;
+
         [Tooltip("GameObject to move around when initiating a teleport.")]
         public GameObject TeleportMarker;
 
         [Tooltip("Transform indicating direction Player will rotate to on teleport.")]
         public Transform DirectionIndicator;
+
+        [Header("Teleport Physics")]
 
         public float MaxRange = 20f;
 
@@ -60,10 +76,12 @@ namespace BNG {
         public int SegmentCount = 100;
 
         [Tooltip("How much velocity to apply when calculating a parabola. Set to a very high number for a straight line.")]
-        public float simulationVelocity = 500f;
+        public float SimulationVelocity = 500f;
 
         [Tooltip("Scale of each segment used when calculating parabola")]
-        public float segmentScale = 0.5f;
+        public float SegmentScale = 0.5f;
+
+        [Header("Layers")]
 
         [Tooltip("Raycast layers to use when determining collision")]
         public LayerMask CollisionLayers;
@@ -71,6 +89,7 @@ namespace BNG {
         [Tooltip("Raycast layers to use when determining if the collided object is a valid teleport. If it is not valid then the line will be red and unable to teleport.")]
         public LayerMask ValidLayers;
 
+        [Header("Controls")]
         [Tooltip("Method used to initiate a teleport. If these don't fit your needs you can override the KeyDownForTeleport() and KeyUpFromTeleport() methods.")]
         public TeleportControls ControlType = TeleportControls.ThumbstickRotate;
 
@@ -78,9 +97,11 @@ namespace BNG {
         public bool AllowTeleportRotation = true;
         private bool _reachThumbThreshold = false;
 
+        [Header("Slope")]
         [Tooltip("Max Angle / Slope the teleport marker can be to be considered a valid teleport.")]
         public float MaxSlope = 60f;
 
+        [Header("Screen Fade")]
         [Tooltip("Use ScreenFader on teleportation if true.")]
         public bool FadeScreenOnTeleport = true;
 
@@ -88,10 +109,7 @@ namespace BNG {
         public float TeleportFadeSpeed = 10f;
 
         [Tooltip("Seconds to wait before initiating teleport. Useful if you want to fade the screen  before teleporting.")]
-        public float TeleportDelay = 0.2f;
-
-        [Tooltip("The LineRenderer to use when showing a teleport preview")]
-        public LineRenderer TeleportLine;
+        public float TeleportDelay = 0.2f;        
 
         CharacterController controller;
         BNGPlayerController playerController;
@@ -108,6 +126,9 @@ namespace BNG {
 
         // Initial Starting width of Line Renderer
         float _initialLineWidth;
+
+        public delegate void OnBeforeTeleportFadeAction();
+        public static event OnBeforeTeleportFadeAction OnBeforeTeleportFade;
 
         public delegate void OnBeforeTeleportAction();
         public static event OnBeforeTeleportAction OnBeforeTeleport;
@@ -156,41 +177,49 @@ namespace BNG {
             aimingTeleport = KeyDownForTeleport();            
 
             if (aimingTeleport) {
-                // Ensure line is enabled if we are aiming
-                TeleportLine.enabled = true;
-
-                // Explicitly set width to force redraw of linerender
-                Color updatedColor = validTeleport ? ValidTeleport : InvalidTeleport;
-                if(!validTeleport && _invalidFrames < 3) {
-                    updatedColor = ValidTeleport;
-                }
-
-                updatedColor.a = 1;
-                TeleportLine.startColor = updatedColor;
-
-                updatedColor.a = 0;
-                TeleportLine.endColor = updatedColor;
-
-                // Explicitly set width to force redraw of linerender
-                TeleportLine.startWidth = _initialLineWidth;
-
-                playerController.LastTeleportTime = Time.time;
-                updateTeleport();
+                DoCheckTeleport();                
             }
             // released key, finish teleport or just hide graphics
             else if (KeyUpFromTeleport()) {
-                if (validTeleport) {
-                    tryTeleport();
-                }
-                else {
-                    hideTeleport();
-                }
+                TryOrHideTeleport();
             }
         }
 
         void FixedUpdate() {
             if (aimingTeleport) {
                 calculateParabola();
+            }
+        }
+
+        public void DoCheckTeleport() {
+            // Ensure line is enabled if we are aiming
+            TeleportLine.enabled = true;
+
+            // Explicitly set width to force redraw of linerender
+            Color updatedColor = validTeleport ? ValidTeleport : InvalidTeleport;
+            if (!validTeleport && _invalidFrames < 3) {
+                updatedColor = ValidTeleport;
+            }
+
+            updatedColor.a = 1;
+            TeleportLine.startColor = updatedColor;
+
+            updatedColor.a = 0;
+            TeleportLine.endColor = updatedColor;
+
+            // Explicitly set width to force redraw of linerender
+            TeleportLine.startWidth = _initialLineWidth;
+
+            playerController.LastTeleportTime = Time.time;
+            updateTeleport();
+        }
+
+        public void TryOrHideTeleport() {
+            if (validTeleport) {
+                tryTeleport();
+            }
+            else {
+                hideTeleport();
             }
         }
 
@@ -210,6 +239,7 @@ namespace BNG {
         Collider _hitObject;
         private Vector3 _hitVector;
         float _hitAngle;
+        RaycastHit hit;
 
         void calculateParabola() {
 
@@ -220,7 +250,7 @@ namespace BNG {
 
             segments[0] = teleportTransform.position;
             // Initial velocity
-            Vector3 segVelocity = teleportTransform.forward * simulationVelocity * Time.fixedDeltaTime;
+            Vector3 segVelocity = teleportTransform.forward * SimulationVelocity * Time.fixedUnscaledDeltaTime;
 
             _hitObject = null;
 
@@ -233,14 +263,13 @@ namespace BNG {
                 }
 
                 // Time it takes to traverse one segment of length segScale (careful if velocity is zero)
-                float segTime = (segVelocity.sqrMagnitude != 0) ? segmentScale / segVelocity.magnitude : 0;
+                float segTime = (segVelocity.sqrMagnitude != 0) ? SegmentScale / segVelocity.magnitude : 0;
 
                 // Add velocity from gravity for this segment's timestep
                 segVelocity = segVelocity + Physics.gravity * segTime;
 
                 // Check to see if we're going to hit a physics object
-                RaycastHit hit;
-                if (Physics.Raycast(segments[i - 1], segVelocity, out hit, segmentScale, CollisionLayers)) {
+                if (Physics.Raycast(segments[i - 1], segVelocity, out hit, SegmentScale, CollisionLayers)) {
 
                     // remember who we hit
                     _hitObject = hit.collider;
@@ -249,7 +278,7 @@ namespace BNG {
                     segments[i] = segments[i - 1] + segVelocity.normalized * hit.distance;
 
                     // correct ending velocity, since we didn't actually travel an entire segment
-                    segVelocity = segVelocity - Physics.gravity * (segmentScale - hit.distance) / segVelocity.magnitude;                   
+                    segVelocity = segVelocity - Physics.gravity * (SegmentScale - hit.distance) / segVelocity.magnitude;                   
 
                     _hitAngle = Vector3.Angle(transform.up, hit.normal);
 
@@ -258,11 +287,11 @@ namespace BNG {
                     TeleportMarker.transform.rotation = Quaternion.FromToRotation(TeleportMarker.transform.up, hit.normal) * TeleportMarker.transform.rotation;
 
                     // Snap to Teleport Destination
-                    TeleportDestination td = _hitObject.GetComponent<TeleportDestination>();
-                    if(td != null) {
+                    DestinationObject = _hitObject.GetComponent<TeleportDestination>();
+                    if(DestinationObject != null) {
                         isDestination = true;
-                        TeleportMarker.transform.position = td.transform.position;
-                        TeleportMarker.transform.rotation = td.transform.rotation;
+                        TeleportMarker.transform.position = DestinationObject.transform.position;
+                        TeleportMarker.transform.rotation = DestinationObject.transform.rotation;
                     }
 
                     _hitVector = segments[i];
@@ -330,8 +359,7 @@ namespace BNG {
 
             // Something in the way via Raycast up from teleport spot
             // Raycast from the ground up to the height of character controller
-            RaycastHit hit;
-            if (Physics.Raycast(TeleportMarker.transform.position, TeleportMarker.transform.up, out hit, controller.height, CollisionLayers, QueryTriggerInteraction.Ignore)) {
+            if (Physics.Raycast(TeleportMarker.transform.position, TeleportMarker.transform.up, out RaycastHit hit, controller.height, CollisionLayers, QueryTriggerInteraction.Ignore)) {
                 return false;
             }
 
@@ -398,18 +426,18 @@ namespace BNG {
             if (validTeleport) {
 
                 // Call any events, fade screen, etc.
-                BeforeTeleport();
+                BeforeTeleportFade();
 
                 Vector3 destination = TeleportDestination.position;
                 Quaternion rotation = TeleportMarker.transform.rotation;
                
                 // Override if we're looking at a teleport destination
-                var dest = _hitObject.GetComponent<TeleportDestination>();
-                if (dest != null) {
-                    destination = dest.DestinationTransform.position;
+                DestinationObject = _hitObject.GetComponent<TeleportDestination>();
+                if (DestinationObject != null) {
+                    destination = DestinationObject.DestinationTransform.position;
 
-                    if (dest.ForcePlayerRotation) {
-                        rotation = dest.DestinationTransform.rotation;
+                    if (DestinationObject.ForcePlayerRotation) {
+                        rotation = DestinationObject.DestinationTransform.rotation;
                     }
                 }
 
@@ -423,10 +451,24 @@ namespace BNG {
             hideTeleport();
         }
 
+        /// <summary>
+        /// This is called immediately before fade is called and before BeforeTeleport has fired
+        /// </summary>
+        public virtual void BeforeTeleportFade() {
+
+            // Call any Before Teleport Events
+            OnBeforeTeleportFade?.Invoke();
+
+            if (FadeScreenOnTeleport && fader) {
+                fader.FadeInSpeed = TeleportFadeSpeed;
+                fader.DoFadeIn();
+            }
+        }
+
         public virtual void BeforeTeleport() {
 
-            if(FadeScreenOnTeleport && fader) {
-                fader.FadeSpeed = TeleportFadeSpeed;
+            if (FadeScreenOnTeleport && fader) {
+                fader.FadeInSpeed = TeleportFadeSpeed;
                 fader.DoFadeIn();
             }
 
@@ -442,6 +484,11 @@ namespace BNG {
 
             // Call any After Teleport Events
             OnAfterTeleport?.Invoke();
+
+            // Call Event on Teleport Destination if available
+            if(DestinationObject) {
+                DestinationObject.OnPlayerTeleported?.Invoke();
+            }
         }
 
         IEnumerator doTeleport(Vector3 playerDestination, Quaternion playerRotation, bool rotatePlayer) {
@@ -453,6 +500,9 @@ namespace BNG {
             if(TeleportDelay > 0) {
                 yield return new WaitForSeconds(TeleportDelay);
             }
+
+            // Call pre-Teleport event
+            BeforeTeleport();
 
             controller.enabled = false;
             playerController.LastTeleportTime = Time.time;

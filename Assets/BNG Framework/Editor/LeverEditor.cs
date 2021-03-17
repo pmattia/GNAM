@@ -43,7 +43,13 @@ namespace BNG {
             EditorGUILayout.PropertyField(serializedObject.FindProperty("UseSmoothLook"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("SmoothLookSpeed"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("AllowPhysicsForces"));
+            
+            if(lever.ReturnToCenter == true && lever.AllowPhysicsForces) {
+                EditorGUILayout.HelpBox("Make sure 'AllowPhysicsForces' is set to FALSE for ReturnToCenter to work properly.", MessageType.Warning);
+            }
             EditorGUILayout.PropertyField(serializedObject.FindProperty("ReturnToCenter"));
+
+
             EditorGUILayout.PropertyField(serializedObject.FindProperty("ReturnLookSpeed"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("SnapToGrabber"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("DropLeverOnActivation"));

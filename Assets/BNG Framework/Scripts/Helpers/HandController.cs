@@ -15,9 +15,6 @@ namespace BNG {
         [Tooltip("If true, this transform will be parented to HandAnchor and it's position / rotation set to 0,0,0.")]
         public bool ResetHandAnchorPosition = true;
 
-        [Tooltip("If true this object movement will be moved in Update to smooth out any jitter.")]
-        public bool SmoothMovement = true;
-
         public Animator HandAnimator;
 
         [Tooltip("Check the state of this grabber to determine animation state. If null, a child Grabber component will be used.")]
@@ -93,21 +90,9 @@ namespace BNG {
             }
             
             input = InputBridge.Instance;
-
-            if(SmoothMovement && HandAnchor != null) {
-                // Only change interpolation settings if no Rigidbody is found on this gameobject
-                if(rigid == null) {
-                    rigid = gameObject.AddComponent<Rigidbody>();
-                    rigid.isKinematic = true;
-                    rigid.interpolation = RigidbodyInterpolation.Interpolate;
-                    rigid.useGravity = false;
-                }
-            }
         }
 
         void Update() {
-            // Smooth out controller movement
-            UpdateControllerPosition();
 
             // Grabber may have been deactivated
             if (grabber == null || !grabber.isActiveAndEnabled) {
@@ -161,17 +146,6 @@ namespace BNG {
             }
         }
 
-        public virtual void UpdateControllerPosition() {
-            // Let the Rigidbody smooth out / Interpolate the position by moving the position / rotation in Update
-            if (SmoothMovement == true && HandAnchor != null && rigid != null && rigid.isKinematic) {
-                offsetTransform.localPosition = offsetPosition;
-                offsetTransform.localEulerAngles = offsetRotation;
-
-                transform.position = offsetTransform.position;
-                transform.rotation = offsetTransform.rotation;
-            }
-        }
-
         void updateAnimimationStates()
         {            
             if(HandAnimator != null && HandAnimator.isActiveAndEnabled && HandAnimator.runtimeAnimatorController != null) {
@@ -199,6 +173,10 @@ namespace BNG {
                     PoseId = (int)grabber.HeldGrabbable.CustomHandPose;
 
                     if (grabber.HeldGrabbable.ActiveGrabPoint != null) {
+
+                        // Default Grip to 1 when holding an item
+                        HandAnimator.SetLayerWeight(0, 1);
+                        HandAnimator.SetFloat("Flex", 1);
 
                         // Get the Min / Max of our finger blends if set by the user
                         // This allows a pose to blend between states

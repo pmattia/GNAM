@@ -1094,7 +1094,7 @@ Transform:
   - {fileID: 1802258148159122194}
   - {fileID: 3785795956800347940}
   - {fileID: 9109707806486641334}
-  - {fileID: 7955914143595822813}
+  - {fileID: 2654776571735855009}
   m_Father: {fileID: 8516297022724069044}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1129,7 +1129,7 @@ MonoBehaviour:
   AttachTo: {fileID: 8516297022724069044}
   HandVelocity: 1500
   DisableHandCollidersOnGrab: 0
-  ParentToAttachPoint: 1
+  SnapBackDistance: 1
   ThisGrabber: {fileID: 3218240453531958521}
   DisableGrabber: {fileID: 8516297022294291282}
   ThisRemoteGrabber: {fileID: 4306185922907144754}
@@ -1137,7 +1137,6 @@ MonoBehaviour:
   ColliderMaterial: {fileID: 13400000, guid: fe2fa158a8edeb34ab169c4d3b82b4db, type: 2}
   HandModel: {fileID: 1802258148159122194}
   HandModelOffset: {fileID: 1718432783155226926}
-  MovePosition: 1
 --- !u!114 &2428670124729313457
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1152,7 +1151,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HandAnchor: {fileID: 0}
   ResetHandAnchorPosition: 1
-  SmoothMovement: 1
   HandAnimator: {fileID: 4584395968931112353}
   grabber: {fileID: 3218240453531958521}
   GripAmount: 0
@@ -11848,14 +11846,14 @@ MonoBehaviour:
   DefaultHoldType: 0
   DefaultGrabButton: 0
   GripAmount: 0.9
-  ReleaseGripAmount: 0.1
-  GrabCheckSeconds: 1
+  ReleaseGripAmount: 0.5
+  GrabCheckSeconds: 0.5
   EquipGrabbableOnStart: {fileID: 0}
   HandsGraphics: {fileID: 1441517082044591477}
   HeldGrabbable: {fileID: 0}
-  LastDropTime: 0
   ForceGrab: 0
   ForceRelease: 0
+  LastDropTime: 0
   PreviousPosition: {x: 0, y: 0, z: 0}
   DummyTransform: {fileID: 0}
   FreshGrip: 1
@@ -12346,6 +12344,37 @@ Transform:
   m_Father: {fileID: 4424880520758311745}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1647276006171238278
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4954435429063333672}
+  m_Layer: 0
+  m_Name: GhostHandHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4954435429063333672
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1647276006171238278}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 5853020178544119112}
+  m_Father: {fileID: 3384273866894783566}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1649021671937793282
 GameObject:
   m_ObjectHideFlags: 0
@@ -12835,11 +12864,18 @@ MonoBehaviour:
   CanBeDropped: 1
   CanBeSnappedToSnapZone: 1
   ForceDisableKinematicOnDrop: 0
+  InstantMovement: 0
   CustomHandPose: 0
   SecondaryGrabBehavior: 0
-  OtherGrabbableMustBeGrabbed: {fileID: 0}
-  SecondaryGrabbable: {fileID: 0}
+  TwoHandedPosition: 0
+  TwoHandedPostionLerpAmount: 0.5
+  TwoHandedRotation: 1
+  TwoHandedRotationLerpAmount: 0.5
+  TwoHandedDropBehavior: 0
+  TwoHandedLookVector: 0
   SecondHandLookSpeed: 40
+  SecondaryGrabbable: {fileID: 0}
+  OtherGrabbableMustBeGrabbed: {fileID: 0}
   CollisionSpring: 3000
   CollisionSlerp: 500
   CollisionLinearMotionX: 2
@@ -16518,6 +16554,8 @@ GameObject:
   - component: {fileID: 8123834767609328093}
   - component: {fileID: 8183438871837410239}
   - component: {fileID: 5959677274440945754}
+  - component: {fileID: 699835362}
+  - component: {fileID: 1776643964}
   m_Layer: 9
   m_Name: PlayerController
   m_TagString: Player
@@ -16552,21 +16590,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4688ae0e7d3f7c7498dd85852dfd2622, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedLocomotion: 1
   MoveCharacterWithCamera: 1
   RotateCharacterWithCamera: 1
   TrackingSpace: {fileID: 2683195716759056386}
   CameraRig: {fileID: 2683195716758988408}
   CenterEyeAnchor: {fileID: 2683195716758988412}
-  CheckForMovingPlatforms: 1
   GroundedLayers:
     serializedVersion: 2
     m_Bits: 1281
   DistanceFromGround: 0
   MinimumCapsuleHeight: 0.4
   MaximumCapsuleHeight: 3
-  ClimbingCapsuleHeight: 0.5
-  ClimbingCapsuleCenter: -0.25
   LastTeleportTime: 0
   CharacterControllerYOffset: -0.025
   CameraHeight: 0
@@ -16574,7 +16608,6 @@ MonoBehaviour:
   ElevateCameraHeight: 1.65
   MinElevation: -100
   MaxElevation: 5000
-  GrippingClimbable: 0
   LastPlayerMoveTime: 0
 --- !u!143 &2093207351243708607
 CharacterController:
@@ -16608,8 +16641,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DefaultLocomotion: 0
   LoadLocomotionFromPrefs: 0
-  locomotionToggleInput: 00000000
-  LeftThumbstickToggleLocomotionOculus: 1
+  locomotionToggleInput: 0e000000
+  LocomotionToggleAction: {fileID: 3512515067727415170, guid: e39f4b35a6db18348b41eb0262520e69,
+    type: 3}
 --- !u!114 &3719865058671406942
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16617,22 +16651,30 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2093207351254691191}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 97dc4c75aa9c7ac4496efd08a068c08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   MovementSpeed: 1.25
+  ForwardDirection: {fileID: 0}
   inputAxis: 01000000
+  MoveAction: {fileID: 6972639530819350904, guid: e39f4b35a6db18348b41eb0262520e69,
+    type: 3}
+  RequireAppFocus: 1
   SprintSpeed: 1.5
   SprintInput: 00000000
+  SprintAction: {fileID: -9014867403852775025, guid: e39f4b35a6db18348b41eb0262520e69,
+    type: 3}
   StrafeSpeed: 1
   StrafeSprintSpeed: 1.25
   JumpForce: 3
   JumpInput: 00000000
+  JumpAction: {fileID: 3598031526004978682, guid: e39f4b35a6db18348b41eb0262520e69,
+    type: 3}
   AirControl: 1
   AirControlSpeed: 1
-  AllowKeyboardInputs: 1
+  Magnitude: 0
 --- !u!114 &4095492992128682948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16645,18 +16687,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 855d72b36bb9d904e80e3c9e587f3d8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TeleportLine: {fileID: 8320362178837378747}
   ValidTeleport: {r: 0.007843138, g: 0.83137256, b: 0.7294118, a: 1}
   InvalidTeleport: {r: 0.83137256, g: 0.007843156, b: 0.030413372, a: 1}
   HandSide: 0
   TeleportBeginTransform: {fileID: 4547924251780011823}
   TeleportBeginTransformAlt: {fileID: 517150578120163328}
   TeleportDestination: {fileID: 8320362180681238451}
+  DestinationObject: {fileID: 0}
   TeleportMarker: {fileID: 2683195717451339092}
   DirectionIndicator: {fileID: 2792330269425244495}
   MaxRange: 50
   SegmentCount: 200
-  simulationVelocity: 500
-  segmentScale: 0.1
+  SimulationVelocity: 500
+  SegmentScale: 0.5
   CollisionLayers:
     serializedVersion: 2
     m_Bits: 259
@@ -16669,7 +16713,6 @@ MonoBehaviour:
   FadeScreenOnTeleport: 1
   TeleportFadeSpeed: 10
   TeleportDelay: 0.2
-  TeleportLine: {fileID: 8320362178837378747}
 --- !u!114 &3719865058671406943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16684,12 +16727,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AllowInput: 1
   inputAxis: 03000000
+  RotateAction: {fileID: -6493913391331992944, guid: e39f4b35a6db18348b41eb0262520e69,
+    type: 3}
   RotationType: 0
   SnapRotationAmount: 45
   SnapInputAmount: 0.75
   SmoothTurnSpeed: 40
   SmoothTurnMinInput: 0.1
-  AllowKeyboardInputs: 1
 --- !u!114 &8449739408642836996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16718,6 +16762,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SlowTimeScale: 0.25
   YKeySlowsTime: 1
+  SlowTimeAction: {fileID: 4152163271159088786, guid: e39f4b35a6db18348b41eb0262520e69,
+    type: 3}
   SlowTimeClip: {fileID: 8300000, guid: 3264b135b94635f42a09d672b19cae85, type: 3}
   SpeedupTimeClip: {fileID: 8300000, guid: 8a4a5bd0b5270024ca91ab9d88bce279, type: 3}
   SetFixedDelta: 0
@@ -16831,11 +16877,47 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultHandsModel: 0
-  LoadHandSelectionFromPrefs: 1
-  RightThumbstickToggleHands: 1
+  LoadHandSelectionFromPrefs: 0
+  ToggleHandsInput: 20
   LeftHandGFXHolder: {fileID: 5629437628528558491}
   RightHandGFXHolder: {fileID: 8516297022724069044}
   IKBody: {fileID: 6423676319734917729}
+--- !u!114 &699835362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2093207351254691191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce69dd88838504c4c988eb0d63cad28a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LeftControllerTransform: {fileID: 2680276330383280116}
+  RightControllerTransform: {fileID: 2680559463926737338}
+  ClimbingCapsuleHeight: 0.5
+  ClimbingCapsuleCenter: -0.25
+  ApplyHapticsOnGrab: 1
+  VibrateFrequency: 0.3
+  VibrateAmplitude: 0.1
+  VibrateDuration: 0.1
+  GrippingClimbable: 0
+--- !u!114 &1776643964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2093207351254691191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57ed093aba1f3dc40b680242d0f0e734, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GroundedLayers:
+    serializedVersion: 2
+    m_Bits: 1025
 --- !u!1 &2097926285042086438
 GameObject:
   m_ObjectHideFlags: 0
@@ -21294,7 +21376,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2680276330383280116}
-  - component: {fileID: 2682252047855032841}
+  - component: {fileID: 830120766}
   m_Layer: 0
   m_Name: LeftControllerAnchor
   m_TagString: Untagged
@@ -21317,7 +21399,7 @@ Transform:
   m_Father: {fileID: 2683195716759042834}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 40, y: 0, z: 0}
---- !u!114 &2682252047855032841
+--- !u!114 &830120766
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -21326,15 +21408,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2682252047855032846}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a2a9c34df4095f47b9ca8f975175f5b, type: 3}
+  m_Script: {fileID: 11500000, guid: 6d9560e911de58f4cb0d9f82e68ff296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Device: 1
-  m_PoseSource: 4
-  m_PoseProviderComponent: {fileID: 0}
-  m_TrackingType: 0
-  m_UpdateType: 0
-  m_UseRelativeTransform: 0
+  Device: 1
 --- !u!1 &2683195715562980047
 GameObject:
   m_ObjectHideFlags: 0
@@ -21662,8 +21739,8 @@ GameObject:
   - component: {fileID: 2683195716758234192}
   - component: {fileID: 2683195716760517856}
   - component: {fileID: 3719865058603902630}
-  - component: {fileID: 2683195716758895199}
   - component: {fileID: 4276642494963342732}
+  - component: {fileID: 543178982}
   m_Layer: 0
   m_Name: CenterEyeAnchor
   m_TagString: MainCamera
@@ -21756,24 +21833,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &2683195716758895199
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2683195716758895196}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a2a9c34df4095f47b9ca8f975175f5b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Device: 0
-  m_PoseSource: 2
-  m_PoseProviderComponent: {fileID: 0}
-  m_TrackingType: 0
-  m_UpdateType: 0
-  m_UseRelativeTransform: 0
 --- !u!114 &4276642494963342732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21788,7 +21847,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FadeOnSceneLoaded: 1
   FadeColor: {r: 0, g: 0, b: 0, a: 0.9882353}
-  FadeSpeed: 6
+  FadeInSpeed: 2
+  FadeOutSpeed: 1
+  SceneFadeInDelay: 0.5
+--- !u!114 &543178982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2683195716758895196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d9560e911de58f4cb0d9f82e68ff296, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Device: 0
 --- !u!1 &2683195716758895198
 GameObject:
   m_ObjectHideFlags: 0
@@ -21914,7 +21988,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InputSource: 0
+  actionSet: {fileID: -944628639613478452, guid: e39f4b35a6db18348b41eb0262520e69,
+    type: 3}
   TrackingOrigin: 2
+  ThumbstickDeadzoneX: 0.001
+  ThumbstickDeadzoneY: 0.001
   LeftGrip: 0
   LeftGripDown: 0
   RightGrip: 0
@@ -21955,13 +22033,12 @@ MonoBehaviour:
   RightThumbstickAxis: {x: 0, y: 0}
   LeftTouchPadAxis: {x: 0, y: 0}
   RightTouchPadAxis: {x: 0, y: 0}
-  ThumbstickDeadzoneX: 0.001
-  ThumbstickDeadzoneY: 0.001
   ConnectedControllerType: 0
   HMDActive: 0
   SupportsBothTouchPadAndJoystick: 0
   SupportsIndexTouch: 0
   SupportsThumbTouch: 0
+  ShowInputDebugger: 0
 --- !u!114 &8320362179581940927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21983,7 +22060,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2683195716791022644}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4b00acd070e37747b9e19b276d11877, type: 3}
   m_Name: 
@@ -22002,6 +22079,8 @@ MonoBehaviour:
   MinimumCameraY: -90
   MaximumCameraY: 90
   HMDIsActive: 0
+  LeftControllerPosition: {x: -0.2, y: -0.2, z: 0.5}
+  RightControllerPosition: {x: 0.2, y: -0.2, z: 0.5}
 --- !u!1 &2683195717451339092
 GameObject:
   m_ObjectHideFlags: 0
@@ -22069,7 +22148,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2680559463926737338}
-  - component: {fileID: 2683968869914333423}
+  - component: {fileID: 1883116687}
   m_Layer: 0
   m_Name: RightControllerAnchor
   m_TagString: Untagged
@@ -22092,7 +22171,7 @@ Transform:
   m_Father: {fileID: 2683195716759038844}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2683968869914333423
+--- !u!114 &1883116687
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22101,15 +22180,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2683968869914333420}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a2a9c34df4095f47b9ca8f975175f5b, type: 3}
+  m_Script: {fileID: 11500000, guid: 6d9560e911de58f4cb0d9f82e68ff296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Device: 1
-  m_PoseSource: 5
-  m_PoseProviderComponent: {fileID: 0}
-  m_TrackingType: 0
-  m_UpdateType: 0
-  m_UseRelativeTransform: 0
+  Device: 2
 --- !u!1 &2690557654045464314
 GameObject:
   m_ObjectHideFlags: 0
@@ -27495,14 +27569,14 @@ MonoBehaviour:
   DefaultHoldType: 0
   DefaultGrabButton: 0
   GripAmount: 0.9
-  ReleaseGripAmount: 0.1
-  GrabCheckSeconds: 1
+  ReleaseGripAmount: 0.5
+  GrabCheckSeconds: 0.5
   EquipGrabbableOnStart: {fileID: 0}
   HandsGraphics: {fileID: 5319292122929744381}
   HeldGrabbable: {fileID: 0}
-  LastDropTime: 0
   ForceGrab: 0
   ForceRelease: 0
+  LastDropTime: 0
   PreviousPosition: {x: 0, y: 0, z: 0}
   DummyTransform: {fileID: 0}
   FreshGrip: 1
@@ -30169,7 +30243,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3719865057063539129}
   m_LocalRotation: {x: -0.15329288, y: -0.005917661, z: 0.69029075, w: 0.70708203}
-  m_LocalPosition: {x: 0.024, y: 0.051, z: 0.001}
+  m_LocalPosition: {x: 0.024000004, y: 0.051, z: 0.001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3719865058531807309}
@@ -30290,15 +30364,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3719865057960867383}
-  m_LocalRotation: {x: -0.15329242, y: 0.005918162, z: -0.69029087, w: 0.70708203}
-  m_LocalPosition: {x: -0.023999989, y: 0.051, z: 0.001}
+  m_LocalRotation: {x: -0.15329288, y: 0.005917661, z: -0.69029075, w: 0.70708203}
+  m_LocalPosition: {x: -0.024, y: 0.051, z: 0.001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3719865057807339981}
   - {fileID: 5821838565606537737}
   m_Father: {fileID: 8516297022724069044}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -12.041, y: 13.000001, z: -90.00001}
+  m_LocalEulerAnglesHint: {x: -12.041, y: 13.000001, z: -90}
 --- !u!54 &3719865057960867379
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -32580,6 +32654,11 @@ MonoBehaviour:
   ControllerSide: 0
   AutoUpdateUITransforms: 1
   cursor: {fileID: 2255670627275077591, guid: cda3e347c37ecf24e89b8cd380c7f9f2, type: 3}
+  HidePointerIfNoObjectsFound: 1
+  FixedPointerLength: 0.5
+  CursorScaling: 1
+  CursorMinScale: 0.6
+  CursorMaxScale: 6
   LineDistanceModifier: 0.8
   lineRenderer: {fileID: 5674136981558723233}
 --- !u!1 &3966781999270109201
@@ -32726,6 +32805,11 @@ MonoBehaviour:
   ControllerSide: 1
   AutoUpdateUITransforms: 1
   cursor: {fileID: 2255670627275077591, guid: cda3e347c37ecf24e89b8cd380c7f9f2, type: 3}
+  HidePointerIfNoObjectsFound: 1
+  FixedPointerLength: 0.5
+  CursorScaling: 1
+  CursorMinScale: 0.6
+  CursorMaxScale: 6
   LineDistanceModifier: 0.8
   lineRenderer: {fileID: 3966781999270109203}
 --- !u!1 &3967707108275836649
@@ -33126,6 +33210,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4031887916981582145}
   - component: {fileID: 4031887916981582144}
+  - component: {fileID: 1998570840}
+  - component: {fileID: 1998570841}
   m_Layer: 0
   m_Name: coll_hands:b_l_index3
   m_TagString: Untagged
@@ -33161,6 +33247,32 @@ CapsuleCollider:
   m_Height: 0.025
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!136 &1998570840
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4031887916981582146}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.0075
+  m_Height: 0.025
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1998570841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4031887916981582146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a87d4d4dc2f539b4b8e7202d4196bcd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4031887917372992484
 GameObject:
   m_ObjectHideFlags: 0
@@ -33171,6 +33283,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4031887917372992027}
   - component: {fileID: 4031887917372992026}
+  - component: {fileID: 1677701965}
+  - component: {fileID: 1677701966}
   m_Layer: 0
   m_Name: hands_coll:b_r_index3
   m_TagString: Untagged
@@ -33206,6 +33320,32 @@ CapsuleCollider:
   m_Height: 0.05
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!136 &1677701965
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4031887917372992484}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.01
+  m_Height: 0.05
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1677701966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4031887917372992484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a87d4d4dc2f539b4b8e7202d4196bcd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4038952171536321569
 GameObject:
   m_ObjectHideFlags: 0
@@ -35914,11 +36054,18 @@ MonoBehaviour:
   CanBeDropped: 1
   CanBeSnappedToSnapZone: 1
   ForceDisableKinematicOnDrop: 0
+  InstantMovement: 0
   CustomHandPose: 0
   SecondaryGrabBehavior: 0
-  OtherGrabbableMustBeGrabbed: {fileID: 0}
-  SecondaryGrabbable: {fileID: 0}
+  TwoHandedPosition: 0
+  TwoHandedPostionLerpAmount: 0.5
+  TwoHandedRotation: 1
+  TwoHandedRotationLerpAmount: 0.5
+  TwoHandedDropBehavior: 0
+  TwoHandedLookVector: 0
   SecondHandLookSpeed: 40
+  SecondaryGrabbable: {fileID: 0}
+  OtherGrabbableMustBeGrabbed: {fileID: 0}
   CollisionSpring: 3000
   CollisionSlerp: 500
   CollisionLinearMotionX: 2
@@ -42580,7 +42727,7 @@ Transform:
   - {fileID: 4104033649585888544}
   - {fileID: 445136876721576512}
   - {fileID: 8534141261303319369}
-  - {fileID: 5853020178544119112}
+  - {fileID: 4954435429063333672}
   m_Father: {fileID: 5629437628528558491}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -42614,8 +42761,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AttachTo: {fileID: 5629437628528558491}
   HandVelocity: 1500
-  DisableHandCollidersOnGrab: 0
-  ParentToAttachPoint: 1
+  DisableHandCollidersOnGrab: 1
+  SnapBackDistance: 1
   ThisGrabber: {fileID: 939187171837121272}
   DisableGrabber: {fileID: 6969157712627478182}
   ThisRemoteGrabber: {fileID: 7555089936346331499}
@@ -42623,7 +42770,6 @@ MonoBehaviour:
   ColliderMaterial: {fileID: 13400000, guid: fe2fa158a8edeb34ab169c4d3b82b4db, type: 2}
   HandModel: {fileID: 4104033649585888544}
   HandModelOffset: {fileID: 5380619647073858393}
-  MovePosition: 1
 --- !u!114 &7015724776954436954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42638,7 +42784,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HandAnchor: {fileID: 0}
   ResetHandAnchorPosition: 1
-  SmoothMovement: 1
   HandAnimator: {fileID: 5535766881918097265}
   grabber: {fileID: 939187171837121272}
   GripAmount: 0
@@ -44417,11 +44562,18 @@ MonoBehaviour:
   CanBeDropped: 1
   CanBeSnappedToSnapZone: 1
   ForceDisableKinematicOnDrop: 0
+  InstantMovement: 0
   CustomHandPose: 0
   SecondaryGrabBehavior: 0
-  OtherGrabbableMustBeGrabbed: {fileID: 0}
-  SecondaryGrabbable: {fileID: 0}
+  TwoHandedPosition: 0
+  TwoHandedPostionLerpAmount: 0.5
+  TwoHandedRotation: 1
+  TwoHandedRotationLerpAmount: 0.5
+  TwoHandedDropBehavior: 0
+  TwoHandedLookVector: 0
   SecondHandLookSpeed: 40
+  SecondaryGrabbable: {fileID: 0}
+  OtherGrabbableMustBeGrabbed: {fileID: 0}
   CollisionSpring: 3000
   CollisionSlerp: 500
   CollisionLinearMotionX: 2
@@ -45670,11 +45822,18 @@ MonoBehaviour:
   CanBeDropped: 1
   CanBeSnappedToSnapZone: 1
   ForceDisableKinematicOnDrop: 0
+  InstantMovement: 0
   CustomHandPose: 0
   SecondaryGrabBehavior: 0
-  OtherGrabbableMustBeGrabbed: {fileID: 0}
-  SecondaryGrabbable: {fileID: 0}
+  TwoHandedPosition: 0
+  TwoHandedPostionLerpAmount: 0.5
+  TwoHandedRotation: 1
+  TwoHandedRotationLerpAmount: 0.5
+  TwoHandedDropBehavior: 0
+  TwoHandedLookVector: 0
   SecondHandLookSpeed: 40
+  SecondaryGrabbable: {fileID: 0}
+  OtherGrabbableMustBeGrabbed: {fileID: 0}
   CollisionSpring: 3000
   CollisionSlerp: 500
   CollisionLinearMotionX: 2
@@ -49655,11 +49814,18 @@ MonoBehaviour:
   CanBeDropped: 1
   CanBeSnappedToSnapZone: 1
   ForceDisableKinematicOnDrop: 0
+  InstantMovement: 0
   CustomHandPose: 0
   SecondaryGrabBehavior: 0
-  OtherGrabbableMustBeGrabbed: {fileID: 0}
-  SecondaryGrabbable: {fileID: 0}
+  TwoHandedPosition: 0
+  TwoHandedPostionLerpAmount: 0.5
+  TwoHandedRotation: 1
+  TwoHandedRotationLerpAmount: 0.5
+  TwoHandedDropBehavior: 0
+  TwoHandedLookVector: 0
   SecondHandLookSpeed: 40
+  SecondaryGrabbable: {fileID: 0}
+  OtherGrabbableMustBeGrabbed: {fileID: 0}
   CollisionSpring: 3000
   CollisionSlerp: 500
   CollisionLinearMotionX: 2
@@ -52216,8 +52382,8 @@ Transform:
   m_Children:
   - {fileID: 4201005729253553708}
   - {fileID: 3087413338468895693}
-  m_Father: {fileID: 3384273866894783566}
-  m_RootOrder: 4
+  m_Father: {fileID: 4954435429063333672}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -12.041, y: -13, z: 90}
 --- !u!114 &3639803888796159574
 MonoBehaviour:
@@ -52233,7 +52399,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HandAnchor: {fileID: 8320362180652782123}
   ResetHandAnchorPosition: 0
-  SmoothMovement: 1
   HandAnimator: {fileID: 8619569999013336337}
   grabber: {fileID: 939187171837121272}
   GripAmount: 0
@@ -55033,14 +55198,14 @@ MonoBehaviour:
   DefaultHoldType: 0
   DefaultGrabButton: 0
   GripAmount: 0.9
-  ReleaseGripAmount: 0.1
+  ReleaseGripAmount: 0.5
   GrabCheckSeconds: 0.5
   EquipGrabbableOnStart: {fileID: 0}
   HandsGraphics: {fileID: 5629437628528558491}
   HeldGrabbable: {fileID: 0}
-  LastDropTime: 0
   ForceGrab: 0
   ForceRelease: 0
+  LastDropTime: 0
   PreviousPosition: {x: 0, y: 0, z: 0}
   DummyTransform: {fileID: 0}
   FreshGrip: 1
@@ -63804,11 +63969,18 @@ MonoBehaviour:
   CanBeDropped: 1
   CanBeSnappedToSnapZone: 1
   ForceDisableKinematicOnDrop: 0
+  InstantMovement: 0
   CustomHandPose: 0
   SecondaryGrabBehavior: 0
-  OtherGrabbableMustBeGrabbed: {fileID: 0}
-  SecondaryGrabbable: {fileID: 0}
+  TwoHandedPosition: 0
+  TwoHandedPostionLerpAmount: 0.5
+  TwoHandedRotation: 1
+  TwoHandedRotationLerpAmount: 0.5
+  TwoHandedDropBehavior: 0
+  TwoHandedLookVector: 0
   SecondHandLookSpeed: 40
+  SecondaryGrabbable: {fileID: 0}
+  OtherGrabbableMustBeGrabbed: {fileID: 0}
   CollisionSpring: 3000
   CollisionSlerp: 500
   CollisionLinearMotionX: 2
@@ -64850,6 +65022,37 @@ Transform:
   m_Father: {fileID: 4886896225781379965}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8275588536526742273
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2654776571735855009}
+  m_Layer: 0
+  m_Name: GhostHandHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2654776571735855009
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8275588536526742273}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 7955914143595822813}
+  m_Father: {fileID: 1110555163603718085}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8284429320783686081
 GameObject:
   m_ObjectHideFlags: 0
@@ -65129,7 +65332,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HandAnchor: {fileID: 2680559463926737338}
   ResetHandAnchorPosition: 1
-  SmoothMovement: 1
   HandAnimator: {fileID: 0}
   grabber: {fileID: 0}
   GripAmount: 0
@@ -65237,7 +65439,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HandAnchor: {fileID: 2680276330383280116}
   ResetHandAnchorPosition: 1
-  SmoothMovement: 1
   HandAnimator: {fileID: 0}
   grabber: {fileID: 0}
   GripAmount: 0
@@ -66856,14 +67057,14 @@ MonoBehaviour:
   DefaultHoldType: 0
   DefaultGrabButton: 0
   GripAmount: 0.9
-  ReleaseGripAmount: 0.1
+  ReleaseGripAmount: 0.5
   GrabCheckSeconds: 0.5
   EquipGrabbableOnStart: {fileID: 0}
   HandsGraphics: {fileID: 8516297022724069044}
   HeldGrabbable: {fileID: 0}
-  LastDropTime: 0
   ForceGrab: 0
   ForceRelease: 0
+  LastDropTime: 0
   PreviousPosition: {x: 0, y: 0, z: 0}
   DummyTransform: {fileID: 0}
   FreshGrip: 1
@@ -68544,14 +68745,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8685806519031648139}
   m_LocalRotation: {x: -0.15329288, y: 0.005917661, z: -0.69029075, w: 0.70708203}
-  m_LocalPosition: {x: -0.024, y: 0.051, z: 0.001}
+  m_LocalPosition: {x: -0.024000004, y: 0.051, z: 0.001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2764022567244039516}
   - {fileID: 6181537060729590410}
   - {fileID: 5500830232459500712}
-  m_Father: {fileID: 1110555163603718085}
-  m_RootOrder: 4
+  m_Father: {fileID: 2654776571735855009}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -12.041, y: 13.000001, z: -90}
 --- !u!114 &6813357096729050461
 MonoBehaviour:
@@ -68567,7 +68768,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HandAnchor: {fileID: 8320362178939264584}
   ResetHandAnchorPosition: 0
-  SmoothMovement: 1
   HandAnimator: {fileID: 8553355396935602869}
   grabber: {fileID: 3218240453531958521}
   GripAmount: 0
@@ -72698,15 +72898,15 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: bb512fe3350bcb8479ad97e466039877, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 95ce9f4c6f9d92a46b626a353c690dac, type: 3}
---- !u!4 &1860601019911651093 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 400052, guid: 95ce9f4c6f9d92a46b626a353c690dac,
-    type: 3}
-  m_PrefabInstance: {fileID: 1860601019912037793}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1860601019911651117 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400012, guid: 95ce9f4c6f9d92a46b626a353c690dac,
+    type: 3}
+  m_PrefabInstance: {fileID: 1860601019912037793}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1860601019911651093 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400052, guid: 95ce9f4c6f9d92a46b626a353c690dac,
     type: 3}
   m_PrefabInstance: {fileID: 1860601019912037793}
   m_PrefabAsset: {fileID: 0}
@@ -72984,15 +73184,15 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: bb512fe3350bcb8479ad97e466039877, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 95ce9f4c6f9d92a46b626a353c690dac, type: 3}
---- !u!4 &5821838565606537737 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 400052, guid: 95ce9f4c6f9d92a46b626a353c690dac,
-    type: 3}
-  m_PrefabInstance: {fileID: 5821838565606400189}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5821838565606537777 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400012, guid: 95ce9f4c6f9d92a46b626a353c690dac,
+    type: 3}
+  m_PrefabInstance: {fileID: 5821838565606400189}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5821838565606537737 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400052, guid: 95ce9f4c6f9d92a46b626a353c690dac,
     type: 3}
   m_PrefabInstance: {fileID: 5821838565606400189}
   m_PrefabAsset: {fileID: 0}

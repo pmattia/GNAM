@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace BNG {
 
@@ -20,6 +21,14 @@ namespace BNG {
         [Tooltip("Controller Binding to use for input down, up, etc.")]
         public List<ControllerBinding> ControllerInput = new List<ControllerBinding>() { ControllerBinding.RightTrigger };
 
+        [Tooltip("If true a PhysicsRaycaster component will be added to the UI camera, allowing physical objects to use IPointer events such as OnPointClick, OnPointEnter, etc.")]
+        public bool AddPhysicsRaycaster = false;
+
+        public LayerMask PhysicsRaycasterEventMask;
+
+        [Tooltip("If true the Right Thumbstick will send scroll events to the UI")]
+        public bool RightThumbstickScroll = true;
+
         [Tooltip("If true, Left Mouse Button down event will be sent as a click")]
         public bool AllowMouseInput = true;
 
@@ -34,6 +43,7 @@ namespace BNG {
         
         private GameObject _initialPressObject;
         private bool _lastInputDown;
+        bool inputDown;
 
         private static VRUISystem _instance;
         public static VRUISystem Instance {
@@ -78,6 +88,12 @@ namespace BNG {
                 cameraCaster.nearClipPlane = 0.01f;
                 cameraCaster.clearFlags = CameraClearFlags.Nothing;
                 cameraCaster.enabled = false;
+
+                // Add PhysicsRaycaster so other objects can subscribe to IPointer events
+                if(AddPhysicsRaycaster) {
+                    var pr = go.AddComponent<PhysicsRaycaster>();
+                    pr.eventMask = PhysicsRaycasterEventMask;
+                }
             }
         }
 
@@ -100,7 +116,16 @@ namespace BNG {
             // Handle Drag
             ExecuteEvents.Execute(EventData.pointerDrag, EventData, ExecuteEvents.dragHandler);
 
-            bool inputDown = InputReady();
+            // Handle scroll
+            if(RightThumbstickScroll) {
+                EventData.scrollDelta = InputBridge.Instance.RightThumbstickAxis;
+                if (!Mathf.Approximately(EventData.scrollDelta.sqrMagnitude, 0)) {
+                    ExecuteEvents.Execute(ExecuteEvents.GetEventHandler<IScrollHandler>(EventData.pointerCurrentRaycast.gameObject), EventData, ExecuteEvents.scrollHandler);
+                }
+            }
+            
+            // Press Events
+            inputDown = InputReady();
 
             // On Trigger Down > TriggerDownValue this frame but not last
             if (inputDown && _lastInputDown == false) {
@@ -154,7 +179,7 @@ namespace BNG {
             ExecuteEvents.Execute(EventData.pointerDrag, EventData, ExecuteEvents.beginDragHandler);
         }
 
-        public void Press() {
+        public virtual void Press() {
             EventData.pointerPressRaycast = EventData.pointerCurrentRaycast;
 
             // Set Press Objects and Events
@@ -166,7 +191,7 @@ namespace BNG {
             ExecuteEvents.Execute(EventData.pointerDrag, EventData, ExecuteEvents.beginDragHandler);
         }
 
-        public void Release() {
+        public virtual void Release() {
 
             SetReleasingObject(ExecuteEvents.GetEventHandler<IPointerClickHandler>(EventData.pointerCurrentRaycast.gameObject));
 
@@ -220,7 +245,7 @@ namespace BNG {
             canvas.worldCamera = cam;
         }
 
-        public void UpdateControllerHand(ControllerHand hand) {
+        public virtual void UpdateControllerHand(ControllerHand hand) {
             
             // Make sure variables exist
             init();
