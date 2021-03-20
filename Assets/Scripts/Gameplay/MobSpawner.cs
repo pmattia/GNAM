@@ -140,6 +140,7 @@ namespace Assets.Scripts
         {
             var instancedMob = Instantiate(mob.gameObject, placeholder.position, Quaternion.identity);
             instancedMob.transform.SetParent(placeholder);
+            instancedMob.GetComponents<Collider>().ToList().ForEach(c => c.enabled = true);
             var shooter = instancedMob.GetComponent<ShootAtTargets>();
             shooter.onDeath += () => { 
                 if(OnMobDeath!= null)

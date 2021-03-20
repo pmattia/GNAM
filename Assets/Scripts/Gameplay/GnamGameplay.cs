@@ -239,8 +239,9 @@ namespace Assets.Scripts.Gameplay
 
         void ClearFloor()
         {
-            var grabbables = FindObjectsOfType<GnamGrabbable>().Where(g => !g.BeingHeld);
-            grabbables.ToList().ForEach(g => Destroy(g.gameObject));
+    //TODO: CANCELLA ANCHE QUELLO CHE STA NELL'INVENTARIO!
+            //var grabbables = FindObjectsOfType<GnamGrabbable>().Where(g => !g.BeingHeld);
+            //grabbables.ToList().ForEach(g => Destroy(g.gameObject));
         }
 
         void UpdateLevelScore(int level, int score)
@@ -362,8 +363,9 @@ namespace Assets.Scripts.Gameplay
                     respawntime = UnityEngine.Random.Range(15, 30);
                     break;
             }
-            InvokeRepeating("SpawnMobs", 15, respawntime);
+
             InvokeRepeating("AddNewObjective", 5, UnityEngine.Random.Range(5, 10));
+            InvokeRepeating("SpawnMobs", 15, respawntime);
         }
 
         protected virtual void GoToNextLevel(EaterDto eater)

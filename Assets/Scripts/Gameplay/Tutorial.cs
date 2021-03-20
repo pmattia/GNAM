@@ -225,6 +225,7 @@ namespace Assets.Scripts.Gameplay
 
                 mobs.ForEach(m => {
                     m.SetActive(true);
+                    m.GetComponents<Collider>().ToList().ForEach(c => c.enabled = true);
                     var shoter = m.GetComponent<ShootAtTargets>();
                     shoter.onDeath += () =>
                     {

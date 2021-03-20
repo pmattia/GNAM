@@ -178,6 +178,79 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b7d70d80ddd390f41a1bdde5957f74f0, type: 3}
+--- !u!1001 &41247942
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 392304740, guid: 19aec3a4c1b617f49ad1d0659fa93f02, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4801644974706913700, guid: 19aec3a4c1b617f49ad1d0659fa93f02,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 79
+      objectReference: {fileID: 0}
+    - target: {fileID: 4801644974706913700, guid: 19aec3a4c1b617f49ad1d0659fa93f02,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 6.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 4801644974706913700, guid: 19aec3a4c1b617f49ad1d0659fa93f02,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.32
+      objectReference: {fileID: 0}
+    - target: {fileID: 4801644974706913700, guid: 19aec3a4c1b617f49ad1d0659fa93f02,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.72
+      objectReference: {fileID: 0}
+    - target: {fileID: 4801644974706913700, guid: 19aec3a4c1b617f49ad1d0659fa93f02,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9877808
+      objectReference: {fileID: 0}
+    - target: {fileID: 4801644974706913700, guid: 19aec3a4c1b617f49ad1d0659fa93f02,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.15584978
+      objectReference: {fileID: 0}
+    - target: {fileID: 4801644974706913700, guid: 19aec3a4c1b617f49ad1d0659fa93f02,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4801644974706913700, guid: 19aec3a4c1b617f49ad1d0659fa93f02,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4801644974706913700, guid: 19aec3a4c1b617f49ad1d0659fa93f02,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -17.932001
+      objectReference: {fileID: 0}
+    - target: {fileID: 4801644974706913700, guid: 19aec3a4c1b617f49ad1d0659fa93f02,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4801644974706913700, guid: 19aec3a4c1b617f49ad1d0659fa93f02,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5325803455762246430, guid: 19aec3a4c1b617f49ad1d0659fa93f02,
+        type: 3}
+      propertyPath: m_Name
+      value: Mobile_Torta 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 19aec3a4c1b617f49ad1d0659fa93f02, type: 3}
 --- !u!1001 &54542771
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4859,11 +4932,18 @@ MonoBehaviour:
   CanBeDropped: 1
   CanBeSnappedToSnapZone: 1
   ForceDisableKinematicOnDrop: 0
+  InstantMovement: 0
   CustomHandPose: 0
   SecondaryGrabBehavior: 0
-  OtherGrabbableMustBeGrabbed: {fileID: 0}
-  SecondaryGrabbable: {fileID: 0}
+  TwoHandedPosition: 0
+  TwoHandedPostionLerpAmount: 0.5
+  TwoHandedRotation: 1
+  TwoHandedRotationLerpAmount: 0.5
+  TwoHandedDropBehavior: 0
+  TwoHandedLookVector: 0
   SecondHandLookSpeed: 40
+  SecondaryGrabbable: {fileID: 0}
+  OtherGrabbableMustBeGrabbed: {fileID: 0}
   CollisionSpring: 3000
   CollisionSlerp: 500
   CollisionLinearMotionX: 2

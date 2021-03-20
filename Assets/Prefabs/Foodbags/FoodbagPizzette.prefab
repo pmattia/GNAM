@@ -68,7 +68,8 @@ MonoBehaviour:
   DisableColliders: 0
   DuplicateItemOnGrab: 0
   MaxDropTime: 0.1
-  OnlyAllowNames: []
+  OnlyAllowNames:
+  - xxx
   ExcludeTransformNames: []
   SoundOnSnap: {fileID: 0}
   SoundOnUnsnap: {fileID: 0}
@@ -124,11 +125,18 @@ MonoBehaviour:
   CanBeDropped: 1
   CanBeSnappedToSnapZone: 1
   ForceDisableKinematicOnDrop: 0
+  InstantMovement: 0
   CustomHandPose: 0
   SecondaryGrabBehavior: 0
-  OtherGrabbableMustBeGrabbed: {fileID: 0}
-  SecondaryGrabbable: {fileID: 0}
+  TwoHandedPosition: 0
+  TwoHandedPostionLerpAmount: 0.5
+  TwoHandedRotation: 1
+  TwoHandedRotationLerpAmount: 0.5
+  TwoHandedDropBehavior: 0
+  TwoHandedLookVector: 0
   SecondHandLookSpeed: 40
+  SecondaryGrabbable: {fileID: 0}
+  OtherGrabbableMustBeGrabbed: {fileID: 0}
   CollisionSpring: 3000
   CollisionSlerp: 500
   CollisionLinearMotionX: 2
@@ -244,7 +252,8 @@ MonoBehaviour:
   DisableColliders: 0
   DuplicateItemOnGrab: 0
   MaxDropTime: 0.1
-  OnlyAllowNames: []
+  OnlyAllowNames:
+  - xxx
   ExcludeTransformNames: []
   SoundOnSnap: {fileID: 0}
   SoundOnUnsnap: {fileID: 0}
@@ -300,11 +309,18 @@ MonoBehaviour:
   CanBeDropped: 1
   CanBeSnappedToSnapZone: 1
   ForceDisableKinematicOnDrop: 0
+  InstantMovement: 0
   CustomHandPose: 0
   SecondaryGrabBehavior: 0
-  OtherGrabbableMustBeGrabbed: {fileID: 0}
-  SecondaryGrabbable: {fileID: 0}
+  TwoHandedPosition: 0
+  TwoHandedPostionLerpAmount: 0.5
+  TwoHandedRotation: 1
+  TwoHandedRotationLerpAmount: 0.5
+  TwoHandedDropBehavior: 0
+  TwoHandedLookVector: 0
   SecondHandLookSpeed: 40
+  SecondaryGrabbable: {fileID: 0}
+  OtherGrabbableMustBeGrabbed: {fileID: 0}
   CollisionSpring: 3000
   CollisionSlerp: 500
   CollisionLinearMotionX: 2
@@ -575,7 +591,8 @@ MonoBehaviour:
   DisableColliders: 0
   DuplicateItemOnGrab: 0
   MaxDropTime: 0.1
-  OnlyAllowNames: []
+  OnlyAllowNames:
+  - xxx
   ExcludeTransformNames: []
   SoundOnSnap: {fileID: 0}
   SoundOnUnsnap: {fileID: 0}
@@ -631,11 +648,18 @@ MonoBehaviour:
   CanBeDropped: 1
   CanBeSnappedToSnapZone: 1
   ForceDisableKinematicOnDrop: 0
+  InstantMovement: 0
   CustomHandPose: 0
   SecondaryGrabBehavior: 0
-  OtherGrabbableMustBeGrabbed: {fileID: 0}
-  SecondaryGrabbable: {fileID: 0}
+  TwoHandedPosition: 0
+  TwoHandedPostionLerpAmount: 0.5
+  TwoHandedRotation: 1
+  TwoHandedRotationLerpAmount: 0.5
+  TwoHandedDropBehavior: 0
+  TwoHandedLookVector: 0
   SecondHandLookSpeed: 40
+  SecondaryGrabbable: {fileID: 0}
+  OtherGrabbableMustBeGrabbed: {fileID: 0}
   CollisionSpring: 3000
   CollisionSlerp: 500
   CollisionLinearMotionX: 2
@@ -893,7 +917,8 @@ MonoBehaviour:
   DisableColliders: 0
   DuplicateItemOnGrab: 0
   MaxDropTime: 0.1
-  OnlyAllowNames: []
+  OnlyAllowNames:
+  - xxx
   ExcludeTransformNames: []
   SoundOnSnap: {fileID: 0}
   SoundOnUnsnap: {fileID: 0}
@@ -949,11 +974,18 @@ MonoBehaviour:
   CanBeDropped: 1
   CanBeSnappedToSnapZone: 1
   ForceDisableKinematicOnDrop: 0
+  InstantMovement: 0
   CustomHandPose: 0
   SecondaryGrabBehavior: 0
-  OtherGrabbableMustBeGrabbed: {fileID: 0}
-  SecondaryGrabbable: {fileID: 0}
+  TwoHandedPosition: 0
+  TwoHandedPostionLerpAmount: 0.5
+  TwoHandedRotation: 1
+  TwoHandedRotationLerpAmount: 0.5
+  TwoHandedDropBehavior: 0
+  TwoHandedLookVector: 0
   SecondHandLookSpeed: 40
+  SecondaryGrabbable: {fileID: 0}
+  OtherGrabbableMustBeGrabbed: {fileID: 0}
   CollisionSpring: 3000
   CollisionSlerp: 500
   CollisionLinearMotionX: 2
@@ -1211,7 +1243,8 @@ MonoBehaviour:
   DisableColliders: 0
   DuplicateItemOnGrab: 0
   MaxDropTime: 0.1
-  OnlyAllowNames: []
+  OnlyAllowNames:
+  - xxx
   ExcludeTransformNames: []
   SoundOnSnap: {fileID: 0}
   SoundOnUnsnap: {fileID: 0}
@@ -1267,11 +1300,18 @@ MonoBehaviour:
   CanBeDropped: 1
   CanBeSnappedToSnapZone: 1
   ForceDisableKinematicOnDrop: 0
+  InstantMovement: 0
   CustomHandPose: 0
   SecondaryGrabBehavior: 0
-  OtherGrabbableMustBeGrabbed: {fileID: 0}
-  SecondaryGrabbable: {fileID: 0}
+  TwoHandedPosition: 0
+  TwoHandedPostionLerpAmount: 0.5
+  TwoHandedRotation: 1
+  TwoHandedRotationLerpAmount: 0.5
+  TwoHandedDropBehavior: 0
+  TwoHandedLookVector: 0
   SecondHandLookSpeed: 40
+  SecondaryGrabbable: {fileID: 0}
+  OtherGrabbableMustBeGrabbed: {fileID: 0}
   CollisionSpring: 3000
   CollisionSlerp: 500
   CollisionLinearMotionX: 2
@@ -1529,7 +1569,8 @@ MonoBehaviour:
   DisableColliders: 0
   DuplicateItemOnGrab: 0
   MaxDropTime: 0.1
-  OnlyAllowNames: []
+  OnlyAllowNames:
+  - xxx
   ExcludeTransformNames: []
   SoundOnSnap: {fileID: 0}
   SoundOnUnsnap: {fileID: 0}
@@ -1585,11 +1626,18 @@ MonoBehaviour:
   CanBeDropped: 1
   CanBeSnappedToSnapZone: 1
   ForceDisableKinematicOnDrop: 0
+  InstantMovement: 0
   CustomHandPose: 0
   SecondaryGrabBehavior: 0
-  OtherGrabbableMustBeGrabbed: {fileID: 0}
-  SecondaryGrabbable: {fileID: 0}
+  TwoHandedPosition: 0
+  TwoHandedPostionLerpAmount: 0.5
+  TwoHandedRotation: 1
+  TwoHandedRotationLerpAmount: 0.5
+  TwoHandedDropBehavior: 0
+  TwoHandedLookVector: 0
   SecondHandLookSpeed: 40
+  SecondaryGrabbable: {fileID: 0}
+  OtherGrabbableMustBeGrabbed: {fileID: 0}
   CollisionSpring: 3000
   CollisionSlerp: 500
   CollisionLinearMotionX: 2
@@ -1860,7 +1908,8 @@ MonoBehaviour:
   DisableColliders: 0
   DuplicateItemOnGrab: 0
   MaxDropTime: 0.1
-  OnlyAllowNames: []
+  OnlyAllowNames:
+  - xxx
   ExcludeTransformNames: []
   SoundOnSnap: {fileID: 0}
   SoundOnUnsnap: {fileID: 0}
@@ -1916,11 +1965,18 @@ MonoBehaviour:
   CanBeDropped: 1
   CanBeSnappedToSnapZone: 1
   ForceDisableKinematicOnDrop: 0
+  InstantMovement: 0
   CustomHandPose: 0
   SecondaryGrabBehavior: 0
-  OtherGrabbableMustBeGrabbed: {fileID: 0}
-  SecondaryGrabbable: {fileID: 0}
+  TwoHandedPosition: 0
+  TwoHandedPostionLerpAmount: 0.5
+  TwoHandedRotation: 1
+  TwoHandedRotationLerpAmount: 0.5
+  TwoHandedDropBehavior: 0
+  TwoHandedLookVector: 0
   SecondHandLookSpeed: 40
+  SecondaryGrabbable: {fileID: 0}
+  OtherGrabbableMustBeGrabbed: {fileID: 0}
   CollisionSpring: 3000
   CollisionSlerp: 500
   CollisionLinearMotionX: 2
@@ -2374,7 +2430,8 @@ MonoBehaviour:
   DisableColliders: 0
   DuplicateItemOnGrab: 0
   MaxDropTime: 0.1
-  OnlyAllowNames: []
+  OnlyAllowNames:
+  - xxx
   ExcludeTransformNames: []
   SoundOnSnap: {fileID: 0}
   SoundOnUnsnap: {fileID: 0}
@@ -2430,11 +2487,18 @@ MonoBehaviour:
   CanBeDropped: 1
   CanBeSnappedToSnapZone: 1
   ForceDisableKinematicOnDrop: 0
+  InstantMovement: 0
   CustomHandPose: 0
   SecondaryGrabBehavior: 0
-  OtherGrabbableMustBeGrabbed: {fileID: 0}
-  SecondaryGrabbable: {fileID: 0}
+  TwoHandedPosition: 0
+  TwoHandedPostionLerpAmount: 0.5
+  TwoHandedRotation: 1
+  TwoHandedRotationLerpAmount: 0.5
+  TwoHandedDropBehavior: 0
+  TwoHandedLookVector: 0
   SecondHandLookSpeed: 40
+  SecondaryGrabbable: {fileID: 0}
+  OtherGrabbableMustBeGrabbed: {fileID: 0}
   CollisionSpring: 3000
   CollisionSlerp: 500
   CollisionLinearMotionX: 2

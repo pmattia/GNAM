@@ -1450,13 +1450,13 @@ MonoBehaviour:
   inventory: {fileID: 1531890440}
   endgameMusic: {fileID: 8300000, guid: 36d24319b1807ba4895abf452aaf0289, type: 3}
   fireworks: {fileID: 1195112596}
-  baseFoodToEat: 1
+  baseFoodToEat: 30
   mobSpawner: {fileID: 488617309}
   soundTrack: {fileID: 2028788866}
   gameplaySound: {fileID: 437091750}
   winSound: {fileID: 8300000, guid: fde1f50d56cbf474c84570b30ab61540, type: 3}
   loseSound: {fileID: 8300000, guid: 2976ae8ca1ba531488ab8d13e4e68c93, type: 3}
-  startLevel: 9
+  startLevel: 1
   gunPrefab: {fileID: 5638594037168375564, guid: b2f551fc1c5a05b4688e6e46ebd4db26,
     type: 3}
   gunClipPrefab: {fileID: 4846239893969188111, guid: 9b1f4924b6f5f6d47aa90cc26c42e047,
@@ -5365,7 +5365,7 @@ Transform:
   m_LocalScale: {x: 10.887001, y: 8.672977, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &1207578269
 GameObject:
@@ -10390,7 +10390,7 @@ PrefabInstance:
     - target: {fileID: 8740664415346543911, guid: d607b6195281c7141a7b152b0cb6fdd0,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8740664415346543911, guid: d607b6195281c7141a7b152b0cb6fdd0,
         type: 3}
