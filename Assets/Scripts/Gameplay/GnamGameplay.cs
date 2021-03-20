@@ -21,6 +21,8 @@ namespace Assets.Scripts.Gameplay
         [SerializeField] protected Billboard billboard;
         [SerializeField] int levelDuration = 60;
         [SerializeField] Inventory inventory;
+        [SerializeField] AudioClip endgameMusic;
+        [SerializeField] GameObject fireworks;
         [SerializeField] protected int CurrentLevel { get; private set; }
 
         Dictionary<int, int> levelScores = new Dictionary<int, int>();
@@ -387,8 +389,17 @@ namespace Assets.Scripts.Gameplay
                 }
 
                 starter.Show();
+                starter.ShowEndgameMessage();
                 billboard.ShowResults(levelScores, isNewRecord);
+                EndgameParty();
             }
+        }
+
+        void EndgameParty()
+        {
+            VRUtils.Instance.PlaySpatialClipAt(endgameMusic, transform.position, 1f, 0.5f);
+            fireworks.SetActive(true);
+            mobSpawner.Party();
         }
 
         protected LevelDto GetLevel(int level, int eatedFoods)

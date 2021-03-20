@@ -18,6 +18,7 @@ namespace Assets.Scripts.Gameplay
         [SerializeField] GameObject retryEatable;
         [SerializeField] GameObjectSpawner commandSpawner;
         [SerializeField] GameObject instructionsPanel;
+        [SerializeField] GameObject endgamePanel;
         [SerializeField] Text bestScoreLabel;
 
         public event Action<EaterDto> onStart;
@@ -62,6 +63,11 @@ namespace Assets.Scripts.Gameplay
             InitStarter(() => {
                 spawnedItems.Add(commandSpawner.SpawnObject(retryEatable, onRetry));
             });
+        }
+
+        public void ShowEndgameMessage()
+        {
+            endgamePanel.SetActive(true);
         }
 
         void InitStarter(Action delayedCallback = null)

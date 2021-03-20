@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1214363906192218336, guid: b2864ef9b1c058c42bf48cb362adc860,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1214363906192218336, guid: b2864ef9b1c058c42bf48cb362adc860,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.3850327
       objectReference: {fileID: 0}
@@ -21,6 +26,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0.45599282
+      objectReference: {fileID: 0}
+    - target: {fileID: 1214363906192218336, guid: b2864ef9b1c058c42bf48cb362adc860,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1214363906192218336, guid: b2864ef9b1c058c42bf48cb362adc860,
         type: 3}
@@ -39,16 +49,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1214363906192218336, guid: b2864ef9b1c058c42bf48cb362adc860,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1214363906192218336, guid: b2864ef9b1c058c42bf48cb362adc860,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1214363906192218336, guid: b2864ef9b1c058c42bf48cb362adc860,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -62,10 +62,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1214363906192218339, guid: b2864ef9b1c058c42bf48cb362adc860,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1214363906192218343, guid: b2864ef9b1c058c42bf48cb362adc860,
         type: 3}
       propertyPath: m_Name
-      value: ShooterMono_2
+      value: ShooterMono_2 Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 1214363906192218348, guid: b2864ef9b1c058c42bf48cb362adc860,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1616872141093603695, guid: b2864ef9b1c058c42bf48cb362adc860,
         type: 3}

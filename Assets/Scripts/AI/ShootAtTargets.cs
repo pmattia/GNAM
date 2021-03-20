@@ -60,6 +60,11 @@ namespace Assets.Scripts.AI
             InvokeRepeating("SaySomething", UnityEngine.Random.Range(2, 5), UnityEngine.Random.Range(10, 30));
         }
 
+        public void StopTalking()
+        {
+            CancelInvoke("SaySomething");
+        }
+
         void FixedUpdate()
         {
             if (isShooterEnabled) { 
