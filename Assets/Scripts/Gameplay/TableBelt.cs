@@ -122,7 +122,7 @@ public class TableBelt : GnamGameplay
             {
                 Debug.Log($"suggestion");
                 var rand = UnityEngine.Random.Range(0, 10);
-                if(rand > 4)
+                if(rand > 3)
                 {
                     availableFoodbags = availableFoodbags
                                             .Where(f => f.foods.Select(food => foodFamiliesSuggestion.Contains(food.foodFamily)).Any()

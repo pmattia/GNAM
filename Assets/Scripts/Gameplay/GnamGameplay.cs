@@ -235,6 +235,12 @@ namespace Assets.Scripts.Gameplay
             callback.Invoke();
         }
 
+        void ClearFloor()
+        {
+            var grabbables = FindObjectsOfType<GnamGrabbable>().Where(g => !g.BeingHeld);
+            grabbables.ToList().ForEach(g => Destroy(g.gameObject));
+        }
+
         void UpdateLevelScore(int level, int score)
         {
             if (levelScores.Any(l => l.Key == level))
@@ -327,6 +333,7 @@ namespace Assets.Scripts.Gameplay
 
         protected virtual void StartGame()
         {
+            ClearFloor();
             soundTrack.Play();
 
             totalGameplayTime = gameplayTime;
@@ -337,7 +344,23 @@ namespace Assets.Scripts.Gameplay
             billboard.SetLevel(level);
             billboard.StartTimer();
 
-            InvokeRepeating("SpawnMobs", 15, UnityEngine.Random.Range(15, 30));
+            int respawntime;
+            switch (CurrentLevel)
+            {
+                case 7:
+                    respawntime = UnityEngine.Random.Range(25, 30);
+                    break;
+                case 8:
+                    respawntime = UnityEngine.Random.Range(20, 25);
+                    break;
+                case 9:
+                    respawntime = UnityEngine.Random.Range(15, 20);
+                    break;
+                default:
+                    respawntime = UnityEngine.Random.Range(15, 30);
+                    break;
+            }
+            InvokeRepeating("SpawnMobs", 15, respawntime);
             InvokeRepeating("AddNewObjective", 5, UnityEngine.Random.Range(5, 10));
         }
 
