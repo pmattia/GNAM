@@ -16,6 +16,7 @@ namespace Assets.Scripts.Gameplay
         [SerializeField] GameObject startEatable;
         [SerializeField] GameObject restartEatable;
         [SerializeField] GameObject retryEatable;
+        [SerializeField] GameObject finishEatable;
         [SerializeField] GameObjectSpawner commandSpawner;
         [SerializeField] GameObject instructionsPanel;
         [SerializeField] GameObject endgamePanel;
@@ -24,6 +25,7 @@ namespace Assets.Scripts.Gameplay
         public event Action<EaterDto> onStart;
         public event Action<EaterDto> onNextlevel;
         public event Action<EaterDto> onRetry;
+        public event Action<EaterDto> onFinish;
 
         List<GameObject> spawnedItems = new List<GameObject>();
 
@@ -49,6 +51,13 @@ namespace Assets.Scripts.Gameplay
         {
             InitStarter(()=> {
                 spawnedItems.Add(commandSpawner.SpawnObject(nextLevelEatable, onNextlevel));
+            });
+        }
+
+        public void SpawnFinishEatable()
+        {
+            InitStarter(() => {
+                spawnedItems.Add(commandSpawner.SpawnObject(finishEatable, onFinish));
             });
         }
 

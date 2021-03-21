@@ -140,12 +140,12 @@ public class TableBelt : GnamGameplay
         foreach (var eatable in cloneFoodbag.foods.SelectMany(f => f.eatableParts))
         {
             eatable.onEated += (eater) => {
-                CurrentLevelScore += eatableScore;
+                CurrentLevelScore += GnamConstants.eatableScore;
             };
         }
         cloneFoodbag.onFoodEated += (eater, eated) =>
         {
-            CurrentLevelScore += foodScore;
+            CurrentLevelScore += GnamConstants.foodScore;
             billboard.AddFood(eated.foodFamily);
         };
        // cloneFoodbag.onClear += bonusSpawner.SpawnBonus;

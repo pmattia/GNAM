@@ -27,14 +27,6 @@ namespace Assets.Scripts.Gameplay
 
         Dictionary<int, int> levelScores = new Dictionary<int, int>();
 
-        //scores
-        protected const int eatableScore = 1;
-        protected const int foodScore = 5;
-        protected const int mobKillScore = 5;
-        protected const int objectiveScore = 10;
-        protected const int maxLevel = 9;
-
-
         protected Difficulty currentDifficulty { get {
                 switch (CurrentLevel)
                 {
@@ -70,6 +62,12 @@ namespace Assets.Scripts.Gameplay
         [SerializeField] GameObject gunClipPrefab;
 
         protected bool isPlaying { get; private set; }
+        public int BestScore 
+        { 
+            get {
+                return PlayerPrefs.GetInt(GnamConstants.bestScoreKey);
+            }
+        }
 
         public event System.Action onGameStarted;
 
@@ -122,7 +120,7 @@ namespace Assets.Scripts.Gameplay
         protected virtual void Start()
         {
             handsController = new VrifHandsControllerAdapter(handModelSelector);
-            for (int i = 1; i <= maxLevel; i++)
+            for (int i = 1; i <= GnamConstants.maxLevel; i++)
             {
                 Debug.Log($"level added {i}");
                 levelScores.Add(i, 0);
@@ -132,8 +130,7 @@ namespace Assets.Scripts.Gameplay
             CurrentLevel = startLevel;
             totalGameplayTime = 0;
 
-            var bestScore = PlayerPrefs.GetInt(GnamConstants.bestScoreKey);
-            starter.InitStarter(bestScore);
+            starter.InitStarter(BestScore);
             starter.onStart += (eater) =>
             {
                 starter.Hide();
@@ -154,13 +151,26 @@ namespace Assets.Scripts.Gameplay
                 starter.Hide();
                 StartGame();
             };
+            starter.onFinish += (eater) =>
+            {
+                var isNewRecord = TotalScore > BestScore;
+                if (isNewRecord)
+                {
+                    PlayerPrefs.SetInt(GnamConstants.bestScoreKey, TotalScore);
+                }
+
+                starter.Show();
+                starter.ShowEndgameMessage();
+                billboard.ShowResults(levelScores, isNewRecord);
+                EndgameParty();
+            };
 
             mobSpawner.OnMobDeath += () =>
             {
                 SpawnBonus();
                 billboard.AddTime(5);
 
-                CurrentLevelScore += mobKillScore;
+                CurrentLevelScore += GnamConstants.mobKillScore;
             };
             billboard.onObjectiveCompleted += (family, objectivesFamilies, bonus) =>
             {
@@ -169,7 +179,7 @@ namespace Assets.Scripts.Gameplay
                 billboard.AddTime(5);
                 currentObjectiveFamilies = objectivesFamilies;
 
-                CurrentLevelScore += objectiveScore;
+                CurrentLevelScore += GnamConstants.objectiveScore;
                 // SpawnMobs();
             };
             billboard.onObjectiveExpired += (family, objectivesFamilies) =>
@@ -179,7 +189,7 @@ namespace Assets.Scripts.Gameplay
             };
             billboard.onGameCompleted += (residueSeconds) =>
             {
-                CurrentLevelScore += residueSeconds;
+                CurrentLevelScore += (residueSeconds * GnamConstants.secondsScore);
                 TotalScore += CurrentLevelScore;
 
                 StopGameplay();
@@ -195,8 +205,6 @@ namespace Assets.Scripts.Gameplay
                     bonus = DrawNewBonus(currentDifficulty);
                 }
 
-                SpawnBonus(bonus);
-
                 UpdateLevelScore(CurrentLevel, CurrentLevelScore);
                 var rate = GetGameRate(CurrentLevelScore, CurrentLevel);
 
@@ -205,9 +213,22 @@ namespace Assets.Scripts.Gameplay
                     starter.Show();
                     starter.SpawnRetryEatable();
                 }));
-                StartCoroutine(DelayedCallback(3.2f, () => {
-                    starter.SpawnNextLevelEatable();
-                }));
+
+                if (CurrentLevel < GnamConstants.maxLevel)
+                {
+                    SpawnBonus(bonus);
+
+                    StartCoroutine(DelayedCallback(3.2f, () => {
+                        starter.SpawnNextLevelEatable();
+                    }));
+                }
+                else
+                {
+                    StartCoroutine(DelayedCallback(3.2f, () => {
+                        starter.SpawnFinishEatable();
+                    }));
+                }
+                    
             };
             billboard.onTimeExpired += () => {
                 StopGameplay();
@@ -220,7 +241,7 @@ namespace Assets.Scripts.Gameplay
 
                 CurrentLevelScore = 0;
 
-                var isNewRecord = TotalScore > bestScore;
+                var isNewRecord = TotalScore > BestScore;
                 if (isNewRecord)
                 {
                     PlayerPrefs.SetInt(GnamConstants.bestScoreKey, TotalScore);
@@ -258,7 +279,7 @@ namespace Assets.Scripts.Gameplay
 
         int GetGameRate(int score, int level)
         {
-            var foodPoints = GetFoodToEatByLevel(level) * foodScore;
+            var foodPoints = GetFoodToEatByLevel(level) * GnamConstants.foodScore;
             Debug.Log($"{score}/{foodPoints} = {Mathf.CeilToInt((float)score / (float)foodPoints)}");
             return Mathf.CeilToInt((float)score / (float)foodPoints);
         }
@@ -376,25 +397,8 @@ namespace Assets.Scripts.Gameplay
                 Debug.Log($"LIVELLO {levelScore.Key} PUNTI {levelScore.Value}");
             }
 
-            if (CurrentLevel < maxLevel)
-            {
-                CurrentLevel++;
-                this.StartGame();
-            }
-            else
-            {
-                var bestScore = PlayerPrefs.GetInt(GnamConstants.bestScoreKey);
-                var isNewRecord = TotalScore > bestScore;
-                if (isNewRecord)
-                {
-                    PlayerPrefs.SetInt(GnamConstants.bestScoreKey, TotalScore);
-                }
-
-                starter.Show();
-                starter.ShowEndgameMessage();
-                billboard.ShowResults(levelScores, isNewRecord);
-                EndgameParty();
-            }
+            CurrentLevel++;
+            this.StartGame();            
         }
 
         void EndgameParty()
