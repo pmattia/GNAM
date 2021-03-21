@@ -20,13 +20,31 @@ ModelImporter:
     second: Armature_l|Armature_rAction.004
   - first:
       74: 4696164754751878115
-    second: Armature_l|Armature_rAction.005
+    second: Armature_l|Armature_rAction.pistol
   - first:
       74: -287556580039184539
-    second: Armature_l|Hand_R_OK_anim
+    second: gnam_left_thumb_up
   - first:
       74: 5591951311376781548
     second: Armature_rAction
+  - first:
+      74: 643034368527722720
+    second: gnam_left_generic
+  - first:
+      74: -1075621083064254129
+    second: gnam_left_indicate
+  - first:
+      74: 6018953581057443071
+    second: gnam_left_pinch_open
+  - first:
+      74: 8967900860520775168
+    second: gnam_left_pinch_closed
+  - first:
+      74: -7363338947551335857
+    second: gnam_left_fist
+  - first:
+      74: 1024977643426832306
+    second: gnam_left_pistol
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -59,7 +77,343 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Armature_rAction
+      takeName: Armature_rAction
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 4
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: gnam_left_generic
+      takeName: Armature_l|Armature_rAction
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 1
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: gnam_left_indicate
+      takeName: Armature_l|Armature_rAction.001
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 1
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature_l
+        weight: 0
+      - path: Armature_l/hands:b_r_hand.R
+        weight: 0
+      - path: Armature_l/hands:b_r_hand.R/hands:b_r_index1.R
+        weight: 1
+      - path: Armature_l/hands:b_r_hand.R/hands:b_r_index1.R/hands:b_r_index2.R
+        weight: 1
+      - path: Armature_l/hands:b_r_hand.R/hands:b_r_index1.R/hands:b_r_index2.R/hands:b_r_index3.R
+        weight: 1
+      - path: Armature_l/hands:b_r_hand.R/hands:b_r_index1.R/hands:b_r_index2.R/hands:b_r_index3.R/hands:b_r_index3.R_end
+        weight: 1
+      - path: Armature_l/hands:b_r_hand.R/hands:b_r_middle1.R
+        weight: 0
+      - path: Armature_l/hands:b_r_hand.R/hands:b_r_middle1.R/hands:b_r_middle2.R
+        weight: 0
+      - path: Armature_l/hands:b_r_hand.R/hands:b_r_middle1.R/hands:b_r_middle2.R/hands:b_r_middle3.R
+        weight: 0
+      - path: Armature_l/hands:b_r_hand.R/hands:b_r_middle1.R/hands:b_r_middle2.R/hands:b_r_middle3.R/hands:b_r_middle3.R_end
+        weight: 0
+      - path: Armature_l/hands:b_r_hand.R/hands:b_r_pinky0.R
+        weight: 0
+      - path: Armature_l/hands:b_r_hand.R/hands:b_r_pinky0.R/hands:b_r_pinky1.R
+        weight: 0
+      - path: Armature_l/hands:b_r_hand.R/hands:b_r_pinky0.R/hands:b_r_pinky1.R/hands:b_r_pinky2.R
+        weight: 0
+      - path: Armature_l/hands:b_r_hand.R/hands:b_r_pinky0.R/hands:b_r_pinky1.R/hands:b_r_pinky2.R/hands:b_r_pinky3.R
+        weight: 0
+      - path: Armature_l/hands:b_r_hand.R/hands:b_r_pinky0.R/hands:b_r_pinky1.R/hands:b_r_pinky2.R/hands:b_r_pinky3.R/hands:b_r_pinky3.R_end
+        weight: 0
+      - path: Armature_l/hands:b_r_hand.R/hands:b_r_ring1.R
+        weight: 0
+      - path: Armature_l/hands:b_r_hand.R/hands:b_r_ring1.R/hands:b_r_ring2.R
+        weight: 0
+      - path: Armature_l/hands:b_r_hand.R/hands:b_r_ring1.R/hands:b_r_ring2.R/hands:b_r_ring3.R
+        weight: 0
+      - path: Armature_l/hands:b_r_hand.R/hands:b_r_ring1.R/hands:b_r_ring2.R/hands:b_r_ring3.R/hands:b_r_ring3.R_end
+        weight: 0
+      - path: Armature_l/hands:b_r_hand.R/hands:b_r_thumb1.R
+        weight: 0
+      - path: Armature_l/hands:b_r_hand.R/hands:b_r_thumb1.R/hands:b_r_thumb2.R
+        weight: 0
+      - path: Armature_l/hands:b_r_hand.R/hands:b_r_thumb1.R/hands:b_r_thumb2.R/hands:b_r_thumb3.R
+        weight: 0
+      - path: Armature_l/hands:b_r_hand.R/hands:b_r_thumb1.R/hands:b_r_thumb2.R/hands:b_r_thumb3.R/hands:b_r_thumb3.R_end
+        weight: 0
+      - path: Hands_l
+        weight: 0
+      - path: Manica_l
+        weight: 0
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: gnam_left_pinch_open
+      takeName: Armature_l|Armature_rAction.002
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 1
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: gnam_left_pinch_closed
+      takeName: Armature_l|Armature_rAction.003
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 1
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: gnam_left_fist
+      takeName: Armature_l|Armature_rAction.004
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 1
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: gnam_left_pistol
+      takeName: Armature_l|Armature_rAction.005
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 1
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: gnam_left_thumb_up
+      takeName: Armature_l|Hand_R_OK_anim
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 1
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature_l
+        weight: 0
+      - path: Armature_l/hands:b_r_hand.R
+        weight: 0
+      - path: Armature_l/hands:b_r_hand.R/hands:b_r_index1.R
+        weight: 0
+      - path: Armature_l/hands:b_r_hand.R/hands:b_r_index1.R/hands:b_r_index2.R
+        weight: 0
+      - path: Armature_l/hands:b_r_hand.R/hands:b_r_index1.R/hands:b_r_index2.R/hands:b_r_index3.R
+        weight: 0
+      - path: Armature_l/hands:b_r_hand.R/hands:b_r_index1.R/hands:b_r_index2.R/hands:b_r_index3.R/hands:b_r_index3.R_end
+        weight: 0
+      - path: Armature_l/hands:b_r_hand.R/hands:b_r_middle1.R
+        weight: 0
+      - path: Armature_l/hands:b_r_hand.R/hands:b_r_middle1.R/hands:b_r_middle2.R
+        weight: 0
+      - path: Armature_l/hands:b_r_hand.R/hands:b_r_middle1.R/hands:b_r_middle2.R/hands:b_r_middle3.R
+        weight: 0
+      - path: Armature_l/hands:b_r_hand.R/hands:b_r_middle1.R/hands:b_r_middle2.R/hands:b_r_middle3.R/hands:b_r_middle3.R_end
+        weight: 0
+      - path: Armature_l/hands:b_r_hand.R/hands:b_r_pinky0.R
+        weight: 0
+      - path: Armature_l/hands:b_r_hand.R/hands:b_r_pinky0.R/hands:b_r_pinky1.R
+        weight: 0
+      - path: Armature_l/hands:b_r_hand.R/hands:b_r_pinky0.R/hands:b_r_pinky1.R/hands:b_r_pinky2.R
+        weight: 0
+      - path: Armature_l/hands:b_r_hand.R/hands:b_r_pinky0.R/hands:b_r_pinky1.R/hands:b_r_pinky2.R/hands:b_r_pinky3.R
+        weight: 0
+      - path: Armature_l/hands:b_r_hand.R/hands:b_r_pinky0.R/hands:b_r_pinky1.R/hands:b_r_pinky2.R/hands:b_r_pinky3.R/hands:b_r_pinky3.R_end
+        weight: 0
+      - path: Armature_l/hands:b_r_hand.R/hands:b_r_ring1.R
+        weight: 0
+      - path: Armature_l/hands:b_r_hand.R/hands:b_r_ring1.R/hands:b_r_ring2.R
+        weight: 0
+      - path: Armature_l/hands:b_r_hand.R/hands:b_r_ring1.R/hands:b_r_ring2.R/hands:b_r_ring3.R
+        weight: 0
+      - path: Armature_l/hands:b_r_hand.R/hands:b_r_ring1.R/hands:b_r_ring2.R/hands:b_r_ring3.R/hands:b_r_ring3.R_end
+        weight: 0
+      - path: Armature_l/hands:b_r_hand.R/hands:b_r_thumb1.R
+        weight: 1
+      - path: Armature_l/hands:b_r_hand.R/hands:b_r_thumb1.R/hands:b_r_thumb2.R
+        weight: 1
+      - path: Armature_l/hands:b_r_hand.R/hands:b_r_thumb1.R/hands:b_r_thumb2.R/hands:b_r_thumb3.R
+        weight: 1
+      - path: Armature_l/hands:b_r_hand.R/hands:b_r_thumb1.R/hands:b_r_thumb2.R/hands:b_r_thumb3.R/hands:b_r_thumb3.R_end
+        weight: 1
+      - path: Hands_l
+        weight: 0
+      - path: Manica_l
+        weight: 0
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 0
   meshes:
     lODScreenPercentages: []

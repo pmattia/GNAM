@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Thumb_l_mask
+  m_Mask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: Armature_l
+    m_Weight: 0
+  - m_Path: Armature_l/hands:b_r_hand.R
+    m_Weight: 0
+  - m_Path: Armature_l/hands:b_r_hand.R/hands:b_r_index1.R
+    m_Weight: 0
+  - m_Path: Armature_l/hands:b_r_hand.R/hands:b_r_index1.R/hands:b_r_index2.R
+    m_Weight: 0
+  - m_Path: Armature_l/hands:b_r_hand.R/hands:b_r_index1.R/hands:b_r_index2.R/hands:b_r_index3.R
+    m_Weight: 0
+  - m_Path: Armature_l/hands:b_r_hand.R/hands:b_r_index1.R/hands:b_r_index2.R/hands:b_r_index3.R/hands:b_r_index3.R_end
+    m_Weight: 0
+  - m_Path: Armature_l/hands:b_r_hand.R/hands:b_r_middle1.R
+    m_Weight: 0
+  - m_Path: Armature_l/hands:b_r_hand.R/hands:b_r_middle1.R/hands:b_r_middle2.R
+    m_Weight: 0
+  - m_Path: Armature_l/hands:b_r_hand.R/hands:b_r_middle1.R/hands:b_r_middle2.R/hands:b_r_middle3.R
+    m_Weight: 0
+  - m_Path: Armature_l/hands:b_r_hand.R/hands:b_r_middle1.R/hands:b_r_middle2.R/hands:b_r_middle3.R/hands:b_r_middle3.R_end
+    m_Weight: 0
+  - m_Path: Armature_l/hands:b_r_hand.R/hands:b_r_pinky0.R
+    m_Weight: 0
+  - m_Path: Armature_l/hands:b_r_hand.R/hands:b_r_pinky0.R/hands:b_r_pinky1.R
+    m_Weight: 0
+  - m_Path: Armature_l/hands:b_r_hand.R/hands:b_r_pinky0.R/hands:b_r_pinky1.R/hands:b_r_pinky2.R
+    m_Weight: 0
+  - m_Path: Armature_l/hands:b_r_hand.R/hands:b_r_pinky0.R/hands:b_r_pinky1.R/hands:b_r_pinky2.R/hands:b_r_pinky3.R
+    m_Weight: 0
+  - m_Path: Armature_l/hands:b_r_hand.R/hands:b_r_pinky0.R/hands:b_r_pinky1.R/hands:b_r_pinky2.R/hands:b_r_pinky3.R/hands:b_r_pinky3.R_end
+    m_Weight: 0
+  - m_Path: Armature_l/hands:b_r_hand.R/hands:b_r_ring1.R
+    m_Weight: 0
+  - m_Path: Armature_l/hands:b_r_hand.R/hands:b_r_ring1.R/hands:b_r_ring2.R
+    m_Weight: 0
+  - m_Path: Armature_l/hands:b_r_hand.R/hands:b_r_ring1.R/hands:b_r_ring2.R/hands:b_r_ring3.R
+    m_Weight: 0
+  - m_Path: Armature_l/hands:b_r_hand.R/hands:b_r_ring1.R/hands:b_r_ring2.R/hands:b_r_ring3.R/hands:b_r_ring3.R_end
+    m_Weight: 0
+  - m_Path: Armature_l/hands:b_r_hand.R/hands:b_r_thumb1.R
+    m_Weight: 1
+  - m_Path: Armature_l/hands:b_r_hand.R/hands:b_r_thumb1.R/hands:b_r_thumb2.R
+    m_Weight: 1
+  - m_Path: Armature_l/hands:b_r_hand.R/hands:b_r_thumb1.R/hands:b_r_thumb2.R/hands:b_r_thumb3.R
+    m_Weight: 1
+  - m_Path: Armature_l/hands:b_r_hand.R/hands:b_r_thumb1.R/hands:b_r_thumb2.R/hands:b_r_thumb3.R/hands:b_r_thumb3.R_end
+    m_Weight: 1
+  - m_Path: Hands_l
+    m_Weight: 0
+  - m_Path: Manica_l
+    m_Weight: 0

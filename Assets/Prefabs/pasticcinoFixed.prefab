@@ -83,7 +83,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3847170122268008777}
-  m_LocalRotation: {x: -0.00000004130427, y: -0.78351253, z: -0.00000003303233, w: 0.621376}
+  m_LocalRotation: {x: 0, y: -0.7835146, z: 0, w: 0.6213734}
   m_LocalPosition: {x: -1.175, y: 0.998, z: -2.368}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -91,7 +91,7 @@ Transform:
   - {fileID: 3847170121939220198}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -103.16701, z: 0}
 --- !u!33 &3847170122268008771
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -183,11 +183,18 @@ MonoBehaviour:
   CanBeDropped: 1
   CanBeSnappedToSnapZone: 1
   ForceDisableKinematicOnDrop: 0
+  InstantMovement: 0
   CustomHandPose: 0
   SecondaryGrabBehavior: 0
-  OtherGrabbableMustBeGrabbed: {fileID: 0}
-  SecondaryGrabbable: {fileID: 0}
+  TwoHandedPosition: 0
+  TwoHandedPostionLerpAmount: 0.5
+  TwoHandedRotation: 1
+  TwoHandedRotationLerpAmount: 0.5
+  TwoHandedDropBehavior: 0
+  TwoHandedLookVector: 0
   SecondHandLookSpeed: 40
+  SecondaryGrabbable: {fileID: 0}
+  OtherGrabbableMustBeGrabbed: {fileID: 0}
   CollisionSpring: 1000
   CollisionSlerp: 500
   CollisionLinearMotionX: 2
@@ -240,8 +247,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   modifiers: []
-  eatTime: 0.25
+  eatDuration: 0.2
   grabPoints: []
+  IsEatable: 1
 --- !u!114 &2626905645915470483
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -282,7 +290,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3847170122630200519}
   m_LocalRotation: {x: -0.19081724, y: 0.03136722, z: 0.15914485, w: 0.9681311}
-  m_LocalPosition: {x: -0.0079, y: -0.0442, z: -0.0369}
+  m_LocalPosition: {x: -0.0344, y: -0.0442, z: -0.0213}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3847170122268008770}

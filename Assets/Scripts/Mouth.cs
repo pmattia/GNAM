@@ -115,8 +115,6 @@ namespace Assets.Scripts
                 currentModifiers.ForEach(m => m.Deactivate(Eater));
                 currentModifiers.Clear();
 
-                //delay per permettere di allontanare le mani in caso di pizza che altrimenti verrebbero mangiate subito
-                yield return new WaitForSeconds(.5f);
                 modifier.Activate(Eater);
                 currentModifiers.Add(modifier);
                 modifiers.Remove(modifier);
