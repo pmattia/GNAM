@@ -136,10 +136,6 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 1000011356331470, guid: 00a1a863a89404d46a228ffab189f332, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4000010950447518, guid: 00a1a863a89404d46a228ffab189f332, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -837,7 +833,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &306831340
 Transform:
   m_ObjectHideFlags: 0
@@ -1454,13 +1450,13 @@ MonoBehaviour:
   inventory: {fileID: 1531890440}
   endgameMusic: {fileID: 8300000, guid: 36d24319b1807ba4895abf452aaf0289, type: 3}
   fireworks: {fileID: 1195112596}
-  baseFoodToEat: 1
+  baseFoodToEat: 30
   mobSpawner: {fileID: 488617309}
   soundTrack: {fileID: 2028788866}
   gameplaySound: {fileID: 437091750}
   winSound: {fileID: 8300000, guid: fde1f50d56cbf474c84570b30ab61540, type: 3}
   loseSound: {fileID: 8300000, guid: 2976ae8ca1ba531488ab8d13e4e68c93, type: 3}
-  startLevel: 8
+  startLevel: 1
   gunPrefab: {fileID: 5638594037168375564, guid: b2f551fc1c5a05b4688e6e46ebd4db26,
     type: 3}
   gunClipPrefab: {fileID: 4846239893969188111, guid: 9b1f4924b6f5f6d47aa90cc26c42e047,
