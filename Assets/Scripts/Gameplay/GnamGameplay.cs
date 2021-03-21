@@ -189,67 +189,76 @@ namespace Assets.Scripts.Gameplay
             };
             billboard.onGameCompleted += (residueSeconds) =>
             {
-                CurrentLevelScore += (residueSeconds * GnamConstants.secondsScore);
-                TotalScore += CurrentLevelScore;
-
-                StopGameplay();
-                billboard.StopTimer();
-
-                gameplaySound.PlayOneShot(winSound);
-
-                GameObject bonus;
-                if(CurrentLevel == 3) {
-                    bonus = gunPrefab;
-                }
-                else {
-                    bonus = DrawNewBonus(currentDifficulty);
-                }
-
-                UpdateLevelScore(CurrentLevel, CurrentLevelScore);
-                var rate = GetGameRate(CurrentLevelScore, CurrentLevel);
-
-                billboard.YouWin(CurrentLevelScore, rate, bonus);
-                StartCoroutine(DelayedCallback(3, () => {
-                    starter.Show();
-                    starter.SpawnRetryEatable();
-                }));
-
-                if (CurrentLevel < GnamConstants.maxLevel)
+                if (isPlaying)
                 {
-                    SpawnBonus(bonus);
+                    CurrentLevelScore += (residueSeconds * GnamConstants.secondsScore);
+                    TotalScore += CurrentLevelScore;
 
-                    StartCoroutine(DelayedCallback(3.2f, () => {
-                        starter.SpawnNextLevelEatable();
+                    StopGameplay();
+                    billboard.StopTimer();
+
+                    gameplaySound.PlayOneShot(winSound);
+
+                    GameObject bonus;
+                    if (CurrentLevel == 3)
+                    {
+                        bonus = gunPrefab;
+                    }
+                    else
+                    {
+                        bonus = DrawNewBonus(currentDifficulty);
+                    }
+
+                    UpdateLevelScore(CurrentLevel, CurrentLevelScore);
+                    var rate = GetGameRate(CurrentLevelScore, CurrentLevel);
+
+                    billboard.YouWin(CurrentLevelScore, rate, bonus);
+                    StartCoroutine(DelayedCallback(3, () =>
+                    {
+                        starter.Show();
+                        starter.SpawnRetryEatable();
                     }));
+
+                    if (CurrentLevel < GnamConstants.maxLevel)
+                    {
+                        SpawnBonus(bonus);
+
+                        StartCoroutine(DelayedCallback(3.2f, () =>
+                        {
+                            starter.SpawnNextLevelEatable();
+                        }));
+                    }
+                    else
+                    {
+                        StartCoroutine(DelayedCallback(3.2f, () =>
+                        {
+                            starter.SpawnFinishEatable();
+                        }));
+                    }
                 }
-                else
-                {
-                    StartCoroutine(DelayedCallback(3.2f, () => {
-                        starter.SpawnFinishEatable();
-                    }));
-                }
-                    
             };
             billboard.onTimeExpired += () => {
-                StopGameplay();
-
-                billboard.GameOver(levelScores);
-
-                gameplaySound.PlayOneShot(loseSound);
-                starter.Show();
-                starter.SpawnRetryEatable();
-
-                CurrentLevelScore = 0;
-
-                var isNewRecord = TotalScore > BestScore;
-                if (isNewRecord)
+                if (isPlaying)
                 {
-                    PlayerPrefs.SetInt(GnamConstants.bestScoreKey, TotalScore);
+                    StopGameplay();
+
+                    billboard.GameOver(levelScores);
+
+                    gameplaySound.PlayOneShot(loseSound);
+                    starter.Show();
+                    starter.SpawnRetryEatable();
+
+                    CurrentLevelScore = 0;
+
+                    var isNewRecord = TotalScore > BestScore;
+                    if (isNewRecord)
+                    {
+                        PlayerPrefs.SetInt(GnamConstants.bestScoreKey, TotalScore);
+                    }
+
+                    billboard.ShowResults(levelScores, isNewRecord);
                 }
-
-                billboard.ShowResults(levelScores, isNewRecord);
             };
-
         }
 
         IEnumerator DelayedCallback(float delay, Action callback)

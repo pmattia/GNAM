@@ -18,14 +18,11 @@ namespace Assets.Scripts
         [SerializeField] GameObject gameover;
         [SerializeField] GameObject youwin;
         [SerializeField] Timer timer;
-        [SerializeField] AudioClip timeExiring;
-        [SerializeField] AudioClip timerRing;
-        [SerializeField] AudioSource timerAudio;
         [SerializeField] TextMeshPro foodCount;
         [SerializeField] TextMeshPro levelLabel;
         [SerializeField] LevelScore levelScore;
         [SerializeField] GameScores gameScores;
-
+ 
         public event Action<Food.FoodFamily, List<Food.FoodFamily>, GameObject> onObjectiveCompleted;
         public event Action<Food.FoodFamily, List<Food.FoodFamily>> onObjectiveExpired;
         public event Action<int> onGameCompleted;
@@ -57,14 +54,15 @@ namespace Assets.Scripts
             });
             timer.onExpired += () =>
             {
-                timerAudio.Stop();
-                timerAudio.pitch = Time.timeScale;
-                timerAudio.PlayOneShot(timerRing);
+                
                 if (onTimeExpired != null)
                 {
                     onTimeExpired();
                 }
             };
+
+            foodCount.gameObject.SetActive(false);
+            levelLabel.gameObject.SetActive(false);
             foreach(var item in billboardObjectives)
             {
                 item.gameObject.SetActive(false);
@@ -75,32 +73,25 @@ namespace Assets.Scripts
         {
             if (timer.isRunning)
             {
-                if (timer.isExpiring && !timerAudio.isPlaying)
-                {
-                    Debug.Log("timer expiring");
-                    timerAudio.PlayOneShot(timeExiring);
-                    timerAudio.pitch = Time.timeScale;
-                    timer.Highligh(true);
-                }
-                else if (!timer.isExpiring && timerAudio.isPlaying)
-                {
-                    timerAudio.Stop();
-                    timerAudio.pitch = Time.timeScale;
-                    timer.Highligh(false);
-                }
+                timer.Highligh(timer.isExpiring);
             }
         }
 
         public void SetLevel(LevelDto level)
         {
             foodCount.text = $"Eat {level.foodToEat - level.foodsEated} more";
+            foodCount.gameObject.SetActive(true);
+            
             levelLabel.text = $"Level {level.levelIndex}";
+            levelLabel.gameObject.SetActive(true);
+
             objectives.Clear();
             foodsEated = level.foodsEated;
             foodsToEat = level.foodToEat;
             coronaProgress.currentValue = foodsEated;
             coronaProgress.totalValue = foodsToEat;
             timer.SetTimer(level.time);
+            timer.Highligh(false);
 
             StartCoroutine(DelayedObjectives(level.objectives));
 
@@ -129,11 +120,11 @@ namespace Assets.Scripts
             levelScore.Hide();
             gameScores.Hide();
             timer.StartTimer();
+            timer.Highligh(false);
         }
 
         public void StopTimer()
         {
-            timerAudio.Stop();
             timer.StopTimer();
         }
 

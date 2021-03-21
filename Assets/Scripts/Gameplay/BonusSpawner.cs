@@ -117,8 +117,8 @@ namespace Assets.Scripts.Gameplay
 
         void highLightIterator(float value)
         {
-            highlight.intensity = value;
-           // Debug.Log(value);
+            //todo: to remove because is useless
+           // highlight.intensity = value;
         }
 
 

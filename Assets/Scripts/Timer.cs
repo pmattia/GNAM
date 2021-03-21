@@ -7,32 +7,29 @@ using UnityEngine;
 
 public class Timer : MonoBehaviour
 {
-    public float cooldown = 4;
+    [SerializeField] float cooldown = 4;
     float realtimeCooldown;
-    public TextMeshPro[] timers;
+    [SerializeField] TextMeshPro timerLabel;
     public bool isRunning { get; private set; }
     public event Action onExpired;
     public bool isExpiring { get; private set; }
     [SerializeField] float expiringEdge;
+    [SerializeField] List<GameObject> eggStatuses;
+    [SerializeField] AudioClip timeExiring;
+    [SerializeField] AudioClip timerRing;
+    [SerializeField] AudioSource timerAudio;
     // Start is called before the first frame update
     void Start()
     {
         realtimeCooldown = cooldown;
-        foreach (var timer in timers)
-        {
-            timer.gameObject.SetActive(false);
-        }
+        timerLabel.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (timers.Length > 0)
-        {
-            foreach (var timer in timers) { 
-                timer.text = Mathf.Round(realtimeCooldown).ToString();
-            }
-        }
+        timerLabel.text = Mathf.Round(realtimeCooldown).ToString();
+        
         if (realtimeCooldown > 0 && isRunning)
         {
             realtimeCooldown -= Time.deltaTime;
@@ -43,7 +40,12 @@ public class Timer : MonoBehaviour
             isExpiring = false;
             realtimeCooldown = 0;
             StopTimer();
-            if(onExpired!= null)
+            timerAudio.Stop();
+            timerAudio.pitch = Time.timeScale;
+            timerAudio.PlayOneShot(timerRing);
+            SetEggStatus(EggStatus.Exploded);
+
+            if (onExpired!= null)
             {
                 onExpired();
             }
@@ -52,15 +54,15 @@ public class Timer : MonoBehaviour
 
     public void StartTimer()
     {
-        foreach(var timer in timers)
-        {
-            timer.gameObject.SetActive(true);
-        }
+        timerLabel.gameObject.SetActive(true);
+        
         isRunning = true;
     }
 
     public void StopTimer()
     {
+
+        timerAudio.Stop();
         isRunning = false;
     }
 
@@ -77,10 +79,24 @@ public class Timer : MonoBehaviour
 
     public void Highligh(bool isHighlighted)
     {
-        foreach (var timer in timers)
+        if (isHighlighted)
         {
-            timer.fontSize = isHighlighted? 150 : 100;
+            Debug.Log("timer expiring");
+            if (!timerAudio.isPlaying)
+            {
+                timerAudio.PlayOneShot(timeExiring);
+                timerAudio.pitch = Time.timeScale;
+            }
+            SetEggStatus(EggStatus.Bouble);
         }
+        else
+        {
+            timerAudio.Stop();
+            timerAudio.pitch = Time.timeScale;
+            SetEggStatus(EggStatus.Normal);
+        }
+
+        timerLabel.fontSize = isHighlighted? 150 : 100;
     }
     public void SetTimer(float cooldown)
     {
@@ -92,4 +108,27 @@ public class Timer : MonoBehaviour
         realtimeCooldown += time;
         return realtimeCooldown;
     }
+
+    void SetEggStatus(EggStatus status)
+    {
+        if(status == EggStatus.Bouble)
+        {
+            timerLabel.rectTransform.localPosition = new Vector3(1.759f, 1.91f, -0.164f);
+        }
+        else
+        {
+            timerLabel.rectTransform.localPosition = new Vector3(1.759f, 1.91f, 0.263f);
+        }
+        eggStatuses.ForEach(e => e.SetActive(false));
+
+        int index = (int)status;
+        eggStatuses[index].SetActive(true);
+    }
+}
+
+enum EggStatus
+{
+    Normal = 0,
+    Bouble = 1,
+    Exploded = 2
 }
