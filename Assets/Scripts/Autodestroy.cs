@@ -10,13 +10,14 @@ namespace Assets.Scripts
     public class Autodestroy : MonoBehaviour
     {
         public event Action onDestroy;
-        public int Countdown { get; set; }
+        [SerializeField] int cooldown = 4;
+        public int Countdown { get { return cooldown; } set { cooldown = value; } }
         float lifetime = 0;
 
         private void FixedUpdate()
         {
             lifetime += Time.deltaTime;
-            if (lifetime > Countdown) {
+            if (lifetime > cooldown) {
                 var particle = Resources.Load<GameObject>("GnamAutodestroy");
                 Instantiate(particle, transform.position, transform.rotation);
 

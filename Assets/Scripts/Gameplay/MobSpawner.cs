@@ -14,7 +14,7 @@ namespace Assets.Scripts
         [SerializeField] GameObject[] modifierMobs;
         [SerializeField] GameObject[] killerMobs;
         [SerializeField] Transform[] placeholders;
-        public event Action OnMobDeath;
+        public event Action<ShootAtTargets> OnMobDeath;
 
         public GameObject[] SpawnMob(int level) {
             var ret = new List<GameObject>();
@@ -142,10 +142,10 @@ namespace Assets.Scripts
             instancedMob.transform.SetParent(placeholder);
             instancedMob.GetComponents<Collider>().ToList().ForEach(c => c.enabled = true);
             var shooter = instancedMob.GetComponent<ShootAtTargets>();
-            shooter.onDeath += () => { 
+            shooter.onDeath += (killedmob) => { 
                 if(OnMobDeath!= null)
                 {
-                    OnMobDeath();
+                    OnMobDeath(killedmob);
                 }
             };
             if (level > 7)

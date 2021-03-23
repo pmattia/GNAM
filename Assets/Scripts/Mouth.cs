@@ -30,6 +30,8 @@ namespace Assets.Scripts
         [SerializeField] TimeController playerTimeController;
         ITimeController timeController;
         [SerializeField] GameObject briciolePrefab;
+        [SerializeField] SnapZone leftPistolHolder;
+        [SerializeField] SnapZone rightPistolHolder;
 
         List<GnamModifier> modifiers = new List<GnamModifier>();
         List<GnamModifier> currentModifiers = new List<GnamModifier>();
@@ -38,10 +40,12 @@ namespace Assets.Scripts
         public event Action onSwallow;
 
         private EaterDto _eater;
-        public EaterDto Eater { 
-            get {
+        public EaterDto Eater
+        {
+            get
+            {
                 if (_eater != null) return _eater;
-                
+
                 _eater = new EaterDto(this, handsController, timeController);
                 return _eater;
             }
@@ -54,13 +58,69 @@ namespace Assets.Scripts
             audioSource = audiosources[0];
             audioLoop = audiosources[1];
             handsController = new VrifHandsControllerAdapter(handModelSelecter);
+
+            leftPistolHolder.gameObject.SetActive(false);
+            handsController.onLeftHandGrab += (grabbable) =>
+            {
+                if (grabbable.tag.Equals("Weapon"))
+                {
+                    leftPistolHolder.gameObject.SetActive(true);
+                }
+            };
+            handsController.onLeftHandRelease += (grabbable) =>
+            {
+                StartCoroutine(DelayedCallback(.2f, () =>
+                {
+                    // Debug.Log($"drop left {leftPistolHolder.HeldItem != null}");
+                    if (handsController.LeftGrabber.HeldGrabbable != null && handsController.LeftGrabber.HeldGrabbable.tag.Equals("Weapon"))
+                    {
+                        leftPistolHolder.gameObject.SetActive(true);
+                    }
+                    else
+                    {
+                        leftPistolHolder.gameObject.SetActive(leftPistolHolder.HeldItem != null);
+                    }
+                }));
+            };
+
+            rightPistolHolder.gameObject.SetActive(false);
+            handsController.onRightHandGrab += (grabbable) =>
+            {
+                if (grabbable.tag.Equals("Weapon"))
+                {
+                    rightPistolHolder.gameObject.SetActive(true);
+                }
+            };
+            handsController.onRightHandRelease += (grabbable) =>
+            {
+                StartCoroutine(DelayedCallback(.2f, () =>
+                {
+                    // Debug.Log($"drop right {rightPistolHolder.HeldItem != null}");
+                    if (handsController.RightGrabber.HeldGrabbable != null && handsController.RightGrabber.HeldGrabbable.tag.Equals("Weapon"))
+                    {
+                        rightPistolHolder.gameObject.SetActive(true);
+                    }
+                    else
+                    {
+                        rightPistolHolder.gameObject.SetActive(rightPistolHolder.HeldItem != null);
+                    }
+
+                }));
+            };
+
             timeController = new VrifTimeControllerAdapter(playerTimeController);
+        }
+
+        IEnumerator DelayedCallback(float delay, Action callback)
+        {
+            yield return new WaitForSeconds(delay);
+            callback.Invoke();
         }
 
 
         private void OnTriggerEnter(Collider other)
         {
-           // Debug.Log("collide " + other.name);
+            // Debug.Log("collide " + other.name);
             if ((isTurbo || !isEating) && isEnabled)
             {
                 var eatable = other.GetComponent<Eatable>();
@@ -98,9 +158,9 @@ namespace Assets.Scripts
 
             audioSource.clip = crunchingAudio;
             audioSource.Play();
-           // Instantiate(briciolePrefab, transform.position, transform.rotation);
+            // Instantiate(briciolePrefab, transform.position, transform.rotation);
 
-            var runtimeEatTime = Eater.Time.TimeSlowing? eatable.EatDuration * Eater.Time.SlowTimeScale : eatable.EatDuration;
+            var runtimeEatTime = Eater.Time.TimeSlowing ? eatable.EatDuration * Eater.Time.SlowTimeScale : eatable.EatDuration;
             yield return new WaitForSeconds(runtimeEatTime);
 
             audioSource.Stop();
@@ -109,7 +169,7 @@ namespace Assets.Scripts
 
             var tModifiers = new List<GnamModifier>();
             tModifiers.AddRange(modifiers);
-            foreach (var modifier in tModifiers.Where(t=> t !=null))
+            foreach (var modifier in tModifiers.Where(t => t != null))
             {
                 Debug.Log($"modifier {modifier.name}");
                 currentModifiers.ForEach(m => m.Deactivate(Eater));

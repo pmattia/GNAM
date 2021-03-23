@@ -227,7 +227,7 @@ namespace Assets.Scripts.Gameplay
                     m.SetActive(true);
                     m.GetComponents<Collider>().ToList().ForEach(c => c.enabled = true);
                     var shoter = m.GetComponent<ShootAtTargets>();
-                    shoter.onDeath += () =>
+                    shoter.onDeath += (killedmob) =>
                     {
                         bonusSpawner.SpawnBonus(randomBonuses[UnityEngine.Random.Range(0, randomBonuses.Count())]);
 

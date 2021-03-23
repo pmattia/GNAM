@@ -20,7 +20,7 @@ namespace Assets.Scripts.AI
         [SerializeField] AudioClip[] voices;
         [SerializeField] AudioClip spawn;
         [SerializeField] AudioClip stun;
-        public event Action onDeath;
+        public event Action<ShootAtTargets> onDeath;
 
         public float speed = 10;
         public bool shootFoodFirst = true;
@@ -51,7 +51,7 @@ namespace Assets.Scripts.AI
             onMobDeath.AddListener(()=> {
                 if (onDeath != null)
                 {
-                    onDeath();
+                    onDeath(this);
                 }
             });
             damageable.onDestroyed = onMobDeath;

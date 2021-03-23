@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Interfaces;
+﻿using Assets.Scripts.AI;
+using Assets.Scripts.Interfaces;
 using Assets.Scripts.ScriptableObjects;
 using BNG;
 using System;
@@ -22,7 +23,7 @@ namespace Assets.Scripts.Gameplay
         [SerializeField] int levelDuration = 60;
         [SerializeField] Inventory inventory;
         [SerializeField] AudioClip endgameMusic;
-        [SerializeField] GameObject fireworks;
+        [SerializeField] GameObject endgameParty;
         [SerializeField] protected int CurrentLevel { get; private set; }
 
         Dictionary<int, int> levelScores = new Dictionary<int, int>();
@@ -57,7 +58,7 @@ namespace Assets.Scripts.Gameplay
         [SerializeField] AudioClip winSound;
         [SerializeField] AudioClip loseSound;
         [SerializeField] int startLevel = 1;
-
+        [SerializeField] Transform player;
         [SerializeField] GameObject gunPrefab;
         [SerializeField] GameObject gunClipPrefab;
 
@@ -165,10 +166,14 @@ namespace Assets.Scripts.Gameplay
                 EndgameParty();
             };
 
-            mobSpawner.OnMobDeath += () =>
+            mobSpawner.OnMobDeath += (mob) =>
             {
                 SpawnBonus();
                 billboard.AddTime(5);
+                var bonusUi = Resources.Load<GameObject>("UiTimeBonus");
+                var instancedUi = Instantiate(bonusUi, mob.transform.position, transform.rotation);
+                instancedUi.transform.LookAt(player);
+
 
                 CurrentLevelScore += GnamConstants.mobKillScore;
             };
@@ -199,20 +204,9 @@ namespace Assets.Scripts.Gameplay
 
                     gameplaySound.PlayOneShot(winSound);
 
-                    GameObject bonus;
-                    if (CurrentLevel == 3)
-                    {
-                        bonus = gunPrefab;
-                    }
-                    else
-                    {
-                        bonus = DrawNewBonus(currentDifficulty);
-                    }
-
                     UpdateLevelScore(CurrentLevel, CurrentLevelScore);
                     var rate = GetGameRate(CurrentLevelScore, CurrentLevel);
 
-                    billboard.YouWin(CurrentLevelScore, rate, bonus);
                     StartCoroutine(DelayedCallback(3, () =>
                     {
                         starter.Show();
@@ -221,6 +215,17 @@ namespace Assets.Scripts.Gameplay
 
                     if (CurrentLevel < GnamConstants.maxLevel)
                     {
+
+                        GameObject bonus;
+                        if (CurrentLevel == 3)
+                        {
+                            bonus = gunPrefab;
+                        }
+                        else
+                        {
+                            bonus = DrawNewBonus(currentDifficulty);
+                        }
+                        billboard.YouWin(CurrentLevelScore, rate, bonus);
                         SpawnBonus(bonus);
 
                         StartCoroutine(DelayedCallback(3.2f, () =>
@@ -259,6 +264,7 @@ namespace Assets.Scripts.Gameplay
                     billboard.ShowResults(levelScores, isNewRecord);
                 }
             };
+
         }
 
         IEnumerator DelayedCallback(float delay, Action callback)
@@ -413,8 +419,13 @@ namespace Assets.Scripts.Gameplay
         void EndgameParty()
         {
             VRUtils.Instance.PlaySpatialClipAt(endgameMusic, transform.position, 1f, 0.5f);
-            fireworks.SetActive(true);
-            mobSpawner.Party();
+            endgameParty.SetActive(true);
+            foreach(var mob in endgameParty.GetComponentsInChildren<ShootAtTargets>())
+            {
+                mob.GetComponents<Collider>().ToList().ForEach(c => c.enabled = false);
+                mob.GetComponentInChildren<Animator>().SetBool("exult", true);
+            }
+          //  mobSpawner.Party();
         }
 
         protected LevelDto GetLevel(int level, int eatedFoods)

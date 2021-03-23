@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Assets.Scripts.Interfaces;
+using BNG;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,5 +30,9 @@ namespace Assets.Scripts.ScriptableObjects
         GameObject EnableRightHand(int index);
         GameObject AttachToLeftHand(GameObject prefab);
         GameObject AttachToRightHand(GameObject prefab);
+        event Action<Grabbable> onLeftHandGrab;
+        event Action<Grabbable> onRightHandGrab;
+        event Action<Grabbable> onLeftHandRelease;
+        event Action<Grabbable> onRightHandRelease;
     }
 }

@@ -43,6 +43,22 @@ namespace Assets.Scripts.Interfaces
             }
         }
 
+        public GrabbableEvent onGrabEvent
+        {
+            get
+            {
+                return _grabber.onGrabEvent;
+            }
+        }
+
+        public GrabbableEvent onReleaseEvent
+        {
+            get
+            {
+                return _grabber.onReleaseEvent;
+            }
+        }
+
         public void TryRelease()
         {
             _grabber.TryRelease();

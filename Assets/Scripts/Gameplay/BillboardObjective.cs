@@ -79,26 +79,7 @@ namespace Assets.Scripts.Gameplay
         string GetStatsString(Food.FoodFamily family, int toEat, int eated = 0, bool isCompleted = false)
         {
             var ret = string.Empty;
-            //switch (family)
-            //{
-            //    case Food.FoodFamily.Candy:
-            //        ret = string.Format("DOLCI {0} SU {1}", eated.ToString(), toEat.ToString());
-            //        break;
-            //    case Food.FoodFamily.Carbo:
-            //        ret = string.Format("CARBOIDRATI {0} SU {1}", eated.ToString(), toEat.ToString());
-            //        break;
-            //    case Food.FoodFamily.Fruit:
-            //        ret = string.Format("FRUTTA {0} SU {1}", eated.ToString(), toEat.ToString());
-            //        break;
-            //    case Food.FoodFamily.Meat:
-            //        ret = string.Format("CARNE {0} SU {1}", eated.ToString(), toEat.ToString());
-            //        break;
-            //    case Food.FoodFamily.Vegetable:
-            //        ret = string.Format("VERDURA {0} SU {1}", eated.ToString(), toEat.ToString());
-            //        break;
-            //}
-
-            //ret = string.Format("{0} su {1}", eated.ToString(), toEat.ToString());
+            
             ret = string.Format("{0}", (toEat - eated).ToString());
 
             return ret;

@@ -12,6 +12,7 @@ namespace Assets.Scripts
     public class Inventory : MonoBehaviour
     {
         List<SnapZone> snapZones = new List<SnapZone>();
+        [SerializeField] List<SnapZone> externalSnapZones = new List<SnapZone>();
         List<SnapZone> EmptySnapZones {
             get
             {
@@ -26,6 +27,11 @@ namespace Assets.Scripts
         private void Awake()
         {
             snapZones = GetComponentsInChildren<SnapZone>().ToList();
+            foreach(var snapZone in externalSnapZones)
+            {
+                snapZone.OnSnapEvent.AddListener(OnSnap);
+                snapZone.OnDetachEvent.AddListener(OnDetach);
+            }
         }
 
         public virtual void OnSnap(Grabbable gnabbable)

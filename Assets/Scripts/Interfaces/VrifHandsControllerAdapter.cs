@@ -13,9 +13,61 @@ namespace Assets.Scripts.ScriptableObjects
     public class VrifHandsControllerAdapter : IHandsController
     {
         HandModelSelector _handModelSelector;
+        IGrabber _leftHandGrabber;
+        IGrabber _rightHandGrabber;
+
+        public event Action<Grabbable> onLeftHandGrab;
+        public event Action<Grabbable> onRightHandGrab;
+        public event Action<Grabbable> onLeftHandRelease;
+        public event Action<Grabbable> onRightHandRelease;
+
         public VrifHandsControllerAdapter(HandModelSelector handModelSelector)
         {
             _handModelSelector = handModelSelector;
+
+            var leftGrabber = LeftHandHolder.parent.GetComponentInChildren<Grabber>();
+            _leftHandGrabber = new VrifGrabberAdapter(leftGrabber);
+            _leftHandGrabber.onGrabEvent.AddListener(OnLeftHandGrab);
+            _leftHandGrabber.onReleaseEvent.AddListener(OnLeftHandRelease);
+
+            var rightGrabber = RightHandHolder.parent.GetComponentInChildren<Grabber>();
+            _rightHandGrabber = new VrifGrabberAdapter(rightGrabber);
+            _rightHandGrabber.onGrabEvent.AddListener(OnRightHandGrab);
+            _rightHandGrabber.onReleaseEvent.AddListener(OnRightHandRelease);
+        }
+
+        void OnLeftHandGrab(Grabbable grabbable)
+        {
+            if (onLeftHandGrab != null)
+            {
+                Debug.Log("grab left");
+                onLeftHandGrab.Invoke(grabbable);
+            }
+        }
+
+        void OnRightHandGrab(Grabbable grabbable)
+        {
+            if (onRightHandGrab != null)
+            {
+                onRightHandGrab.Invoke(grabbable);
+            }
+        }
+
+        void OnLeftHandRelease(Grabbable grabbable)
+        {
+            if (onLeftHandRelease != null)
+            {
+                Debug.Log("drop left");
+                onLeftHandRelease.Invoke(grabbable);
+            }
+        }
+
+        void OnRightHandRelease(Grabbable grabbable)
+        {
+            if (onRightHandRelease != null)
+            {
+                onRightHandRelease.Invoke(grabbable);
+            }
         }
 
         public int ModelCount { get { return _handModelSelector.LeftHandGFXHolder.childCount; } }
@@ -24,9 +76,10 @@ namespace Assets.Scripts.ScriptableObjects
 
         public Transform RightHandHolder { get { return _handModelSelector.RightHandGFXHolder; } }
 
-        public IGrabber LeftGrabber { get {
-                var grabber = LeftHandHolder.parent.GetComponentInChildren<Grabber>();
-                return new VrifGrabberAdapter(grabber);
+        public IGrabber LeftGrabber { 
+            get 
+            {
+                return _leftHandGrabber;
             } 
         }
 
@@ -34,8 +87,7 @@ namespace Assets.Scripts.ScriptableObjects
         {
             get
             {
-                var grabber = RightHandHolder.parent.GetComponentInChildren<Grabber>();
-                return new VrifGrabberAdapter(grabber);
+                return _rightHandGrabber;
             }
         }
 
@@ -52,14 +104,12 @@ namespace Assets.Scripts.ScriptableObjects
             var tGrabber = leftController.grabber;
             leftController.grabber = rightController.grabber;
             rightController.grabber = tGrabber;
-
         }
 
         public Coroutine StartCoroutine(IEnumerator routine)
         {
             return _handModelSelector.StartCoroutine(routine);
         }
-
 
         public int DisableLeftHand()
         {

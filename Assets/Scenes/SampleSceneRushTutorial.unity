@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -5260,6 +5260,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6038565295235048154, guid: 21e08168d4f5e614d8c0e8dfe4860ac9,
         type: 3}
+    - target: {fileID: 4491510836679305804, guid: c9f645d837066a24a8741aaeb899e03d,
+        type: 3}
+      propertyPath: leftPistolHolder
+      value: 
+      objectReference: {fileID: 4491510837439072983}
+    - target: {fileID: 4491510836679305804, guid: c9f645d837066a24a8741aaeb899e03d,
+        type: 3}
+      propertyPath: rightPistolHolder
+      value: 
+      objectReference: {fileID: 4491510837439072982}
     - target: {fileID: 4491510836679305806, guid: c9f645d837066a24a8741aaeb899e03d,
         type: 3}
       propertyPath: m_Radius
@@ -5281,6 +5291,11 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5558233721500997365, guid: c9f645d837066a24a8741aaeb899e03d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7646689826379769860, guid: c9f645d837066a24a8741aaeb899e03d,
         type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -5547,6 +5562,30 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9f645d837066a24a8741aaeb899e03d, type: 3}
+--- !u!114 &4491510837439072982 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2150493186316531971, guid: c9f645d837066a24a8741aaeb899e03d,
+    type: 3}
+  m_PrefabInstance: {fileID: 4491510837439072981}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55b646e2949ffb74c9ca8c512b4411df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4491510837439072983 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4889784703220850237, guid: c9f645d837066a24a8741aaeb899e03d,
+    type: 3}
+  m_PrefabInstance: {fileID: 4491510837439072981}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55b646e2949ffb74c9ca8c512b4411df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4983347160910139830
 PrefabInstance:
   m_ObjectHideFlags: 0
