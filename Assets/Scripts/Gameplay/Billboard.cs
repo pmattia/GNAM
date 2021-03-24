@@ -126,6 +126,7 @@ namespace Assets.Scripts
         public void StopTimer()
         {
             timer.StopTimer();
+            billboardObjectives.ForEach(o => o.Hide());
         }
 
         public void AddTime(float time)

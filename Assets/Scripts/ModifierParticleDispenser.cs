@@ -25,9 +25,16 @@ namespace Assets.Scripts
                 foreach (var item in food.eatableParts)
                 {
                     var renderer = item.GetComponent<Renderer>();
-                    //renderer.material = null;
-                    renderer.material.SetColor("Color_B5C1F6F5", new Color32(0x3D, 0xEE, 0x15, 0));
-                    item.modifiers.AddRange(modifiers);
+                    if (renderer == null)
+                    {
+                        renderer = item.GetComponentInChildren<Renderer>();
+                    }
+
+                    if (renderer != null)
+                    {
+                        renderer.material.SetColor("Color_B5C1F6F5", new Color32(0x3D, 0xEE, 0x15, 0));
+                        item.modifiers.AddRange(modifiers);
+                    }
                 }
             }
         }

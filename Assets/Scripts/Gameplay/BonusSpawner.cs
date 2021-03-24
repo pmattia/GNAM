@@ -28,6 +28,8 @@ namespace Assets.Scripts.Gameplay
             } 
         }
 
+        public Grabbable HeldItem { get { return snapZone.HeldItem; } }
+
         private void Start()
         {
             highlightPrefab.SetActive(false);
@@ -68,6 +70,22 @@ namespace Assets.Scripts.Gameplay
         public GameObject SpawnBonus(GameObject bonus)
         {
             return InstantiateBonusPrefab(bonus);
+        }
+
+        public GameObject SpawnFoodBonus(GameObject bonus, Action<EaterDto> onEated)
+        {
+            var instBonus = InstantiateBonusPrefab(bonus);
+            var bonusFood = instBonus.GetComponent<Food>();
+            if (bonusFood == null)
+            {
+                bonusFood = instBonus.GetComponentInChildren<Food>();
+            }
+            if (bonusFood != null)
+            {
+                bonusFood.onEated += onEated;
+            }
+
+            return instBonus;
         }
 
         GameObject InstantiateBonusPrefab(GameObject bonusPrefab)

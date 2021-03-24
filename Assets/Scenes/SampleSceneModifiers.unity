@@ -319,6 +319,18 @@ MonoBehaviour:
   ThumbBlendMin: 0
   ThumbBlendMax: 0
   ShowAngleGizmo: 1
+--- !u!114 &28034142 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9045774559201997781, guid: 4ac7df741a9c0a2418ec19477729ee3d,
+    type: 3}
+  m_PrefabInstance: {fileID: 874911585}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55b646e2949ffb74c9ca8c512b4411df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &33700347
 GameObject:
   m_ObjectHideFlags: 0
@@ -1177,6 +1189,8 @@ MonoBehaviour:
   handModelSelecter: {fileID: 499300587}
   playerTimeController: {fileID: 124330882}
   briciolePrefab: {fileID: 0}
+  leftPistolHolder: {fileID: 28034142}
+  rightPistolHolder: {fileID: 1284738767}
 --- !u!82 &194025673
 AudioSource:
   m_ObjectHideFlags: 0
@@ -7421,6 +7435,18 @@ MonoBehaviour:
   ThumbBlendMin: 0
   ThumbBlendMax: 0
   ShowAngleGizmo: 1
+--- !u!114 &1284738767 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2561733894627218667, guid: 4ac7df741a9c0a2418ec19477729ee3d,
+    type: 3}
+  m_PrefabInstance: {fileID: 874911585}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55b646e2949ffb74c9ca8c512b4411df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1290207300
 GameObject:
   m_ObjectHideFlags: 0
@@ -9833,6 +9859,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6fa8a47ce635a244afeee40d33cfbec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  externalSnapZones: []
 --- !u!1001 &1709550931
 PrefabInstance:
   m_ObjectHideFlags: 0

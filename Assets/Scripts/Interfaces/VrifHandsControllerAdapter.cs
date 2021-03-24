@@ -40,7 +40,6 @@ namespace Assets.Scripts.ScriptableObjects
         {
             if (onLeftHandGrab != null)
             {
-                Debug.Log("grab left");
                 onLeftHandGrab.Invoke(grabbable);
             }
         }
@@ -57,7 +56,6 @@ namespace Assets.Scripts.ScriptableObjects
         {
             if (onLeftHandRelease != null)
             {
-                Debug.Log("drop left");
                 onLeftHandRelease.Invoke(grabbable);
             }
         }

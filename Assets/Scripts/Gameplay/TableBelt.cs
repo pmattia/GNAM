@@ -124,11 +124,22 @@ public class TableBelt : GnamGameplay
                 var rand = UnityEngine.Random.Range(0, 10);
                 if(rand > 3)
                 {
-                    availableFoodbags = availableFoodbags
-                                            .Where(f => f.foods.Select(food => foodFamiliesSuggestion.Contains(food.foodFamily)).Any()
-                                            ).ToArray();
+                    var tFoodbags = new List<Foodbag>();
+                    foreach(var availableFoodbag in availableFoodbags)
+                    {
+                        if (availableFoodbag.foods.Select(f => f.foodFamily).Intersect(foodFamiliesSuggestion).Any())
+                        {
+                            tFoodbags.Add(availableFoodbag);
+                        }
+                    }
 
-                    Debug.Log($"selected suggestion {availableFoodbags.Count()}");
+                    if (tFoodbags.Count() > 0)
+                    {
+                        availableFoodbags = tFoodbags.ToArray();
+                    }
+                    
+                    foodFamiliesSuggestion.ForEach(f => Debug.Log($"suggestions {f}"));
+                    availableFoodbags.ToList().ForEach(a=> Debug.Log($"selected suggestion {a.name}"));
                 }
             }
         }

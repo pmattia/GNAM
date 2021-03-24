@@ -15,10 +15,13 @@ namespace Assets.Scripts.ScriptableObjects
         public float scaleFactor = 2;
 
         float animationDuration = .5f;
+        public GameObject magicParticle;
 
         public override void Activate(EaterDto eater)
         {
             ScaleHands(eater.Hands);
+            eater.Hands.AttachToLeftHand(magicParticle);
+            eater.Hands.AttachToRightHand(magicParticle);
 
             eater.Mouth.StartCoroutine(WaitToDeactivate(eater, duration));
         }

@@ -94,8 +94,10 @@ namespace Assets.Scripts.Gameplay
                     heldedInLeftHand = handsController.LeftGrabber.HeldGrabbable.GetComponent<GnamRaycastWeapon>() != null;
                 }
                 var isInInventory = inventory.CheckObjectExistance<GnamRaycastWeapon>();
+                var isInBonusSpawner = bonusSpawner.HeldItem!=null && bonusSpawner.HeldItem.GetComponent<GnamRaycastWeapon>() != null;
 
-                return heldedInLeftHand || heldedInRightHand || isInInventory;
+                Debug.Log($"has gun {heldedInLeftHand} {heldedInRightHand} {isInInventory}");
+                return heldedInLeftHand || heldedInRightHand || isInInventory || isInBonusSpawner;
             } 
         }
         protected bool HasGunClip
@@ -113,8 +115,10 @@ namespace Assets.Scripts.Gameplay
                     heldedInLeftHand = handsController.LeftGrabber.HeldGrabbable.GetComponent<GnamPistolClip>();
                 }
                 var isInInventory = inventory.CheckObjectExistance<GnamPistolClip>();
+                var isInBonusSpawner = bonusSpawner.HeldItem != null && bonusSpawner.HeldItem.GetComponent<GnamRaycastWeapon>() != null;
 
-                return heldedInLeftHand || heldedInRightHand || isInInventory;
+                Debug.Log($"has clip {heldedInLeftHand} {heldedInRightHand} {isInInventory}");
+                return heldedInLeftHand || heldedInRightHand || isInInventory || isInBonusSpawner;
             }
         }
 
@@ -124,7 +128,6 @@ namespace Assets.Scripts.Gameplay
             handsController = new VrifHandsControllerAdapter(handModelSelector);
             for (int i = 1; i <= GnamConstants.maxLevel; i++)
             {
-                Debug.Log($"level added {i}");
                 levelScores.Add(i, LevelResults.GetNewInstance());
             }
 
@@ -153,19 +156,7 @@ namespace Assets.Scripts.Gameplay
                 starter.Hide();
                 StartGame();
             };
-            starter.onFinish += (eater) =>
-            {
-                var isNewRecord = TotalScore > BestScore;
-                if (isNewRecord)
-                {
-                    PlayerPrefs.SetInt(GnamConstants.bestScoreKey, TotalScore);
-                }
-
-                starter.Show();
-                starter.ShowEndgameMessage();
-                billboard.ShowResults(levelScores, isNewRecord);
-                EndgameParty();
-            };
+            starter.onFinish += OnFinish;
 
             mobSpawner.OnMobDeath += (mob) =>
             {
@@ -203,19 +194,18 @@ namespace Assets.Scripts.Gameplay
                     StopGameplay();
                     billboard.StopTimer();
 
-                    gameplaySound.PlayOneShot(winSound);
-
                     UpdateLevelScore(CurrentLevel, currentLevelResults);
                     var rate = GetGameRate(CurrentLevelResults, CurrentLevel);
 
-                    StartCoroutine(DelayedCallback(3, () =>
-                    {
-                        starter.Show();
-                        starter.SpawnRetryEatable();
-                    }));
-
                     if (CurrentLevel < GnamConstants.maxLevel)
                     {
+                        gameplaySound.PlayOneShot(winSound);
+
+                        StartCoroutine(DelayedCallback(3, () =>
+                        {
+                            starter.Show();
+                            starter.SpawnRetryEatable();
+                        }));
 
                         GameObject bonus;
                         if (CurrentLevel == 3)
@@ -236,10 +226,7 @@ namespace Assets.Scripts.Gameplay
                     }
                     else
                     {
-                        StartCoroutine(DelayedCallback(3.2f, () =>
-                        {
-                            starter.SpawnFinishEatable();
-                        }));
+                        OnFinish(null);
                     }
                 }
             };
@@ -279,6 +266,20 @@ namespace Assets.Scripts.Gameplay
     //TODO: CANCELLA ANCHE QUELLO CHE STA NELL'INVENTARIO!
             //var grabbables = FindObjectsOfType<GnamGrabbable>().Where(g => !g.BeingHeld);
             //grabbables.ToList().ForEach(g => Destroy(g.gameObject));
+        }
+
+        void OnFinish(EaterDto eater)
+        {
+            var isNewRecord = TotalScore > BestScore;
+            if (isNewRecord)
+            {
+                PlayerPrefs.SetInt(GnamConstants.bestScoreKey, TotalScore);
+            }
+
+            starter.Show();
+            starter.ShowEndgameMessage();
+            billboard.ShowResults(levelScores, isNewRecord);
+            EndgameParty();
         }
 
         void UpdateLevelScore(int level, LevelResults results)
@@ -331,9 +332,33 @@ namespace Assets.Scripts.Gameplay
                 bonus = DrawNewBonus(currentDifficulty);
             }
 
-            bonusSpawner.SpawnBonus(bonus);
+            var foodBonus = GetFood(bonus);
+            if (foodBonus != null)
+            {
+                bonusSpawner.SpawnFoodBonus(bonus, (eater) => {
+                    if (isPlaying)
+                    {
+                        CurrentLevelResults.FoodsCount++;
+                        billboard.AddFood(foodBonus.foodFamily);
+                    }
+                });
+            }
+            else
+            {
+                bonusSpawner.SpawnBonus(bonus);
+            }
 
             return bonus;
+        }
+
+        Food GetFood(GameObject obj)
+        {
+            var bonusFood = obj.GetComponent<Food>();
+            if (bonusFood == null)
+            {
+                bonusFood = obj.GetComponentInChildren<Food>();
+            }
+            return bonusFood;
         }
 
         protected virtual void StopGameplay()

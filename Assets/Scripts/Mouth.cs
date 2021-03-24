@@ -171,7 +171,6 @@ namespace Assets.Scripts
             tModifiers.AddRange(modifiers);
             foreach (var modifier in tModifiers.Where(t => t != null))
             {
-                Debug.Log($"modifier {modifier.name}");
                 currentModifiers.ForEach(m => m.Deactivate(Eater));
                 currentModifiers.Clear();
 

@@ -33,6 +33,8 @@ namespace Assets.Scripts.AI
         private int coolDownMultiplier;
         public int Type = 0; //0 -> modifier 1 -> killer
 
+        List<AudioSource> talkingAudios = new List<AudioSource>();
+
         private void Start()
         {
             VRUtils.Instance.PlaySpatialClipAt(spawn, transform.position, 1f, 0.5f);
@@ -129,7 +131,7 @@ namespace Assets.Scripts.AI
         {
             var randomAudio = voices[UnityEngine.Random.Range(0, voices.Length)];
 
-            VRUtils.Instance.PlaySpatialClipAt(randomAudio, transform.position, 1f, 0.5f);
+            talkingAudios.Add(VRUtils.Instance.PlaySpatialClipAt(randomAudio, transform.position, 1f, 0.5f));
         }
 
         IEnumerator ShootAndRefil()
@@ -197,6 +199,7 @@ namespace Assets.Scripts.AI
         }
         public void DisableShooter()
         {
+            Shutup();
             isShooterEnabled = false;
         }
 
@@ -210,6 +213,7 @@ namespace Assets.Scripts.AI
        //     Debug.Log($"{name} colpito da {collision.gameObject.name}");
             if(collision.gameObject.GetComponent<Grabbable>() != null)
             {
+                Shutup();
                 VRUtils.Instance.PlaySpatialClipAt(stun, transform.position, 1f, 0.5f);
                 //damageable.DealDamage(5000);
                 var isDead = mobAnimator.GetBool("die");
@@ -230,6 +234,12 @@ namespace Assets.Scripts.AI
         {
             yield return new WaitForSeconds(delay);
             callback.Invoke();
+        }
+
+        void Shutup()
+        {
+            talkingAudios.Where(t => t != null).ToList().ForEach(a => Destroy(a.gameObject));
+            talkingAudios.Clear();
         }
     }
 
