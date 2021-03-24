@@ -25,10 +25,28 @@ namespace Assets.Scripts.Gameplay
         [SerializeField] AudioClip endgameMusic;
         [SerializeField] GameObject endgameParty;
         [SerializeField] protected int CurrentLevel { get; private set; }
-
-        Dictionary<int, int> levelScores = new Dictionary<int, int>();
-
-        protected Difficulty currentDifficulty { get {
+        Dictionary<int, LevelResults> levelScores = new Dictionary<int, LevelResults>();
+        [SerializeField] int baseFoodToEat = 30;
+        [SerializeField] MobSpawner mobSpawner;
+        [SerializeField] AudioSource soundTrack;
+        [SerializeField] AudioSource gameplaySound;
+        [SerializeField] AudioClip winSound;
+        [SerializeField] AudioClip loseSound;
+        [SerializeField] int startLevel = 1;
+        [SerializeField] Transform player;
+        [SerializeField] GameObject gunPrefab;
+        [SerializeField] GameObject gunClipPrefab;
+        protected bool isPlaying { get; private set; }
+        public int BestScore 
+        { 
+            get {
+                return PlayerPrefs.GetInt(GnamConstants.bestScoreKey);
+            }
+        }
+        protected Difficulty currentDifficulty
+        {
+            get
+            {
                 switch (CurrentLevel)
                 {
                     case 0:
@@ -49,27 +67,8 @@ namespace Assets.Scripts.Gameplay
                         return Difficulty.High;
                         break;
                 }
-            } 
-        }
-        [SerializeField] int baseFoodToEat = 30;
-        [SerializeField] MobSpawner mobSpawner;
-        [SerializeField] AudioSource soundTrack;
-        [SerializeField] AudioSource gameplaySound;
-        [SerializeField] AudioClip winSound;
-        [SerializeField] AudioClip loseSound;
-        [SerializeField] int startLevel = 1;
-        [SerializeField] Transform player;
-        [SerializeField] GameObject gunPrefab;
-        [SerializeField] GameObject gunClipPrefab;
-
-        protected bool isPlaying { get; private set; }
-        public int BestScore 
-        { 
-            get {
-                return PlayerPrefs.GetInt(GnamConstants.bestScoreKey);
             }
         }
-
         public event System.Action onGameStarted;
 
         int eatedFoods = 0;
@@ -79,7 +78,8 @@ namespace Assets.Scripts.Gameplay
         protected List<Food.FoodFamily> currentObjectiveFamilies = new List<Food.FoodFamily>();
 
         int TotalScore { get; set; }
-        protected int CurrentLevelScore { get; set; }
+        LevelResults currentLevelResults;
+        protected LevelResults CurrentLevelResults { get { return currentLevelResults; } private set { currentLevelResults = value; } }
         protected bool HasGun { get {
                 //var hasGun = ownedBonus.Any(b => b != null && b.GetComponent<GnamRaycastWeapon>() != null);
                 //Debug.Log($"has gun {HasGun} in elements {ownedBonus.Count()} not null --> { ownedBonus.Count(b => b != null && b.GetComponent<GnamRaycastWeapon>() != null)}");
@@ -120,11 +120,12 @@ namespace Assets.Scripts.Gameplay
 
         protected virtual void Start()
         {
+            CurrentLevelResults = LevelResults.GetNewInstance();
             handsController = new VrifHandsControllerAdapter(handModelSelector);
             for (int i = 1; i <= GnamConstants.maxLevel; i++)
             {
                 Debug.Log($"level added {i}");
-                levelScores.Add(i, 0);
+                levelScores.Add(i, LevelResults.GetNewInstance());
             }
 
             isPlaying = false;
@@ -175,7 +176,7 @@ namespace Assets.Scripts.Gameplay
                 instancedUi.transform.LookAt(player);
 
 
-                CurrentLevelScore += GnamConstants.mobKillScore;
+                currentLevelResults.KillsCount++;
             };
             billboard.onObjectiveCompleted += (family, objectivesFamilies, bonus) =>
             {
@@ -184,7 +185,7 @@ namespace Assets.Scripts.Gameplay
                 billboard.AddTime(5);
                 currentObjectiveFamilies = objectivesFamilies;
 
-                CurrentLevelScore += GnamConstants.objectiveScore;
+                currentLevelResults.ObjectivesCount++;
                 // SpawnMobs();
             };
             billboard.onObjectiveExpired += (family, objectivesFamilies) =>
@@ -196,16 +197,16 @@ namespace Assets.Scripts.Gameplay
             {
                 if (isPlaying)
                 {
-                    CurrentLevelScore += (residueSeconds * GnamConstants.secondsScore);
-                    TotalScore += CurrentLevelScore;
+                    currentLevelResults.SecondsCount = residueSeconds;
+                    TotalScore += currentLevelResults.TotalPoints;
 
                     StopGameplay();
                     billboard.StopTimer();
 
                     gameplaySound.PlayOneShot(winSound);
 
-                    UpdateLevelScore(CurrentLevel, CurrentLevelScore);
-                    var rate = GetGameRate(CurrentLevelScore, CurrentLevel);
+                    UpdateLevelScore(CurrentLevel, currentLevelResults);
+                    var rate = GetGameRate(CurrentLevelResults, CurrentLevel);
 
                     StartCoroutine(DelayedCallback(3, () =>
                     {
@@ -225,7 +226,7 @@ namespace Assets.Scripts.Gameplay
                         {
                             bonus = DrawNewBonus(currentDifficulty);
                         }
-                        billboard.YouWin(CurrentLevelScore, rate, bonus);
+                        billboard.YouWin(CurrentLevelResults, rate, bonus);
                         SpawnBonus(bonus);
 
                         StartCoroutine(DelayedCallback(3.2f, () =>
@@ -247,13 +248,13 @@ namespace Assets.Scripts.Gameplay
                 {
                     StopGameplay();
 
-                    billboard.GameOver(levelScores);
+                    billboard.GameOver();
 
                     gameplaySound.PlayOneShot(loseSound);
                     starter.Show();
                     starter.SpawnRetryEatable();
 
-                    CurrentLevelScore = 0;
+                    CurrentLevelResults = LevelResults.GetNewInstance();
 
                     var isNewRecord = TotalScore > BestScore;
                     if (isNewRecord)
@@ -280,23 +281,28 @@ namespace Assets.Scripts.Gameplay
             //grabbables.ToList().ForEach(g => Destroy(g.gameObject));
         }
 
-        void UpdateLevelScore(int level, int score)
+        void UpdateLevelScore(int level, LevelResults results)
         {
             if (levelScores.Any(l => l.Key == level))
             {
-                levelScores[level] = score;
+                levelScores[level] = results;
             }
             else
             {
-                levelScores.Add(level, score);
+                levelScores.Add(level, results);
             }
         }
 
-        int GetGameRate(int score, int level)
+        /// <summary>
+        /// DEPRECATED NOT WORKING
+        /// </summary>
+        /// <param name="score"></param>
+        /// <param name="level"></param>
+        /// <returns></returns>
+        int GetGameRate(LevelResults score, int level)
         {
             var foodPoints = GetFoodToEatByLevel(level) * GnamConstants.foodScore;
-            Debug.Log($"{score}/{foodPoints} = {Mathf.CeilToInt((float)score / (float)foodPoints)}");
-            return Mathf.CeilToInt((float)score / (float)foodPoints);
+            return Mathf.CeilToInt((float)score.TotalPoints / (float)foodPoints);
         }
 
         protected virtual GameObject DrawNewBonus(Difficulty difficulty)
@@ -406,7 +412,7 @@ namespace Assets.Scripts.Gameplay
 
         protected virtual void GoToNextLevel(EaterDto eater)
         {
-            CurrentLevelScore = 0;
+            CurrentLevelResults = LevelResults.GetNewInstance();
             foreach (var levelScore in levelScores)
             {
                 Debug.Log($"LIVELLO {levelScore.Key} PUNTI {levelScore.Value}");

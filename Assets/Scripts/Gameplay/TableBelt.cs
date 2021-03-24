@@ -137,15 +137,16 @@ public class TableBelt : GnamGameplay
 
         var cloneFoodbag = clone.GetComponentInChildren<Foodbag>();
 
-        foreach (var eatable in cloneFoodbag.foods.SelectMany(f => f.eatableParts))
-        {
-            eatable.onEated += (eater) => {
-                CurrentLevelScore += GnamConstants.eatableScore;
-            };
-        }
+        // DEPRECATED
+        //foreach (var eatable in cloneFoodbag.foods.SelectMany(f => f.eatableParts))
+        //{
+        //    eatable.onEated += (eater) => {
+        //        CurrentLevelScore += GnamConstants.eatableScore;
+        //    };
+        //}
         cloneFoodbag.onFoodEated += (eater, eated) =>
         {
-            CurrentLevelScore += GnamConstants.foodScore;
+            CurrentLevelResults.FoodsCount++;
             billboard.AddFood(eated.foodFamily);
         };
        // cloneFoodbag.onClear += bonusSpawner.SpawnBonus;

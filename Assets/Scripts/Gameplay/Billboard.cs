@@ -133,23 +133,23 @@ namespace Assets.Scripts
             timer.AddTime(time);
         }
 
-        public void GameOver(Dictionary<int,int> results)
+        public void GameOver()
         {
             this.gameover.SetActive(true);
             billboardObjectives.ForEach(o => o.Hide());
         }
 
-        public void ShowResults(Dictionary<int, int> results, bool isNewRecord)
+        public void ShowResults(Dictionary<int, LevelResults> results, bool isNewRecord)
         {
             levelScore.Hide();
             gameScores.ShowResults(results,isNewRecord);
         }
 
-        public void YouWin(int score,int rate, GameObject bonus = null)
+        public void YouWin(LevelResults results,int rate, GameObject bonus = null)
         {
             this.youwin.SetActive(true);
             levelScore.Show();
-            levelScore.SetResult(score, rate, bonus);
+            levelScore.SetResult(results, rate, bonus);
             billboardObjectives.ForEach(o => o.Hide());
         }
 

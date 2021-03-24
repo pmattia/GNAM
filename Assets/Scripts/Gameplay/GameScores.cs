@@ -16,7 +16,7 @@ namespace Assets.Scripts.Gameplay
         [SerializeField] Text totalScore;
         [SerializeField] GameObject newRecordRibbon;
 
-        public void ShowResults(Dictionary<int,int> results, bool isNewRecord)
+        public void ShowResults(Dictionary<int, LevelResults> results, bool isNewRecord)
         {
             gameObject.SetActive(true);
 
@@ -30,9 +30,9 @@ namespace Assets.Scripts.Gameplay
             {
                 var listItem = Instantiate(itemPrefab, resultGrid);
                 var levelScoreItem = listItem.GetComponent<LevelScoreItem>();
-                levelScoreItem.SetLevelScore(item.Key, item.Value);
+                levelScoreItem.SetLevelScore(item.Key, item.Value.TotalPoints);
 
-                scoresSum += item.Value;
+                scoresSum += item.Value.TotalPoints;
             }
 
             totalScore.text = $"Score {scoresSum}";

@@ -14,7 +14,7 @@ namespace Assets.Scripts
         public const string bestScoreKey = "GNAM_BEST_SCORE";
 
         //scores
-        public const int eatableScore = 1;
+       // public const int eatableScore = 1;
         public const int foodScore = 5;
         public const int mobKillScore = 5;
         public const int objectiveScore = 10;
