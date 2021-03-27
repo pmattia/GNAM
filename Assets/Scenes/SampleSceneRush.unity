@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -2630,7 +2630,7 @@ PrefabInstance:
     - target: {fileID: 2736869831489942115, guid: 1a097f17d83fc2a459342e62672dea72,
         type: 3}
       propertyPath: m_Text
-      value: 'Thank you for playing!
+      value: 'YOU ARE AWESOME!
 
 
         GNAM is under development
@@ -6331,7 +6331,7 @@ PrefabInstance:
     - target: {fileID: 2547240451346281815, guid: c9f645d837066a24a8741aaeb899e03d,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8091502870614708742, guid: c9f645d837066a24a8741aaeb899e03d,
         type: 3}

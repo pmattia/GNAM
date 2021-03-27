@@ -264,15 +264,15 @@ namespace Assets.Scripts.Gameplay
         void ClearFloor()
         {
             //TODO: CANCELLA ANCHE QUELLO CHE STA NELL'INVENTARIO!
-            var grabbables = FindObjectsOfType<GnamGrabbable>().Where(g => !g.BeingHeld);
+            //var grabbables = FindObjectsOfType<GnamGrabbable>().Where(g => !g.BeingHeld);
             //grabbables.ToList().ForEach(g => Destroy(g.gameObject));
-            grabbables.ToList().ForEach(g => {
-                Debug.Log($"{g.name} is helded {g.BeingHeld}");
-                if (g.HeldByGrabbers!= null && g.HeldByGrabbers.Count() > 0)
-                {
-                    g.HeldByGrabbers.ForEach(h => Debug.Log($"helded by {h.name}"));
-                }
-            });
+            //grabbables.ToList().ForEach(g => {
+            //    Debug.Log($"{g.name} is helded {g.BeingHeld}");
+            //    if (g.HeldByGrabbers!= null && g.HeldByGrabbers.Count() > 0)
+            //    {
+            //        g.HeldByGrabbers.ForEach(h => Debug.Log($"helded by {h.name}"));
+            //    }
+            //});
         }
 
         void OnFinish(EaterDto eater)
@@ -283,10 +283,14 @@ namespace Assets.Scripts.Gameplay
                 PlayerPrefs.SetInt(GnamConstants.bestScoreKey, TotalScore);
             }
 
-            starter.Show();
             starter.ShowEndgameMessage();
             billboard.ShowResults(levelScores, isNewRecord);
             EndgameParty();
+
+            StartCoroutine(DelayedCallback(3, () =>
+            {
+                starter.Show();
+            }));
         }
 
         void UpdateLevelScore(int level, LevelResults results)
