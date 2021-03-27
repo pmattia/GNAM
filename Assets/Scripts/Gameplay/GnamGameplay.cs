@@ -22,7 +22,6 @@ namespace Assets.Scripts.Gameplay
         [SerializeField] protected Billboard billboard;
         [SerializeField] int levelDuration = 60;
         [SerializeField] Inventory inventory;
-        [SerializeField] AudioClip endgameMusic;
         [SerializeField] GameObject endgameParty;
         [SerializeField] protected int CurrentLevel { get; private set; }
         Dictionary<int, LevelResults> levelScores = new Dictionary<int, LevelResults>();
@@ -36,6 +35,8 @@ namespace Assets.Scripts.Gameplay
         [SerializeField] Transform player;
         [SerializeField] GameObject gunPrefab;
         [SerializeField] GameObject gunClipPrefab;
+        [SerializeField] AudioClip waitingLoopClip;
+
         protected bool isPlaying { get; private set; }
         public int BestScore 
         { 
@@ -76,6 +77,7 @@ namespace Assets.Scripts.Gameplay
         float totalGameplayTime = 0;
 
         protected List<Food.FoodFamily> currentObjectiveFamilies = new List<Food.FoodFamily>();
+        AudioSource waitingLoop;
 
         int TotalScore { get; set; }
         LevelResults currentLevelResults;
@@ -124,6 +126,22 @@ namespace Assets.Scripts.Gameplay
 
         protected virtual void Start()
         {
+            if (FindObjectOfType<WaitingLoop>() != null)
+            {
+                waitingLoop = FindObjectOfType<WaitingLoop>().GetComponent<AudioSource>();
+            }
+            else
+            {
+                var waitingLoopObj = new GameObject("waitingLoop");
+                
+                var tObj = Instantiate(waitingLoopObj);
+                waitingLoop = tObj.gameObject.AddComponent<AudioSource>();
+                waitingLoop.clip = waitingLoopClip;
+                waitingLoop.loop = true;
+                waitingLoop.volume = 0.2f;
+                waitingLoop.Play();
+            }
+
             CurrentLevelResults = LevelResults.GetNewInstance();
             handsController = new VrifHandsControllerAdapter(handModelSelector);
             for (int i = 1; i <= GnamConstants.maxLevel; i++)
@@ -377,6 +395,7 @@ namespace Assets.Scripts.Gameplay
             isPlaying = false;
             mobSpawner.RemoveMobs();
             soundTrack.Stop();
+            waitingLoop.Play();
             CancelInvoke("SpawnMobs");
             CancelInvoke("AddNewObjective");
         }
@@ -416,6 +435,7 @@ namespace Assets.Scripts.Gameplay
         {
             ClearFloor();
             soundTrack.Play();
+            waitingLoop.Stop();
 
             totalGameplayTime = gameplayTime;
             gameplayTime = 0;
@@ -460,7 +480,6 @@ namespace Assets.Scripts.Gameplay
 
         void EndgameParty()
         {
-            VRUtils.Instance.PlaySpatialClipAt(endgameMusic, transform.position, 1f, 0.5f);
             endgameParty.SetActive(true);
             foreach(var mob in endgameParty.GetComponentsInChildren<ShootAtTargets>())
             {

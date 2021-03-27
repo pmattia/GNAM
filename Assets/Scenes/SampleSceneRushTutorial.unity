@@ -1988,7 +1988,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &915807035
 GameObject:
@@ -2282,7 +2282,7 @@ Transform:
   - {fileID: 1064577408}
   - {fileID: 462837094}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1187330086
 GameObject:
@@ -4042,8 +4042,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2028788867}
   - component: {fileID: 2028788866}
+  - component: {fileID: 2028788868}
   m_Layer: 0
-  m_Name: soundtrack
+  m_Name: waitingMusic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4059,8 +4060,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 10c7e175507ad93439cba4bf31eb8a79, type: 3}
-  m_PlayOnAwake: 0
+  m_audioClip: {fileID: 8300000, guid: 25a917ac49c3fe64484f8afe0fc4ef0a, type: 3}
+  m_PlayOnAwake: 1
   m_Volume: 0.2
   m_Pitch: 1
   Loop: 1
@@ -4157,8 +4158,20 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2028788868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2028788865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baa79b38b81f3e74abebb7bf18060507, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2047644498
 GameObject:
   m_ObjectHideFlags: 0
@@ -5686,7 +5699,7 @@ PrefabInstance:
     - target: {fileID: 4801644974706913700, guid: 19aec3a4c1b617f49ad1d0659fa93f02,
         type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4801644974706913700, guid: 19aec3a4c1b617f49ad1d0659fa93f02,
         type: 3}
