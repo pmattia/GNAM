@@ -28,10 +28,12 @@ namespace Assets.Scripts.Interfaces
 
         public override void Shoot()
         {
-            Debug.Log($"bullets count {base.GetBulletCount()}");
+           // Debug.Log($"bullets count {base.GetBulletCount()}");
             var bulletCount = base.GetBulletCount();
             if(bulletCount == 0 && !BulletInChamber)
             {
+                var pistolClip = GetComponentInChildren<GnamPistolClip>().gameObject;
+                pistolClip.AddComponent<Autodestroy>();
                 base.EjectMagazine();
             }
 

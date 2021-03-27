@@ -157,6 +157,18 @@ namespace Assets.Scripts.ScriptableObjects
             LeftGrabber.Enabled = true;
             var selectedModel = LeftHandHolder.GetChild(index).gameObject;
             selectedModel.SetActive(true);
+
+            //HOT FIX BEFORE ALPHA RELEASE
+            foreach (Transform model in LeftHandHolder.transform)
+            {
+                if (model.name == "CustomHandLeftBlackNew")
+                {
+                    Debug.LogWarning("ENABLE CustomHandLeftBlackNew");
+                    model.gameObject.SetActive(true);
+                }
+            }
+            //END HOTFIX
+
             return selectedModel;
         }
         public GameObject EnableRightHand(int index)
@@ -165,6 +177,18 @@ namespace Assets.Scripts.ScriptableObjects
             RightGrabber.Enabled = true;
             var selectedModel = RightHandHolder.GetChild(index).gameObject;
             selectedModel.SetActive(true);
+
+            //HOT FIX BEFORE ALPHA RELEASE
+            foreach (Transform model in RightHandHolder.transform)
+            {
+                if (model.name == "CustomHandRightBlackNew")
+                {
+                    Debug.LogWarning("ENABLE CustomHandRightBlackNew");
+                    model.gameObject.SetActive(true);
+                }
+            }
+            //END HOTFIX
+
             return selectedModel;
         }
         public GameObject AttachToLeftHand(GameObject prefab)

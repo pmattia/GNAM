@@ -31,6 +31,7 @@ namespace Assets.Scripts
         List<ObjectiveDto> objectives = new List<ObjectiveDto>();
         int foodsEated;
         int foodsToEat;
+        public int FoodLeft { get { return foodsToEat - foodsEated; } }
         [SerializeField] RadialProgress coronaProgress; //disabled until reviewed
 
         private void Start()
@@ -143,7 +144,7 @@ namespace Assets.Scripts
         public void ShowResults(Dictionary<int, LevelResults> results, bool isNewRecord)
         {
             levelScore.Hide();
-            gameScores.ShowResults(results,isNewRecord);
+            gameScores.ShowResults(results,isNewRecord, FoodLeft);
         }
 
         public void YouWin(LevelResults results,int rate, GameObject bonus = null)
@@ -190,7 +191,7 @@ namespace Assets.Scripts
                 }
             }
 
-            foodCount.text = $"Eat {foodsToEat - foodsEated} more";
+            foodCount.text = $"Eat {FoodLeft} more";
         }
 
         public void AddObjective(ObjectiveDto objective) {

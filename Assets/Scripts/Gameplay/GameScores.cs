@@ -15,8 +15,13 @@ namespace Assets.Scripts.Gameplay
         [SerializeField] Transform resultGrid;
         [SerializeField] Text totalScore;
         [SerializeField] GameObject newRecordRibbon;
+        [SerializeField] Text foodLeft;
+        [SerializeField] GameObject leftBlock;
+        [SerializeField] GameObject rightBlock;
 
-        public void ShowResults(Dictionary<int, LevelResults> results, bool isNewRecord)
+        float deltaPositionX = 0.316f;
+
+        public void ShowResults(Dictionary<int, LevelResults> results, bool isNewRecord, int lastFoodLeft = 0)
         {
             gameObject.SetActive(true);
 
@@ -37,6 +42,18 @@ namespace Assets.Scripts.Gameplay
 
             totalScore.text = $"Score {scoresSum}";
             newRecordRibbon.SetActive(isNewRecord);
+
+            if(lastFoodLeft > 0)
+            {
+                leftBlock.SetActive(true);
+                rightBlock.transform.localPosition = new Vector3(deltaPositionX, 0, 0);
+                foodLeft.text = lastFoodLeft.ToString();
+            }
+            else
+            {
+                leftBlock.SetActive(false);
+                rightBlock.transform.localPosition = new Vector3(0, 0, 0);
+            }
         }
 
         public void Hide()

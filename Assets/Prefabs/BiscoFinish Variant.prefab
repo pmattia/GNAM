@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 345876663528750993, guid: cd568b8f28f8b9f4b94e9b71b20da8dc,
         type: 3}
       propertyPath: m_Name
-      value: BiscoFinish
+      value: BiscoFinish Variant
       objectReference: {fileID: 0}
     - target: {fileID: 1118894173807322411, guid: cd568b8f28f8b9f4b94e9b71b20da8dc,
         type: 3}
@@ -91,6 +91,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_fontColor32.rgba
       value: 4278202983
+      objectReference: {fileID: 0}
+    - target: {fileID: 2291259696987102788, guid: cd568b8f28f8b9f4b94e9b71b20da8dc,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2291259696987102788, guid: cd568b8f28f8b9f4b94e9b71b20da8dc,
         type: 3}

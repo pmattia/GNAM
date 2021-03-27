@@ -29,6 +29,9 @@ namespace Assets.Scripts.Interfaces
         public override void GrabItem(Grabber grabbedBy)
         {
             base.GrabItem(grabbedBy);
+
+            transform.SetParent(null);
+
             var autodestroyer = gameObject.GetComponent<Autodestroy>();
             if (autodestroyer != null) 
             {
