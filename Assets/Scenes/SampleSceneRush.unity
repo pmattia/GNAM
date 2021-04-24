@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -2732,8 +2732,8 @@ PrefabInstance:
 
         GNAM is under development
 
-        Subscribe
-        the Discord channel and
+        leave
+        a comment and
 
         stay tuned for updates!'
       objectReference: {fileID: 0}
@@ -6429,6 +6429,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7845283371207589298, guid: c9f645d837066a24a8741aaeb899e03d,
+        type: 3}
+      propertyPath: ToggleHandsInput
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7845283371207589298, guid: c9f645d837066a24a8741aaeb899e03d,
+        type: 3}
+      propertyPath: LoadHandSelectionFromPrefs
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8091502870614708742, guid: c9f645d837066a24a8741aaeb899e03d,
         type: 3}
