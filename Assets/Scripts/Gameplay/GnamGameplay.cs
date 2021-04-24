@@ -37,6 +37,8 @@ namespace Assets.Scripts.Gameplay
         [SerializeField] GameObject gunClipPrefab;
         [SerializeField] AudioClip waitingLoopClip;
 
+        [SerializeField] protected GameObject[] foodRepository;
+
         protected bool isPlaying { get; private set; }
         public int BestScore 
         { 

@@ -9,6 +9,7 @@ using Assets.Scripts;
 using static Assets.Scripts.Billboard;
 using Assets.Scripts.Interfaces;
 using Assets.Scripts.Gameplay;
+using System;
 
 public class TableBelt : GnamGameplay 
 {
@@ -28,10 +29,16 @@ public class TableBelt : GnamGameplay
     [SerializeField] GameObject cookingParticle;
     [SerializeField] Transform cookingParticlePlaholder;
 
+    [SerializeField] DynamicFoodbag dynamicFoodbag;
+
     bool isCooking = false;
 
     protected override void Start()
     {
+        //var shuffled = foodRepository.OrderBy(n => Guid.NewGuid());
+        //var randomFoods = shuffled.Take(5);
+        //dynamicFoodbag.AddFoods(randomFoods);
+
         base.Start();
 
         foodBagSpeed = startFoodbagSpeed;
@@ -143,7 +150,7 @@ public class TableBelt : GnamGameplay
                 }
             }
         }
-        var foodbag = availableFoodbags[Random.Range(0, availableFoodbags.Count())];
+        var foodbag = availableFoodbags[UnityEngine.Random.Range(0, availableFoodbags.Count())];
         var clone = Instantiate(foodbag, nodes[0].transform.position, Quaternion.identity);
 
         var cloneFoodbag = clone.GetComponentInChildren<Foodbag>();

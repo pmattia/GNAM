@@ -13,7 +13,7 @@ public class Foodbag : MonoBehaviour
     public List<Food> foods;
     [SerializeField] public Difficulty difficulty;
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
         foreach (var food in foods.Where(f => f != null))
         {
