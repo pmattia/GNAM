@@ -49,7 +49,7 @@ namespace Assets.Scripts.Interfaces
             if (autodestroyer == null && !dontDestroyOnDrop)
             {
                 autodestroyer = gameObject.AddComponent<Autodestroy>();
-                autodestroyer.Countdown = 4;
+                autodestroyer.Countdown = 10;
             }
         }
     }

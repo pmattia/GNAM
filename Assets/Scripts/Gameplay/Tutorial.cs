@@ -10,12 +10,14 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using UnityEngine.Analytics;
 
 namespace Assets.Scripts.Gameplay
 {
     public class Tutorial : MonoBehaviour
     {
         [SerializeField] Foodbag foods;
+        [SerializeField] Foodbag moreBitesFoods;
         [SerializeField] Foodbag modifiedFoods;
         [SerializeField] Foodbag objectiveFoods;
         [SerializeField] ObjectiveDto objective;
@@ -45,9 +47,10 @@ namespace Assets.Scripts.Gameplay
         public event Action onStep2Completed;
         public event Action onStep3Completed;
         public event Action onStep4Completed;
-        public event Action<GnamRaycastWeapon> onStep5Completed;
-        public event Action onStep6Completed;
+        public event Action onStep5Completed;
+        public event Action<GnamRaycastWeapon> onStep6Completed;
         public event Action onStep7Completed;
+        public event Action onStep8Completed;
         List<GameObject> spawnedItems = new List<GameObject>();
 
         float stepCompletedDelay = .5f;
@@ -116,7 +119,7 @@ namespace Assets.Scripts.Gameplay
                 InitStep(1);
 
                 FindObjectsOfType<Foodbag>().ToList().ForEach(f => Destroy(f.gameObject));
-                var foodbagObj = Instantiate(modifiedFoods, chipPlate.transform.parent);
+                var foodbagObj = Instantiate(moreBitesFoods, chipPlate.transform.parent);
                 foodbagObj.transform.localPosition = Vector3.zero;
                 foodbagObj.transform.localRotation = Quaternion.identity;
                 foodbagObj.GetComponentInChildren<Foodbag>().onClear += () =>
@@ -130,7 +133,26 @@ namespace Assets.Scripts.Gameplay
 
             onStep2Completed += () =>
             {
-                Debug.Log("STEP 2 COMPLETED MODIFIED FOOD");
+                Debug.Log("STEP 2 COMPLETED NORMAL FOOD");
+
+                InitStep(1);
+
+                FindObjectsOfType<Foodbag>().ToList().ForEach(f => Destroy(f.gameObject));
+                var foodbagObj = Instantiate(modifiedFoods, chipPlate.transform.parent);
+                foodbagObj.transform.localPosition = Vector3.zero;
+                foodbagObj.transform.localRotation = Quaternion.identity;
+                foodbagObj.GetComponentInChildren<Foodbag>().onClear += () =>
+                {
+                    CompletedStep();
+                    StartCoroutine(DelayedCallback(stepCompletedDelay, () => {
+                        onStep3Completed();
+                    }));
+                };
+            };
+
+            onStep3Completed += () =>
+            {
+                Debug.Log("STEP 3 COMPLETED MODIFIED FOOD");
 
                 InitStep(2);
 
@@ -156,7 +178,7 @@ namespace Assets.Scripts.Gameplay
                     CompletedStep();
                     var gunBonus = bonusSpawner.SpawnBonus(bonus);
                     StartCoroutine(DelayedCallback(stepCompletedDelay, () => {
-                        onStep3Completed();
+                        onStep4Completed();
                     }));
 
                     var onGunGrab = new GrabberEvent();
@@ -166,42 +188,39 @@ namespace Assets.Scripts.Gameplay
                         CompletedStep();
                         StartCoroutine(DelayedCallback(stepCompletedDelay, () => {
                             gunEvents.onGrab.RemoveAllListeners();
-                            onStep4Completed();
+                            onStep5Completed();
                         }));
                     });
 
                     gunEvents.onGrab = onGunGrab;
                 };
-                
-            };
-
-            onStep3Completed += () =>
-            {
-                Debug.Log("STEP 3 COMPLETED OBJECTIVE");
-
-                InitStep(3);
-
-                FindObjectsOfType<Foodbag>().ToList().ForEach(f => Destroy(f.gameObject));
-                inventory.ShowItems();
-                
             };
 
             onStep4Completed += () =>
             {
-                Debug.Log("STEP 4 COMPLETED GUN TAKEN");
+                Debug.Log("STEP 4 COMPLETED OBJECTIVE");
 
                 InitStep(4);
 
+                FindObjectsOfType<Foodbag>().ToList().ForEach(f => Destroy(f.gameObject));
                 inventory.ShowItems();
-                inventory.onSnap += OnGunSnappedToInventory;
-
             };
 
-            onStep5Completed += (GnamRaycastWeapon gun) =>
+            onStep5Completed += () =>
+            {
+                Debug.Log("STEP 5 COMPLETED GUN TAKEN");
+
+                InitStep(5);
+
+                inventory.ShowItems();
+                inventory.onSnap += OnGunSnappedToInventory;
+            };
+
+            onStep6Completed += (GnamRaycastWeapon gun) =>
             {
                 Debug.Log("STEP 5 COMPLETED GUN SNAPPED TO INVENTORY");
 
-                InitStep(5);
+                InitStep(6);
 
                 inventory.SnapEmptyHolders(gunClip.GetComponent<GnamGrabbable>());
 
@@ -210,18 +229,18 @@ namespace Assets.Scripts.Gameplay
                     CompletedStep();
                     StartCoroutine(DelayedCallback(stepCompletedDelay, () => {
                         gun.onWeaponChargedEvent.RemoveAllListeners();
-                        onStep6Completed();
+                        onStep7Completed();
                     }));
                 });
 
                 gun.onWeaponChargedEvent = onGunCharged;
             };
 
-            onStep6Completed += () =>
+            onStep7Completed += () =>
             {
-                Debug.Log("STEP 6 COMPLETED GUN CHARGED");
+                Debug.Log("STEP 7 COMPLETED GUN CHARGED");
 
-                InitStep(6);
+                InitStep(7);
 
                 mobs.ForEach(m => {
                     m.SetActive(true);
@@ -240,18 +259,18 @@ namespace Assets.Scripts.Gameplay
                                 CompletedStep();
                                 StartCoroutine(DelayedCallback(stepCompletedDelay, () =>
                                 {
-                                    onStep7Completed();
+                                    onStep8Completed();
                                 }));
                             }
                         }));
-                        
+
                     };
                 });
             };
 
-            onStep7Completed += () =>
+            onStep8Completed += () =>
             {
-                Debug.Log("STEP 7 COMPLETED MOB KILLED");
+                Debug.Log("STEP 8 COMPLETED MOB KILLED");
                 panels.ForEach(p => p.SetActive(false));
                 panelAnimator.SetBool("show", true);
                 finishPanel.SetActive(true);
@@ -272,6 +291,10 @@ namespace Assets.Scripts.Gameplay
 
         void GoToGameplay()
         {
+            Analytics.CustomEvent("Tutorial_completed", new Dictionary<string, object>
+            {
+                { "time_elapsed", Time.timeSinceLevelLoad }
+            });
             SceneManager.LoadSceneAsync(GnamConstants.rushScene);
         }
 
@@ -298,7 +321,7 @@ namespace Assets.Scripts.Gameplay
             CompletedStep();
             StartCoroutine(DelayedCallback(stepCompletedDelay, () => {
 
-                onStep5Completed(gnammable.GetComponent<GnamRaycastWeapon>());
+                onStep6Completed(gnammable.GetComponent<GnamRaycastWeapon>());
             }));
         }
 

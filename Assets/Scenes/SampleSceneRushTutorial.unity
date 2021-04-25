@@ -323,12 +323,12 @@ GameObject:
   m_Component:
   - component: {fileID: 97328190}
   m_Layer: 5
-  m_Name: Step2
+  m_Name: Step3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &97328190
 RectTransform:
   m_ObjectHideFlags: 0
@@ -343,7 +343,7 @@ RectTransform:
   - {fileID: 205768553}
   - {fileID: 1044191858}
   m_Father: {fileID: 1806880356711439619}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -790,7 +790,7 @@ GameObject:
   m_Component:
   - component: {fileID: 348000583}
   m_Layer: 5
-  m_Name: Step5
+  m_Name: Step6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -810,7 +810,7 @@ RectTransform:
   - {fileID: 915807036}
   - {fileID: 1407865088}
   m_Father: {fileID: 1806880356711439619}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -939,7 +939,7 @@ RectTransform:
   m_Children:
   - {fileID: 1939059592}
   m_Father: {fileID: 1806880356711439619}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1250,6 +1250,90 @@ Transform:
   m_Father: {fileID: 488617310}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
+--- !u!1 &614583432
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 614583433}
+  - component: {fileID: 614583435}
+  - component: {fileID: 614583434}
+  m_Layer: 5
+  m_Name: Text (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &614583433
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 614583432}
+  m_LocalRotation: {x: 0.000000059604638, y: -4.0194424e-14, z: 4.0194305e-14, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.019}
+  m_LocalScale: {x: 0.00087547273, y: 0.00087547273, z: 0.0008754726}
+  m_Children: []
+  m_Father: {fileID: 1290621718}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0.015, y: 0.196}
+  m_SizeDelta: {x: 808.1709, y: 371.25275}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &614583434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 614583432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.9811321, g: 0.124955505, b: 0.8596712, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 1187a6d0d83a96d4ba24de67f955384a, type: 3}
+    m_FontSize: 80
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 250
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: 'FOOD AND BITES
+
+
+    Some foods need more than a one bite
+
+
+'
+--- !u!222 &614583435
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 614583432}
+  m_CullTransparentMesh: 0
 --- !u!1 &627962863
 GameObject:
   m_ObjectHideFlags: 0
@@ -1513,11 +1597,11 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 'TUTORIAL Step 6: use weapons
+  m_Text: 'USE WEAPONS
 
 
-    Attach the clip on the barrel of the
-    gun and pull the wurstel to charge it'
+    Attach the clip on the barrel of the gun and pull the
+    wurstel to charge it'
 --- !u!222 &697533529
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1627,7 +1711,7 @@ GameObject:
   m_Component:
   - component: {fileID: 724247189}
   m_Layer: 5
-  m_Name: Step6
+  m_Name: Step7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1647,7 +1731,7 @@ RectTransform:
   - {fileID: 1004762967}
   - {fileID: 697533527}
   m_Father: {fileID: 1806880356711439619}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1723,11 +1807,11 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 'TUTORIAL Step 3: complete objectives
+  m_Text: 'COMPLETE OBJECTIVES
 
 
-    watch for objectives, they
-    give you rewards and extratime
+    watch for objectives, they give you rewards
+    and extratime
 
 '
 --- !u!222 &775768834
@@ -2201,11 +2285,11 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 'TUTORIAL Step 2: modified food
+  m_Text: 'MODIFIED FOOD
 
 
-    some foods are better than others,
-    you can eat them but they can slow you'
+    some foods are modified, you can eat them but they
+    can slow you'
 --- !u!222 &1044191860
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2418,7 +2502,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1227796464}
   m_Layer: 5
-  m_Name: Step7
+  m_Name: Step8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2438,7 +2522,7 @@ RectTransform:
   - {fileID: 1730969993}
   - {fileID: 2133541002}
   m_Father: {fileID: 1806880356711439619}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2455,7 +2539,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1246166002}
   m_Layer: 5
-  m_Name: Step4
+  m_Name: Step5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2476,7 +2560,43 @@ RectTransform:
   - {fileID: 1744253568}
   - {fileID: 483599959}
   m_Father: {fileID: 1806880356711439619}
-  m_RootOrder: 4
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1290621717
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1290621718}
+  m_Layer: 5
+  m_Name: Step2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1290621718
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1290621717}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 614583433}
+  m_Father: {fileID: 1806880356711439619}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2570,11 +2690,11 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 'TUTORIAL Step 5: use inventory
+  m_Text: 'USE INVENTORY
 
 
-    store rewards by putting them in
-    the inventory on your right'
+    store rewards by putting them in the inventory on
+    your right'
 --- !u!222 &1407865090
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2926,7 +3046,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1678707083}
   m_Layer: 5
-  m_Name: Step3
+  m_Name: Step4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2948,7 +3068,7 @@ RectTransform:
   - {fileID: 217235431}
   - {fileID: 98186464}
   m_Father: {fileID: 1806880356711439619}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3174,8 +3294,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "TUTORIAL Step 4: get rewards\n\nCollect rewards from the campfire \nbelow
-    the table"
+  m_Text: "GET REWARDS\n\nCollect rewards from the campfire \nbelow the table"
 --- !u!222 &1744253570
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4457,11 +4576,10 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 'TUTORIAL Step 7: shoot to gain rewards
+  m_Text: 'SHOOT TO GAIN REWARDS
 
 
-    Shoot to bears to get rewards
-    and extratime'
+    Shoot to bears to get rewards and extratime'
 --- !u!222 &2133541004
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4644,13 +4762,13 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 'TUTORIAL Step 1: eat food
+  m_Text: 'EAT FOOD
 
 
-    To complete a level you have to eat the
-    more
+    To complete a level you have to eat the more
 
-    food you can
+    food
+    you can
 
 
 '
@@ -4704,6 +4822,7 @@ RectTransform:
   m_Children:
   - {fileID: 1854367628}
   - {fileID: 1638925112}
+  - {fileID: 1290621718}
   - {fileID: 97328190}
   - {fileID: 1678707083}
   - {fileID: 1246166002}
@@ -6087,6 +6206,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   foods: {fileID: 3775283801167710111, guid: 1486678f5d9a77c4a94c4d7891e5dc82, type: 3}
+  moreBitesFoods: {fileID: 3360753012567087105, guid: 7e52714d944ad6e49ab59f469ff7f216,
+    type: 3}
   modifiedFoods: {fileID: 3388481449144537613, guid: fa66ac58dbcc1174e827750f43bf8328,
     type: 3}
   objectiveFoods: {fileID: 4478084672814054247, guid: d5e62352bac6869468b7c93d9e59139f,
@@ -6102,6 +6223,7 @@ MonoBehaviour:
   - {fileID: 7882648339963000999, guid: ad28cb27810e2904a987992b17a8f6dd, type: 3}
   panels:
   - {fileID: 1638925111}
+  - {fileID: 1290621717}
   - {fileID: 97328189}
   - {fileID: 1678707082}
   - {fileID: 1246166001}
@@ -6122,7 +6244,7 @@ MonoBehaviour:
   tutorialCompletedAudio: {fileID: 8300000, guid: fde1f50d56cbf474c84570b30ab61540,
     type: 3}
   skipTutorial: 0
-  forceTutorial: 0
+  forceTutorial: 1
 --- !u!4 &6179065188164779511
 Transform:
   m_ObjectHideFlags: 0

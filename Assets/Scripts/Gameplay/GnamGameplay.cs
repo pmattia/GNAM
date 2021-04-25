@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 namespace Assets.Scripts.Gameplay
 {
@@ -158,6 +159,10 @@ namespace Assets.Scripts.Gameplay
             starter.InitStarter(BestScore);
             starter.onStart += (eater) =>
             {
+                Analytics.CustomEvent("Game_start", new Dictionary<string, object>
+                {
+                    { "time_elapsed", Time.timeSinceLevelLoad }
+                });
                 starter.Hide();
                 this.StartGame();
                 if (onGameStarted != null)
@@ -173,6 +178,10 @@ namespace Assets.Scripts.Gameplay
             };
             starter.onRetry += (eater) =>
             {
+                Analytics.CustomEvent("Game_retry", new Dictionary<string, object>
+                {
+                    { "time_elapsed", Time.timeSinceLevelLoad }
+                });
                 starter.Hide();
                 StartGame();
             };
@@ -185,7 +194,10 @@ namespace Assets.Scripts.Gameplay
                 var bonusUi = Resources.Load<GameObject>("UiTimeBonus");
                 var instancedUi = Instantiate(bonusUi, mob.transform.position, transform.rotation);
                 instancedUi.transform.LookAt(player);
-
+                Analytics.CustomEvent("Mob_killed", new Dictionary<string, object>
+                {
+                    { "time_elapsed", Time.timeSinceLevelLoad }
+                });
 
                 currentLevelResults.KillsCount++;
             };
@@ -198,6 +210,11 @@ namespace Assets.Scripts.Gameplay
 
                 currentLevelResults.ObjectivesCount++;
                 // SpawnMobs();
+
+                Analytics.CustomEvent("Objective_completed", new Dictionary<string, object>
+                {
+                    { "time_elapsed", Time.timeSinceLevelLoad }
+                });
             };
             billboard.onObjectiveExpired += (family, objectivesFamilies) =>
             {
@@ -270,6 +287,12 @@ namespace Assets.Scripts.Gameplay
                     }
 
                     billboard.ShowResults(levelScores, isNewRecord);
+
+                    Analytics.CustomEvent("Game_lose", new Dictionary<string, object>
+                    {
+                        { "isNewRecord", isNewRecord },
+                        { "time_elapsed", Time.timeSinceLevelLoad }
+                    });
                 }
             };
 
@@ -297,6 +320,10 @@ namespace Assets.Scripts.Gameplay
 
         void OnFinish(EaterDto eater)
         {
+            Analytics.CustomEvent("Game_finished", new Dictionary<string, object>
+            {
+                { "time_elapsed", Time.timeSinceLevelLoad }
+            });
             var isNewRecord = TotalScore > BestScore;
             if (isNewRecord)
             {
@@ -315,6 +342,12 @@ namespace Assets.Scripts.Gameplay
 
         void UpdateLevelScore(int level, LevelResults results)
         {
+            Analytics.CustomEvent("Level_score", new Dictionary<string, object>
+            {
+                { "level", level },
+                { "results", results.TotalPoints },
+                { "time_elapsed", Time.timeSinceLevelLoad }
+            });
             if (levelScores.Any(l => l.Key == level))
             {
                 levelScores[level] = results;
@@ -471,10 +504,11 @@ namespace Assets.Scripts.Gameplay
         protected virtual void GoToNextLevel(EaterDto eater)
         {
             CurrentLevelResults = LevelResults.GetNewInstance();
-            foreach (var levelScore in levelScores)
+            Analytics.CustomEvent("Game_next_level", new Dictionary<string, object>
             {
-                Debug.Log($"LIVELLO {levelScore.Key} PUNTI {levelScore.Value}");
-            }
+                { "Level", CurrentLevel },
+                { "time_elapsed", Time.timeSinceLevelLoad }
+            });
 
             CurrentLevel++;
             this.StartGame();            

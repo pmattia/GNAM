@@ -434,8 +434,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 149554762}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.208, y: 0.057, z: -0.184}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_LocalPosition: {x: 0.409, y: 0.516, z: -0.675}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1176352800}
   - {fileID: 2133038289}
@@ -564,7 +564,7 @@ GameObject:
   - component: {fileID: 289217065}
   - component: {fileID: 289217064}
   m_Layer: 0
-  m_Name: FoodbagPizzette
+  m_Name: FoodbagDynamic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
