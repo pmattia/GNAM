@@ -39,6 +39,7 @@ namespace Assets.Scripts.Gameplay
         [SerializeField] AudioClip waitingLoopClip;
 
         [SerializeField] protected GameObject[] foodRepository;
+        [SerializeField] protected GameObject[] foodBagBonusesRepository;
 
         protected bool isPlaying { get; private set; }
         public int BestScore 

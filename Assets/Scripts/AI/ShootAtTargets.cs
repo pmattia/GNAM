@@ -95,16 +95,35 @@ namespace Assets.Scripts.AI
                 if (tableBelt.trays.Count > 0)
                 {
                     var foodbags = tableBelt.trays.Select(t => t.GetComponentInChildren<Foodbag>()).ToList();
-                    var paths = foodbags.Select(t => t.GetComponent<PathNodesFollower>()).ToList();
-                    var candidates = foodbags.Where(t => t.foods!= null 
+                    if (foodbags.Where(f => f!= null).Count() > 0) { 
+                        var paths = foodbags.Select(t => t.GetComponent<PathNodesFollower>()).ToList();
+                        var candidates = foodbags.Where(t => t.foods!= null 
                                                         && t.foods.Count()>0 && t.GetComponent<PathNodesFollower>().CurrentNode < 2
                                                         && (t.foods.Count() > 0 && t.GetComponent<PathNodesFollower>().CurrentNode > 0 && t.GetComponent<PathNodesFollower>().IsMoving)
                                                         );
-                    foreach(var foodbag in candidates)
-                    {
-                        var foods = foodbag.foods.Where(f => f != null);
-                        targets.AddRange(foods.Select(food => food.transform));
+                    
+                        foreach (var foodbag in candidates)
+                        {
+                            var foods = foodbag.foods.Where(f => f != null);
+                            targets.AddRange(foods.Select(food => food.transform));
+                        }
                     }
+                    else
+                    {
+                        var dynamicFoodbags = tableBelt.trays.Select(t => t.GetComponentInChildren<DynamicFoodbag>()).ToList();
+                        var paths = dynamicFoodbags.Select(t => t.GetComponent<PathNodesFollower>()).ToList();
+                        var candidates = dynamicFoodbags.Where(t => t.foods != null
+                                                            && t.foods.Count() > 0 && t.GetComponent<PathNodesFollower>().CurrentNode < 2
+                                                            && (t.foods.Count() > 0 && t.GetComponent<PathNodesFollower>().CurrentNode > 0 && t.GetComponent<PathNodesFollower>().IsMoving)
+                                                            );
+                        foreach (var foodbag in candidates)
+                        {
+                            var foods = foodbag.foods.Where(f => f != null);
+                            targets.AddRange(foods.Select(food => food.transform));
+                        }
+                    }
+
+                    
                     //targets.AddRange(candidates.SelectMany(c => c.foods.Select(f=>f.transform)));
                 }
             }

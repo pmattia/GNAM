@@ -29,16 +29,12 @@ public class TableBelt : GnamGameplay
     [SerializeField] GameObject cookingParticle;
     [SerializeField] Transform cookingParticlePlaholder;
 
-    [SerializeField] DynamicFoodbag dynamicFoodbag;
+    [SerializeField] GameObject dynamicFoodbag;
 
     bool isCooking = false;
 
     protected override void Start()
     {
-        //var shuffled = foodRepository.OrderBy(n => Guid.NewGuid());
-        //var randomFoods = shuffled.Take(5);
-        //dynamicFoodbag.AddFoods(randomFoods);
-
         base.Start();
 
         foodBagSpeed = startFoodbagSpeed;
@@ -111,6 +107,46 @@ public class TableBelt : GnamGameplay
         }
     }
 
+    GameObject CloneDynamicFoodbag(Difficulty difficulty, List<Food.FoodFamily> foodFamiliesSuggestion)
+    {
+        var shuffled = foodRepository.OrderBy(n => Guid.NewGuid());
+        var rand = UnityEngine.Random.Range(0, 10);
+        IEnumerable<GameObject> randomFoods = null;
+        if (rand > 3)
+        {
+            //todo: suggestions    
+            randomFoods = shuffled.Take(8);
+        }
+        else
+        {
+            randomFoods = shuffled.Take(8);
+        }
+        
+        var clone = Instantiate(dynamicFoodbag, nodes[0].transform.position, Quaternion.identity);
+
+        var cloneFoodbag = clone.GetComponentInChildren<DynamicFoodbag>();
+        cloneFoodbag.AddFoods(randomFoods);
+
+        // DEPRECATED
+        //foreach (var eatable in cloneFoodbag.foods.SelectMany(f => f.eatableParts))
+        //{
+        //    eatable.onEated += (eater) => {
+        //        CurrentLevelScore += GnamConstants.eatableScore;
+        //    };
+        //}
+        cloneFoodbag.onFoodEated += (eater, eated) =>
+        {
+            CurrentLevelResults.FoodsCount++;
+            billboard.AddFood(eated.foodFamily);
+        };
+        // cloneFoodbag.onClear += bonusSpawner.SpawnBonus;
+
+
+        AttachFollowPath(cloneFoodbag.gameObject).StartMoving();
+
+        return cloneFoodbag.gameObject;
+    }
+
     GameObject CloneRandomFoodbag(Difficulty difficulty, List<Food.FoodFamily> foodFamiliesSuggestion)
     {
         Foodbag[] availableFoodbags;
@@ -170,7 +206,7 @@ public class TableBelt : GnamGameplay
        // cloneFoodbag.onClear += bonusSpawner.SpawnBonus;
         
 
-        AttachFollowPath(cloneFoodbag).StartMoving();
+        AttachFollowPath(cloneFoodbag.gameObject).StartMoving();
 
         return cloneFoodbag.gameObject;
     }
@@ -183,13 +219,23 @@ public class TableBelt : GnamGameplay
 
     void AddTrayToTable()
     {
-        var newTray = CloneRandomFoodbag(currentDifficulty, currentObjectiveFamilies);
+        GameObject newTray = null;
+        var rand = UnityEngine.Random.Range(0, 10);
+        if (rand > 6 && false)
+        {
+            newTray = CloneDynamicFoodbag(currentDifficulty, currentObjectiveFamilies);
+        }
+        else
+        {
+            newTray = CloneRandomFoodbag(currentDifficulty, currentObjectiveFamilies);
+        }
+
         trays.Add(newTray);
     }
 
-    PathNodesFollower AttachFollowPath(Foodbag foodbag)
+    PathNodesFollower AttachFollowPath(GameObject foodbag)
     {
-        var followerComponent = foodbag.gameObject.AddComponent<PathNodesFollower>();
+        var followerComponent = foodbag.AddComponent<PathNodesFollower>();
         followerComponent.SetNodes(this.nodes);
         followerComponent.SetSpeed(this.foodBagSpeed);
         followerComponent.SetNodePause(this.foodBagPause);
@@ -203,7 +249,22 @@ public class TableBelt : GnamGameplay
     {
         var nodeFollowers = FindObjectsOfType<PathNodesFollower>();
         var foodbags = nodeFollowers.Select(n => n.GetComponent<Foodbag>());
-        return foodbags.Where(f => f.foods.Any(food => foodFamilies.Contains(food.foodFamily))).Any();
+        if (foodbags.Where(f => f != null).Count() > 0)
+        {
+            return foodbags.Where(f => f.foods.Any(food => foodFamilies.Contains(food.foodFamily))).Any();
+        }
+        else
+        {
+            var dFoodbags = nodeFollowers.Select(n => n.GetComponent<DynamicFoodbag>());
+            if (dFoodbags.Where(f => f != null).Count() > 0)
+            {
+                return dFoodbags.Where(f => f.foods.Any(food => foodFamilies.Contains(food.foodFamily))).Any();
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 
 

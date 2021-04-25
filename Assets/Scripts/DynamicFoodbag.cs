@@ -10,14 +10,14 @@ using Assets.Scripts.Interfaces;
 
 public class DynamicFoodbag : MonoBehaviour
 {
-    List<SnapZone> snapZones;
+    [SerializeField] List<SnapZone> snapZones;
     public event Action onClear;
     public event Action<EaterDto, Food> onFoodEated;
-    List<Food> foods;
+    public List<Food> foods;
     // Start is called before the first frame update
     protected virtual void Start()
     {
-        snapZones = GetComponentsInChildren<SnapZone>().ToList();
+        //snapZones = GetComponentsInChildren<SnapZone>().ToList();
         
     }
 
